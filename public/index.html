@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>FunLife</title>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <META CONTENT="no-cache">
+        <script src="https://raw.github.com/html5mgithub/jQ.Mobi/master/jq.mobi.js"></script>
+        <script src="https://raw.github.com/html5mgithub/jQ.Mobi/master/ui/jq.ui.js"></script>
+        <!--For more jqUI info: https://github.com/html5mgithub/jQ.Mobi/tree/master/ui-->
+        <script src="core/jq.mvc.js"></script>
+        <script src="core/doT.js"></script>
+        <script src="core/models.js"></script>
+        <script src="core/controllers.js"></script>
+        <link rel="stylesheet" type="text/css" href="views/css/jq.ui.css" />
+        <link rel="stylesheet" type="text/css" href="views/css/icons.css" />
+        <link rel="stylesheet" type="text/css" href="views/css/custom.css" />
+
+        <script>
+            var debug;        //for testing stuff
+            var current_user;
+            var server = "http://localhost:3000/";
+            var app = new $.mvc.app();
+            app.loadModels(["user", "chat"]);
+            app.loadControllers(["users_controller", "chats_controller"]);
+            app.listenHashChange();
+            app.useHTML5History(true);
+            app.ready(function () {
+                "use strict";
+
+                $.mvc.route("/users_controller");
+            });
+        </script>
+    </head>
+
+	<body>
+		<div id="jqUI">
+            <div id="header">
+            </div>
+            <div id="content">
+                <div id="mainPanel" title="Welcome" class="panel" selected="true"></div>
+            </div>
+            <div id="navbar">
+                <a href="/" class="icon home">Home</a>
+                <a href="/" class="icon home">Photos</a>
+                <a href="/" class="icon home">Snap</a>
+                <a href="/" class="icon home">Map</a>
+                <a href="/" class="icon home">Nearby</a>
+            </div>
+
+            <nav id="main_nav">
+                <div class='title'>Home</div>
+                <ul>
+                    <li class="icon home mini"><a href="#main">#maindiv</a></li>
+                </ul>
+            </nav>
+        </div>
+    </body>
+</html>

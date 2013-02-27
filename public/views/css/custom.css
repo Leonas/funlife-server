@@ -1,0 +1,9 @@
+#wrong_password {
+    display: none;
+    background-color:indianred;
+}
+
+#email_exists {
+    display: none;
+    background-color:indianred;
+}

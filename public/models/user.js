@@ -5,10 +5,22 @@ User = new $.mvc.model.Extend("user", {                                 //Instan
     profile_pic:'',
 
 
-    authenticate_token: function() {                                    //check if the token is valid
-        $.post(server+"authenticate_token",
-            function(callback){ return(callback.status === 'authentic'); },
+    authenticate_token: function() {                 //check if the token is valid
+        var auth_success = false;
+        var data = {
+            name: current_user.name,
+            email: current_user.email,
+            token: current_user.token
+        };
+
+        $.post(server+"authenticate_token", data,
+            function(callback){
+                console.log('we think this good')
+                console.log(callback.status === 'success');
+                auth_success = (callback.status === 'success');
+            },
         "json")
+        return auth_success;
     },
 
 
@@ -77,10 +89,9 @@ User = new $.mvc.model.Extend("user", {                                 //Instan
                 current_user.name = saved_user.name;
                 current_user.email = saved_user.email;
                 current_user.token = saved_user.token;
-                return true;
             }
         } catch(e) {
-            return false;
+            current_user.token = 'guest';
         }
     },
 

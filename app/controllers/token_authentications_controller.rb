@@ -54,13 +54,11 @@ class TokenAuthenticationsController < ApplicationController
   end
 
   def startup_login_check
-    data = params[:user]
-    token = data['data']
-    if User.find_by(token: token)
-      puts 'we found da token!!!'
-      render json: {login: 'success'}
+
+    if User.find_by_token(params[:token])
+      render json: {status: 'success'}
     else
-      render json: {login: 'error'}
+      render json: {status: 'error'}
     end
   end
 

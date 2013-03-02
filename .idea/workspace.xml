@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b1580206-e37e-481d-9faa-539932430089" name="Default" comment="" />
+    <list default="true" id="b1580206-e37e-481d-9faa-539932430089" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.ids" afterPath="$PROJECT_DIR$/.idea/dataSources.ids" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/index.html" afterPath="$PROJECT_DIR$/public/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/routes.rb" afterPath="$PROJECT_DIR$/config/routes.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/token_authentications_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/token_authentications_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/models/user.js" afterPath="$PROJECT_DIR$/public/models/user.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/views/users/user_login_view.js" afterPath="$PROJECT_DIR$/public/views/users/user_login_view.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/controllers/users_controller.js" afterPath="$PROJECT_DIR$/public/controllers/users_controller.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/views/users/users_list_view.js" afterPath="$PROJECT_DIR$/public/views/users/users_list_view.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <ignored path="funlife.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="b1580206-e37e-481d-9faa-539932430089" time="1361993958155" ignored="false" />
+    <file path="/Dummy.txt" changelist="b1580206-e37e-481d-9faa-539932430089" time="1362216179196" ignored="false" />
     <file path="/Gemfile" changelist="b1580206-e37e-481d-9faa-539932430089" time="1361997227997" ignored="false" />
-    <file path="/a.dummy" changelist="b1580206-e37e-481d-9faa-539932430089" time="1361998214214" ignored="false" />
+    <file path="/a.dummy" changelist="b1580206-e37e-481d-9faa-539932430089" time="1362219760658" ignored="false" />
     <file path="/user_factory.rb" changelist="b1580206-e37e-481d-9faa-539932430089" time="1361997642866" ignored="false" />
     <file path="/chat_factory.rb" changelist="b1580206-e37e-481d-9faa-539932430089" time="1361997665448" ignored="false" />
     <file path="/chat_spec.rb" changelist="b1580206-e37e-481d-9faa-539932430089" time="1361997718067" ignored="false" />
@@ -14,6 +26,12 @@
     <file path="/login_spec.rb" changelist="b1580206-e37e-481d-9faa-539932430089" time="1361998244331" ignored="false" />
     <file path="/user_spec.rb" changelist="b1580206-e37e-481d-9faa-539932430089" time="1361998282540" ignored="false" />
     <file path="/matchers.rb" changelist="b1580206-e37e-481d-9faa-539932430089" time="1361998296945" ignored="false" />
+    <file path="/user_login_view.js" changelist="b1580206-e37e-481d-9faa-539932430089" time="1362216623637" ignored="false" />
+    <file path="/users_list_view.js" changelist="b1580206-e37e-481d-9faa-539932430089" time="1362216971010" ignored="false" />
+    <file path="/users_controller.js" changelist="b1580206-e37e-481d-9faa-539932430089" time="1362223193162" ignored="false" />
+    <file path="/user.js" changelist="b1580206-e37e-481d-9faa-539932430089" time="1362223336164" ignored="false" />
+    <file path="/routes.rb" changelist="b1580206-e37e-481d-9faa-539932430089" time="1362221052956" ignored="false" />
+    <file path="/token_authentications_controller.rb" changelist="b1580206-e37e-481d-9faa-539932430089" time="1362222852718" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,91 +53,102 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="chat_spec.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/spec/features/chat_spec.rb">
+      <file leaf-file-name="user_registration_view.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/views/users/user_registration_view.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="56" selection-start="891" selection-end="891" vertical-scroll-proportion="0.0">
+            <state line="9" column="10" selection-start="350" selection-end="428" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="spec_helper.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/spec/spec_helper.rb">
+      <file leaf-file-name="chats_controller.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/controllers/chats_controller.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="61" selection-start="68" selection-end="68" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="users_controller.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/controllers/users_controller.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="18" column="49" selection-start="897" selection-end="897" vertical-scroll-proportion="-7.04">
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="user.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/public/models/user.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="8" column="32" selection-start="285" selection-end="285" vertical-scroll-proportion="0.25486726">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="message_spec.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/spec/models/message_spec.rb">
+      <file leaf-file-name="routes.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/config/routes.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="52" selection-start="106" selection-end="106" vertical-scroll-proportion="0.0">
+            <state line="20" column="44" selection-start="810" selection-end="810" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="login_spec.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/spec/features/login_spec.rb">
+      <file leaf-file-name="token_authentications_controller.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/controllers/token_authentications_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="14" selection-start="375" selection-end="375" vertical-scroll-proportion="0.0">
+            <state line="52" column="34" selection-start="1347" selection-end="1347" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="user_spec.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/spec/models/user_spec.rb">
+      <file leaf-file-name="todo_controller.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/controllers/todo_controller.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="28" selection-start="254" selection-end="254" vertical-scroll-proportion="0.0">
+            <state line="13" column="44" selection-start="533" selection-end="533" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="matchers.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/spec/support/matchers.rb">
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="11" selection-start="389" selection-end="389" vertical-scroll-proportion="0.0">
+            <state line="41" column="65" selection-start="1756" selection-end="1756" vertical-scroll-proportion="-3.1346154">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="application.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/config/application.rb">
+      <file leaf-file-name="users_list_view.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/views/users/users_list_view.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="43" column="50" selection-start="1953" selection-end="1953" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="8" column="45" selection-start="205" selection-end="205" vertical-scroll-proportion="0.0">
+              <folding>
+                <marker date="1362217189000" expanded="true" signature="96:168" placeholder="..." />
+                <marker date="1362217189000" expanded="true" signature="172:209" placeholder="..." />
+                <marker date="1362217189000" expanded="true" signature="172:209" placeholder="..." />
+                <marker date="1362217189000" expanded="true" signature="213:397" placeholder="..." />
+                <marker date="1362217189000" expanded="true" signature="213:397" placeholder="..." />
+                <marker date="1362217189000" expanded="true" signature="213:397" placeholder="..." />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="chat_spec.rb" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/spec/models/chat_spec.rb">
+      <file leaf-file-name="chat.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/models/chat.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="62" selection-start="279" selection-end="279" vertical-scroll-proportion="0.40037245">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="user_factory.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/spec/factories/user_factory.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="0" selection-start="17" selection-end="57" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="chat_factory.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/spec/factories/chat_factory.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="21" selection-start="177" selection-end="177" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -136,16 +165,17 @@
     <option name="VCS_SHOW_CONFIRMATION" value="true" />
     <option name="ENVIRONMENT" value="development" />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitLogSettings">
+    <option name="myDateState">
+      <MyDateState />
+    </option>
+  </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/controllers/application_controller.rb" />
-        <option value="$PROJECT_DIR$/config/routes.rb" />
-        <option value="$PROJECT_DIR$/public/index.html" />
-        <option value="$PROJECT_DIR$/app/models/user.rb" />
-        <option value="$PROJECT_DIR$/app/controllers/token_authentications_controller.rb" />
-        <option value="$PROJECT_DIR$/app/controllers/users_controller.rb" />
-        <option value="$PROJECT_DIR$/Gemfile" />
         <option value="$PROJECT_DIR$/config/application.rb" />
         <option value="$PROJECT_DIR$/spec/factories/user_factory.rb" />
         <option value="$PROJECT_DIR$/spec/factories/chat_factory.rb" />
@@ -155,6 +185,13 @@
         <option value="$PROJECT_DIR$/spec/models/user_spec.rb" />
         <option value="$PROJECT_DIR$/spec/support/matchers.rb" />
         <option value="$PROJECT_DIR$/spec/models/chat_spec.rb" />
+        <option value="$PROJECT_DIR$/public/views/users/user_login_view.js" />
+        <option value="$PROJECT_DIR$/public/views/users/users_list_view.js" />
+        <option value="$PROJECT_DIR$/public/index.html" />
+        <option value="$PROJECT_DIR$/config/routes.rb" />
+        <option value="$PROJECT_DIR$/app/controllers/token_authentications_controller.rb" />
+        <option value="$PROJECT_DIR$/public/controllers/users_controller.js" />
+        <option value="$PROJECT_DIR$/public/models/user.js" />
       </list>
     </option>
   </component>
@@ -166,11 +203,10 @@
     <option name="CUSTOM_FILTER" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="y" value="22" />
     <option name="width" value="1440" />
-    <option name="height" value="874" />
+    <option name="height" value="900" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
     <OptionsSetting value="true" id="Checkout" />
@@ -226,7 +262,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="spec" />
+              <option name="myItemId" value="public" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -240,7 +276,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="spec" />
+              <option name="myItemId" value="public" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -258,25 +294,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="spec" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="factories" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="funlife" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="funlife" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controllers" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -383,15 +405,15 @@
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
     <property name="recentsLimit" value="5" />
-    <property name="options.lastSelected" value="reference.settings.ide.settings.spelling" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="FullScreen" value="false" />
+    <property name="FullScreen" value="true" />
     <property name="RakeTaksPopup.undocumentedIncluded" value="false" />
     <property name="RailsGeneratorsPopup.hiddenIncluded" value="false" />
-    <property name="dynamic.classpath" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
+    <property name="dynamic.classpath" value="false" />
   </component>
   <component name="RunManager" selected="Rails.Development: funlife">
     <configuration default="false" name="db:migrate" type="RakeRunConfigurationType" factoryName="Rake" temporary="true">
@@ -722,19 +744,19 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1440" height="874" extended-state="0" />
+    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32917705" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32769045" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298611" sideWeight="0.68204486" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24513888" sideWeight="0.6708229" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25322813" sideWeight="0.7001209" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32947233" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3179551" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33857316" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29987907" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -800,76 +822,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/public/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="43" selection-start="705" selection-end="705" vertical-scroll-proportion="-7.3333335">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/user.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="31" selection-start="480" selection-end="480" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/routes.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="0" selection-start="1565" selection-end="1565" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Gemfile">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="0" selection-start="180" selection-end="180" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/users_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="77" selection-start="410" selection-end="410" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/token_authentications_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="93" selection-start="877" selection-end="877" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spec/factories/chat_factory.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="21" selection-start="177" selection-end="177" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spec/features/chat_spec.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="56" selection-start="891" selection-end="891" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spec/spec_helper.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="61" selection-start="68" selection-end="68" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spec/models/message_spec.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="52" selection-start="106" selection-end="106" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/spec/features/login_spec.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="18" column="14" selection-start="375" selection-end="375" vertical-scroll-proportion="0.0">
@@ -891,23 +843,104 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spec/factories/user_factory.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="17" selection-end="57" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/config/application.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="50" selection-start="1953" selection-end="1953" vertical-scroll-proportion="0.0">
+        <state line="30" column="50" selection-start="1403" selection-end="1403" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/spec/models/chat_spec.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="62" selection-start="279" selection-end="279" vertical-scroll-proportion="0.40037245">
+        <state line="14" column="62" selection-start="279" selection-end="279" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/views/users/user_login_view.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="35" selection-start="505" selection-end="505" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/controllers/chats_controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/views/users/user_registration_view.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="10" selection-start="350" selection-end="428" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/models/chat.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="65" selection-start="1756" selection-end="1756" vertical-scroll-proportion="-3.1346154">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/routes.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="44" selection-start="810" selection-end="810" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/views/users/users_list_view.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="45" selection-start="205" selection-end="205" vertical-scroll-proportion="0.0">
+          <folding>
+            <marker date="1362217189000" expanded="true" signature="96:168" placeholder="..." />
+            <marker date="1362217189000" expanded="true" signature="172:209" placeholder="..." />
+            <marker date="1362217189000" expanded="true" signature="172:209" placeholder="..." />
+            <marker date="1362217189000" expanded="true" signature="213:397" placeholder="..." />
+            <marker date="1362217189000" expanded="true" signature="213:397" placeholder="..." />
+            <marker date="1362217189000" expanded="true" signature="213:397" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/controllers/todo_controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="44" selection-start="533" selection-end="533" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/token_authentications_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="52" column="34" selection-start="1347" selection-end="1347" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/controllers/users_controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="49" selection-start="897" selection-end="897" vertical-scroll-proportion="-7.04">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/models/user.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="32" selection-start="285" selection-end="285" vertical-scroll-proportion="0.25486726">
           <folding />
         </state>
       </provider>

@@ -7,6 +7,7 @@ Funlife::Application.routes.draw do
   root to: 'users#index'
   resources :users
   post 'login', to: 'token_authentications#create'
+  post 'authenticate_token', to: 'token_authentications#startup_login_check'
   post 'register', to: 'users#complete_registration'
   get 'startup', to: 'token_authentications#startup_login_check'
   #match 'token_auth/:user' => 'token_authentications#create'

@@ -1,5 +1,5 @@
 List of Users
-
+     <a class="button"  href="/users_controller/logout">Logout</a>
 <table>
     <tr>
         <td>Email</td>

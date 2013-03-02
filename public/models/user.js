@@ -15,11 +15,11 @@ User = new $.mvc.model.Extend("user", {                                 //Instan
 
         $.post(server+"authenticate_token", data,
             function(callback){
-                console.log('we think this good')
+                console.log('auth succeeded if next log is true:');
                 console.log(callback.status === 'success');
                 auth_success = (callback.status === 'success');
             },
-        "json")
+        "json");
         return auth_success;
     },
 

@@ -16,38 +16,71 @@ class UsersController < ApplicationController
   end
 
   #A user signs up - new user created with auth token
-  def create
+  def register1
     @user = User.new(params[:user])
     if @user.save
-      puts 'User saved successfully.'
       render json: {token: @user.token.to_s}
     else
-      puts 'User failed to save'
-      render json: {token: 'error'}
+      head :conflict
     end
   end
 
-  def complete_registration
+  def register2
     data = params[:user]
     first_name = data['first_name']
     last_name = data['last_name']
-    token = data['token']
+    token = headers[:token]
 
     @user = User.find_by_token(token)
-    puts "\n\n\n The following user was found via token" + @user.to_s
+
     if @user.nil?
-      puts 'No user was found with that token'
       render json: {token: 'error'}
     else
       @user.first_name = first_name
       @user.last_name = last_name
       @user.full_name = "#{first_name} #{last_name}"
-      puts "\n\n\n The user now looks like" + @user.to_s
       @user.save
       render json: {name: @user.full_name, email: @user.email, token: @user.token}
     end
 
 
+  end
+
+  def login
+    data = params[:user]
+    email = data['email']
+    password = data['password']
+
+
+    @user=User.find_by_email(email)
+
+    if @user.nil?
+      head :unauthorized
+    elsif @user.authenticate(password)
+      render json: {token: @user.token, email: @user.email, first_name: @user.first_name, last_name: @user.last_name}
+    else
+      head :unauthorized
+    end
+  end
+
+
+  #This has not been checked if it works yet
+  def log_out
+    @user=User.find_by_token(request.env['TOKEN'])
+    if @user.nil?
+      head :not_found
+    else
+      @user.reset_authentication_token!
+      head :ok
+    end
+  end
+
+  def auth
+    if User.find_by_token(request.env['TOKEN'])
+      head :ok
+    else
+      head :not_found
+    end
   end
 
 end

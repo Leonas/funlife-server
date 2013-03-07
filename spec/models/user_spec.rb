@@ -1,25 +1,19 @@
 require 'spec_helper'
 
 describe User do
-  it 'validates presence of name' do
-    user = FactoryGirl.create(:user, email: '')
-    user.valid?
-    user.errors.should have_key(:email)
-  end
 
-  it 'doesn\'t allow special characters in name fields' do
+  xit { should validate_presence_of(:first_name) }
+  xit { should validate_presence_of(:last_name) }
 
-  end
+  it { should validate_presence_of(:email) }
+  it { should validate_uniqueness_of(:email) }
 
-  it 'verifies email address through regex' do
+  xit { should_not allow_value('noregex').for(:email) }
 
-  end
+  it { should allow_value('a@b.com').for(:email) }
+  it { should_not allow_mass_assignment_of(:token) }
+  it { should_not allow_mass_assignment_of(:password_digest) }
 
-  it 'makes sure the email is unique' do
+  xit { should ensure_inclusion_of(:age).in_range(13..120) }
 
-  end
-
-  xit 'makes sure the user is over age 13' do
-
-  end
 end

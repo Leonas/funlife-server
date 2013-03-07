@@ -26,7 +26,7 @@ class ChatsController < ApplicationController
   # POST /chats
   # POST /chats.json
   def create
-    @chat = Chat.new(params[:chat])
+    @chat = Chat.new(params[:chats])
 
     if @chat.save
       render json: @chat, status: :created, location: @chat
@@ -40,7 +40,7 @@ class ChatsController < ApplicationController
   def update
     @chat = Chat.find(params[:id])
 
-    if @chat.update_attributes(params[:chat])
+    if @chat.update_attributes(params[:chats])
       head :no_content
     else
       render json: @chat.errors, status: :unprocessable_entity

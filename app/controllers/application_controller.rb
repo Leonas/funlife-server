@@ -3,12 +3,12 @@ class ApplicationController < ActionController::API
   private
 
   def current_user
-    @current_user ||= User.find_by_token(params[:token]) if params[:token]
+    @current_user ||= User.find_by_token(request.env['TOKEN']) if request.env['TOKEN']
   end
 
   def authorize
     if current_user.nil?
-      false
+      head :not_found
     else
       true
     end

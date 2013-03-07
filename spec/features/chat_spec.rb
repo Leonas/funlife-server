@@ -39,11 +39,11 @@ describe Chat do
            #check if old messages show
          end
 
-         it 'makes a new message show up when i click send' do
+         xit 'makes a new message show up when i click send' do
 
          end
 
-         it 'wont send blank messages' do
+         xit 'wont send blank messages' do
 
          end
 

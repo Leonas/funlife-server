@@ -11,14 +11,20 @@ $.mvc.controller.create("users_controller", {
 
     default: function () {
         current_user.get_from_local();                           //Load current user to memory from localstorage
-        if(current_user.token.length > 5){                       //if the current user's token exists, try to auth
-            if(current_user.authenticate_token()) {              //if auth successful, show the user list screen
-                console.log("your token is authed");
-                $.mvc.route("/users_controller/users_list_view");
+
+        var redirect_choices = function redirect_choices(success){
+            if(success) {              //if auth successful, show the user list screen
+                console.log("your token succeeded. routing to user list view");
+                $.mvc.route("/users_controller/users_list");
             } else {
                 console.log("your token failed");
+                console.log(current_user.authenticate_token());
                 $.mvc.route("/users_controller/user_login");    //otherwise show the login screen
             }
+        };
+
+        if(current_user.token.length > 5){                       //if the current user's token exists, try to auth
+            current_user.authenticate_token(redirect_choices);
         } else{
             console.log("user not found...redirecting to new account");
             $.mvc.route("/users_controller/user_login");
@@ -45,14 +51,17 @@ $.mvc.controller.create("users_controller", {
 
     },
     logout: function () {
-
-        var elem = document.getElementById('user_login_view');          //otherwise form data is displayed
-        elem.parentNode.removeChild(elem);                              //possible execute right after login?
+        console.log('im here');
 
         if($("#user_login_view").length == 0) {                 //If the user_login_view div doesn't exist, make it!
             $.ui.addContentDiv("user_login_view", $.template('views/users/user_login_view.js'), "Login or Register");
+        } else {
+            var elem = document.getElementById('user_login_view');          //otherwise form data is displayed
+            elem.parentNode.removeChild(elem);                              //possible execute right after login?
+            $.ui.addContentDiv("user_login_view", $.template('views/users/user_login_view.js'), "Login or Register");
         }
-        current_user.logout;
+
+        current_user.logout();
         $.ui.loadContent("user_login_view",false,false,"pop"); //Show the user_login_view
 
 

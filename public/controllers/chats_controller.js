@@ -4,34 +4,30 @@ var chat_log = {
     "chat_info": {
         "chat_id": "23213123",
         "my_photo": "photo_url_on_phone",
-        "other_photo": "photo_url",
-        "other_name": "Bob"
+        "person2_photo": "photo_url",
+        "person2": "Bob"
     },
-    "messages": [
+    "messages": [  //server should make sure these messages are aligned in right order
 
         {
-            "id": "0",
+            "timestamp": "0",
             "user": "Bob",
-            "text": "hello there",
-            "time": "04:41"
+            "text": "hello there"
         },
         {
-            "id": "1",
+            "timestamp": "1",
             "user": "Sam",
-            "text": "hey whats up",
-            "time": "04:41"
+            "text": "hey whats up"
         },
         {
-            "id": "2",
+            "timestamp": "2",
             "user": "Bob",
-            "text": "nothing much",
-            "time": "04:41"
+            "text": "nothing much"
         },
         {
-            "id": "3",
+            "timestamp": "3",
             "user": "Bob",
-            "text": "what u doing",
-            "time": "04:41"
+            "text": "what u doing"
         }
     ]
 };
@@ -50,7 +46,12 @@ $.mvc.controller.create("chats_controller", {
 
     },
 
-    chat: function (user_id, action) {
+    chat: function (user_id, action, chat_id) {
+
+        $("#chat_submit").bind("click",function(){
+            chat_id.send_message();
+
+        });
 
         if($("#chat_view").length == 0) {
             $.ui.addContentDiv("chat_view", $.template('views/chats/chat_view.js', chat_log), "Chat");
@@ -64,7 +65,7 @@ $.mvc.controller.create("chats_controller", {
             console.log("just made a new chat cause an old one wasn't found") ;
         }
 
-        chat_room[user_id].refresh();
+        //chat_room[user_id].refresh();       //this needs to be implemented
 
 
 

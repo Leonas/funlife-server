@@ -76,6 +76,9 @@ GEM
       spork (>= 0.8.4)
     hike (1.2.1)
     http_parser.rb (0.5.3)
+    httparty (0.10.2)
+      multi_json (~> 1.0)
+      multi_xml (>= 0.5.2)
     httpclient (2.3.3)
     i18n (0.6.3)
     journey (1.0.4)
@@ -92,6 +95,7 @@ GEM
     mocha (0.10.5)
       metaclass (~> 0.0.1)
     multi_json (1.6.1)
+    multi_xml (0.5.3)
     nokogiri (1.5.6)
     poltergeist (1.1.0)
       capybara (~> 2.0, >= 2.0.1)
@@ -197,6 +201,7 @@ DEPENDENCIES
   faker
   guard-rspec
   guard-spork
+  httparty
   json (>= 1.7.7)
   poltergeist
   rails (~> 3.2.11)

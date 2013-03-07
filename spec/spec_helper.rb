@@ -1,20 +1,24 @@
 require 'rubygems'
 require 'spork'
 
+@site_root = 'http://localhost:8200'
 
 #require 'spork/ext/ruby-debug'
 
 Spork.prefork do
   require 'rubygems'
 
-  ENV["RAILS_ENV"] ||= 'development'
+  ENV["RAILS_ENV"] ||= 'test'
   require File.expand_path("../../config/environment", __FILE__)
   require 'rspec/rails'
 
   require 'rspec/autorun'
   #DatabaseCleaner[:mongoid].strategy = :truncation
 
+
+
   require 'database_cleaner'
+  DatabaseCleaner.strategy = :transaction
   require 'capybara/rails'
   require 'capybara/rspec'
   require 'capybara/poltergeist'
@@ -22,6 +26,9 @@ Spork.prefork do
     Capybara::Poltergeist::Driver.new(app, inspector: true)
   end
   Capybara.default_driver = :poltergeist
+  Capybara.run_server = true #Whether start server when testing
+  Capybara.server_port = 8200
+  #Capybara.ignore_hidden_elements = true
 
 # Requires supporting ruby files with custom matchers, macros, etc in spec/support/.
   Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
@@ -29,13 +36,18 @@ Spork.prefork do
   RSpec.configure do |config|
     config.order = "random"
 
-    #config.before(:suite) do
-    #  DatabaseCleaner.clean
-    #end
-    #
-    #config.before(:each) do
-    #  DatabaseCleaner.clean
-    #end
+    config.before(:suite) do
+      DatabaseCleaner.strategy = :transaction
+      DatabaseCleaner.clean_with(:truncation)
+    end
+
+    config.before(:each) do
+      DatabaseCleaner.start
+    end
+
+    config.after(:each) do
+      DatabaseCleaner.clean
+    end
 
   end
 

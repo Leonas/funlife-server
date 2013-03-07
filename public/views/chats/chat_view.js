@@ -1,9 +1,9 @@
-
+ Yolo swag
 
 {{~it.chat_log :value:index}}
-Chatting with {{=value.chat_info.other_name}}
+Chatting with {{=value.chat_info.person2}}
 {{? value.messages.name === current_user.name }}
-<div class='commentLevel1'>
+<div class='chat_message_left'>
     <div class='userimg' style='background-image:url({{=value.userimg}});'></div>
     <div class='usercomment'>
         <span class='username'>{{=value.name}}</span>
@@ -12,7 +12,7 @@ Chatting with {{=value.chat_info.other_name}}
     </div>
 </div>
 {{?? value.level != true}}
-<div class='commentLevel2'>
+<div class='chat_message_right'>
     <div class='userimg' style='background-image: url({{=value.userimg}})'></div>
     <div class='usercomment'>
         <span class='username'>{{=value.name}}</span>
@@ -23,5 +23,10 @@ Chatting with {{=value.chat_info.other_name}}
 {{?}}
 {{~}}
 
-There needs to be that one line form here with a button on the right.
-<a class='button' href='chats/send'>Reply</a>
+<form>
+ <input></input>
+</form>
+
+
+
+<button id='chat_submit' class='button'>Reply</button>

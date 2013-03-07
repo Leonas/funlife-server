@@ -1,6 +1,6 @@
 def log_in(user)
   #This should be updated with the database cleaner. goddamn.
-  visit ('http://localhost:3000')
+  visit root_path
   within('#login_holder') do
     fill_in 'user[email]', :with => user.email
     fill_in 'user[password]', :with => user.password

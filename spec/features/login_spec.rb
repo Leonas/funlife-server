@@ -7,7 +7,7 @@ describe 'the start of the app' do
   end
 
   it 'loads' do
-    visit ('http://localhost:3000')
+    visit @site_root
     page.should have_content 'FunLife'
     page.should have_content 'Email'
   end
@@ -20,7 +20,7 @@ describe 'the start of the app' do
 
   it 'lets me register' do
     user = FactoryGirl.build(:user)                       #.build used here to not save to DB
-    visit ('http://localhost:3000')
+    visit @site_root
     within('#login_holder') do
       fill_in 'user[email]', :with => user.email
       fill_in 'user[password]', :with => user.password

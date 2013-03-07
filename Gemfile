@@ -12,6 +12,7 @@ gem 'bcrypt-ruby', '~> 3.0.0'  # Adds has_secure_password
 group :development, :test do
   gem 'sass'
   #gem 'guard-sass'          #This won't work for some reason
+  gem 'httparty'
 
   gem 'rspec-rails'
   gem 'guard-rspec'

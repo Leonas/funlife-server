@@ -5,11 +5,19 @@ Funlife::Application.routes.draw do
   # first created -> highest priority.
 
   root to: 'users#index'
-  resources :users
-  post 'login', to: 'token_authentications#create'
-  post 'authenticate_token', to: 'token_authentications#startup_login_check'
-  post 'register', to: 'users#complete_registration'
-  get 'startup', to: 'token_authentications#startup_login_check'
+  resources :users do
+    collection do
+      post   'login'
+      delete 'log_out'
+      post   'auth'
+      post   'register1'
+      post   'register2'
+    end
+  end
+  #post 'login', to: 'token_authentications#create'
+  #post 'authenticate_token', to: 'token_authentications#startup_login_check'
+  #post 'register', to: 'users#complete_registration'
+  #get 'startup', to: 'token_authentications#startup_login_check'
   #match 'token_auth/:user' => 'token_authentications#create'
 
   # Sample of regular route:

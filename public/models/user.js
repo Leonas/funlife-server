@@ -5,22 +5,30 @@ User = new $.mvc.model.Extend("user", {                                 //Instan
     profile_pic:'',
 
 
-    authenticate_token: function() {                 //check if the token is valid
-        var auth_success = false;
+    authenticate_token: function(redirect_choices) {                 //check if the token is valid
+
         var data = {
             name: current_user.name,
             email: current_user.email,
             token: current_user.token
         };
 
-        $.post(server+"authenticate_token", data,
-            function(callback){
-                console.log('auth succeeded if next log is true:');
-                console.log(callback.status === 'success');
-                auth_success = (callback.status === 'success');
-            },
-        "json");
-        return auth_success;
+        var auth = function auth(response){
+            console.log('auth succeeded if next log is true:');
+            console.log(response.status === 'success');
+            redirect_choices(response.status);
+        }
+
+//        var doodoo = $.post(server+"authenticate_token", data);
+//        doodoo.success(auth);
+
+        $.ajax({
+            url:server+"authenticate_token",
+            data: data,
+            success: function(response){auth(response)},
+            error: function(response){auth(response)}
+        });
+
     },
 
 
@@ -96,10 +104,9 @@ User = new $.mvc.model.Extend("user", {                                 //Instan
     },
 
 
-    remove: function () {
-        //Need to send a destroy to the server
-        console.log("I am in the remove function of userStorage");
-        window.localStorage.removeItem("currentUser");
+    logout: function () {
+        console.log("Logging out. Destroying localStorage currentUser");
+        window.localStorage.removeItem("current_user");
     }
 });
 

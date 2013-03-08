@@ -16,3 +16,7 @@ def create_3_users
   @user2 = FactoryGirl.create(:user)
   @user3 = FactoryGirl.create(:user)
 end
+
+def three_two_person_chats
+
+end

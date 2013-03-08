@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe UsersController, :type => :feature do
+describe UsersController do
 
   it 'returns a token, email, first_name, last_name after logging in' do
     user = FactoryGirl.create(:user)

@@ -29,9 +29,9 @@ class UsersController < ApplicationController
     data = params[:user]
     first_name = data['first_name']
     last_name = data['last_name']
-    token = headers[:token]
 
-    @user = User.find_by_token(token)
+    @user=User.find_by_token(request.env['HTTP_TOKEN'])
+
 
     if @user.nil?
       render json: {token: 'error'}
@@ -66,7 +66,7 @@ class UsersController < ApplicationController
 
   #This has not been checked if it works yet
   def log_out
-    @user=User.find_by_token(request.env['TOKEN'])
+    @user=User.find_by_token(request.env['HTTP_TOKEN'])
     if @user.nil?
       head :not_found
     else
@@ -76,7 +76,7 @@ class UsersController < ApplicationController
   end
 
   def auth
-    if User.find_by_token(request.env['TOKEN'])
+    if User.find_by_token(request.env['HTTP_TOKEN'])
       head :ok
     else
       head :not_found

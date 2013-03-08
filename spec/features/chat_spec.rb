@@ -6,9 +6,6 @@ describe Chat do
     log_in(@user1)
   end
 
-  after :each do
-    DatabaseCleaner.clean
-  end
 
   xit 'shows me a list of people I can chat with on the homepage' do
     page.should have_content('List of Users')

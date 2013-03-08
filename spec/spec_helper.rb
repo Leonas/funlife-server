@@ -18,7 +18,6 @@ Spork.prefork do
 
 
   require 'database_cleaner'
-  DatabaseCleaner.strategy = :transaction
   require 'capybara/rails'
   require 'capybara/rspec'
   require 'capybara/poltergeist'
@@ -28,17 +27,18 @@ Spork.prefork do
   Capybara.default_driver = :poltergeist
   Capybara.run_server = true #Whether start server when testing
   Capybara.server_port = 8200
-  #Capybara.ignore_hidden_elements = true
+  #Capybara.ignore_hidden_elements = true           this causes problems
 
 # Requires supporting ruby files with custom matchers, macros, etc in spec/support/.
   Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
   RSpec.configure do |config|
     config.order = "random"
+    config.use_transactional_fixtures = false
 
     config.before(:suite) do
-      DatabaseCleaner.strategy = :transaction
-      DatabaseCleaner.clean_with(:truncation)
+      DatabaseCleaner.strategy = :truncation
+      DatabaseCleaner.clean
     end
 
     config.before(:each) do

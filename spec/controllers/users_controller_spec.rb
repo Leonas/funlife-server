@@ -31,7 +31,7 @@ describe UsersController, :type => :feature do
     end
 
     it 'returns 200 on register step 2' do
-      request.env['TOKEN'] = @r_user.token
+      request.env['HTTP_TOKEN'] = @r_user.token
       post :register2, user: {first_name: @r_user.first_name, last_name: @r_user.last_name}
       response.code.should == '200'
     end
@@ -44,31 +44,31 @@ describe UsersController, :type => :feature do
    end
 
   it 'returns 200 on successful logout' do
-    request.env['TOKEN'] = @c_user.token
+    request.env['HTTP_TOKEN'] = @c_user.token
     delete :log_out
     response.code.should == '200'
   end
 
   it 'returns 404 on unsuccessful logout' do
-    request.env['TOKEN'] = 'blarg'
+    request.env['HTTP_TOKEN'] = 'blarg'
     delete :log_out
     response.code.should == '404'
   end
 
   it 'returns 200 on successful auth of token' do
-    request.env['TOKEN'] = @c_user.token
+    request.env['HTTP_TOKEN'] = @c_user.token
     post :auth
     response.code.should == '200'
   end
 
   it 'returns 404 on failed auth token' do
-    request.env['TOKEN'] = 'fail'
+    request.env['HTTP_TOKEN'] = 'fail'
     post :auth
     response.code.should == '404'
   end
 
   it 'returns a list of users on index with token' do                                 #temporary
-    request.env['TOKEN'] = @c_user.token
+    request.env['HTTP_TOKEN'] = @c_user.token
     get :index
     response.code.should == '200'
   end

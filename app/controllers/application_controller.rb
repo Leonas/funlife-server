@@ -3,7 +3,7 @@ class ApplicationController < ActionController::API
   private
 
   def current_user
-    @current_user ||= User.find_by_token(request.env['TOKEN']) if request.env['TOKEN']
+    @current_user ||= User.find_by_token(request.env['HTTP_TOKEN']) if request.env['HTTP_TOKEN']
   end
 
   def authorize

@@ -1,13 +1,14 @@
 def log_in(user)
-  #This should be updated with the database cleaner. goddamn.
-  visit root_path
+  visit @site_root
   within('#login_holder') do
     fill_in 'user[email]', :with => user.email
     fill_in 'user[password]', :with => user.password
   end
   click_link 'Login'
+  sleep 0.5
   page.should have_content 'List of Users'
   page.should have_content user.full_name
+
 end
 
 def create_3_users

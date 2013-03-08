@@ -20,7 +20,7 @@
         <script>
             var debug;        //for testing stuff
             var current_user;
-            var server = "http://localhost:3000/";
+            var server = 'http://'+document.location.host;
             var app = new $.mvc.app();
             app.loadModels(["user", "chat"]);
             app.loadControllers(["users_controller", "chats_controller"]);

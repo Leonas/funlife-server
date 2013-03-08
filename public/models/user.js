@@ -33,7 +33,8 @@ User = new $.mvc.model.Extend("user", {                                 //Instan
 
 
   register1: function (form_data) {                                    //register part 1
-
+    $("#wrong_password").hide();
+    $("#email_exists").hide();
     $.ajax({
       type: 'POST',
       url: server + '/users/register1/',
@@ -75,7 +76,8 @@ User = new $.mvc.model.Extend("user", {                                 //Instan
 
 
   authenticate_login: function (form_data) {
-
+    $("#wrong_password").hide();
+    $("#email_exists").hide();
     $.ajax({
       type: 'POST',
       url: server + '/users/login/',
@@ -89,7 +91,7 @@ User = new $.mvc.model.Extend("user", {                                 //Instan
       },
 
       error: function () {
-        $("#wrong_password").css('display', ['block']);
+        $("#wrong_password").show();
       }
     });
   },

@@ -1,18 +1,12 @@
-List of Users
-     <a class="button"  href="/users_controller/logout">Logout</a>
-<table>
-    <tr>
-        <td>Email</td>
-        <td>Name</td>
-        <td>Chat</td>
-    <tr>
+<h3> Users Nearby </h3>
+<a class="btn btn-small"  href="/users_controller/logout">Logout</a>
+<br><br>
 {{~it.users_list :value:index}}
-    <tr>
-        <td>{{=value.email}}</td>
-        <td>{{=value.name}}</td>
-        <td><a id="chat_{{=value.user_id}}" href="/chats_controller/chat/{{=value.user_id}}">Chat</a></td>
-    </tr>
+  <div class='activities width20 inline'>
+    <a id="chat_{{=value.user_id}}" href="/chats_controller/chat/{{=value.user_id}}">
+        <img class='activityBigIcon img-rounded' src='../layout/img/user_placeholder.jpeg'/> 
+    </a>
+    <td>{{=value.name}}</td>
+  </div>
 
 {{~}}
-
-</table>

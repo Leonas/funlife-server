@@ -1,5 +1,14 @@
- Yolo swag
-
+This is the chat view
+<div class="container-fluid text-center">
+  <div class="row-fluid">
+    <div class="span6">
+      Messages
+    </div>
+    <div class="span6">
+      Sent
+    </div>
+  </div>
+</div>
 {{~it.chat_log :value:index}}
 Chatting with {{=value.chat_info.person2}}
 {{? value.messages.name === current_user.name }}

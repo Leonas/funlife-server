@@ -1,9 +1,24 @@
 #wrong_password {
     display: none;
-    background-color:indianred;
 }
 
 #email_exists {
     display: none;
-    background-color:indianred;
+}
+
+.width20 {
+  position: relative;
+  display: inline-block;
+  width: 20%;
+  margin: 0.2rem;
+}
+
+.width100 {
+  width: 100%;
+}
+
+.activityBigIcon {
+ display: block;
+ width: 2rem;
+ height: 2rem;
 }

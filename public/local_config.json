@@ -1,20 +1,18 @@
 {
-	"general": {
-	},
-	"ios": {
-		"profiles": {
-			"DEFAULT": {
-				"provisioning_profile": ""
-			}
-		}
-	},
-	"android": {
-		"sdk": "",
-		"profiles": {
-			"DEFAULT": {
-				"keystore": "",
-				"keyalias": ""
-			}
-		}
-	}
+    "android": {
+        "profiles": {
+            "DEFAULT": {
+                "keystore": "/Users/leonas/Dropbox/funlife/public/debug.keystore", 
+                "keypass": "android", 
+                "keyalias": "androiddebugkey", 
+                "storepass": "android"
+            }
+        }, 
+        "sdk": "/Applications/android-sdk-macosx/"
+    }, 
+    "ios": {
+        "device": "simulator", 
+        "simulatorsdk": "6.0", 
+        "simulatorfamily": "iphone"
+    }
 }

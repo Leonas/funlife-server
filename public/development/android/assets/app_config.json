@@ -1,5 +1,5 @@
 {
-  "config_hash": "7a7efcc5f7c491c5e401222bc7e896927c7facca", 
+  "config_hash": "fac45c27805f54bdf8585de00240f0890ff40a1f", 
   "disable_ics_acceleration": false, 
   "facebook_appid": "", 
   "modules": [
@@ -8,12 +8,13 @@
     "launchimage", 
     "event", 
     "contact", 
+    "display", 
     "file", 
-    "media", 
     "prefs", 
     "reload", 
     "request", 
-    "tools"
+    "tools", 
+    "ui"
   ], 
   "payments_publicKey": "PAYMENTS_PUBLIC_KEY_HERE", 
   "splashimage": "SPLASH_IMAGE_HERE", 

@@ -8,12 +8,13 @@
     "launchimage", 
     "event", 
     "contact", 
+    "display", 
     "file", 
-    "media", 
     "prefs", 
     "reload", 
     "request", 
-    "tools"
+    "tools", 
+    "ui"
   ], 
   "payments_publicKey": "PAYMENTS_PUBLIC_KEY_HERE", 
   "splashimage": "SPLASH_IMAGE_HERE", 

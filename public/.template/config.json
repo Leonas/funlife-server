@@ -1,23 +1,41 @@
 {
-	"config_version": "2",
-	"name": "FunLife",
-	"author": "leonasl@gmail.com",
-	"version": "0.1",
-	"platform_version": "v1.4",
-	"description": "An empty app created by default",
+	"author": "leonasl@gmail.com", 
+	"config_version": "2", 
+	"description": "An empty app created by default", 
 	"modules": {
+		"contact": true, 
+		"display": {
+			"fullscreen": {
+				"android": true, 
+				"ios": true, 
+				"wp": true
+			}, 
+			"orientations": {
+				"android": "portrait", 
+				"ipad": "portrait", 
+				"iphone": "portrait"
+			}
+		}, 
+		"file": true, 
+		"geolocation": true, 
+		"is": true, 
 		"logging": {
 			"level": "DEBUG"
-		},
-		"contact": true,
-		"file": true,
-		"is": true,
-		"media": true,
-		"prefs": true,
+		}, 
+		"prefs": true, 
+		"reload": true, 
 		"request": {
-			"permissions": ["http://*/*", "https://*/*"]
-		},
-		"tools": true,
-		"reload": true
-	}
+			"permissions": [
+				"http://*/*", 
+				"https://*/*", 
+				"http://vast-crag-6780.herokuapp.com/*", 
+				"content://*/*"
+			]
+		}, 
+		"tools": true, 
+		"ui": true
+	}, 
+	"name": "FunLife", 
+	"platform_version": "v1.4", 
+	"version": "0.1"
 }

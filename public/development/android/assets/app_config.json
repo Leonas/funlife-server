@@ -1,0 +1,24 @@
+{
+  "config_hash": "7a7efcc5f7c491c5e401222bc7e896927c7facca", 
+  "disable_ics_acceleration": false, 
+  "facebook_appid": "", 
+  "modules": [
+    "internal", 
+    "logging", 
+    "launchimage", 
+    "event", 
+    "contact", 
+    "file", 
+    "media", 
+    "prefs", 
+    "reload", 
+    "request", 
+    "tools"
+  ], 
+  "payments_publicKey": "PAYMENTS_PUBLIC_KEY_HERE", 
+  "splashimage": "SPLASH_IMAGE_HERE", 
+  "splashimage_landscape": "SPLASH_IMAGE_LANDSCAPE_HERE", 
+  "trigger_domain": "https://trigger.io", 
+  "trusted_urls": [], 
+  "uuid": "4abe320688ac11e2abaa12313d00dc45"
+}

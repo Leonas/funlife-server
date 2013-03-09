@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head><script src='../forge/all.js'></script>
+        <title>FunLife</title>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <META CONTENT="no-cache">
+
+        <script>
+            if( typeof forge !== "undefined"){
+                //forge.enableDebug();                  not working
+                //Trigger.io Stuff for Remove Debugging
+                //Goto https://trigger.io/catalyst/client/#CF5AEDE4-892A-4D60-93A4-C504E5829F20
+
+            }
+        </script>
+        <script src="https://trigger.io/catalyst/target/target-script-min.js#CF5AEDE4-892A-4D60-93A4-C504E5829F20"></script>
+
+        <script src="https://raw.github.com/html5mgithub/jQ.Mobi/master/jq.mobi.js"></script>
+        <script src="https://raw.github.com/html5mgithub/jQ.Mobi/master/ui/jq.ui.js"></script>
+        <!--For more jqUI info: https://github.com/html5mgithub/jQ.Mobi/tree/master/ui-->
+        <script src="core/jq.mvc.js"></script>
+        <script src="core/doT.js"></script>
+        <script src="core/models.js"></script>
+        <script src="core/controllers.js"></script>
+        <link rel="stylesheet" type="text/css" href="layout/css/jq.ui.css" />
+        <link rel="stylesheet" type="text/css" href="layout/css/icons.css" />
+        <link rel="stylesheet" type="text/css" href="layout/css/custom.css" />
+        <link rel="stylesheet" type="text/css" href="layout/css/bootstrap.css" />
+
+        <script>
+            var debug;        //for testing stuff
+            var current_user;
+
+            //if running on forge, use heroku server url
+               if( typeof isMobile === "undefined"){
+                   server = 'http://'+document.location.host;
+               } else {
+                   server = 'http://vast-crag-6780.herokuapp.com';
+               }
+
+            var app = new $.mvc.app();
+            app.loadModels(["user", "chat"]);
+            app.loadControllers(["users_controller", "chats_controller"]);
+            app.listenHashChange();
+            app.useHTML5History(true);
+            app.ready(function () {
+                "use strict";
+
+                $.mvc.route("/users_controller");
+            });
+        </script>
+    </head>
+
+	<body>
+		<div id="jqUI">
+            <div id="header">
+            </div>
+            <div id="content">
+                <div id="mainPanel" title="Welcome" class="panel"></div>
+            </div>
+            <div id="navbar">
+                <a href="/" class="icon home"></a>
+                <a href="/" class="icon picture"></a>
+                <a href="/" class="icon camera"></a>
+                <a href="/" class="icon location"></a>
+                <a href="/" class="icon user"></a>
+            </div>
+
+            <nav id="main_nav">
+                <div class='title'>Home</div>
+                <ul>
+                    <li class="icon home mini"><a href="#main">#maindiv</a></li>
+                </ul>
+            </nav>
+        </div>
+    </body>
+</html>

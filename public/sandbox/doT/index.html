@@ -29,7 +29,9 @@ doT.templateSettings = {
   selfcontained: false
 };
 
-var tempFn = doT.template("<h1>Here is a sample template {{=it.foo}}</h1>");
+//var tempFn = doT.template("<h1>Here is a sample template {{=it.foo}}</h1>");
+var tempFn = doT.template(external.txt);
+
 var resultText = tempFn({foo: 'with doT'});
 
 $('body').html(resultText);

@@ -3,13 +3,19 @@ ruby '1.9.3'
 
 gem 'rails-api'
 gem 'rails', '~> 3.2.11'
-gem 'sqlite3'
 gem 'json', '>= 1.7.7'
 gem 'bcrypt-ruby', '~> 3.0.0'  # Adds has_secure_password
+
+group :production do
+  gem 'pg'
+  gem 'puma'
+end
+
 
 
 
 group :development, :test do
+  gem 'sqlite3'
   gem 'sass'
   #gem 'guard-sass'          #This won't work for some reason
   gem 'httparty'

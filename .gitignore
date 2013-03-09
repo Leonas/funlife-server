@@ -23,3 +23,7 @@
 public/.DS_Store
 
 public/sandbox/.DS_Store
+
+.idea/dataSources.ids
+
+.idea/dataSources.xml

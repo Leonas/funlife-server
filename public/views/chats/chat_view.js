@@ -1,4 +1,4 @@
-This is the chat view
+Messages Private View
 <div class="container-fluid text-center">
   <div class="row-fluid">
     <div class="span6">

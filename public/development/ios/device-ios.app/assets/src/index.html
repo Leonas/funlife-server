@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <META CONTENT="no-cache">
+        <script src="http://debug.phonegap.com/target/target-script-min.js#a6af72d0-3ce1-11e2-979d-12313d1744da"></script>
         <script>
                 //if running chrome, act normal
                 if( typeof forge === "undefined"){
@@ -13,14 +14,12 @@
                 } else {
                     //Enable the Trigger.io specific settings
                     server = 'http://vast-crag-6780.herokuapp.com';
-                    //forge.enableDebug();              // broken  ?
-                    //forge.debug = true;             //   broken  ?
+                    //forge.enableDebug();               //broken -> the catalyst script file breaks everything
 
                     //For remote debug: http://debug.phonegap.com/client/#a6af72d0-3ce1-11e2-979d-12313d1744da
                     //Tried to use catalyst: https://trigger.io/catalyst/ but it breaks jqmobi
                 }
         </script>
-        <script src="https://trigger.io/catalyst/target/target-script-min.js#55EF79C1-DCB4-458D-BD50-8B1EE271D364"></script>
 
         <script src="https://raw.github.com/html5mgithub/jQ.Mobi/master/jq.mobi.js"></script>
         <script src="https://raw.github.com/html5mgithub/jQ.Mobi/master/ui/jq.ui.js"></script>

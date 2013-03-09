@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-
+  before_filter :set_access_control_headers
   private
 
   def current_user
@@ -12,6 +12,13 @@ class ApplicationController < ActionController::API
     else
       true
     end
+  end
+
+
+
+  def set_access_control_headers
+    headers['Access-Control-Allow-Origin'] = '*'
+    headers['Access-Control-Request-Method'] = '*'
   end
 
 end

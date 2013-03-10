@@ -1,7 +1,8 @@
 "Tasks that might be run on the customers's machine"
 
 from os import path
-from time import time
+from time import gmtime
+from calendar import timegm
 
 # where the customer code exists inside the apps
 locations = {
@@ -15,6 +16,12 @@ locations = {
 	'wp': 'development/wp/assets/src',
 	'reload': 'development/reload/src',
 }
+
+def validate_user_source(src='src'):
+	'''Check for any issues with the user source, i.e. no where to include all.js'''
+	return [
+		{'do': {'check_index_html': (src,)}}
+	]
 
 def copy_user_source_to_tempdir(ignore_patterns=None, tempdir=None):
 	return [
@@ -127,9 +134,10 @@ def include_name():
 	return [
 		{'do': {'populate_xml_safe_name': ()}},
 		{'do': {'populate_json_safe_name': ()}},
-		{'when': {'platform_is': 'android'}, 'do': {'set_element_value_xml': {
-			"file": 'development/android/res/values/strings.xml',
-			"element": "string/[@name='app_name']",
+		{'when': {'platform_is': 'android'}, 'do': {'set_attribute_value_xml': {
+			"file": 'development/android/AndroidManifest.xml',
+			"element": "application",
+			"attribute": "android:label",
 			"value": "${xml_safe_name}"
 		}}},
 		{'when': {'platform_is': 'ios'}, 'do': {'set_in_biplist': {
@@ -173,9 +181,10 @@ def include_uuid():
 			"in": ('development/android/AndroidManifest.xml',),
 			"find": "io.trigger.forge.android.template", "replace": "${modules.package_names.android}"
 		}}},
-		{'when': {'platform_is': 'android'}, 'do': {'find_and_replace': {
-			"in": ('development/android/res/values/strings.xml',),
-			"find": "UUID_HERE", "replace": "${uuid}"
+		{'when': {'platform_is': 'android'}, 'do': {'set_in_json': {
+			"filename": "development/android/assets/app_config.json",
+			"key": "uuid",
+			"value": "${uuid}"
 		}}},
 		{'when': {'platform_is': 'wp'}, 'do': {'find_and_replace': {
 			"in": ('development/wp/Properties/manifest.json',),
@@ -194,7 +203,11 @@ def include_uuid():
 			"key": "CFBundleIdentifier", "value": "${modules.package_names.ios}"
 		}}},
 		{'when': {'platform_is': 'ios'}, 'do': {'find_and_replace': {
-			"in": ( 'development/ios/*/app_config.json',),
+			"in": ( 'development/ios/device-ios.app/assets/app_config.json',),
+			"find": "UUID_HERE", "replace": "${uuid}"
+		}}},
+		{'when': {'platform_is': 'ios'}, 'do': {'find_and_replace': {
+			"in": ( 'development/ios/simulator-ios.app/assets/app_config.json',),
 			"find": "UUID_HERE", "replace": "${uuid}"
 		}}},
 		{'when': {'platform_is': 'ie'}, 'do': {'find_and_replace': {
@@ -266,7 +279,7 @@ def include_version():
 		{'when': {'platform_is': 'android'}, 'do': {'set_attribute_value_xml': {
 			"file": 'development/android/AndroidManifest.xml',
 			"attribute": "android:versionCode",
-			"value": str(int(time()))
+			"value": str(int(timegm(gmtime())))
 		}}},
 		{'when': {'platform_is': 'android'}, 'do': {'set_attribute_value_xml': {
 			"file": 'development/android/AndroidManifest.xml',
@@ -275,7 +288,7 @@ def include_version():
 		}}},
 		{'when': {'platform_is': 'ios'}, 'do': {'set_in_biplist': {
 			"filename": 'development/ios/*/Info.plist',
-			"key": "CFBundleVersion", "value": str(int(time()))
+			"key": "CFBundleVersion", "value": str(int(timegm(gmtime())))
 		}}},
 		{'when': {'platform_is': 'ios'}, 'do': {'set_in_biplist': {
 			"filename": 'development/ios/*/Info.plist',
@@ -286,33 +299,67 @@ def include_version():
 def include_reload():
 	return [
 		{'do': {'populate_trigger_domain': ()}},
-		{'when': {'platform_is': 'android'}, 'do': {'find_and_replace': {
-			"in": ('development/android/res/values/strings.xml',),
+		{'when': {'platform_is': 'android'}, 'do': {'set_in_json': {
+			"filename": "development/android/assets/app_config.json",
+			"key": "config_hash",
+			"value": "${config_hash}"
+		}}},
+		{'when': {'platform_is': 'android'}, 'do': {'set_in_json': {
+			"filename": "development/android/assets/app_config.json",
+			"key": "trigger_domain",
+			"value": "${trigger_domain}"
+		}}},
+		{'when': {'platform_is': 'wp'}, 'do': {'find_and_replace': {
+			"in": ('development/wp/Properties/manifest.json',),
 			"find": "CONFIG_HASH_HERE", "replace": "${config_hash}"
 		}}},
-		{'when': {'platform_is': 'android'}, 'do': {'find_and_replace': {
-			"in": ('development/android/res/values/strings.xml',),
+		{'when': {'platform_is': 'wp'}, 'do': {'find_and_replace': {
+			"in": ('development/wp/Properties/manifest.json',),
 			"find": "TRIGGER_DOMAIN_HERE", "replace": "${trigger_domain}"
 		}}},
 		{'when': {'platform_is': 'wp'}, 'do': {'find_and_replace': {
 			"in": ('development/wp/Properties/manifest.json',),
-			"find": "CONFIG_HASH_HERE", "replace": "${config_hash}"
-		}}},
-		{'when': {'platform_is': 'wp'}, 'do': {'find_and_replace': {
-			"in": ('development/wp/Properties/manifest.json',),
-			"find": "TRIGGER_DOMAIN_HERE", "replace": "${trigger_domain}"
-		}}},
-		{'when': {'platform_is': 'wp'}, 'do': {'find_and_replace': {
-			"in": ('development/wp/Properties/manifest.json',),
-			"find": "VERSION_CODE_HERE", "replace": str(int(time()))
+			"find": "VERSION_CODE_HERE", "replace": str(int(timegm(gmtime())))
 		}}},
 		{'when': {'platform_is': 'ios'}, 'do': {'find_and_replace': {
-			"in": ('development/ios/*/app_config.json',),
+			"in": ('development/ios/device-ios.app/assets/app_config.json',),
 			"find": "CONFIG_HASH_HERE", "replace": "${config_hash}"
 		}}},
 		{'when': {'platform_is': 'ios'}, 'do': {'find_and_replace': {
-			"in": ('development/ios/*/app_config.json',),
+			"in": ('development/ios/simulator-ios.app/assets/app_config.json',),
+			"find": "CONFIG_HASH_HERE", "replace": "${config_hash}"
+		}}},
+		{'when': {'platform_is': 'ios'}, 'do': {'find_and_replace': {
+			"in": ('development/ios/device-ios.app/assets/app_config.json',),
 			"find": "TRIGGER_DOMAIN_HERE", "replace": "${trigger_domain}"
+		}}},
+		{'when': {'platform_is': 'ios'}, 'do': {'find_and_replace': {
+			"in": ('development/ios/simulator-ios.app/assets/app_config.json',),
+			"find": "TRIGGER_DOMAIN_HERE", "replace": "${trigger_domain}"
+		}}},
+	]
+
+def include_trusted_urls(build):
+	if "trusted_urls" in build.config:
+		trusted_urls = build.config["trusted_urls"]
+	else:
+		trusted_urls = []
+
+	return [
+		{'when': {'platform_is': 'android'}, 'do': {'set_in_json': {
+			"filename": "development/android/assets/app_config.json",
+			"key": "trusted_urls",
+			"value": trusted_urls
+		}}},
+		{'when': {'platform_is': 'ios'}, 'do': {'set_in_json': {
+			"filename": "development/ios/device-ios.app/assets/app_config.json",
+			"key": "trusted_urls",
+			"value": trusted_urls
+		}}},
+		{'when': {'platform_is': 'ios'}, 'do': {'set_in_json': {
+			"filename": "development/ios/simulator-ios.app/assets/app_config.json",
+			"key": "trusted_urls",
+			"value": trusted_urls
 		}}},
 	]
 
@@ -322,7 +369,15 @@ def resolve_urls():
 			'modules.activations.[].scripts.[]',
 			'modules.activations.[].styles.[]',
 			'modules.icons.*',
-			'modules.launchimage.*',
+			'modules.launchimage.iphone',
+			'modules.launchimage.iphone-retina',
+			'modules.launchimage.iphone-retina4',
+			'modules.launchimage.ipad',
+			'modules.launchimage.ipad-landscape',
+			'modules.launchimage.ipad-retina',
+			'modules.launchimage.ipad-landscape-retina',
+			'modules.launchimage.android',
+			'modules.launchimage.android-landscape',
 			'modules.button.default_icon',
 			'modules.button.default_popup',
 			'modules.button.default_icons.*'

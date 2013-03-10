@@ -18,6 +18,13 @@
 		}, 
 		"file": true, 
 		"geolocation": true, 
+		"icons": {
+			"android": {
+				"36": "app_icons/icon36.png", 
+				"48": "app_icons/icon48.png", 
+				"72": "app_icons/icon72.png"
+			}
+		}, 
 		"is": true, 
 		"logging": {
 			"level": "DEBUG"
@@ -30,10 +37,9 @@
 				"https://*/*"
 			]
 		}, 
-		"tools": true, 
-		"ui": true
+		"tools": true
 	}, 
 	"name": "FunLife", 
-	"platform_version": "v1.4.9", 
+	"platform_version": "v1.4", 
 	"version": "0.1"
 }

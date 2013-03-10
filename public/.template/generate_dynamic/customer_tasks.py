@@ -18,6 +18,7 @@ import ios_tasks
 import safari_tasks
 import ie_tasks
 import utils
+import hashlib
 
 from xml.etree import ElementTree
 # Any namespaces must be registered or the parser will rename them
@@ -63,7 +64,7 @@ def set_element_value_xml(build, file, value, element=None):
 		el = xml.getroot()
 	else:
 		el = xml.find(element, dict((v,k) for k,v in ElementTree._namespace_map.items()))
-	el.text = utils.render_string(build.config, value)
+	el.text = utils.render_string(build.config, value).decode('utf8', errors='replace')
 	xml.write(file)
 
 @task
@@ -233,7 +234,7 @@ def find_and_replace_in_dir(build, root_dir, find, replace, file_suffixes=("html
 					_replace_in_file(build, path.join(root, file_), find_with_fixed_path, replace_with_fixed_path)
 
 def _replace_in_file(build, filename, find, replace):
-	build.log.debug("replacing {find} with {replace} in {filename}".format(**locals()))
+	build.log.debug(u"replacing {find} with {replace} in {filename}".format(**locals()))
 	
 	tmp_file = uuid.uuid4().hex
 	in_file_contents = read_file_as_str(filename)
@@ -256,8 +257,11 @@ def remove_lines_in_file(build, filename, containing):
 	shutil.move(tmp_file, filename)
 
 @task
-def regex_replace_in_file(build, filename, find, replace):
+def regex_replace_in_file(build, filename, find, replace, template=False):
 	build.log.debug("regex replace in {filename}".format(**locals()))
+	
+	if template:
+		replace = utils.render_string(build.config, replace)
 	
 	tmp_file = uuid.uuid4().hex
 	in_file_contents = read_file_as_str(filename)
@@ -284,8 +288,12 @@ def set_in_biplist(build, filename, key, value):
 		build.log.warning('No files were found to match pattern "%s"' % filename)
 	for found_file in found_files:
 		plist = biplist.readPlist(found_file)
-		plist[key] = value
+		plist = utils.transform(plist, key, lambda _: value, allow_set=True)
 		biplist.writePlist(plist, found_file)
+
+@task
+def set_in_info_plist(build, key, value):
+	set_in_biplist(build, "ios/ForgeTemplate/ForgeTemplate/ForgeTemplate-Info.plist", key, value)
 
 @task
 def set_in_json(build, filename, key, value):
@@ -399,22 +407,24 @@ def run_hook(build, **kw):
 			cwd = os.getcwd()
 			os.chdir(kw['dir'])
 			
+			target = iter(build.enabled_platforms).next()
+			
 			# Get the extension
 			ext = os.path.splitext(file)[-1][1:]
-			
+
 			proc = None
 			if ext == "py":
 				build.log.info('Running (Python) hook: '+file)
-				proc = lib.PopenWithoutNewConsole(["python", os.path.join(cwd, 'hooks', kw['hook'], file)])
+				proc = lib.PopenWithoutNewConsole(["python", os.path.join(cwd, 'hooks', kw['hook'], file), target])
 			elif ext == "js":
 				build.log.info('Running (node) hook: '+file)
-				proc = lib.PopenWithoutNewConsole(["node", os.path.join(cwd, 'hooks', kw['hook'], file)])
+				proc = lib.PopenWithoutNewConsole(["node", os.path.join(cwd, 'hooks', kw['hook'], file), target])
 			elif ext == "bat" and sys.platform.startswith('win'):
 				build.log.info('Running (Windows Batch file) hook: '+file)
-				proc = lib.PopenWithoutNewConsole([os.path.join(cwd, 'hooks', kw['hook'], file)])
+				proc = lib.PopenWithoutNewConsole([os.path.join(cwd, 'hooks', kw['hook'], file), target])
 			elif ext == "sh" and not sys.platform.startswith('win'):
 				build.log.info('Running (shell) hook: '+file)
-				proc = lib.PopenWithoutNewConsole([os.path.join(cwd, 'hooks', kw['hook'], file)])
+				proc = lib.PopenWithoutNewConsole([os.path.join(cwd, 'hooks', kw['hook'], file), target])
 			
 			if proc != None:
 				proc.wait()
@@ -451,3 +461,31 @@ def populate_trigger_domain(build):
 	from forge import build_config
 	config = build_config.load()
 	build.config['trigger_domain'] = config['main']['server'][:-5]
+
+@task
+def make_dir(build, dir):
+	os.makedirs(dir)
+
+@task
+def generate_sha1_manifest(build, input_folder, output_file):
+	with open(output_file, 'w') as out:
+		manifest = dict()
+		for root, dirs, files in os.walk(input_folder):
+			for filename in files:
+				filename = os.path.join(root, filename)
+				with open(filename, 'rb') as file:
+					hash = hashlib.sha1(file.read()).hexdigest()
+					manifest[hash]  = filename[len(input_folder)+1:].replace('\\','/')
+		json.dump(manifest, out)
+
+@task
+def check_index_html(build, src='src'):
+	index_path = os.path.join(src, 'index.html')
+	if not os.path.isfile(index_path):
+		raise Exception("Missing index.html in source directory, index.html is required by Forge.")
+
+	with open(index_path) as index_file:
+		index_html = index_file.read()
+
+		if index_html.find("<head>") == -1:
+			raise Exception("index.html does not contain '<head>', this is required to add the Forge javascript library.")

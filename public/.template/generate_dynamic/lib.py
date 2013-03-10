@@ -407,7 +407,7 @@ You can modify the Local config for your app to resolve this problem.
 	if more_info:
 		exc_message += """
 More information is available at:
-{more_info}
+[{more_info}]
 """.format(more_info=more_info)
 
 	raise BASE_EXCEPTION(exc_message)

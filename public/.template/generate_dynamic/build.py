@@ -326,6 +326,10 @@ class Build(object):
 		self.log.debug('{0} script:\n{1}'.format(self, pformat(self.script)))
 		
 		for command in self.script:
+			if command.get('debug'):
+				import pdb
+				pdb.set_trace()
+				continue
 			if "do" in command:
 				for task_str in command['do']:
 					task_method = self.tasks[task_str]
@@ -333,6 +337,10 @@ class Build(object):
 					self._call_with_params(task_method, task_args)
 						
 		self.log.debug('{0} has finished'.format(self))
+	
+	def run_task(self, task, args):
+		task_method = self.tasks[task]
+		self._call_with_params(task_method, args)
 	
 	def __repr__(self):
 		return '<ForgeTask ({0})>'.format(", ".join(self.enabled_platforms))

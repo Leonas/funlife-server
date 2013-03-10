@@ -33,7 +33,7 @@ class ShellError(lib.BASE_EXCEPTION):
 # TODO XPath or similar?
 #
 # # # # # # # # # # # # # # # # # # # 
-def transform(data, node_steps, fn):
+def transform(data, node_steps, fn, allow_set=False):
 	'''Mutate an arbitrary nested dictionary/array combination with the given function.
 	
 	``node_steps`` is dot-separated instructions on how to arrive at the data node
@@ -45,12 +45,14 @@ def transform(data, node_steps, fn):
 
 	:param data: a nested dictionary / array combination
 	:type data: ``dict``
-	:param node_steps: dot-separated data path, e.g. my_dict.[].*.target_key
+	:param node_steps: dot-separated data path, e.g. my_dict.my_array.[].*.target_key
 	:param fn: mutating function - will be passed the data found at the end
 		``node_steps``, and should return the desired new value
+	:param allow_set: if True the mutating function will be called with None for none
+		existing keys - i.e. you can set new keys
 	'''
 	obj = data.copy()
-	list(_handle_all(obj, node_steps.split('.'), fn))
+	list(_handle_all(obj, node_steps.split('.'), fn, allow_set))
 	return obj
 
 def _yield_plain(obj, name):
@@ -86,10 +88,10 @@ def recurse_dict(dictionary, fn):
 		else:
 			dictionary[key] = fn(value)
 
-def _handle_all(obj, steps, fn):
+def _handle_all(obj, steps, fn, allow_set):
 	if len(steps) > 1:
 		for value in _yield_any(obj, steps[0]):
-			for x in _handle_all(value, steps[1:], fn):
+			for x in _handle_all(value, steps[1:], fn, allow_set):
 				yield x
 	else:
 		step = steps[0]
@@ -103,6 +105,8 @@ def _handle_all(obj, steps, fn):
 		else:
 			if hasattr(obj, '__contains__') and step in obj:
 				obj[step] = fn(obj[step])
+			elif allow_set:
+				obj[step] = fn(None)
 	
 # # # # # # # # # # # # # # # # # # # 
 #
@@ -121,7 +125,7 @@ def render_string(config, in_s):
 	# older versions of python don't allow unicode keyword arguments
 	# so we have to encode the keys (for best compatibility in the client side tools)
 	config = _encode_unicode_keys(config)
-	return tmpl.generate(**config).render('text')
+	return tmpl.generate(**config).render('text').decode('utf8')
 
 def _encode_unicode_keys(dictionary):
 	'''Returns a new dictionary constructed from the given one, but with the keys encoded as strings.
@@ -300,7 +304,9 @@ def run_shell(*args, **kw):
 			state.proc = lib.PopenWithoutNewConsole(args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=kw.get('env'), preexec_fn=preexec_fn)
 
 			for line in iter(state.proc.stdout.readline, ''):
-				if not filter or filter(line):
+				if filter:
+					line = filter(line)
+				if line != False:
 					state.output.write(line)
 					LOG.log(command_log_level, line.rstrip('\r\n'))
 
@@ -323,7 +329,7 @@ def run_shell(*args, **kw):
 		finally:
 			# if interrupted, kill child process
 			if state.proc and not state.done:
-				lib.progressive_kill(state.proc.pid, kill_process_group=True)
+				lib.progressive_kill(state.proc.pid, kill_process_group=create_process_group)
 
 	else:
 		runner()
@@ -400,3 +406,31 @@ def ensure_lib_available(build, file):
 	os.chmod(file_path, stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IWGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
 	
 	return file_path
+
+def which(program):
+	"http://stackoverflow.com/questions/377017/test-if-executable-exists-in-python"
+	def is_exe(fpath):
+		return os.path.isfile(fpath) and os.access(fpath, os.X_OK)
+
+	if sys.platform.startswith("win"):
+		programs = [".".join((program, extension)) for extension in ("cmd", "exe", "bat")]
+		programs.insert(0, program)
+	else:
+		programs = [program]
+
+	for program_name in programs:
+		fpath, fname = os.path.split(program_name)
+		if fpath:
+			if is_exe(program_name):
+				LOG.debug("using {name} for {program}".format(
+					name=program_name, program=program))
+				return program_name
+		else:
+			for path in os.environ["PATH"].split(os.pathsep):
+				exe_file = os.path.join(path, program_name)
+				if is_exe(exe_file):
+					LOG.debug("using {name} for {program}".format(
+						name=exe_file, program=program))
+					return exe_file
+
+	return None

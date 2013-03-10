@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::API
   include ActionController::MimeResponds
-  before_filter :cors_preflight_check
+  before_filter :cors_preflight_check, :myfix
   after_filter :cors_set_access_control_headers
   private
 
@@ -16,15 +16,20 @@ class ApplicationController < ActionController::API
     end
   end
 
-
+ def myfix
+   response.env['Access-Control-Allow-Origin'] = '*'
+   request.env['Access-Control-Allow-Methods'] = 'POST, GET, OPTIONS'
+   request.env['Access-Control-Max-Age'] = "1728000"
+ end
 
 
 # For all responses in this controller, return the CORS access control headers.
 
   def cors_set_access_control_headers
+
     headers['Access-Control-Allow-Origin'] = '*'
     headers['Access-Control-Allow-Methods'] = 'POST, GET, OPTIONS'
-    headers['Access-Control-Max-Age'] = "1728000"
+    headers['Access-Control-Max-Age'] = "1728001"
   end
 
 # If this is a preflight OPTIONS request, then short-circuit the
@@ -32,12 +37,12 @@ class ApplicationController < ActionController::API
 # text/plain.
 
   def cors_preflight_check
-    if request.method == :OPTIONS
+    if request.method == 'OPTIONS' || request.request_method
       headers['Access-Control-Allow-Origin'] = '*'
-      headers['Access-Control-Allow-Methods'] = 'POST, GET, OPTIONS'
-      headers['Access-Control-Allow-Headers'] = 'X-Requested-With, X-Prototype-Version'
-      headers['Access-Control-Max-Age'] = '1728000'
-      render :text => '', :content_type => 'text/plain'
+      headers['Access-Control-Allow-Methods'] = '*'
+      headers['Access-Control-Allow-Headers'] = '*'
+      headers['Access-Control-Max-Age'] = '1728002'
+      head(:ok)
     end
   end
 

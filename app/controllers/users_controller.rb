@@ -2,6 +2,10 @@ class UsersController < ApplicationController
 
   before_filter :authorize, only: [:index]
 
+  def options
+    cors_preflight_check
+  end
+
   def index
     @users = User.all
     @users_list = []

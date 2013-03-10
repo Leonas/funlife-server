@@ -1,31 +1,42 @@
 == FunLife
 
-Both the javascript app and the rails app are included here.
+Both the backend and the app are in this repo
 
-The javascript app is everything under /public/
+JS files for the app are under /public/src/
 
-==Code writing procedure
+The other files in /public/ are Trigger.io files
 
-What do I want my addition to do?
+==Development Cycle
 
-0) Write it out in english
 
-0) Figure out the data structure
 
-1) Write out the specs for the model
+Step 1 - Look at the app visual design - choose a page you would like to implement.
 
-1) Write out the specs for sending posting and getting via json
+Step 2 - Write out an API that would make sense in the FunLife API Documentation.
+https://docs.google.com/document/d/14Dn5yiOprsKZSSawXaAdoC0ZDoyW6_NCEb6Bqr4GGH0/edit
 
-2) Write the model & controller
+Step 3 - Write controller specs for every feature of the newly written API. Simulate common user behavior.  All new tests should fail.
 
-3) Make sure specs pass
+Step 4 - Push to github "[pagename] controller specs done"
 
-4) Write out the javascript ajax specs & ajax function -> they should all be passing
+Step 5 - Write the ruby code to make all tests pass.
 
-5) Write out the feature specs -> they should be failing
+Step 6 - Push to github "[pagename] controller done"
 
-6) Write out the actual javascript code
+Step 7 - Create a doT template that has all of the features of the image with very basic css design.
 
-7) feature specs should pass
+Step 8 - Create a model if necessary. Create a controller or add the new view and route to an existing controller.
 
-8) refactor
+Step 9 - Write capybara (feature) tests that make sure this area of the app can be accessed. All tests should be passing.
+
+Step 10 - Push to github "[pagename] has working js routes"
+
+Step 11 - Write feature tests that match the json tests but use the javascript UI. These tests should be failing.
+
+Step 12 - Push to github "[pagename] feature specs done"
+
+Step 13 - Implement the javascript code to make all tests pass.
+
+Step 14 - Push to github "[pagename] feature specs work"
+
+Step 15 - Review the code, refactor, and push to github

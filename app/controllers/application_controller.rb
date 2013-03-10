@@ -26,10 +26,9 @@ class ApplicationController < ActionController::API
     headers["Access-Control-Max-Age"] = '1728000'
   end
   #
-  #def options
-  #  allow_cross_domain
-  #  render :text => "", :layout => false
-  #end
+  def options
+    cors_preflight_check
+  end
 
 # For all responses in this controller, return the CORS access control headers.
 #

@@ -14,7 +14,9 @@ Funlife::Application.routes.draw do
       post   'register2'
     end
   end
-  match '*options', controller: 'users', action: "options", constraints: { method: "OPTIONS" }
+  match '*options', controller: 'users', action: 'options', constraints: { method: 'OPTIONS' }
+  match '/users', :controller => 'users', :action => 'options', :constraints => {:method => 'OPTIONS'}
+
   #post 'login', to: 'token_authentications#create'
   #post 'authenticate_token', to: 'token_authentications#startup_login_check'
   #post 'register', to: 'users#complete_registration'

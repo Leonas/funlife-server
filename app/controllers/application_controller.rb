@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::API
   include ActionController::MimeResponds
-  #before_filter :cors_preflight_check
+  before_filter :cors_preflight_check
   #after_filter :cors_set_access_control_headers
   after_filter :allow_cross_domain
   private
@@ -25,11 +25,11 @@ class ApplicationController < ActionController::API
     headers['Access-Control-Allow-Headers'] = '*,x-requested-with,Content-Type'
     headers["Access-Control-Max-Age"] = '1728000'
   end
-
-  def options
-    allow_cross_domain
-    render :text => "", :layout => false
-  end
+  #
+  #def options
+  #  allow_cross_domain
+  #  render :text => "", :layout => false
+  #end
 
 # For all responses in this controller, return the CORS access control headers.
 #
@@ -43,15 +43,16 @@ class ApplicationController < ActionController::API
 ## If this is a preflight OPTIONS request, then short-circuit the
 ## request, return only the necessary headers and return an empty
 ## text/plain.
-#
-#  def cors_preflight_check
-#    if request.method == 'OPTIONS' || request.request_method == 'OPTIONS'
-#      headers['Access-Control-Allow-Origin'] = '*'
-#      headers['Access-Control-Allow-Methods'] = 'POST, GET, PUT, DELETE, OPTIONS'
-#      headers['Access-Control-Allow-Headers'] = '*'
-#      #head(:ok)
-#      render :text => '', :content_type => 'text/plain'
-#    end
-#  end
+
+  def cors_preflight_check
+    if request.method == 'OPTIONS' || request.request_method == 'OPTIONS'
+      headers['Access-Control-Allow-Origin'] = '*'
+      headers['Access-Control-Allow-Methods'] = 'POST, GET, PUT, DELETE, OPTIONS'
+      headers['Access-Control-Allow-Headers'] = '*'
+      headers["Access-Control-Max-Age"] = '1728000'
+      #head(:ok)
+      render :text => '', :content_type => 'text/plain'
+    end
+  end
 
 end

@@ -29,7 +29,7 @@ class ApplicationController < ActionController::API
 
     headers['Access-Control-Allow-Origin'] = '*'
     headers['Access-Control-Allow-Methods'] = 'POST, GET, OPTIONS'
-    headers['Access-Control-Max-Age'] = "1728001"
+    headers['Access-Control-Max-Age'] = "1728000"
   end
 
 # If this is a preflight OPTIONS request, then short-circuit the
@@ -37,12 +37,13 @@ class ApplicationController < ActionController::API
 # text/plain.
 
   def cors_preflight_check
-    if request.method == 'OPTIONS' || request.request_method
+    if request.method == 'OPTIONS' || request.request_method == 'OPTIONS'
       headers['Access-Control-Allow-Origin'] = '*'
-      headers['Access-Control-Allow-Methods'] = '*'
+      headers['Access-Control-Allow-Methods'] = 'POST, GET, PUT, DELETE, OPTIONS'
       headers['Access-Control-Allow-Headers'] = '*'
-      headers['Access-Control-Max-Age'] = '1728002'
+      headers['Access-Control-Max-Age'] = '1728000'
       #head(:ok)
+      render :text => '', :content_type => 'text/plain'
     end
   end
 

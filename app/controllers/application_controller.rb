@@ -42,7 +42,7 @@ class ApplicationController < ActionController::API
       headers['Access-Control-Allow-Methods'] = '*'
       headers['Access-Control-Allow-Headers'] = '*'
       headers['Access-Control-Max-Age'] = '1728002'
-      head(:ok)
+      #head(:ok)
     end
   end
 

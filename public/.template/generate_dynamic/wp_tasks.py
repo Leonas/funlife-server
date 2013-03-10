@@ -103,14 +103,13 @@ def _create_xap_from_app(build, path_to_wp_build, target, relative_path_to_marke
         LOG.info('Starting package process for Windows Phone')
         
         manifest = [
-		'Properties/',
                 'Properties/WMAppManifest.xml',
-                'build/Release/AppManifest.xaml',  
+                'Properties/manifest.json',
+                'build/Release/AppManifest.xaml',
                 'build/Release/Forge.dll',
-		'lib/Silverlight_ZXing_Core.dll',
+				'lib/Silverlight_ZXing_Core.dll',
                 'lib/Newtonsoft.Json.dll',
-                'lib/Newtonsoft.Json.xml', 
-                'Icons/',  # TODO lose?
+                'Icons/',
                 'assets/',
                 'dist/',
         ]

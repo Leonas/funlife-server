@@ -16,7 +16,7 @@ import zipfile
 
 import lib
 from lib import temp_file, task, ProgressBar
-from utils import run_shell, ShellError, ensure_lib_available
+from utils import run_shell, ShellError
 
 LOG = logging.getLogger(__name__)
 
@@ -414,7 +414,7 @@ def _launch_avd(path_info):
 	time.sleep(1)
 	_run_adb([path_info.adb, "shell", "pm", "path", "android"], 120, path_info)
 
-def _create_apk_with_aapt(build, out_apk_name, path_info, package_name, lib_path, dev_dir):
+def _create_apk_with_aapt(out_apk_name, path_info, package_name, lib_path, dev_dir):
 	LOG.info('Creating APK with aapt')
 
 	run_shell(path_info.aapt,
@@ -422,7 +422,7 @@ def _create_apk_with_aapt(build, out_apk_name, path_info, package_name, lib_path
 		'-F', out_apk_name, # output name
 		'-S', path.join(dev_dir, 'res'), # uncompressed resources folder
 		'-M', path.join(dev_dir, 'AndroidManifest.xml'), # uncompressed xml manifest
-		'-I', ensure_lib_available(build, 'android-platform.apk'), # Android platform to "compile" resources against
+		'-I', path.join(lib_path, 'android-platform.apk'), # Android platform to "compile" resources against
 		'-A', path.join(dev_dir, 'assets'), # Assets folder to include
 		'-0', '', # Don't compress any assets - Important for content provider access to assets
 		'--rename-manifest-package', package_name, # Package name
@@ -606,7 +606,7 @@ def create_apk(build, sdk, output_filename, interactive=True):
 
 	with temp_file() as zipf_name:
 		# Compile XML files into APK
-		_create_apk_with_aapt(build, zipf_name, path_info, package_name, lib_path, dev_dir)
+		_create_apk_with_aapt(zipf_name, path_info, package_name, lib_path, dev_dir)
 		
 		with temp_file() as signed_zipf_name:
 			# Sign APK
@@ -687,7 +687,7 @@ def run_android(build, build_type_dir, sdk, device, interactive=True,
 	LOG.debug(proc_std)
 
 	# Start app on device
-	proc_std = _run_adb([path_info.adb, '-s', chosen_device, 'shell', 'am', 'start', '-n', package_name+'/io.trigger.forge.android.core.ForgeActivity'], 60, path_info)
+	proc_std = _run_adb([path_info.adb, '-s', chosen_device, 'shell', 'am', 'start', '-n', package_name+'/io.trigger.forge.android.core.LoadActivity'], 60, path_info)
 	LOG.debug(proc_std)
 	
 	#follow log
@@ -782,7 +782,7 @@ def package_android(build):
 	package_name = _generate_package_name(build)
 	#zip
 	with temp_file() as zipf_name:
-		_create_apk_with_aapt(build, zipf_name, path_info, package_name, lib_path, dev_dir)
+		_create_apk_with_aapt(zipf_name, path_info, package_name, lib_path, dev_dir)
 
 		with temp_file() as signed_zipf_name:
 			#sign

@@ -91,18 +91,9 @@ def customer_phase(build):
 			'to': icon("wp", "SplashScreenImage.jpg")
 		}}},
 		
-		{'when': {'platform_is': 'ios', 'config_property_true': 'modules.icons.ios.prerendered'}, 'do': {
-			'set_in_biplist': {
-				"filename": 'development/ios/*/Info.plist',
-				"key": "UIPrerenderedIcon",
-				"value": True
-			},
-		}},
-		{'when': {'platform_is': 'ios', 'config_property_true': 'modules.icons.ios.prerendered'}, 'do': {
-			'set_in_biplist': {
-				"filename": 'development/ios/*/Info.plist',
-				"key": "CFBundleIcons.CFBundlePrimaryIcon.UIPrerenderedIcon",
-				"value": True
-			},
-		}},
+		{'when': {'platform_is': 'ios', 'config_property_true': 'modules.icons.ios.prerendered'}, 'do': {'set_in_biplist': {
+			"filename": 'development/ios/*/Info.plist',
+			"key": "UIPrerenderedIcon",
+			"value": True
+		}}},
 	]

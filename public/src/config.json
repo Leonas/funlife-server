@@ -27,15 +27,13 @@
 		"request": {
 			"permissions": [
 				"http://*/*", 
-				"https://*/*", 
-				"http://vast-crag-6780.herokuapp.com/*", 
-				"content://*/*"
+				"https://*/*"
 			]
 		}, 
 		"tools": true, 
 		"ui": true
 	}, 
 	"name": "FunLife", 
-	"platform_version": "v1.4", 
+	"platform_version": "v1.4.9", 
 	"version": "0.1"
 }

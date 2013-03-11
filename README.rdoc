@@ -16,6 +16,7 @@ Step 2 - Write out an API that would make sense in the FunLife API Documentation
 https://docs.google.com/document/d/14Dn5yiOprsKZSSawXaAdoC0ZDoyW6_NCEb6Bqr4GGH0/edit
 
 Step 3 - Write controller specs for every feature of the newly written API. Simulate common user behavior.  All new tests should fail.
+         Run 'bundle exec guard' to get auto reloading tests
 
 Step 4 - Push to github "[pagename] controller specs done"
 

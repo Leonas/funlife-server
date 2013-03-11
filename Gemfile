@@ -8,7 +8,8 @@ gem 'bcrypt-ruby', '~> 3.0.0'  # Adds has_secure_password
 
 group :production do
   gem 'pg'
-  gem 'puma'
+ # gem 'puma'
+  gem 'thin'
   gem 'newrelic_rpm'
 end
 

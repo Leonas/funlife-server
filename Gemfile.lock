@@ -96,6 +96,7 @@ GEM
       metaclass (~> 0.0.1)
     multi_json (1.6.1)
     multi_xml (0.5.3)
+    newrelic_rpm (3.5.8.72)
     nokogiri (1.5.6)
     pg (0.14.1)
     poltergeist (1.1.0)
@@ -206,6 +207,7 @@ DEPENDENCIES
   guard-spork
   httparty
   json (>= 1.7.7)
+  newrelic_rpm
   pg
   poltergeist
   puma

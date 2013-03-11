@@ -49,3 +49,9 @@ todo
 == Testing with PhoneGap
 
 todo
+
+==Debugging Techniques
+
+add in 'binding.pry' to any place in the code, so that when run, Pry lets you inspect all variables and objects
+
+use Postman, a chrome addon, to test the API responses

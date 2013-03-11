@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'spork'
 
-@site_root = 'http://localhost:8200'
+@site_root = 'http://localhost:8200/src/'
 
 #require 'spork/ext/ruby-debug'
 

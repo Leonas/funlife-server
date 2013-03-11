@@ -6,11 +6,12 @@ gem 'rails', '~> 3.2.11'
 gem 'json', '>= 1.7.7'
 gem 'bcrypt-ruby', '~> 3.0.0'  # Adds has_secure_password
 
+gem 'newrelic_rpm'
+
 group :production do
   gem 'pg'
   gem 'puma'
  # gem 'thin'           #crashes for some reason
-  gem 'newrelic_rpm'
 end
 
 

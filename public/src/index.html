@@ -6,13 +6,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <META CONTENT="no-cache">
-        <script src="http://debug.phonegap.com/target/target-script-min.js#a6af72d0-3ce1-11e2-979d-12313d1744da"></script>
+        <!--removed script because its super slow-->
+        <!--<script src="http://debug.phonegap.com/target/target-script-min.js#a6af72d0-3ce1-11e2-979d-12313d1744da"></script>-->
         <script>
-                //if running chrome, act normal
-                if( typeof forge === "undefined"){
-                    server = 'http://vast-crag-6780.herokuapp.com';   //change back to localhost:3000
+
+                if( typeof forge === 'undefined' || typeof device.cordova === 'undefined'){
+                    //if not running on a mobile device
+                    server = 'http://'+document.location.host;
                 } else {
-                    //Enable the Trigger.io specific settings
+                    //use the remote server for all connections
                     server = 'http://vast-crag-6780.herokuapp.com';
                     //forge.enableDebug();               //broken -> the catalyst script file breaks everything
 

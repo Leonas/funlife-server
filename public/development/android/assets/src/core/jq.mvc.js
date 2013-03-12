@@ -1,7 +1,7 @@
 /*global alert: false, confirm: false, console: false */
                                                                     //self executing function, jq gets passed
 (function ($) {                                                     // $ is also set to jq now
-    "use strict";
+   // "use strict";
 
                                                                   //lets set the baseUrl to http: // root of host
 	var baseUrl = document.location.protocol + "//" + document.location.host,

@@ -1,7 +1,7 @@
 //controllers.js
 
 (function ($) {
-    "use strict";
+    //"use strict";
     var viewsCache = [], modelsCache = [], readyFuncs = {}, viewsTotal = {}, modelsTotal = {},
         viewsLoaded = {}, modelsLoaded = {}, controllerReady = {};
 

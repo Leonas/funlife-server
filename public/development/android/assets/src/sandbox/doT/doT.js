@@ -3,7 +3,6 @@
 // Licensed under the MIT license.
 
 (function() {
-	"use strict";
 
 	var doT = {
 		version: '1.0.0',

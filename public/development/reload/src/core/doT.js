@@ -7,7 +7,7 @@
 // Modified by Ian Maffett to add support for $().tmpl and $().template()
 //
 (function ($) {
-    "use strict";
+    //"use strict";
 
     var doT = {
         version: '0.2.0',

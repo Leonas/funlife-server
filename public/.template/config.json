@@ -5,11 +5,6 @@
 	"modules": {
 		"contact": true, 
 		"display": {
-			"fullscreen": {
-				"android": true, 
-				"ios": true, 
-				"wp": true
-			}, 
 			"orientations": {
 				"android": "portrait", 
 				"ipad": "portrait", 
@@ -26,6 +21,10 @@
 			}
 		}, 
 		"is": true, 
+		"launchimage": {
+			"android": "startup_images/720x1280.png", 
+			"android-landscape": "startup_images/640x1136.png"
+		}, 
 		"logging": {
 			"level": "DEBUG"
 		}, 
@@ -36,8 +35,7 @@
 				"http://*/*", 
 				"https://*/*"
 			]
-		}, 
-		"tools": true
+		}
 	}, 
 	"name": "FunLife", 
 	"platform_version": "v1.4", 

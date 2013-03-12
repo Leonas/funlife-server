@@ -1,7 +1,7 @@
 //models.js
 
 (function ($) {
-    "use strict";
+    //"use strict";
 
 //    var storageAdapters = {};                                           //Each model can have it's own connector
 

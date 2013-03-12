@@ -1,7 +1,6 @@
 //models.js
 
 (function ($) {
-    "use strict";
 
 
     $.mvc.model = function (name, options) {

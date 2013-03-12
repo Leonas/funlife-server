@@ -28,7 +28,7 @@ $.mvc.controller.create("users_controller", {
       $.ui.addContentDiv("user_login_view", $.template('views/users/user_login_view.js'), "Login or Register");
     }
 
-    $.ui.loadContent("user_login_view", false, false, "pop"); //Show the user_login_view
+    $.ui.loadContent("user_login_view", false, false, "fade"); //Show the user_login_view
 
 
     if (action == "login") {                                 //If login clicked, we post to get token

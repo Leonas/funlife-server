@@ -1,4 +1,11 @@
-== FunLife
+## FunLife
+
+Take a look at our wiki:   
+There are no changes?
+
+
+
+## Folder Structure
 
 Both the backend and the app are in this repo
 
@@ -6,14 +13,19 @@ JS files for the app are under /public/src/
 
 The other files in /public/ are Trigger.io files
 
-==Development Cycle
+## Engineering Objective
+
+Our goal is to be as efficient as possible in creating FunLife.  
+No branches - all commits must be merged to master.  
+If you have any ideas how to make this process faster, please do a pull request.
+No other pages require pull requests.
 
 
+## Development Cycle
 
 Step 1 - Look at the app visual design - choose a page you would like to implement.
 
-Step 2 - Write out an API that would make sense in the FunLife API Documentation.
-https://docs.google.com/document/d/14Dn5yiOprsKZSSawXaAdoC0ZDoyW6_NCEb6Bqr4GGH0/edit
+Step 2 - Write out an API that would make sense in the [FunLife API Wiki](https://github.com/Leonas/funlife/wiki/API).
 
 Step 3 - Write controller specs for every feature of the newly written API. Simulate common user behavior.  All new tests should fail.
          Run 'bundle exec guard' to get auto reloading tests
@@ -42,16 +54,3 @@ Step 14 - Push to github "[pagename] feature specs work"
 
 Step 15 - Review the code, refactor, and push to github
 
-== Testing with Trigger.io
-
-todo
-
-== Testing with PhoneGap
-
-todo
-
-==Debugging Techniques
-
-add in 'binding.pry' to any place in the code, so that when run, Pry lets you inspect all variables and objects
-
-use Postman, a chrome addon, to test the API responses

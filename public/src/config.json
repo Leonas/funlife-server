@@ -22,8 +22,8 @@
 		}, 
 		"is": true, 
 		"launchimage": {
-			"android": "startup_images/720x1280.png", 
-			"android-landscape": "startup_images/640x1136.png"
+			"android": "startup_images/note2.png", 
+			"android-landscape": "startup_images/note2.png"
 		}, 
 		"logging": {
 			"level": "DEBUG"

@@ -83,7 +83,8 @@ $.mvc.controller.create("users_controller", {
         if ($("#users_list_view").length == 0) {                           //If view doesn't exist, make one
           $.ui.addContentDiv("users_list_view",
               $.template('views/users/users_list_view.js', data), "Users List View");
-        } else {                                                          //otherwise, update the content inside
+        }
+        else {                                                          //otherwise, update the content inside
           $.ui.updateContentDiv("users_list_view", $.template('views/users/users_list_view.js', data));
         }
         $.ui.loadContent("users_list_view", false, false, "pop");            //show the user_list view

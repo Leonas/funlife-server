@@ -371,7 +371,7 @@ See "Preparing your apps for app stores" in our docs: [http://current-docs.trigg
 			with codecs.open(tmp_file, 'w', encoding='utf8') as out_file:
 				out_file.write(in_file_contents)
 			os.remove(filename)
-			os.rename(tmp_file, filename)
+			shutil.move(tmp_file, filename)
 	
 		bundle_id = self._extract_app_id()
 		shutil.copy2(path.join(self._lib_path(), 'template.entitlements'), temp_file_path)

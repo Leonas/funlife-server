@@ -1,5 +1,5 @@
 {
-  "config_hash": "5530c372a8cfe08d6a98d57cc8fa7154029fd99b", 
+  "config_hash": "02c681b747e7e10a6b8bae88983d8ea27ca55bee", 
   "disable_ics_acceleration": false, 
   "facebook_appid": "", 
   "modules": [
@@ -15,8 +15,8 @@
     "request"
   ], 
   "payments_publicKey": "PAYMENTS_PUBLIC_KEY_HERE", 
-  "splashimage": "src/startup_images/720x1280.png", 
-  "splashimage_landscape": "src/startup_images/640x1136.png", 
+  "splashimage": "src/startup_images/note2.png", 
+  "splashimage_landscape": "src/startup_images/note2.png", 
   "trigger_domain": "https://trigger.io", 
   "trusted_urls": [], 
   "uuid": "4abe320688ac11e2abaa12313d00dc45"

@@ -1,0 +1,25 @@
+#wrong_password {
+    display: none;
+}
+
+#email_exists {
+    display: none;
+}
+
+.width20 {
+  position: relative;
+  display: inline-block;
+  width: 20%;
+  margin: 0.2rem;
+}
+
+.width100 {
+  width: 100%;
+}
+
+.activityBigIcon {
+ display: block;
+ width: 2rem;
+ height: 2rem;
+}
+*{-webkit-tap-highlight-color: rgba(0, 0, 0, 0);}

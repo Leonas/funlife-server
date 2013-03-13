@@ -1,4 +1,4 @@
-<div class="panel">
+<div>
   <div class="row-fluid text-center">
     <br><br>
     <h1>FunLife</h1>

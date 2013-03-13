@@ -60,8 +60,9 @@
                     $.mvc.route("/users_controller/users_list");
                 } else {
                     console.log("token not found on localstorage. displaying login");
-
-                    $.mvc.route("/users_controller/user_login");
+                    //$.mvc.route("/users_controller/user_login");
+                    $.ui.addContentDiv("user_login_view", $.template('views/users/user_login_view.js'), "Login or Register");
+                    $.ui.loadContent("user_login_view", false, false, "fade"); //Show the user_login_view
                 }
             });
         </script>
@@ -111,9 +112,6 @@
                     </ul>
                 </div>
             </div>
-            <footer id="no_footer">
-                bob
-            </footer>
 
             <nav id="main_nav">
                 <div class='title'>Home</div>

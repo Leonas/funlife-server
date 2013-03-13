@@ -6,7 +6,7 @@ User = new $.mvc.model.Extend("user", {                                 //Instan
 
 
   authenticate_token: function () {                 //check if the token is valid
-
+  //this is a bad function. if the person has no signal and this fails, he gets redirected to login
     var data = {
       name: current_user.name,
       email: current_user.email,
@@ -117,8 +117,8 @@ User = new $.mvc.model.Extend("user", {                                 //Instan
 
 
   logout: function () {
-    console.log("Logging out. Destroying localStorage currentUser");
-    window.localStorage.removeItem("current_user");
+    console.log("Logging out. Clearing localstorage");
+    window.localStorage.clear();
   }
 });
 

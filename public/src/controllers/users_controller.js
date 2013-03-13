@@ -25,11 +25,13 @@ $.mvc.controller.create("users_controller", {
 
     if (action == "login") {                                 //If login clicked, we post to get token
       current_user.authenticate_login(form_data);
+      current_user.save();
     }
     else if (action == "register") {
       current_user.register1(form_data);
+      current_user.save();
     }
-    current_user.save();
+
 
   },
   logout: function () {

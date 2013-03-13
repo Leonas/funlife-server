@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div>
   <div class="row-fluid text-center">
     <br><br>
     <h1>FunLife</h1>

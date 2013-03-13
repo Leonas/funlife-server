@@ -1,4 +1,4 @@
-<div class="panel">
+<div>
 <h3> Users Nearby </h3>
 <a class="btn btn-small"  href="/users_controller/logout">Logout</a>
 <br><br>

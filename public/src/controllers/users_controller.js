@@ -14,12 +14,12 @@ $.mvc.controller.create("users_controller", {
   },
 
   user_login: function (action) {
+
     var form_data = $('#login_form').serialize();
 
     if ($("#user_login_view").length == 0) {                 //If the user_login_view div doesn't exist, make it!
       $.ui.addContentDiv("user_login_view", $.template('views/users/user_login_view.js'), "Login or Register");
     }
-
     $.ui.loadContent("user_login_view", false, false, "fade"); //Show the user_login_view
 
 
@@ -33,7 +33,7 @@ $.mvc.controller.create("users_controller", {
 
   },
   logout: function () {
-    console.log('im here');
+    console.log('logging out');
 
     if ($("#user_login_view").length == 0) {                 //If the user_login_view div doesn't exist, make it!
       $.ui.addContentDiv("user_login_view", $.template('views/users/user_login_view.js'), "Login or Register");

@@ -117,8 +117,8 @@ User = new $.mvc.model.Extend("user", {                                 //Instan
 
 
   logout: function () {
-    console.log("Logging out. Destroying localStorage currentUser");
-    window.localStorage.removeItem("current_user");
+    console.log("Logging out. Clearing localstorage");
+    window.localStorage.clear();
   }
 });
 

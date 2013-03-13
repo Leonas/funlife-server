@@ -10,15 +10,7 @@ $.mvc.controller.create("users_controller", {
   },
 
   default: function () {
-    current_user.get_from_local();                           //Load current user to memory from localstorage
 
-
-    if (current_user.token.length > 5) {                       //if the current user's token exists, try to auth
-      current_user.authenticate_token();
-    } else {
-      console.log("token not found on localstorage. displaying login");
-      $.mvc.route("/users_controller/user_login");
-    }
   },
 
   user_login: function (action) {
@@ -52,7 +44,7 @@ $.mvc.controller.create("users_controller", {
     }
 
     current_user.logout();
-    $.ui.loadContent("user_login_view", false, false, "pop"); //Show the user_login_view
+    $.ui.loadContent("user_login_view", false, false, "fade"); //Show the user_login_view
 
 
   },
@@ -62,7 +54,7 @@ $.mvc.controller.create("users_controller", {
       $.ui.addContentDiv("user_registration_view",
           $.template('views/users/user_registration_view.js', current_user), "Complete Registration");
     }
-    $.ui.loadContent("user_registration_view", false, false);                 //Show the user_login_view
+    $.ui.loadContent("user_registration_view", false, false, "fade");                 //Show the user_login_view
 
 
     if (action == "complete") {                                         //If the person clicked on complete
@@ -87,7 +79,7 @@ $.mvc.controller.create("users_controller", {
         else {                                                          //otherwise, update the content inside
           $.ui.updateContentDiv("users_list_view", $.template('views/users/users_list_view.js', data));
         }
-        $.ui.loadContent("users_list_view", false, false, "pop");            //show the user_list view
+        $.ui.loadContent("users_list_view", false, false, "fade");            //show the user_list view
       },
 
       error: function () {

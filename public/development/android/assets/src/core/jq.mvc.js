@@ -48,7 +48,7 @@
             }
         },
 
-        listenHashChange: function (listen) {                                       //this might be redirection problem
+        listenHashChange: function (listen) {             //takes a hash url and routing its properly
             window.addEventListener("hashchange", function (e) {
                 var url = document.location.hash.replace("#", "/");
                 $.mvc.route(url, e, true);

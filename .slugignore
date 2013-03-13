@@ -1,0 +1,5 @@
+*.psd
+*.png
+/public
+/spec
+/graphics

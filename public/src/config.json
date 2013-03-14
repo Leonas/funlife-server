@@ -1,0 +1,43 @@
+{
+	"author": "leonasl@gmail.com", 
+	"config_version": "2", 
+	"description": "An empty app created by default", 
+	"modules": {
+		"contact": true, 
+		"display": {
+			"orientations": {
+				"android": "portrait", 
+				"ipad": "portrait", 
+				"iphone": "portrait"
+			}
+		}, 
+		"file": true, 
+		"geolocation": true, 
+		"icons": {
+			"android": {
+				"36": "app_icons/icon36.png", 
+				"48": "app_icons/icon48.png", 
+				"72": "app_icons/icon72.png"
+			}
+		}, 
+		"is": true, 
+		"launchimage": {
+			"android": "startup_images/note2.png", 
+			"android-landscape": "startup_images/note2.png"
+		}, 
+		"logging": {
+			"level": "DEBUG"
+		}, 
+		"prefs": true, 
+		"reload": true, 
+		"request": {
+			"permissions": [
+				"http://*/*", 
+				"https://*/*"
+			]
+		}
+	}, 
+	"name": "FunLife", 
+	"platform_version": "v1.4", 
+	"version": "0.1"
+}

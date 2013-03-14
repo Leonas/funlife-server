@@ -1,9 +1,0 @@
-Wed, 13 Mar 2013 05:08:35 -0700
-doc/README_FOR_APP	Sun, 03 Feb 2013 20:06:37 -0800
-app/controllers/application_controller.rb	Sat, 09 Mar 2013 17:37:40 -0800
-app/controllers/chat_messages_controller.rb	Wed, 27 Feb 2013 11:39:19 -0800
-app/controllers/chats_controller.rb	Sun, 03 Mar 2013 20:20:34 -0800
-app/controllers/users_controller.rb	Sat, 09 Mar 2013 17:32:27 -0800
-app/models/chat.rb	Thu, 07 Mar 2013 18:19:50 -0800
-app/models/chat_message.rb	Thu, 07 Mar 2013 18:24:27 -0800
-app/models/user.rb	Wed, 27 Feb 2013 12:15:14 -0800

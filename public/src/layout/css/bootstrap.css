@@ -718,7 +718,7 @@ a:focus {
   *width: 40.37234042553192%;
 }
 .row-fluid .span4 {
-  width: 31.914893617021278%;
+  width: 33.333%; 
   *width: 31.861702127659576%;
 }
 .row-fluid .span3 {
@@ -4546,7 +4546,7 @@ button.close {
 .visible-desktop {
   display: inherit !important;
 }
-@media (min-width: 768px) and (max-width: 979px) {
+/*@media (min-width: 768px) and (max-width: 979px) {
   .hidden-desktop {
     display: inherit !important;
   }
@@ -4886,3 +4886,4 @@ button.close {
     overflow: visible !important;
   }
 }
+*/

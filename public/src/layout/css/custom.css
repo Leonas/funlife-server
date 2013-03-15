@@ -3,6 +3,7 @@
     display: none;
 }
 
+
 #wrong_password {
     display: none;
 }
@@ -28,3 +29,8 @@
  height: 2rem;
 }
 *{-webkit-tap-highlight-color: rgba(0, 0, 0, 0);}
+
+#places_index_view img {
+    max-width: none;
+}
+#places_index_view { height: 100% }

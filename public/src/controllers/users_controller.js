@@ -17,6 +17,7 @@ $.mvc.controller.create('users_controller', {
     $('#bottom_nav_people').removeClass('ui-btn-active');
     $('#bottom_nav_home').addClass('ui-btn-active');
 
+    console.log('at home');
     this.home_page();
     //this.users_list();
   },
@@ -37,7 +38,7 @@ $.mvc.controller.create('users_controller', {
               $.template('views/users/user_index_view.js'), 'Users index View');
         }
         else {                                                          //otherwise, update the content inside
-          $.ui.updateContentDiv('user_index_view', $.template('views/user/user_index_view.js'));
+          //$.ui.updateContentDiv('user_index_view', $.template('views/user/user_index_view.js'));
         }
         $.ui.loadContent('user_index_view', false, false, 'fade');            //show the user_index view
       },

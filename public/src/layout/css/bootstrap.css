@@ -798,12 +798,12 @@ a:focus {
   *margin-left: 42.4468085106383%;
 }
 .row-fluid .offset4 {
-  margin-left: 36.170212765957444%;
-  *margin-left: 36.06382978723405%;
+  margin-left: 33.33%;
+  *margin-left: 33.33%;
 }
 .row-fluid .offset4:first-child {
-  margin-left: 34.04255319148936%;
-  *margin-left: 33.93617021276596%;
+  margin-left: 33.33%;
+  *margin-left: 33.33%;
 }
 .row-fluid .offset3 {
   margin-left: 27.659574468085104%;
@@ -4102,7 +4102,7 @@ legend + .control-group {
 .thumbnail {
   display: block;
   padding: 4px;
-  line-height: 20px;
+  line-height: 10px;
   border: 1px solid #ddd;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;

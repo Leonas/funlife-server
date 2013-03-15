@@ -1,7 +1,5 @@
 <h3>Users (Testing Only)</h3>
-<a class="btn btn-small"  href="/users_controller/logout">Logout</a>
-<br><br>
-  
+
 
 {{~it.users_list :value:index}}
 

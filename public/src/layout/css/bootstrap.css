@@ -575,7 +575,7 @@ a:focus {
 [class*="span"] {
   float: left;
   min-height: 1px;
-  margin-left: 20px;
+/*  margin-left: 20px;*/
 }
 .container,
 .navbar-static-top .container,
@@ -676,14 +676,14 @@ a:focus {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   float: left;
-  margin-left: 2.127659574468085%;
-  *margin-left: 2.074468085106383%;
+/*  margin-left: 2.127659574468085%;
+  *margin-left: 2.074468085106383%;*/
 }
 .row-fluid [class*="span"]:first-child {
   margin-left: 0;
 }
 .row-fluid .controls-row [class*="span"] + [class*="span"] {
-  margin-left: 2.127659574468085%;
+/*  margin-left: 2.127659574468085%;*/
 }
 .row-fluid .span12 {
   width: 100%;
@@ -1777,7 +1777,7 @@ textarea,
   margin-left: 0;
 }
 .controls-row [class*="span"] + [class*="span"] {
-  margin-left: 20px;
+ /* margin-left: 20px;*/
 }
 input.span12,
 textarea.span12,
@@ -4096,8 +4096,8 @@ legend + .control-group {
 }
 .thumbnails > li {
   float: left;
-  margin-bottom: 20px;
-  margin-left: 20px;
+/*  margin-bottom: 20px;
+  margin-left: 20px;*/
 }
 .thumbnail {
   display: block;

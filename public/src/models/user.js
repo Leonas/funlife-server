@@ -1,4 +1,4 @@
-User = new $.mvc.model.Extend("user", {                                 //Instances defined at the bottom
+User = new $.mvc.model.Extend('user', {                                 //Instances defined at the bottom
   name: '',
   email: '',
   token: '',
@@ -16,17 +16,17 @@ User = new $.mvc.model.Extend("user", {                                 //Instan
 
     $.ajax({
       type: 'GET',
-      url: server + "/user/auth/",
+      url: server + '/user/auth/',
       contentType: 'application/json',
       headers: { TOKEN: current_user.token },
       data: data,
       dataType: 'application/json',
       success: function () {
-        $.mvc.route("/users_controller/");
+        $.mvc.route('/users_controller/');
         $('#footer').show();
       },
       error: function (response) {
-        $.mvc.route("/users_controller/user_login");
+        $.mvc.route('/users_controller/user_login');
       }
     });
 
@@ -34,8 +34,8 @@ User = new $.mvc.model.Extend("user", {                                 //Instan
 
 
   register1: function (form_data) {                                    //register part 1
-    $("#wrong_password").hide();
-    $("#email_exists").hide();
+    $('#wrong_password').hide();
+    $('#email_exists').hide();
     $.ajax({
       type: 'POST',
       url: server + '/users/register1/',
@@ -46,11 +46,11 @@ User = new $.mvc.model.Extend("user", {                                 //Instan
         console.log(response);
         current_user.token = $.parseJSON(response).token;
         current_user.save();
-        $.mvc.route("/users_controller/user_registration");
+        $.mvc.route('/users_controller/user_registration');
       },
 
       error: function () {
-        $("#email_exists").css('display', ['block']);
+        $('#email_exists').css('display', ['block']);
       }
     });
   },
@@ -62,24 +62,24 @@ User = new $.mvc.model.Extend("user", {                                 //Instan
       type: 'POST',
       url: server + '/users/register2/',
       dataType: 'application/json',
-      headers: { "TOKEN": current_user.token },
+      headers: { 'TOKEN': current_user.token },
       data: form_data,
 
       success: function (response, statusText, xhr) {
-        $.mvc.route("/users_controller/");
+        $.mvc.route('/users_controller/');
         $('#footer').show();
       },
 
       error: function () {
-        console.log("failed registration - something went wrong");
+        console.log('failed registration - something went wrong');
       }
     });
   },
 
 
   authenticate_login: function (form_data) {
-    $("#wrong_password").hide();
-    $("#email_exists").hide();
+    $('#wrong_password').hide();
+    $('#email_exists').hide();
     $.ajax({
       type: 'POST',
       url: server + '/users/login/',
@@ -89,25 +89,25 @@ User = new $.mvc.model.Extend("user", {                                 //Instan
       success: function (response, statusText, xhr) {
         current_user.token = JSON.parse(response).token;
         current_user.save();
-        $.mvc.route("/users_controller/");
+        $.mvc.route('/users_controller/');
         $('#footer').show();
       },
 
       error: function () {
-        $("#wrong_password").show();
+        $('#wrong_password').show();
       }
     });
   },
 
 
   save: function () {                                             //Save the user to local storage
-    window.localStorage.setItem("current_user", JSON.stringify(current_user));
+    window.localStorage.setItem('current_user', JSON.stringify(current_user));
   },
 
 
   get_from_local: function () {                                  //Load a user from local storage
     try {                                                      //if one exists, return true/false
-      var saved_user = JSON.parse(window.localStorage.getItem("current_user"));
+      var saved_user = JSON.parse(window.localStorage.getItem('current_user'));
       if (saved_user.token.length > 5) {
         current_user.name = saved_user.name;
         current_user.email = saved_user.email;
@@ -120,7 +120,7 @@ User = new $.mvc.model.Extend("user", {                                 //Instan
 
 
   logout: function () {
-    console.log("Logging out. Clearing localstorage");
+    console.log('Logging out. Clearing localstorage');
     window.localStorage.clear();
   }
 });

@@ -1,9 +1,9 @@
 /*global alert: false, confirm: false, console: false, $: false */
 
-$.mvc.controller.create("users_controller", {
+$.mvc.controller.create('users_controller', {
   //All views needed by controller must be listed here.
-  views: ["views/users/user_login_view.js", "views/users/user_registration_view.js",
-    "views/users/users_list_view.js"],
+  views: ['views/users/user_login_view.js', 'views/users/user_registration_view.js',
+    'views/users/users_list_view.js', 'views/users/user_index_view.js'],
 
   init: function () {
 
@@ -17,24 +17,54 @@ $.mvc.controller.create("users_controller", {
     $('#bottom_nav_people').removeClass('ui-btn-active');
     $('#bottom_nav_home').addClass('ui-btn-active');
 
-    this.users_list();
+    this.home_page();
+    //this.users_list();
+  },
+
+  home_page: function() {
+
+    //This ajax request is not going to the correct place
+    $.ajax({
+      type: 'GET',
+      url: server + '/users/',
+      dataType: 'application/json',
+      headers: { TOKEN: current_user.token },
+
+      success: function (response, statusText, xhr) {
+        var data = JSON.parse(response);
+        if ($('#user_index_view').length == 0) {                           //If view doesn't exist, make one
+          $.ui.addContentDiv('user_index_view',
+              $.template('views/users/user_index_view.js'), 'Users index View');
+        }
+        else {                                                          //otherwise, update the content inside
+          $.ui.updateContentDiv('user_index_view', $.template('views/user/user_index_view.js'));
+        }
+        $.ui.loadContent('user_index_view', false, false, 'fade');            //show the user_index view
+      },
+
+      error: function () {
+
+      }
+    });
+
+
   },
 
   user_login: function (action) {
 
     var form_data = $('#login_form').serialize();
 
-    if ($("#user_login_view").length == 0) {                 //If the user_login_view div doesn't exist, make it!
-      $.ui.addContentDiv("user_login_view", $.template('views/users/user_login_view.js'), "Login or Register");
+    if ($('#user_login_view').length == 0) {                 //If the user_login_view div doesn't exist, make it!
+      $.ui.addContentDiv('user_login_view', $.template('views/users/user_login_view.js'), 'Login or Register');
     }
-    $.ui.loadContent("user_login_view", false, false, "fade"); //Show the user_login_view
+    $.ui.loadContent('user_login_view', false, false, 'fade'); //Show the user_login_view
 
 
-    if (action == "login") {                                 //If login clicked, we post to get token
+    if (action == 'login') {                                 //If login clicked, we post to get token
       current_user.authenticate_login(form_data);
       current_user.save();
     }
-    else if (action == "register") {
+    else if (action == 'register') {
       current_user.register1(form_data);
       current_user.save();
     }
@@ -46,29 +76,29 @@ $.mvc.controller.create("users_controller", {
 
     $('#footer').hide();
 
-    if ($("#user_login_view").length == 0) {                 //If the user_login_view div doesn't exist, make it!
-      $.ui.addContentDiv("user_login_view", $.template('views/users/user_login_view.js'), "Login or Register");
+    if ($('#user_login_view').length == 0) {                 //If the user_login_view div doesn't exist, make it!
+      $.ui.addContentDiv('user_login_view', $.template('views/users/user_login_view.js'), 'Login or Register');
     } else {
       var elem = document.getElementById('user_login_view');          //otherwise form data is displayed
       elem.parentNode.removeChild(elem);                              //possible execute right after login?
-      $.ui.addContentDiv("user_login_view", $.template('views/users/user_login_view.js'), "Login or Register");
+      $.ui.addContentDiv('user_login_view', $.template('views/users/user_login_view.js'), 'Login or Register');
     }
 
     current_user.logout();
-    $.ui.loadContent("user_login_view", false, false, "fade"); //Show the user_login_view
+    $.ui.loadContent('user_login_view', false, false, 'fade'); //Show the user_login_view
 
 
   },
 
   user_registration: function (action) {
-    if ($("#user_registration_view").length == 0) {               //If the view doesn't exist, create it
-      $.ui.addContentDiv("user_registration_view",
-          $.template('views/users/user_registration_view.js', current_user), "Complete Registration");
+    if ($('#user_registration_view').length == 0) {               //If the view doesn't exist, create it
+      $.ui.addContentDiv('user_registration_view',
+          $.template('views/users/user_registration_view.js', current_user), 'Complete Registration');
     }
-    $.ui.loadContent("user_registration_view", false, false, "fade");                 //Show the user_login_view
+    $.ui.loadContent('user_registration_view', false, false, 'fade');                 //Show the user_login_view
 
 
-    if (action == "complete") {                                         //If the person clicked on complete
+    if (action == 'complete') {                                         //If the person clicked on complete
       current_user.register2($('#registration_details_form').serialize());
     }
     current_user.save();
@@ -83,14 +113,14 @@ $.mvc.controller.create("users_controller", {
 
       success: function (response, statusText, xhr) {
         var data = JSON.parse(response);
-        if ($("#users_list_view").length == 0) {                           //If view doesn't exist, make one
-          $.ui.addContentDiv("users_list_view",
-              $.template('views/users/users_list_view.js', data), "Users List View");
+        if ($('#users_list_view').length == 0) {                           //If view doesn't exist, make one
+          $.ui.addContentDiv('users_list_view',
+              $.template('views/users/users_list_view.js', data), 'Users List View');
         }
         else {                                                          //otherwise, update the content inside
-          $.ui.updateContentDiv("users_list_view", $.template('views/users/users_list_view.js', data));
+          $.ui.updateContentDiv('users_list_view', $.template('views/users/users_list_view.js', data));
         }
-        $.ui.loadContent("users_list_view", false, false, "fade");            //show the user_list view
+        $.ui.loadContent('users_list_view', false, false, 'fade');            //show the user_list view
       },
 
       error: function () {

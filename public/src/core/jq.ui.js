@@ -4344,9 +4344,11 @@ if (!HTMLElement.prototype.unwatch) {
                         //that.addContentDiv(urlHash, xmlhttp.responseText, refresh, refreshFunction);
                         urlHash = that.addContentDiv(urlHash, xmlhttp.responseText, anchor.title ? anchor.title : target, refresh, refreshFunction);
                     } else {
+
                         that.updateContentDiv("jQui_ajax", xmlhttp.responseText);
                         jq("#jQui_ajax").get(0).title = anchor.title ? anchor.title : target;
                         that.loadContent("#jQui_ajax", newTab, back);
+                      console.log('im in here');
                         doReturn = true;
                     }
                     //Let's load the content now.

@@ -23,6 +23,8 @@
 /public/release/
 /public/debug.keystore
 /public/local_config.json
+/public/.lib
+/public/src/.forgeignore
 
 sqlite-jdbc-3.7.2.jar
 xerial-sqlite-license.txt

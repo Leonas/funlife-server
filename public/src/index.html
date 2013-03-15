@@ -51,7 +51,8 @@
 
 
             if (current_user.token.length > 5) {                       //if the current user's token exists, try to auth
-                $.mvc.route("/users_controller/users_list");
+                $('#footer').show();
+                $.mvc.route("/users_controller/");
             } else {
                 console.log("token not found on localstorage. displaying login");
                 //$.mvc.route("/users_controller/user_login");

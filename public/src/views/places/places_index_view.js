@@ -1,0 +1,1 @@
+Places index view

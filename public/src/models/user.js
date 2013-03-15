@@ -22,7 +22,8 @@ User = new $.mvc.model.Extend("user", {                                 //Instan
       data: data,
       dataType: 'application/json',
       success: function () {
-        $.mvc.route("/users_controller/users_list");
+        $.mvc.route("/users_controller/");
+        $('#footer').show();
       },
       error: function (response) {
         $.mvc.route("/users_controller/user_login");
@@ -65,7 +66,8 @@ User = new $.mvc.model.Extend("user", {                                 //Instan
       data: form_data,
 
       success: function (response, statusText, xhr) {
-        $.mvc.route("/users_controller/users_list");
+        $.mvc.route("/users_controller/");
+        $('#footer').show();
       },
 
       error: function () {
@@ -87,7 +89,8 @@ User = new $.mvc.model.Extend("user", {                                 //Instan
       success: function (response, statusText, xhr) {
         current_user.token = JSON.parse(response).token;
         current_user.save();
-        $.mvc.route("/users_controller/users_list");
+        $.mvc.route("/users_controller/");
+        $('#footer').show();
       },
 
       error: function () {

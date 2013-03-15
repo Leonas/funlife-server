@@ -2,7 +2,7 @@
 
 $.mvc.controller.create('places_controller', {
   //All views needed by controller must be listed here.
-  views: ["views/places/places_map_view.js"],
+  views: ["views/places/places_index_view.js"],
 
   init: function () {
 
@@ -15,6 +15,15 @@ $.mvc.controller.create('places_controller', {
     $('#bottom_nav_places').removeClass('ui-btn-active');
     $('#bottom_nav_people').removeClass('ui-btn-active');
     $('#bottom_nav_places').addClass('ui-btn-active');
+
+    if ($("#places_index_view").length == 0) {                 //If the view div doesn't exist, make it!
+      $.ui.addContentDiv("places_index_view", $.template('views/places/places_index_view.js'), "places");
+    }
+    $.ui.loadContent("places_index_view", false, false, "fade"); //Show the view
+
+
   }
+
+
 });
 

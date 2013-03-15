@@ -2,7 +2,7 @@
 
 $.mvc.controller.create('photos_controller', {
   //All views needed by controller must be listed here.
-  views: ["views/photos/index_view.js"],
+  views: ["views/photos/photos_index_view.js"],
 
   init: function () {
 
@@ -15,6 +15,11 @@ $.mvc.controller.create('photos_controller', {
     $('#bottom_nav_places').removeClass('ui-btn-active');
     $('#bottom_nav_people').removeClass('ui-btn-active');
     $('#bottom_nav_photos').addClass('ui-btn-active');
+
+    if ($("#photos_index_view").length == 0) {                 //If the view div doesn't exist, make it!
+      $.ui.addContentDiv("photos_index_view", $.template('views/photos/photos_index_view.js'), "Photos");
+    }
+    $.ui.loadContent("photos_index_view", false, false, "fade"); //Show the view
 
   }
 });

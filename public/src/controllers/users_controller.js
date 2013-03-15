@@ -7,6 +7,7 @@ $.mvc.controller.create("users_controller", {
 
   init: function () {
 
+
   },
 
   default: function () {
@@ -42,6 +43,8 @@ $.mvc.controller.create("users_controller", {
   },
   logout: function () {
     console.log('logging out');
+
+    $('#footer').hide();
 
     if ($("#user_login_view").length == 0) {                 //If the user_login_view div doesn't exist, make it!
       $.ui.addContentDiv("user_login_view", $.template('views/users/user_login_view.js'), "Login or Register");

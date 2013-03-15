@@ -9,8 +9,12 @@ $.mvc.controller.create('places_controller', {
 
   },
 
-  default: function () {                                         //display all previous chats                                                                   //get the local chat data
-
+  default: function () {                                                                                                        //get the local chat data
+    $('#bottom_nav_home').removeClass('ui-btn-active');
+    $('#bottom_nav_photos').removeClass('ui-btn-active');
+    $('#bottom_nav_places').removeClass('ui-btn-active');
+    $('#bottom_nav_people').removeClass('ui-btn-active');
+    $('#bottom_nav_places').addClass('ui-btn-active');
   }
 });
 

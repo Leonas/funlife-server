@@ -10,7 +10,13 @@ $.mvc.controller.create("users_controller", {
   },
 
   default: function () {
+    $('#bottom_nav_home').removeClass('ui-btn-active');
+    $('#bottom_nav_photos').removeClass('ui-btn-active');
+    $('#bottom_nav_places').removeClass('ui-btn-active');
+    $('#bottom_nav_people').removeClass('ui-btn-active');
+    $('#bottom_nav_home').addClass('ui-btn-active');
 
+    this.users_list();
   },
 
   user_login: function (action) {

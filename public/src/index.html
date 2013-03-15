@@ -47,8 +47,9 @@
             var current_user;
 
             var app = new $.mvc.app();
-            app.loadModels(["user", "chat"]);
-            app.loadControllers(["users_controller", "chats_controller"]);
+            app.loadModels(['user', 'chat', 'person', 'place']);
+            app.loadControllers(['users_controller', 'chats_controller', 'people_controller',
+                                 'places_controller']);
             app.listenHashChange();
             app.useHTML5History(true);
             app.ready(function () {

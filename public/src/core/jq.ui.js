@@ -39,7 +39,7 @@
         }
         return tmp;
     };
-    
+
 
     $["css3AnimateQueue"] = function () {
         return new css3Animate.queue();
@@ -52,12 +52,12 @@
     transitionEnd=($.os.fennec||$.feat.cssPrefix==""||$.os.ie)?"transitionend":transitionEnd;
 
     transitionEnd=transitionEnd.replace(transitionEnd.charAt(0),transitionEnd.charAt(0).toLowerCase());
-    
+
     var css3Animate = (function () {
-        
+
         var css3Animate = function (elID, options) {
             if(!(this instanceof css3Animate)) return new css3Animate(elID, options);
-            
+
             //start doing stuff
             this.callbacksStack = [];
             this.activeEvent = null;
@@ -65,11 +65,11 @@
             this.isActive = false;
             this.el = elID;
             this.linkFinishedProxy_ = $.proxy(this.linkFinished, this);
-            
+
             if (!this.el) return;
-            
+
             this.animate(options);
-            
+
             var that = this;
             jq(this.el).bind('destroy', function(){
                 var id = that.el.jqmCSS3AnimateId;
@@ -79,18 +79,18 @@
         };
         css3Animate.prototype = {
             animate:function(options){
-                
+
                 //cancel current active animation on this object
                 if(this.isActive) this.cancel();
                 this.isActive = true;
-                
+
                 if (!options) {
                     alert("Please provide configuration options for animation of " + this.el.id);
                     return;
                 }
-            
+
                 var classMode = !!options["addClass"];
-            
+
                 if(classMode){
                     //class defines properties being changed
                     if(options["removeClass"]){
@@ -98,12 +98,12 @@
                     } else {
                         jq(this.el).addClass(options["addClass"]);
                     }
-                
+
                 } else {
                     //property by property
                     var timeNum = numOnly(options["time"]);
                     if(timeNum==0) options["time"]=0;
-                
+
                     if (!options["y"]) options["y"] = 0;
                     if (!options["x"]) options["x"] = 0;
                     if (options["previous"]) {
@@ -126,7 +126,7 @@
                     //check for percent or numbers
                     if (typeof (options.x) == "number" || (options.x.indexOf("%") == -1 && options.x.toLowerCase().indexOf("px") == -1 && options.x.toLowerCase().indexOf("deg") == -1)) options.x = parseInt(options.x) + "px";
                     if (typeof (options.y) == "number" || (options.y.indexOf("%") == -1 && options.y.toLowerCase().indexOf("px") == -1 && options.y.toLowerCase().indexOf("deg") == -1)) options.y = parseInt(options.y) + "px";
-                    
+
                     var trans= "translate" + translateOpen + (options.x) + "," + (options.y) + translateClose + " scale(" + parseFloat(options.scale) + ") rotate(" + options.rotateX + ")";
                     if(!$.os.opera)
                         trans+=" rotateY(" + options.rotateY + ")";
@@ -147,7 +147,7 @@
                         properties = "all";
                     }
                     this.el.style[$.feat.cssPrefix+"TransitionProperty"] = "all";
-                
+
                     if((""+options["time"]).indexOf("s")===-1) {
                         var scale = 'ms';
                         var time = options["time"]+scale;
@@ -158,7 +158,7 @@
                         var scale = 's';
                         var time = options["time"]+scale;
                     }
-            
+
                     this.el.style[$.feat.cssPrefix+"TransitionDuration"] = time;
                     this.el.style[$.feat.cssPrefix+"TransitionTimingFunction"] = options["timingFunction"];
                     this.el.style[$.feat.cssPrefix+"TransformOrigin"] = options.origin;
@@ -166,14 +166,14 @@
                 }
 
                 //add callback to the stack
-                
+
                 this.callbacksStack.push({
                     complete : options["complete"],
                     success : options["success"],
                     failure : options["failure"]
                 });
                 this.countStack++;
-            
+
                 var that = this;
                 var style = window.getComputedStyle(this.el);
                 if(classMode){
@@ -186,7 +186,7 @@
                         var scale = 's';
                     }
                 }
-                
+
                 //finish asap
                 if(timeNum==0 || (scale=='ms' && timeNum<5) || style.display=='none'){
                     //the duration is nearly 0 or the element is not displayed, finish immediatly
@@ -201,12 +201,12 @@
                         clearTimeout(that.timeout);
                         that.finishAnimation(event);
                         that.el.removeEventListener(transitionEnd, that.activeEvent, false);
-                    };         
-                    that.timeout=setTimeout(this.activeEvent, numOnly(options["time"]) + 50);         
+                    };
+                    that.timeout=setTimeout(this.activeEvent, numOnly(options["time"]) + 50);
                     this.el.addEventListener(transitionEnd, this.activeEvent, false);
 
                 }
-                
+
             },
             addCallbackHook:function(callback){
                 if(callback) this.callbacksStack.push(callback);
@@ -220,21 +220,21 @@
             finishAnimation: function (event) {
                 if(event) event.preventDefault();
                 if(!this.isActive) return;
-                
+
                 this.countStack--;
-                
+
                 if(this.countStack==0) this.fireCallbacks(false);
             },
             fireCallbacks:function(canceled){
                 this.clearEvents();
-                
+
                 //keep callbacks after cleanup
                 // (if any of the callbacks overrides this object, callbacks will keep on fire as expected)
                 var callbacks = this.callbacksStack;
-                
+
                 //cleanup
                 this.cleanup();
-                
+
                 //fire all callbacks
                 for(var i=0; i<callbacks.length; i++) {
                     var complete = callbacks[i]['complete'];
@@ -276,7 +276,7 @@
                 return this;
             }
         }
-        
+
         return css3Animate;
     })();
 
@@ -718,7 +718,7 @@
 			this.el.style.overflow = 'auto';
 			//set current scroll
 
-			
+
 			if(!firstExecution) this.adjustScroll();
 			//set events
 			if(this.refresh || this.infinite&&!jq.os.desktop) this.el.addEventListener('touchstart', this, false);
@@ -932,7 +932,7 @@
 		}
 		nativeScroller.prototype.adjustScroll = function() {
 			this.adjustScrollOverflowProxy_();
-			
+
 			this.el.scrollLeft = this.loggedPcentX * (this.el.scrollWidth);
 			this.el.scrollTop = this.loggedPcentY * (this.el.scrollHeight );
 			this.logPos(this.el.scrollLeft, this.el.scrollTop);
@@ -1055,7 +1055,7 @@
 				clearTimeout(this.scrollingFinishCB);
 				this.scrollingFinishCB = null;
 			}
-			
+
 
 			//disable if locked
 			if(event.touches.length != 1 || this.boolScrollLock) return;
@@ -1148,7 +1148,7 @@
                     this.hscrollBar.style.top = (window.innerHeight - numOnly(this.hscrollBar.style.height)) + "px";
                 else
                     this.hscrollBar.style.bottom = numOnly(this.hscrollBar.style.height);
-                this.hscrollBar.style[$.feat.cssPrefix+"Transition"] = ''; 
+                this.hscrollBar.style[$.feat.cssPrefix+"Transition"] = '';
 				// this.hscrollBar.style.opacity = 1;
 			}
 
@@ -1660,14 +1660,14 @@
  * jq.popup - a popup/alert library for html5 mobile apps
  * @copyright Indiepath 2011 - Tim Fisher
  * Modifications/enhancements by appMobi for jqMobi
- * 
+ *
  */
 
 /* EXAMPLE
   $('body').popup({
 	    title:"Alert! Alert!",
 	    message:"This is a test of the emergency alert system!! Don't PANIC!",
-	    cancelText:"Cancel me", 
+	    cancelText:"Cancel me",
 	    cancelCallback: function(){console.log("cancelled");},
 	    doneText:"I'm done!",
 	    doneCallback: function(){console.log("Done for!");},
@@ -1678,22 +1678,22 @@
         autoCloseDone:true, //default is true will close the popup when done is clicked.
         suppressTitle:false //Do not show the title if set to true
   });
-  
+
   You can programatically trigger a close by dispatching a "close" event to it.
-  
+
   $('body').popup({title:'Alert',id:'myTestPopup'});
   $("#myTestPopup").trigger("close");
-  
+
  */
 (function($) {
-    
+
     $.fn.popup = function(opts) {
         return new popup(this[0], opts);
     };
     var queue = [];
     var popup = (function() {
         var popup = function(containerEl, opts) {
-            
+
             if (typeof containerEl === "string" || containerEl instanceof String) {
                 this.container = document.getElementById(containerEl);
             } else {
@@ -1703,7 +1703,7 @@
                 alert("Error finding container for popup " + containerEl);
                 return;
             }
-            
+
             try {
                 if (typeof (opts) === "string" || typeof (opts) === "number")
                     opts = {message: opts,cancelOnly: "true",cancelText: "OK"};
@@ -1723,16 +1723,16 @@
                 this.cancelOnly = opts.cancelOnly || false;
                 this.onShow = opts.onShow || function(){};
                 this.autoCloseDone=opts.autoCloseDone!==undefined?opts.autoCloseDone:true;
-                
+
                 queue.push(this);
                 if (queue.length == 1)
                     this.show();
             } catch (e) {
                 console.log("error adding popup " + e);
             }
-        
+
         };
-        
+
         popup.prototype = {
             id: null,
             title: null,
@@ -1758,12 +1758,12 @@
 	        				</footer>\
 	        			</div></div>';
                 $(this.container).append($(markup));
-                
+
                 var $el=$("#"+this.id);
                 $el.bind("close", function(){
                 	self.hide();
                 })
-                
+
                 if (this.cancelOnly) {
                     $el.find('A#action').hide();
                     $el.find('A#cancel').addClass('center');
@@ -1788,14 +1788,14 @@
                 $el.bind("orientationchange", function() {
                     self.positionPopup();
                 });
-               
+
                 //force header/footer showing to fix CSS style bugs
                 $el.find("header").show();
                 $el.find("footer").show();
                 this.onShow(this);
-                
+
             },
-            
+
             hide: function() {
                 var self = this;
                 $('#' + self.id).addClass('hidden');
@@ -1804,7 +1804,7 @@
                     self.remove();
                 }, 250);
             },
-            
+
             remove: function() {
                 var self = this;
                 var $el=$("#"+self.id);
@@ -1816,14 +1816,14 @@
                 if (queue.length > 0)
                     queue[0].show();
             },
-            
+
             positionPopup: function() {
                 var popup = $('#' + this.id);
                 popup.css("top", ((window.innerHeight / 2.5) + window.pageYOffset) - (popup[0].clientHeight / 2) + "px");
                 popup.css("left", (window.innerWidth / 2) - (popup[0].clientWidth / 2) + "px");
             }
         };
-        
+
         return popup;
     })();
     var uiBlocked = false;
@@ -1840,7 +1840,7 @@
         });
         uiBlocked = true
     };
-    
+
     $.unblockUI = function() {
         uiBlocked = false;
         $('BODY DIV#mask').unbind("touchstart");
@@ -1858,11 +1858,11 @@
         else
             $(document.body).popup(text.toString());
     }
-    
+
 })(jq);
 /**
  * jq.web.actionsheet - a actionsheet for html5 mobile apps
- * Copyright 2012 - Intel 
+ * Copyright 2012 - Intel
  */
 (function($) {
     $.fn["actionsheet"] = function(opts) {
@@ -1883,7 +1883,7 @@
                 alert("Could not find element for actionsheet " + elID);
                 return;
             }
-            
+
             if (this instanceof actionsheet) {
                 if(typeof(opts)=="object"){
                 for (j in opts) {
@@ -1893,7 +1893,7 @@
             } else {
                 return new actionsheet(elID, opts);
             }
-            
+
             try {
                 var that = this;
                 var markStart = '<div id="jq_actionsheet"><div style="width:100%">';
@@ -1916,7 +1916,7 @@
                 $(elID).find("#jq_actionsheet").remove();
                 $(elID).find("#jq_action_mask").remove();
                 actionsheetEl = $(elID).append(markup);
-                
+
                 markup.get().style[$.feat.cssPrefix+'Transition']="all 0ms";
                 markup.css($.feat.cssPrefix+"Transform",  "translate"+$.feat.cssTransformStart+"0,0"+$.feat.cssTransformEnd);
                 markup.css("top",window.innerHeight+"px");
@@ -1942,7 +1942,7 @@
                 var markup = this.activeSheet;
                 var theEl = this.el;
                 setTimeout(function(){
-                    
+
                 	markup.get().style[$.feat.cssPrefix+'Transition']="all 300ms";
 
                 	markup.css($.feat.cssPrefix+"Transform", "translate"+$.feat.cssTransformStart+"0,0px"+$.feat.cssTransformEnd);
@@ -1951,7 +1951,7 @@
 		                markup=null;
 		                theEl.style.overflow = "none";
 	                },500);
-                },10);            
+                },10);
             }
         };
         return actionsheet;
@@ -1996,7 +1996,7 @@
         changePasswordVisiblity: function (what, id) {
             what = parseInt(what);
             var theEl = document.getElementById(id);
-            
+
             if (what == 1) { //show
                 theEl.style[$.cssPrefix+'text-security'] = "none";
             } else {
@@ -2016,7 +2016,7 @@
  * @copyright: 2011 Intel
  * @description:  This script will replace all drop downs with friendly select controls.  Users can still interact
  * with the old drop down box as normal with javascript, and this will be reflected
- 
+
  */
 (function($) {
     $['selectBox'] = {
@@ -2060,10 +2060,10 @@
                     fakeInput.style.background = "url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAeCAIAAABFWWJ4AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyBpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBXaW5kb3dzIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOkM1NjQxRUQxNUFEODExRTA5OUE3QjE3NjI3MzczNDAzIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOkM1NjQxRUQyNUFEODExRTA5OUE3QjE3NjI3MzczNDAzIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6QzU2NDFFQ0Y1QUQ4MTFFMDk5QTdCMTc2MjczNzM0MDMiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6QzU2NDFFRDA1QUQ4MTFFMDk5QTdCMTc2MjczNzM0MDMiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz6YWbdCAAAAlklEQVR42mIsKChgIBGwAHFPTw/xGkpKSlggrG/fvhGjgYuLC0gyMZAOoPb8//9/0Or59+8f8XrICQN66SEnDOgcp3AgKiqKqej169dY9Hz69AnCuHv3rrKyMrIKoAhcVlBQELt/gIqwstHD4B8quH37NlAQSKKJEwg3iLbBED8kpeshoGcwh5uuri5peoBFMEluAwgwAK+5aXfuRb4gAAAAAElFTkSuQmCC') right top no-repeat";
                     fakeInput.style.backgroundColor = "white";
                     fakeInput.style.lineHeight = selHeight;
-                    fakeInput.style.backgroundSize = "contain"; 
+                    fakeInput.style.backgroundSize = "contain";
                     fakeInput.className = "jqmobiSelect_fakeInput " + theSel.className;
                     fakeInput.id = theSel.id + "_jqmobiSelect";
-                    
+
                     fakeInput.style.border = "1px solid gray";
                     fakeInput.style.color = "black";
                     fakeInput.linkId = theSel.id;
@@ -2098,12 +2098,12 @@
                         }
                         return newValue;
                     });
-                    
+
                     fakeInput = null;
                     imageMask = null;
                     sels[i].hasSelectBoxFix = true;
-                
-                
+
+
                 })(sels[i]);
             }
             that.createHtml();
@@ -2126,7 +2126,7 @@
             el = null;
         },
         initDropDown: function(elID) {
-            
+
             var that = this;
             var el = document.getElementById(elID);
             if (el.disabled)
@@ -2136,9 +2136,9 @@
             var htmlTemplate = "";
             var foundInd = 0;
             document.getElementById("jqmobiSelectBoxScroll").innerHTML = "";
-            
+
             document.getElementById("jqmobiSelectBoxHeaderTitle").innerHTML = (el.name != undefined && el.name != "undefined" && el.name != "" ? el.name : elID);
-            
+
             for (var j = 0; j < el.options.length; j++) {
                 var currInd = j;
                 el.options[j].watch( "selected", function(prop, oldValue, newValue) {
@@ -2174,16 +2174,16 @@
                 }
                 rad.style.width = "20px";
                 rad.style.height = "20px";
-                
+
                 rad.checked = checked;
-                
+
                 anchor.className = "jqmobiSelectRowText";
                 span.appendChild(rad);
                 div.appendChild(anchor);
                 div.appendChild(span);
-                
+
                 document.getElementById("jqmobiSelectBoxScroll").appendChild(div);
-                
+
                 span = null;
                 rad = null;
                 anchor = null;
@@ -2197,7 +2197,7 @@
                 if (div) {
                     var scrollThreshold = numOnly(div.style.height);
                     var offset = numOnly(document.getElementById("jqmobiSelectBoxHeader").style.height);
-                    
+
                     if (foundInd * scrollThreshold + offset >= numOnly(document.getElementById("jqmobiSelectBoxFix").clientHeight) - offset)
                         var scrollToPos = (foundInd) * -scrollThreshold + offset;
                     else
@@ -2214,7 +2214,7 @@
             el = null;
         },
         updateMaskValue: function(elID, value, val2) {
-            
+
             var el = document.getElementById(elID + "_jqmobiSelect");
             var el2 = document.getElementById(elID);
             if (el)
@@ -2225,8 +2225,8 @@
             el2 = null;
         },
         setDropDownValue: function(elID, value,div) {
-            
-            
+
+
             var el = document.getElementById(elID);
             if(!el)
                 return
@@ -2235,7 +2235,7 @@
                 el.selectedIndex = value;
                 $(el).find("option").forEach(function(obj){
                     obj.selected=false;
-                });  
+                });
                 $(el).find("option:nth-child("+(value+1)+")").get(0).selected=true;
             this.scroller.scrollTo({
                 x: 0,
@@ -2245,15 +2245,15 @@
             }
             else {
                 //multi select
-                
+
                 var myEl=$(el).find("option:nth-child("+(value+1)+")").get(0);
                 if(myEl.selected){
                     myEl.selected=false;
-                    $(div).find("button").css("background","#fff");    
+                    $(div).find("button").css("background","#fff");
                 }
                 else {
                      myEl.selected=true;
-                    $(div).find("button").css("background","#000");  
+                    $(div).find("button").css("background","#000");
                 }
 
             }
@@ -2270,10 +2270,10 @@
                 return;
             }
             var modalDiv = document.createElement("div");
-            
+
             modalDiv.style.cssText = "position:absolute;top:0px;bottom:0px;left:0px;right:0px;background:rgba(0,0,0,.7);z-index:200000;display:none;";
             modalDiv.id = "jqmobiSelectModal";
-            
+
             var myDiv = document.createElement("div");
             myDiv.id = "jqmobiSelectBoxContainer";
             myDiv.style.cssText = "position:absolute;top:8%;bottom:10%;display:block;width:90%;margin:auto;margin-left:5%;height:90%px;background:white;color:black;border:1px solid black;border-radius:6px;";
@@ -2281,9 +2281,9 @@
             myDiv.innerHTML += '<div id="jqmobiSelectBoxFix"  style="position:relative;height:90%;background:white;overflow:hidden;width:100%;"><div id="jqmobiSelectBoxScroll"></div></div>';
             var that = this;
             modalDiv.appendChild(myDiv);
-            
+
             $(document).ready(function() {
-               
+
                 if(jq("#jQUi"))
                    jq("#jQUi").append(modalDiv);
                 else
@@ -2292,7 +2292,7 @@
                 close.onclick = function() {
                     that.hideDropDown();
                 };
-                
+
                 var styleSheet = $("<style>.jqselectscrollBarV{opacity:1 !important;}</style>").get();
                 document.body.appendChild(styleSheet);
                 try {
@@ -2301,7 +2301,7 @@
                         verticalScroll: true,
                         vScrollCSS: "jqselectscrollBarV"
                     });
-                
+
                 } catch (e) {
                     console.log("Error creating select html " + e);
                 }
@@ -2346,17 +2346,17 @@ if (!HTMLElement.prototype.unwatch) {
 		delete this[prop]; // remove accessors
 		this[prop] = val;
 	};
-}   
+}
 })(jq);
 
 //Touch events are from zepto/touch.js
 (function($) {
     var touch = {}, touchTimeout;
-    
+
     function parentIfText(node) {
         return 'tagName' in node ? node : node.parentNode;
     }
-    
+
     function swipeDirection(x1, x2, y1, y2) {
         var xDelta = Math.abs(x1 - x2), yDelta = Math.abs(y1 - y2);
         if (xDelta >= yDelta) {
@@ -2365,7 +2365,7 @@ if (!HTMLElement.prototype.unwatch) {
             return (y1 - y2 > 0 ? 'Up' : 'Down');
         }
     }
-    
+
     var longTapDelay = 750;
     function longTap() {
         if (touch.last && (Date.now() - touch.last >= longTapDelay)) {
@@ -2408,14 +2408,14 @@ if (!HTMLElement.prototype.unwatch) {
                 touch.el.trigger('doubleTap');
                 touch = {};
             } else if (touch.x2 > 0 || touch.y2 > 0) {
-                (Math.abs(touch.x1 - touch.x2) > 30 || Math.abs(touch.y1 - touch.y2) > 30) && 
-                touch.el.trigger('swipe') && 
+                (Math.abs(touch.x1 - touch.x2) > 30 || Math.abs(touch.y1 - touch.y2) > 30) &&
+                touch.el.trigger('swipe') &&
                 touch.el.trigger('swipe' + (swipeDirection(touch.x1, touch.x2, touch.y1, touch.y2)));
                 touch.x1 = touch.x2 = touch.y1 = touch.y2 = touch.last = 0;
             } else if ('last' in touch) {
                 touch.el.trigger('tap');
 
-                
+
                 touchTimeout = setTimeout(function() {
                     touchTimeout = null;
                     if (touch.el)
@@ -2431,7 +2431,7 @@ if (!HTMLElement.prototype.unwatch) {
 
         });
     });
-    
+
     ['swipe', 'swipeLeft', 'swipeRight', 'swipeUp', 'swipeDown', 'doubleTap', 'tap', 'singleTap', 'longTap'].forEach(function(m) {
         $.fn[m] = function(callback) {
             return this.bind(m, callback)
@@ -2440,10 +2440,10 @@ if (!HTMLElement.prototype.unwatch) {
 })(jq);
 
 //TouchLayer contributed by Carlos Ouro @ Badoo
-//un-authoritive layer between touches and actions on the DOM 
+//un-authoritive layer between touches and actions on the DOM
 //(un-authoritive: listeners do not require useCapture)
-//handles overlooking JS and native scrolling, panning, 
-//no delay on click, edit mode focus, preventing defaults, resizing content, 
+//handles overlooking JS and native scrolling, panning,
+//no delay on click, edit mode focus, preventing defaults, resizing content,
 //enter/exit edit mode (keyboard on screen), prevent clicks on momentum, etc
 //It can be used independently in other apps but it is required by jqUi
 //Object Events
@@ -2758,7 +2758,7 @@ if (!HTMLElement.prototype.unwatch) {
 		},
 		onBlur: function(e) {
 			if(jq.os.android && e.target == window) return; //ignore window blurs
-	
+
 			this.isFocused_ = false;
 			//just in case...
 			if(this.focusedElement) this.focusedElement.removeEventListener('blur', this, false);
@@ -2819,7 +2819,7 @@ if (!HTMLElement.prototype.unwatch) {
 					else this.blockPossibleClick_ = true;
 					//check if event was already set
 				} else if(this.scrollTimeoutEl_) {
-					//trigger 
+					//trigger
 					this.scrollEnded(true);
 					this.blockPossibleClick_ = true;
 				}
@@ -2830,7 +2830,7 @@ if (!HTMLElement.prototype.unwatch) {
 			// We allow forcing native tap in android devices (required in special cases)
 			var forceNativeTap = (jq.os.android && e && e.target && e.target.getAttribute && e.target.getAttribute("data-touchlayer") == "ignore");
 
-			//if on edit mode, allow all native touches 
+			//if on edit mode, allow all native touches
 			//(BB10 must still be prevented, always clicks even after move)
 			if(forceNativeTap || (this.isFocused_ && !$.os.blackberry10)) {
 				this.requiresNativeTap = true;
@@ -3073,8 +3073,8 @@ if (!HTMLElement.prototype.unwatch) {
  * @author AppMobi
  */
 (function($) {
-    
-    
+
+
     var hasLaunched = false;
     var startPath = window.location.pathname;
     var defaultHash = window.location.hash;
@@ -3101,7 +3101,7 @@ if (!HTMLElement.prototype.unwatch) {
             if (jq.os.supportsTouch)
                 $.touchLayer(jQUi);
         });
-        
+
         if (window.AppMobi)
             document.addEventListener("appMobi.device.ready", function() {
                 that.autoBoot();
@@ -3114,13 +3114,13 @@ if (!HTMLElement.prototype.unwatch) {
                 that.autoBoot();
                 this.removeEventListener("DOMContentLoaded", arguments.callee);
             }, false);
-        
+
         if (!window.AppMobi)
             AppMobi = {}, AppMobi.webRoot = "";
 
         //click back event
          window.addEventListener("popstate", function() {
-            
+
             var id = $.ui.getPanelId(document.location.hash);
             //make sure we allow hash changes outside jqUi
             if(id==""&&$.ui.history.length===1) //Fix going back to first panel and an empty hash
@@ -3139,12 +3139,12 @@ if (!HTMLElement.prototype.unwatch) {
            $.ui.availableTransitions['none']=function();
            ```
          */
-        
+
         this.availableTransitions = {};
         this.availableTransitions['default'] = this.availableTransitions['none'] = this.noTransition;
     };
-    
-    
+
+
     ui.prototype = {
         showLoading: true,
         loadContentQueue: [],
@@ -3239,7 +3239,7 @@ if (!HTMLElement.prototype.unwatch) {
            $.ui.popup( {
                         title:"Alert! Alert!",
                         message:"This is a test of the emergency alert system!! Don't PANIC!",
-                        cancelText:"Cancel me", 
+                        cancelText:"Cancel me",
                         cancelCallback: function(){console.log("cancelled");},
                         doneText:"I'm done!",
                         doneCallback: function(){console.log("Done for!");},
@@ -3354,7 +3354,7 @@ if (!HTMLElement.prototype.unwatch) {
            ```
            $.ui.goBack()
            ```
-           
+
          * @title $.ui.goBack()
          */
         goBack: function() {
@@ -3362,7 +3362,7 @@ if (!HTMLElement.prototype.unwatch) {
                 var that = this;
                 var tmpEl = this.history.pop();
                 //$.asap(
-                
+
                 //function() {
                     that.loadContent(tmpEl.target + "", 0, 1, tmpEl.transition);
                     that.transitionType = tmpEl.transition;
@@ -3377,7 +3377,7 @@ if (!HTMLElement.prototype.unwatch) {
            ```
            $.ui.clearHistory()
            ```
-           
+
          * @title $.ui.clearHistory()
          */
         clearHistory: function() {
@@ -3390,7 +3390,7 @@ if (!HTMLElement.prototype.unwatch) {
            ```
            $.ui.pushHistory(previousPage, newPage, transition, hashExtras)
            ```
-           
+
          * @title $.ui.pushHistory()
          */
         pushHistory: function(previousPage, newPage, transition, hashExtras) {
@@ -3420,7 +3420,7 @@ if (!HTMLElement.prototype.unwatch) {
         updateHash: function(newHash) {
             newHash = newHash.indexOf('#') == -1 ? '#' + newHash : newHash; //force having the # in the begginning as a standard
             previousTarget = newHash;
-            
+
             var previousHash = window.location.hash;
             var panelName = this.getPanelId(newHash).substring(1); //remove the #
             try {
@@ -3449,8 +3449,8 @@ if (!HTMLElement.prototype.unwatch) {
            ```
          * @param {String} target
          * @param {String} Value
-         * @param {String} [position]         
-         * @param {String|Object} [color or CSS hash]         
+         * @param {String} [position]
+         * @param {String|Object} [color or CSS hash]
          * @title $.ui.updateBadge(target,value,[position],[color])
          */
         updateBadge: function(target, value, position, color) {
@@ -3459,7 +3459,7 @@ if (!HTMLElement.prototype.unwatch) {
             if (target[0] != "#")
                 target = "#" + target;
             var badge = jq(target).find("span.jq-badge");
-            
+
             if (badge.length == 0) {
                 if (jq(target).css("position") != "absolute")
                     jq(target).css("position", "relative");
@@ -3467,16 +3467,16 @@ if (!HTMLElement.prototype.unwatch) {
                 jq(target).append(badge);
             } else
                 badge.html(value);
-            
-            
+
+
             if (jq.isObject(color)) {
                 badge.css(color);
             } else if (color) {
                 badge.css("background", color);
             }
-            
+
             badge.data("ignore-pressed", "true");
-        
+
         },
         /**
          * Removes a badge from the selected target.
@@ -3507,7 +3507,7 @@ if (!HTMLElement.prototype.unwatch) {
             } else if (force === undefined || (force !== undefined && force === true)) {
                 jq("#navbar").show();
                 jq("#content").css("bottom", jq("#navbar").css("height"));
-            
+
             }
         },
         /**
@@ -3540,13 +3540,13 @@ if (!HTMLElement.prototype.unwatch) {
             if (!this.isSideMenuEnabled() || this.togglingSideMenu)
                 return;
             this.togglingSideMenu = true;
-            
+
             var that = this;
             var menu = jq("#menu");
             var els = jq("#content, #menu, #header, #navbar");
-            
+
             if (!(menu.hasClass("on") || menu.hasClass("to-on")) && ((force !== undefined && force !== false) || force === undefined)) {
-                
+
                 menu.show();
                 that.css3animate(els, {
                     "removeClass": "to-off off on",
@@ -3570,10 +3570,10 @@ if (!HTMLElement.prototype.unwatch) {
                         }
                     }
                 });
-            
+
             } else if (force === undefined || (force !== undefined && force === false)) {
-                
-                
+
+
                 that.css3animate(els, {
                     "removeClass": "on off to-on",
                     "addClass": "to-off",
@@ -3690,14 +3690,14 @@ if (!HTMLElement.prototype.unwatch) {
          */
         updateSideMenu: function(elems) {
             var that = this;
-            
+
             var nb = jq("#menu_scroller");
-            
+
             if (elems === undefined || elems == null)
                 return;
             if (typeof (elems) == "string") {
                 nb.html(elems, true)
-            } 
+            }
             else {
                 nb.html('');
                 var close = document.createElement("a");
@@ -3725,7 +3725,7 @@ if (!HTMLElement.prototype.unwatch) {
            ```
            $.ui.setTitle("new title");
            ```
-           
+
          * @param {String} value
          * @title $.ui.setTitle(value)
          */
@@ -3737,7 +3737,7 @@ if (!HTMLElement.prototype.unwatch) {
            ```
            $.ui.setBackButtonText("GO...");
            ```
-           
+
          * @param {String} value
          * @title $.ui.setBackButtonText(value)
          */
@@ -3762,7 +3762,7 @@ if (!HTMLElement.prototype.unwatch) {
            $.ui.showMask()
            $.ui.showMask(;Doing work')
            ```
-           
+
          * @param {String} [text]
          * @title $.ui.showMask(text);
          */
@@ -3795,7 +3795,7 @@ if (!HTMLElement.prototype.unwatch) {
                     jq("#modalContainer").html($.feat.nativeTouchScroll ? jq(id).html() : jq(id).get(0).childNodes[0].innerHTML + '', true);
                     jq('#modalContainer').append("<a href='javascript:;' onclick='$.ui.hideModal();' class='closebutton modalbutton'></a>");
                     this.modalWindow.style.display = "block";
-                    
+
                     button = null;
                     content = null;
                     this.scrollingDivs['modal_container'].enable(that.resetScrollers);
@@ -3816,7 +3816,7 @@ if (!HTMLElement.prototype.unwatch) {
         hideModal: function() {
             $("#modalContainer").html("", true);
             jq("#jQui_modal").hide()
-            
+
             this.scrollingDivs['modal_container'].disable();
 
             var tmp=$($("#modalContainer").data("panel"));
@@ -3842,14 +3842,14 @@ if (!HTMLElement.prototype.unwatch) {
             var el = jq(id).get(0);
             if (!el)
                 return;
-            
+
             var newDiv = document.createElement("div");
             newDiv.innerHTML = content;
             if ($(newDiv).children('.panel') && $(newDiv).children('.panel').length > 0)
                 newDiv = $(newDiv).children('.panel').get();
-            
-            
-            
+
+
+
             if (el.getAttribute("js-scrolling") && el.getAttribute("js-scrolling").toLowerCase() == "yes") {
                 $.cleanUpContent(el.childNodes[0], false, true);
                 el.childNodes[0].innerHTML = content;
@@ -3878,7 +3878,7 @@ if (!HTMLElement.prototype.unwatch) {
                 newDiv.innerHTML = content;
                 if ($(newDiv).children('.panel') && $(newDiv).children('.panel').length > 0)
                     newDiv = $(newDiv).children('.panel').get();
-                
+
                 if (!newDiv.title && title)
                     newDiv.title = title;
                 var newId = (newDiv.id) ? newDiv.id : el.replace("#",""); //figure out the new id - either the id from the loaded div.panel or the crc32 hash
@@ -3908,25 +3908,25 @@ if (!HTMLElement.prototype.unwatch) {
             var jsScroll = false;
             var overflowStyle = tmp.style.overflow;
             var hasScroll = overflowStyle != 'hidden' && overflowStyle != 'visible';
-            
+
             container = container || this.content;
             //sets up scroll when required and not supported
             if (!$.feat.nativeTouchScroll && hasScroll)
                 tmp.setAttribute("js-scrolling", "yes");
-            
+
             if (tmp.getAttribute("js-scrolling") && tmp.getAttribute("js-scrolling").toLowerCase() == "yes") {
                 jsScroll = true;
                 hasScroll = true;
             }
-            
-            
-            
+
+
+
             if (tmp.getAttribute("scrolling") && tmp.getAttribute("scrolling") == "no") {
                 hasScroll = false;
                 jsScroll = false;
                 tmp.removeAttribute("js-scrolling");
             }
-            
+
             if (!jsScroll) {
                 container.appendChild(tmp);
                 var scrollEl = tmp;
@@ -3934,8 +3934,8 @@ if (!HTMLElement.prototype.unwatch) {
             } else {
                 //WE need to clone the div so we keep events
                 var scrollEl = tmp.cloneNode(false);
-                
-                
+
+
                 tmp.title = null;
                 tmp.id = null;
                 tmp.removeAttribute("data-footer");
@@ -3946,18 +3946,18 @@ if (!HTMLElement.prototype.unwatch) {
                 tmp.removeAttribute("data-unload");
                 tmp.removeAttribute("data-tab");
                 jq(tmp).replaceClass("panel", "jqmScrollPanel");
-                
+
                 scrollEl.appendChild(tmp);
-                
+
                 container.appendChild(scrollEl);
-                
+
                 if (this.selectBox !== false)
                     this.selectBox.getOldSelects(scrollEl.id);
                 if (this.passwordBox !== false)
                     this.passwordBox.getOldPasswords(scrollEl.id);
-            
+
             }
-            
+
             if (hasScroll) {
                 this.scrollingDivs[scrollEl.id] = (jq(tmp).scroller({
                     scrollBars: true,
@@ -3976,7 +3976,7 @@ if (!HTMLElement.prototype.unwatch) {
                             refreshFunc()
                     });
             }
-            
+
             tmp = null;
             scrollEl = null;
         },
@@ -4060,8 +4060,8 @@ if (!HTMLElement.prototype.unwatch) {
             }
             //load inline headers
             var inlineHeader = $(what).find("header");
-            
-            
+
+
             if (inlineHeader.length > 0) {
                 that.customHeader = what.id;
                 that.updateHeaderElements(inlineHeader.children());
@@ -4071,7 +4071,7 @@ if (!HTMLElement.prototype.unwatch) {
                 jq("#navbar a").removeClass("selected");
                 jq("#navbar #" + what.getAttribute("data-tab")).addClass("selected");
             }
-            
+
             var hasMenu = what.getAttribute("data-nav");
             if (hasMenu && this.customMenu != hasMenu) {
                 this.customMenu = hasMenu;
@@ -4082,9 +4082,9 @@ if (!HTMLElement.prototype.unwatch) {
                 }
                 this.customMenu = false;
             }
-            
-            
-            
+
+
+
             if (oldDiv) {
                 fnc = oldDiv.getAttribute("data-unload");
                 if (typeof fnc == "string" && window[fnc]) {
@@ -4124,7 +4124,7 @@ if (!HTMLElement.prototype.unwatch) {
          * @api public
          */
         loadContent: function(target, newTab, back, transition, anchor) {
-            
+
             if (this.doingTransition) {
                 var that = this;
                 this.loadContentQueue.push([target, newTab, back, transition, anchor]);
@@ -4132,7 +4132,7 @@ if (!HTMLElement.prototype.unwatch) {
             }
             if (target.length === 0)
                 return;
-            
+
             what = null;
             var that = this;
             var loadAjax = true;
@@ -4142,7 +4142,7 @@ if (!HTMLElement.prototype.unwatch) {
                 var crcCheck = jq("div.panel[data-crc='" + urlHash + "']");
                 if (jq("#" + target).length > 0) {
                     loadAjax = false;
-                } 
+                }
                 else if (crcCheck.length > 0) {
                     loadAjax = false;
                     if (anchor.getAttribute("data-refresh-ajax") === 'true' || (anchor.refresh && anchor.refresh === true || this.isAjaxApp)) {
@@ -4183,7 +4183,7 @@ if (!HTMLElement.prototype.unwatch) {
             // load a div
             var that=this;
             what = target.replace("#", "");
-            
+
             var slashIndex = what.indexOf('/');
             var hashLink = "";
             if (slashIndex != -1) {
@@ -4191,9 +4191,9 @@ if (!HTMLElement.prototype.unwatch) {
                 hashLink = what.substr(slashIndex);
                 what = what.substr(0, slashIndex);
             }
-            
+
             what = jq("#" + what).get(0);
-            
+
             if (!what)
                 return console.log ("Target: " + target + " was not found");
             if (what == this.activeDiv && !back) {
@@ -4205,7 +4205,7 @@ if (!HTMLElement.prototype.unwatch) {
             this.transitionType = transition;
             var oldDiv = this.activeDiv;
             var currWhat = what;
-            
+
             if (what.getAttribute("data-modal") == "true" || what.getAttribute("modal") == "true") {
                 var fnc = what.getAttribute("data-load");
                 if (typeof fnc == "string" && window[fnc]) {
@@ -4214,32 +4214,32 @@ if (!HTMLElement.prototype.unwatch) {
                 $(what).trigger("loadpanel");
                 return this.showModal(what.id);
             }
-                        
-            
-          
-            
+
+
+
+
             if (oldDiv == currWhat) //prevent it from going to itself
                 return;
-            
+
             if (newTab) {
                 this.clearHistory();
                 this.pushHistory("#" + this.firstDiv.id, what.id, transition, hashLink);
             } else if (!back) {
                 this.pushHistory(previousTarget, what.id, transition, hashLink);
             }
-            
-            
+
+
             previousTarget = '#' + what.id + hashLink;
-            
-            
+
+
             this.doingTransition = true;
 
             oldDiv.style.display="block";
             currWhat.style.display="block";
-            
-            this.runTransition(transition, oldDiv, currWhat, back);              
-            
-            
+
+            this.runTransition(transition, oldDiv, currWhat, back);
+
+
             //Let's check if it has a function to run to update the data
             this.parsePanelFunctions(what, oldDiv);
             //Need to call after parsePanelFunctions, since new headers can override
@@ -4250,7 +4250,7 @@ if (!HTMLElement.prototype.unwatch) {
                     that.scrollingDivs[oldDiv.id].disable();
                 }
             },200);
-        
+
         },
         /**
          * This is called internally by loadDiv.  This sets up the back button in the header and scroller for the panel
@@ -4290,7 +4290,7 @@ if (!HTMLElement.prototype.unwatch) {
             if (newTab) {
                 this.setBackButtonText(this.firstDiv.title)
             }
-            
+
             if (this.history.length == 0) {
                 this.setBackButtonVisibility(false);
                 this.history = [];
@@ -4325,7 +4325,7 @@ if (!HTMLElement.prototype.unwatch) {
             xmlhttp.onreadystatechange = function() {
                 if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                     this.doingTransition = false;
-                    
+
                     var doReturn = false;
 
                     //Here we check to see if we are retaining the div, if so update it
@@ -4333,9 +4333,9 @@ if (!HTMLElement.prototype.unwatch) {
                         that.updateContentDiv(urlHash, xmlhttp.responseText);
                         jq("#" + urlHash).get(0).title = anchor.title ? anchor.title : target;
                     } else if (anchor.getAttribute("data-persist-ajax") || that.isAjaxApp) {
-                        
+
                         var refresh = (anchor.getAttribute("data-pull-scroller") === 'true') ? true : false;
-                        refreshFunction = refresh ? 
+                        refreshFunction = refresh ?
                         function() {
                             anchor.refresh = true;
                             that.loadContent(target, newTab, back, transition, anchor);
@@ -4363,7 +4363,7 @@ if (!HTMLElement.prototype.unwatch) {
                             that.hideMask();
                         return;
                     }
-                    
+
                     that.loadContent("#" + urlHash);
                     if (that.showLoading)
                        that.hideMask();
@@ -4403,12 +4403,12 @@ if (!HTMLElement.prototype.unwatch) {
          * @title $.ui.launch();
          */
         launch: function() {
-            
+
             if (this.hasLaunched == false || this.launchCompleted) {
                 this.hasLaunched = true;
                 return;
             }
-            
+
             var that = this;
             this.isAppMobi = (window.AppMobi && typeof (AppMobi) == "object" && AppMobi.app !== undefined) ? true : false;
             this.viewportContainer = jq("#jQUi");
@@ -4451,7 +4451,7 @@ if (!HTMLElement.prototype.unwatch) {
                         //but we haven't found an accurate way to measure it and this is the best so far
                         paddingBottom = jQactive.offset().bottom - jQel.offset().bottom;
                         that.scrollingDivs[that.activeDiv.id].setPaddings(paddingTop, paddingBottom);
-                    
+
                     } else if ($.os.android || $.os.blackberry) {
                         var elPos = jQel.offset();
                         var containerPos = jQactive.offset();
@@ -4497,7 +4497,7 @@ if (!HTMLElement.prototype.unwatch) {
                 if ($.feat.nativeTouchScroll)
                     $("#menu_scroller").css("height", "100%");
             }
-            
+
             if (!this.content) {
                 this.content = document.createElement("div");
                 this.content.id = "content";
@@ -4536,7 +4536,7 @@ if (!HTMLElement.prototype.unwatch) {
                 vScrollCSS: "jqmScrollbar",
                 noParent: true
             });
-            
+
             this.modalWindow = modalDiv;
             //get first div, defer
             var defer = {};
@@ -4568,7 +4568,7 @@ if (!HTMLElement.prototype.unwatch) {
                 }
                 if (!this.firstDiv)
                     this.firstDiv = $("#" + id).get(0);
-                
+
                 el = null;
             }
             contentDivs = null;
@@ -4590,7 +4590,7 @@ if (!HTMLElement.prototype.unwatch) {
                                 if (loaded >= toLoad) {
                                     $(document).trigger("defer:loaded");
                                     loadingDefer = false;
-                                
+
                                 }
                             },
                             error: function(msg) {
@@ -4607,19 +4607,19 @@ if (!HTMLElement.prototype.unwatch) {
                 }
             }
             if (this.firstDiv) {
-                
+
                 var that = this;
                 // Fix a bug in iOS where translate3d makes the content blurry
                 this.activeDiv = this.firstDiv;
-                
+
                 if (this.scrollingDivs[this.activeDiv.id]) {
                     this.scrollingDivs[this.activeDiv.id].enable();
                 }
 
                 //window.setTimeout(function() {
                 var loadFirstDiv = function() {
-                    
-                    
+
+
                     if (jq("#navbar a").length > 0) {
                         jq("#navbar a").data("ignore-pressed", "true").data("resetHistory", "true");
                         that.defaultFooter = jq("#navbar").children().clone();
@@ -4649,14 +4649,14 @@ if (!HTMLElement.prototype.unwatch) {
                         previousTarget = "#" + that.firstDiv.id;
                         that.loadContentData(that.firstDiv); //load the info off the first panel
                         that.parsePanelFunctions(that.firstDiv);
-                        
+
                         that.firstDiv.style.display = "block";
                         $("#header #backButton").css("visibility", "hidden");
-                        if (that.firstDiv.getAttribute("data-modal") == "true" || that.firstDiv.getAttribute("modal") == "true") {            
+                        if (that.firstDiv.getAttribute("data-modal") == "true" || that.firstDiv.getAttribute("modal") == "true") {
                             that.showModal(that.firstDiv.id);
                         }
                     }
-                    
+
                     that.launchCompleted = true;
                     if (jq("nav").length > 0) {
                         jq("#jQUi #header").addClass("hasMenu off");
@@ -4686,7 +4686,7 @@ if (!HTMLElement.prototype.unwatch) {
                 this.blockPageScroll();
             }
             this.topClickScroll();
-           
+
         },
         /**
          * This simulates the click and scroll to top of browsers
@@ -4696,7 +4696,7 @@ if (!HTMLElement.prototype.unwatch) {
                 if(e.clientY<=15&&e.target.nodeName.toLowerCase()=="h1") //hack - the title spans the whole width of the header
                     $.ui.scrollingDivs[$.ui.activeDiv.id].scrollToTop("100");
             });
-        
+
         },
         /**
          * This blocks the page from scrolling/panning.  Usefull for native apps
@@ -4756,10 +4756,10 @@ if (!HTMLElement.prototype.unwatch) {
     };
 
 
-    //lookup for a clicked anchor recursively and fire UI own actions when applicable 
+    //lookup for a clicked anchor recursively and fire UI own actions when applicable
     var checkAnchorClick = function(e, theTarget) {
-        
-        
+
+
         if (theTarget == (jQUi)) {
             return;
         }
@@ -4769,17 +4769,17 @@ if (!HTMLElement.prototype.unwatch) {
             return checkAnchorClick(e, theTarget.parentNode); //let's try the parent (recursive)
         //anchors
         if (theTarget.tagName !== "undefined" && theTarget.tagName.toLowerCase() == "a") {
-            
+
             var custom = (typeof jq.ui.customClickHandler == "function") ? jq.ui.customClickHandler : false;
             if (custom !== false) {
                 if(jq.ui.customClickHandler(theTarget))
                    return e.preventDefault();
-                
+
             }
             if (theTarget.href.toLowerCase().indexOf("javascript:") !== -1 || theTarget.getAttribute("data-ignore")) {
                 return;
             }
-            
+
 
             if (theTarget.href.indexOf("tel:") === 0)
                 return false;
@@ -4818,13 +4818,13 @@ if (!HTMLElement.prototype.unwatch) {
             return;
         }
     }
-    
+
     var table = "00000000 77073096 EE0E612C 990951BA 076DC419 706AF48F E963A535 9E6495A3 0EDB8832 79DCB8A4 E0D5E91E 97D2D988 09B64C2B 7EB17CBD E7B82D07 90BF1D91 1DB71064 6AB020F2 F3B97148 84BE41DE 1ADAD47D 6DDDE4EB F4D4B551 83D385C7 136C9856 646BA8C0 FD62F97A 8A65C9EC 14015C4F 63066CD9 FA0F3D63 8D080DF5 3B6E20C8 4C69105E D56041E4 A2677172 3C03E4D1 4B04D447 D20D85FD A50AB56B 35B5A8FA 42B2986C DBBBC9D6 ACBCF940 32D86CE3 45DF5C75 DCD60DCF ABD13D59 26D930AC 51DE003A C8D75180 BFD06116 21B4F4B5 56B3C423 CFBA9599 B8BDA50F 2802B89E 5F058808 C60CD9B2 B10BE924 2F6F7C87 58684C11 C1611DAB B6662D3D 76DC4190 01DB7106 98D220BC EFD5102A 71B18589 06B6B51F 9FBFE4A5 E8B8D433 7807C9A2 0F00F934 9609A88E E10E9818 7F6A0DBB 086D3D2D 91646C97 E6635C01 6B6B51F4 1C6C6162 856530D8 F262004E 6C0695ED 1B01A57B 8208F4C1 F50FC457 65B0D9C6 12B7E950 8BBEB8EA FCB9887C 62DD1DDF 15DA2D49 8CD37CF3 FBD44C65 4DB26158 3AB551CE A3BC0074 D4BB30E2 4ADFA541 3DD895D7 A4D1C46D D3D6F4FB 4369E96A 346ED9FC AD678846 DA60B8D0 44042D73 33031DE5 AA0A4C5F DD0D7CC9 5005713C 270241AA BE0B1010 C90C2086 5768B525 206F85B3 B966D409 CE61E49F 5EDEF90E 29D9C998 B0D09822 C7D7A8B4 59B33D17 2EB40D81 B7BD5C3B C0BA6CAD EDB88320 9ABFB3B6 03B6E20C 74B1D29A EAD54739 9DD277AF 04DB2615 73DC1683 E3630B12 94643B84 0D6D6A3E 7A6A5AA8 E40ECF0B 9309FF9D 0A00AE27 7D079EB1 F00F9344 8708A3D2 1E01F268 6906C2FE F762575D 806567CB 196C3671 6E6B06E7 FED41B76 89D32BE0 10DA7A5A 67DD4ACC F9B9DF6F 8EBEEFF9 17B7BE43 60B08ED5 D6D6A3E8 A1D1937E 38D8C2C4 4FDFF252 D1BB67F1 A6BC5767 3FB506DD 48B2364B D80D2BDA AF0A1B4C 36034AF6 41047A60 DF60EFC3 A867DF55 316E8EEF 4669BE79 CB61B38C BC66831A 256FD2A0 5268E236 CC0C7795 BB0B4703 220216B9 5505262F C5BA3BBE B2BD0B28 2BB45A92 5CB36A04 C2D7FFA7 B5D0CF31 2CD99E8B 5BDEAE1D 9B64C2B0 EC63F226 756AA39C 026D930A 9C0906A9 EB0E363F 72076785 05005713 95BF4A82 E2B87A14 7BB12BAE 0CB61B38 92D28E9B E5D5BE0D 7CDCEFB7 0BDBDF21 86D3D2D4 F1D4E242 68DDB3F8 1FDA836E 81BE16CD F6B9265B 6FB077E1 18B74777 88085AE6 FF0F6A70 66063BCA 11010B5C 8F659EFF F862AE69 616BFFD3 166CCF45 A00AE278 D70DD2EE 4E048354 3903B3C2 A7672661 D06016F7 4969474D 3E6E77DB AED16A4A D9D65ADC 40DF0B66 37D83BF0 A9BCAE53 DEBB9EC5 47B2CF7F 30B5FFE9 BDBDF21C CABAC28A 53B39330 24B4A3A6 BAD03605 CDD70693 54DE5729 23D967BF B3667A2E C4614AB8 5D681B02 2A6F2B94 B40BBE37 C30C8EA1 5A05DF1B 2D02EF8D"; /* Number */
     var crc32 = function( /* String */str,  /* Number */crc) {
         if (crc == undefined)
             crc = 0;
-        var n = 0; //a number between 0 and 255 
-        var x = 0; //an hex number 
+        var n = 0; //a number between 0 and 255
+        var x = 0; //an hex number
         crc = crc ^ (-1);
         for (var i = 0, iTop = str.length; i < iTop; i++) {
             n = (crc ^ str.charCodeAt(i)) & 0xFF;
@@ -4833,8 +4833,8 @@ if (!HTMLElement.prototype.unwatch) {
         }
         return crc ^ (-1);
     };
-    
-    
+
+
     $.ui = new ui;
 
 })(jq);
@@ -4856,7 +4856,7 @@ if (!HTMLElement.prototype.unwatch) {
     });
 })();
 (function($ui){
-    
+
         function fadeTransition (oldDiv, currDiv, back) {
             oldDiv.style.display = "block";
             currDiv.style.display = "block";
@@ -4874,14 +4874,14 @@ if (!HTMLElement.prototype.unwatch) {
                             that.finishTransition(oldDiv, currDiv);
                             return;
                         }
-                        
+
                         that.css3animate(oldDiv, {
                             x: "-100%",
                             opacity: 1,
                             complete: function() {
                                 that.finishTransition(oldDiv);
                             }
-                        
+
                         });
                         currDiv.style.zIndex = 2;
                         oldDiv.style.zIndex = 1;
@@ -4904,7 +4904,7 @@ if (!HTMLElement.prototype.unwatch) {
                                     that.finishTransition(oldDiv, currDiv);
                                     return;
                                 }
-                                
+
                                 that.clearAnimations(currDiv);
                                 that.css3animate(oldDiv, {
                                     x: "-100%",
@@ -4922,7 +4922,7 @@ if (!HTMLElement.prototype.unwatch) {
         $ui.availableTransitions.fade = fadeTransition;
 })($.ui);
 (function($ui){
-    
+
         function flipTransition (oldDiv, currDiv, back) {
              oldDiv.style.display = "block";
             currDiv.style.display = "block";
@@ -5006,7 +5006,7 @@ if (!HTMLElement.prototype.unwatch) {
         $ui.availableTransitions.flip = flipTransition;
 })($.ui);
 (function($ui){
-        
+
          function popTransition(oldDiv, currDiv, back) {
             oldDiv.style.display = "block";
             currDiv.style.display = "block";
@@ -5026,7 +5026,7 @@ if (!HTMLElement.prototype.unwatch) {
                             that.finishTransition(oldDiv);
                             return;
                         }
-                        
+
                         that.css3animate(oldDiv, {
                             x: "-100%",
                             complete: function() {
@@ -5058,7 +5058,7 @@ if (!HTMLElement.prototype.unwatch) {
                                     that.finishTransition(oldDiv, currDiv);
                                     return;
                                 }
-                                
+
                                 that.clearAnimations(currDiv);
                                 that.css3animate(oldDiv, {
                                     x: "100%",
@@ -5076,7 +5076,7 @@ if (!HTMLElement.prototype.unwatch) {
         $ui.availableTransitions.pop = popTransition;
 })($.ui);
 (function($ui){
-    
+
         /**
          * Initiate a sliding transition.  This is a sample to show how transitions are implemented.  These are registered in $ui.availableTransitions and take in three parameters.
          * @param {Object} previous panel
@@ -5134,7 +5134,7 @@ if (!HTMLElement.prototype.unwatch) {
         $ui.availableTransitions['default'] = slideTransition;
 })($.ui);
 (function($ui){
-    
+
         function slideDownTransition (oldDiv, currDiv, back) {
             oldDiv.style.display = "block";
             currDiv.style.display = "block";
@@ -5152,13 +5152,13 @@ if (!HTMLElement.prototype.unwatch) {
                             that.finishTransition(oldDiv, currDiv);
                             return;
                         }
-                        
+
                         that.css3animate(oldDiv, {
                             x: "-100%",
                             y: 0,
                             complete: function() {
                                 that.finishTransition(oldDiv);
-                            
+
                             }
                         });
                         currDiv.style.zIndex = 2;
@@ -5181,7 +5181,7 @@ if (!HTMLElement.prototype.unwatch) {
                                     that.finishTransition(oldDiv, currDiv);
                                     return;
                                 }
-                                
+
                                 that.clearAnimations(currDiv);
                                 that.css3animate(oldDiv, {
                                     x: "-100%",
@@ -5190,7 +5190,7 @@ if (!HTMLElement.prototype.unwatch) {
                                         that.finishTransition(oldDiv);
                                     }
                                 });
-                                
+
                             }
                         });
                     }
@@ -5201,7 +5201,7 @@ if (!HTMLElement.prototype.unwatch) {
 })($.ui);
 
 (function($ui){
-    
+
         function slideUpTransition(oldDiv, currDiv, back) {
              oldDiv.style.display = "block";
             currDiv.style.display = "block";
@@ -5209,7 +5209,7 @@ if (!HTMLElement.prototype.unwatch) {
             if (back) {
                 currDiv.style.zIndex = 1;
                 oldDiv.style.zIndex = 2;
-                
+
                 that.clearAnimations(currDiv);
 
                 that.css3animate(oldDiv, {
@@ -5238,7 +5238,7 @@ if (!HTMLElement.prototype.unwatch) {
                                     that.finishTransition(oldDiv, currDiv);
                                     return;
                                 }
-                                
+
                                 that.clearAnimations(currDiv);
                                 that.css3animate(oldDiv, {
                                     x: "-100%",
@@ -5247,7 +5247,7 @@ if (!HTMLElement.prototype.unwatch) {
                                         that.finishTransition(oldDiv);
                                     }
                                 });
-                                
+
                             }
                         });
                     }

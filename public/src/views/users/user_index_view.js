@@ -3,9 +3,7 @@
       <div class='span4 offset4 text-center '>FunLife</div>
       <div class='span4 text-right'>
          <a class="btn btn-small"  href="/users_controller/logout">Logout</a>
-      </div
-         
-      </span>
+      </div>
    </div>
 </div>
 
@@ -15,12 +13,12 @@
 <div class="row-fluid">
    <ul class="thumbnails">
        <li class="span3 text-center">
-       <a href="#" class="thumbnail no_borders">
+       <a href="/activity_controller/new" class="thumbnail no_borders">
          <img src="/src/layout/img/create_activity.png">
        </a>
      </li>
        <li class="span3 text-center">
-       <a href="/users_controller/users_list" class="thumbnail no_borders">
+       <a href="/chats_controller/" class="thumbnail no_borders">
          <img src="/src/layout/img/chats.png">
        </a>
      </li>

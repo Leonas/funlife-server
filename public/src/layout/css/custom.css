@@ -78,6 +78,14 @@ min-height: 0px;
    padding-top: 28px;
 }
 
+.navbar-fixed-bottom {
+bottom: 28px;
+}
+
+.lead {
+margin-bottom: 0px;
+}
+
 .navbar .btn, .navbar .btn-group {
 margin-top: 0px;
 margin-bottom: 4px;

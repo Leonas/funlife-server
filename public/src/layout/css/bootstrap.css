@@ -577,84 +577,6 @@ a:focus {
   min-height: 1px;
 /*  margin-left: 20px;*/
 }
-.container,
-.navbar-static-top .container,
-.navbar-fixed-top .container,
-.navbar-fixed-bottom .container {
-  width: 940px;
-}
-.span12 {
-  width: 940px;
-}
-.span11 {
-  width: 860px;
-}
-.span10 {
-  width: 780px;
-}
-.span9 {
-  width: 700px;
-}
-.span8 {
-  width: 620px;
-}
-.span7 {
-  width: 540px;
-}
-.span6 {
-  width: 460px;
-}
-.span5 {
-  width: 380px;
-}
-.span4 {
-  width: 300px;
-}
-.span3 {
-  width: 220px;
-}
-.span2 {
-  width: 140px;
-}
-.span1 {
-  width: 60px;
-}
-.offset12 {
-  margin-left: 980px;
-}
-.offset11 {
-  margin-left: 900px;
-}
-.offset10 {
-  margin-left: 820px;
-}
-.offset9 {
-  margin-left: 740px;
-}
-.offset8 {
-  margin-left: 660px;
-}
-.offset7 {
-  margin-left: 580px;
-}
-.offset6 {
-  margin-left: 500px;
-}
-.offset5 {
-  margin-left: 420px;
-}
-.offset4 {
-  margin-left: 340px;
-}
-.offset3 {
-  margin-left: 260px;
-}
-.offset2 {
-  margin-left: 180px;
-}
-.offset1 {
-  margin-left: 100px;
-}
 .row-fluid {
   width: 100%;
   *zoom: 1;
@@ -694,8 +616,8 @@ a:focus {
   *width: 91.43617021276594%;
 }
 .row-fluid .span10 {
-  width: 82.97872340425532%;
-  *width: 82.92553191489361%;
+  width: 83.3333%;
+  *width: 83.3333%;
 }
 .row-fluid .span9 {
   width: 74.46808510638297%;
@@ -710,8 +632,8 @@ a:focus {
   *width: 57.39361702127659%;
 }
 .row-fluid .span6 {
-  width: 48.93617021276595%;
-  *width: 48.88297872340425%;
+  width: 50%%;
+  *width: 50%%;
 }
 .row-fluid .span5 {
   width: 40.42553191489362%;
@@ -726,8 +648,8 @@ a:focus {
   *width: 23.351063829787233%;
 }
 .row-fluid .span2 {
-  width: 14.893617021276595%;
-  *width: 14.840425531914894%;
+  width: 16.666%;
+  *width: 16.666%;
 }
 .row-fluid .span1 {
   width: 6.382978723404255%;
@@ -822,12 +744,12 @@ a:focus {
   *margin-left: 16.914893617021278%;
 }
 .row-fluid .offset1 {
-  margin-left: 10.638297872340425%;
-  *margin-left: 10.53191489361702%;
+  margin-left: 8.33%;
+  *margin-left: 8.33%;
 }
 .row-fluid .offset1:first-child {
-  margin-left: 8.51063829787234%;
-  *margin-left: 8.404255319148938%;
+  margin-left: 8.33%;
+  *margin-left: 8.33%;
 }
 [class*="span"].hide,
 .row-fluid [class*="span"].hide {

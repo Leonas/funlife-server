@@ -66,7 +66,7 @@ $.mvc.controller.create('chats_controller', {
     //If view doesn't exist, make one
     if ($('#chat_detail_view').length == 0) {
       $.ui.addContentDiv('chat_detail_view',
-          $.template('views/chats/chat_detail_view.js'), 'chats detail View');
+          $.template('views/chats/chat_detail_view.js', chat_log), 'chats detail View');
 
     }
     //otherwise, update the content inside
@@ -80,6 +80,8 @@ $.mvc.controller.create('chats_controller', {
       chat_id.send_message();
     });
 
+    //Need to do something better than this here. Everything below this line is bad
+    //-------------------------------
 
     if (JSON.parse(window.localStorage.getItem('chat_' + user_id))) {                                                       //see if we have saved chatroom data
       chat_room[user_id] = JSON.parse(window.localStorage.getItem('chat_' + user_id));
@@ -90,10 +92,6 @@ $.mvc.controller.create('chats_controller', {
     }
 
     //chat_room[user_id].refresh();       //this needs to be implemented
-
-
-    //Show the chat_view
-    $.ui.loadContent('chat_view', false, false, 'pop');
 
     //todo
     //send the latest message_id (#embeds_many message) to the server via getJSON

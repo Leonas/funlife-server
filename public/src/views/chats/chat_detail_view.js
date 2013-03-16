@@ -11,6 +11,30 @@
      <a class="span6 btn" href='/chats_controller/'>Recieved</a>
      <a class="span6 btn" href='/chats_controller/recieved/'>Sent</a>
    </div>
+<!--
+       {{~it.chat_log :value:index}}
+   Chatting with {{=value.chat_info.person2}}
+{{? value.messages.name === current_user.name }}
+     <div class='chat_message_left'>
+       <div class='userimg' style='background-image:url({{=value.userimg}});'></div>
+       <div class='usercomment'>
+         <span class='username'>{{=value.name}}</span>
+         <span class='commentTime'>{{=value.time}}</span>
+         <p class='commentContent'>{{=value.comment}}</p>
+       </div>
+     </div>
+{{?? value.level != true}}
+     <div class='chat_message_right'>
+       <div class='userimg' style='background-image: url({{=value.userimg}})'></div>
+       <div class='usercomment'>
+         <span class='username'>{{=value.name}}</span>
+         <span class='commentTime'>{{=value.time}}</span>
+         <p class='commentContent'>{{=value.comment}}</p>
+       </div>
+     </div>
+{{?}}
+{{~}}
+    -->
 
 <div class='row-fluid well well-small'>
    <div class='span2'>

@@ -4,36 +4,8 @@ User = new $.mvc.model.Extend('user', {                                 //Instan
   token: '',
   profile_pic: '',
 
-
-  authenticate_token: function () {                 //check if the token is valid
-  //this is a bad function. if the person has no signal and this fails, he gets redirected to login
-    var data = {
-      name: current_user.name,
-      email: current_user.email,
-      token: current_user.token
-    };
-
-
-    $.ajax({
-      type: 'GET',
-      url: server + '/user/auth/',
-      contentType: 'application/json',
-      headers: { TOKEN: current_user.token },
-      data: data,
-      dataType: 'application/json',
-      success: function () {
-        $.mvc.route('/users_controller/');
-        $('#footer').show();
-      },
-      error: function (response) {
-        $.mvc.route('/users_controller/user_login');
-      }
-    });
-
-  },
-
-
-  register1: function (form_data) {                                    //register part 1
+  //Submit registration and move to step2 on success
+  register1: function (form_data) {
     $('#wrong_password').hide();
     $('#email_exists').hide();
     $.ajax({
@@ -46,7 +18,7 @@ User = new $.mvc.model.Extend('user', {                                 //Instan
         console.log(response);
         current_user.token = $.parseJSON(response).token;
         current_user.save();
-        $.mvc.route('/users_controller/user_registration');
+        $.mvc.route('/users_controller/register2');
       },
 
       error: function () {
@@ -72,12 +44,13 @@ User = new $.mvc.model.Extend('user', {                                 //Instan
 
       error: function () {
         console.log('failed registration - something went wrong');
+        //Need to make this do something for the user. Connection error.
       }
     });
   },
 
 
-  authenticate_login: function (form_data) {
+  login: function (form_data) {
     $('#wrong_password').hide();
     $('#email_exists').hide();
     $.ajax({
@@ -99,14 +72,14 @@ User = new $.mvc.model.Extend('user', {                                 //Instan
     });
   },
 
-
-  save: function () {                                             //Save the user to local storage
+  //Save the user to local storage
+  save: function () {
     window.localStorage.setItem('current_user', JSON.stringify(current_user));
   },
 
-
-  get_from_local: function () {                                  //Load a user from local storage
-    try {                                                      //if one exists, return true/false
+  //Load a user from local storage
+  get_from_local: function () {
+    try {
       var saved_user = JSON.parse(window.localStorage.getItem('current_user'));
       if (saved_user.token.length > 5) {
         current_user.name = saved_user.name;

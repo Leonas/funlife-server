@@ -10,7 +10,7 @@
     <input type="text" name="user[first_name]"  placeholder="first name">
     <input type="text" name="user[last_name]" placeholder="last name">
         </form>
-        <a href="/users_controller/user_registration/complete" class="btn btn-success">Complete Registration</a>
+        <a href="/users_controller/register2/complete" class="btn btn-success">Complete Registration</a>
     </div>
 </div>
 </div>

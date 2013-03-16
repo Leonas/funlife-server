@@ -2,24 +2,37 @@
 
 $.mvc.controller.create('photos_controller', {
   //All views needed by controller must be listed here.
-  views: ["views/photos/photos_index_view.js"],
+  views: ['views/photos/photos_index_view.js', 'views/photos/photo_detail_view.js'],
 
   init: function () {
 
 
   },
 
-  default: function () {                                         //display all previous chats                                                                   //get the local chat data
+  default: function () {
     $('#bottom_nav_home').removeClass('ui-btn-active');
     $('#bottom_nav_photos').removeClass('ui-btn-active');
     $('#bottom_nav_places').removeClass('ui-btn-active');
     $('#bottom_nav_people').removeClass('ui-btn-active');
     $('#bottom_nav_photos').addClass('ui-btn-active');
 
-    if ($("#photos_index_view").length == 0) {                 //If the view div doesn't exist, make it!
-      $.ui.addContentDiv("photos_index_view", $.template('views/photos/photos_index_view.js'), "Photos");
+    //If the view div doesn't exist, make it!
+    if ($('#photos_index_view').length == 0) {
+      $.ui.addContentDiv('photos_index_view', $.template('views/photos/photos_index_view.js'), 'Photos');
     }
-    $.ui.loadContent("photos_index_view", false, false, "fade"); //Show the view
+    //Show the view
+    $.ui.loadContent('photos_index_view', false, false, 'fade');
+
+  },
+
+  detail: function (photo_id, comment) {
+
+    //If the view div doesn't exist, make it!
+    if ($('#photos_index_view').length == 0) {
+      $.ui.addContentDiv('photos_index_view', $.template('views/photos/photos_index_view.js'), 'Photos');
+    }
+    //Show the view
+    $.ui.loadContent('photos_index_view', false, false, 'fade');
 
   }
 });

@@ -2,8 +2,8 @@
 
 $.mvc.controller.create('users_controller', {
   //All views needed by controller must be listed here.
-  views: ['views/users/user_login_view.js', 'views/users/user_registration_view.js',
-    'views/users/users_list_view.js', 'views/users/user_index_view.js'],
+  views: ['views/users/user_login_register_view.js', 'views/users/user_register2_view.js',
+     'views/users/user_index_view.js'],
 
   init: function () {
 
@@ -22,7 +22,7 @@ $.mvc.controller.create('users_controller', {
     //this.users_list();
   },
 
-  home_page: function() {
+  home_page: function () {
 
     //This ajax request is not going to the correct place
     $.ajax({
@@ -33,14 +33,17 @@ $.mvc.controller.create('users_controller', {
 
       success: function (response, statusText, xhr) {
         var data = JSON.parse(response);
-        if ($('#user_index_view').length == 0) {                           //If view doesn't exist, make one
+        //If view doesn't exist, make one
+        if ($('#user_index_view').length == 0) {
           $.ui.addContentDiv('user_index_view',
               $.template('views/users/user_index_view.js'), 'Users index View');
         }
-        else {                                                          //otherwise, update the content inside
+        //otherwise, update the content inside
+        else {
           //$.ui.updateContentDiv('user_index_view', $.template('views/user/user_index_view.js'));
         }
-        $.ui.loadContent('user_index_view', false, false, 'fade');            //show the user_index view
+        //show the user_index view
+        $.ui.loadContent('user_index_view', false, false, 'fade');
       },
 
       error: function () {
@@ -51,83 +54,75 @@ $.mvc.controller.create('users_controller', {
 
   },
 
-  user_login: function (action) {
+  login_register: function (action) {
+    //If the div doesn't exist, make it!
+    if ($('#user_login_register_view').length == 0) {
+      $.ui.addContentDiv('user_login_register_view', $.template('views/users/user_login_register_view.js'), 'Login or Register');
+    }
+    //Show the view
+    $.ui.loadContent('user_login_register_view', false, false, 'fade');
 
     var form_data = $('#login_form').serialize();
 
-    if ($('#user_login_view').length == 0) {                 //If the user_login_view div doesn't exist, make it!
-      $.ui.addContentDiv('user_login_view', $.template('views/users/user_login_view.js'), 'Login or Register');
-    }
-    $.ui.loadContent('user_login_view', false, false, 'fade'); //Show the user_login_view
-
-
-    if (action == 'login') {                                 //If login clicked, we post to get token
-      current_user.authenticate_login(form_data);
+    //If login attempt auth
+    if (action == 'login') {
+      current_user.login(form_data);
+      //This is here because I couldn't save it from within the object. fix plz
       current_user.save();
     }
     else if (action == 'register') {
       current_user.register1(form_data);
+      //This is here because I couldn't save it from within the object. fix plz
       current_user.save();
     }
-
-
-  },
-  logout: function () {
-    console.log('logging out');
-
-    $('#footer').hide();
-
-    if ($('#user_login_view').length == 0) {                 //If the user_login_view div doesn't exist, make it!
-      $.ui.addContentDiv('user_login_view', $.template('views/users/user_login_view.js'), 'Login or Register');
-    } else {
-      var elem = document.getElementById('user_login_view');          //otherwise form data is displayed
-      elem.parentNode.removeChild(elem);                              //possible execute right after login?
-      $.ui.addContentDiv('user_login_view', $.template('views/users/user_login_view.js'), 'Login or Register');
-    }
-
-    current_user.logout();
-    $.ui.loadContent('user_login_view', false, false, 'fade'); //Show the user_login_view
-
-
   },
 
-  user_registration: function (action) {
-    if ($('#user_registration_view').length == 0) {               //If the view doesn't exist, create it
-      $.ui.addContentDiv('user_registration_view',
-          $.template('views/users/user_registration_view.js', current_user), 'Complete Registration');
+
+
+  register2: function (action) {
+    //If the view doesn't exist, create it
+    if ($('#user_register2_view').length == 0) {
+      $.ui.addContentDiv('user_register2_view',
+          $.template('views/users/user_register2_view.js', current_user), 'Complete Registration');
     }
-    $.ui.loadContent('user_registration_view', false, false, 'fade');                 //Show the user_login_view
+    //Show the user_login_view
+    $.ui.loadContent('user_register2_view', false, false, 'fade');
 
 
-    if (action == 'complete') {                                         //If the person clicked on complete
+    if (action == 'complete') {
       current_user.register2($('#registration_details_form').serialize());
     }
     current_user.save();
   },
-  users_list: function () {
 
-    $.ajax({
-      type: 'GET',
-      url: server + '/users/',
-      dataType: 'application/json',
-      headers: { TOKEN: current_user.token },
 
-      success: function (response, statusText, xhr) {
-        var data = JSON.parse(response);
-        if ($('#users_list_view').length == 0) {                           //If view doesn't exist, make one
-          $.ui.addContentDiv('users_list_view',
-              $.template('views/users/users_list_view.js', data), 'Users List View');
-        }
-        else {                                                          //otherwise, update the content inside
-          $.ui.updateContentDiv('users_list_view', $.template('views/users/users_list_view.js', data));
-        }
-        $.ui.loadContent('users_list_view', false, false, 'fade');            //show the user_list view
-      },
 
-      error: function () {
+  logout: function () {
+    current_user.logout();
+    $('#footer').hide();
 
-      }
-    });
+    //If the div doesn't exist, make it!
+    if ($('#user_login_register_view').length == 0) {
+      $.ui.addContentDiv('user_login_register_view', $.template('views/users/user_login_register_view.js'), 'Login or Register');
+    } else {
+
+      //this deletes the whole view just to get rid of the login form data
+      //This whole screen should be deleted right after login if that saves on memory/is garbage collected
+      //Rewrite how all the screens work if its better to delete each one
+
+      var elem = document.getElementById('user_login_register_view');
+      elem.parentNode.removeChild(elem);
+      $.ui.addContentDiv('user_login_register_view', $.template('views/users/user_login_register_view.js'), 'Login or Register');
+    }
+
+    //
+
+    //Show the user_login_view
+    $.ui.loadContent('user_login_register_view', false, false, 'fade');
+
+
   }
+
+
 });
 

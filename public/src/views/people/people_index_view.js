@@ -1,6 +1,6 @@
 <div class="navbar navbar-fixed-top">
    <div class='navbar-inner text-center lead'>
-      Friends
+      Following
    </div>
 </div>
    <div class="row-fluid btn-group">

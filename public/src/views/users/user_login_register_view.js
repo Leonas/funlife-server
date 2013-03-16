@@ -13,8 +13,8 @@
         <input type="text" name="user[password]" placeholder="password">
       </form>
       <ul class="pager">
-          <li><a href="/users_controller/user_login/register">Register</a></li>
-          <li><a href="/users_controller/user_login/login">Login</a></li>
+          <li><a href="/users_controller/login_register/register">Register</a></li>
+          <li><a href="/users_controller/login_register/login">Login</a></li>
       </ul>
     </div>
   </div>

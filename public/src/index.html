@@ -21,7 +21,7 @@
     <script src='core/jq.mobi.js'></script>
     <script src='core/jq.ui.js'></script>
 
-    <script src='core/addons.js'></script>
+    <script src='core/global_settings.js'></script>
 
     <!--For more jqUI info: https://github.com/html5mgithub/jQ.Mobi/tree/master/ui-->
     <script src='core/jq.mvc.js'></script>
@@ -57,9 +57,9 @@
                 $.mvc.route('/users_controller/');
             } else {
                 console.log('token not found on localstorage. displaying login');
-                //$.mvc.route('/users_controller/user_login');
-                $.ui.addContentDiv('user_login_view', $.template('views/users/user_login_view.js'), 'Login or Register');
-                $.ui.loadContent('user_login_view', false, false, 'fade'); //Show the user_login_view
+                //$.mvc.route('/users_controller/login');
+                $.ui.addContentDiv('user_login_register_view', $.template('views/users/user_login_register_view.js'), 'Login or Register');
+                $.ui.loadContent('user_login_register_view', false, false, 'fade'); //Show the user_login_view
             }
         });
     </script>

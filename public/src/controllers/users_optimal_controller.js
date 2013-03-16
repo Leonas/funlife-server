@@ -10,9 +10,48 @@ $.mvc.controller.create('users_controller', {
 
   },
 
+  easy_funcs: {
+    set_active_nav: function (div_id){
+
+    },
+    get_with_token: function(path, success, failure){
+
+    },
+    show_page: function(template_location, div_id, title, data){
+
+
+      if ($('#user_index_view').length == 0) {
+        $.ui.addContentDiv('user_index_view',
+            $.template('views/users/user_index_view.js'), 'Users index View');
+      }
+      //otherwise, update the content inside
+      else {
+        //$.ui.updateContentDiv('user_index_view', $.template('views/user/user_index_view.js'));
+      }
+      //trigger the page transition/navigation event
+      $.ui.loadContent('user_index_view', false, false, 'fade');
+    }
+
+  },
+
   default: function () {
-    $.set_bottom_nav('home');
-    $.getSecure('/users/', )
+
+    $.set_active_nav('#bottom_nav_home');
+
+    $.get_with_token('/users/', )
+
+    //click on page
+    //do we have localstorage? if yes, load instantly
+    //else, load spinner
+
+    $.show_page({
+       title: 'FunLife',
+       div_id: 'user_index_view',
+       template: 'views/users/user_index_view.js',
+       back_button: true,
+       data: data
+    });
+
     //now some promise thing should be here
     $.show_page('views/users/user_index_view.js', 'Title', data); //Takes care of adding/updating
 

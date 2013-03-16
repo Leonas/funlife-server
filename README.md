@@ -1,6 +1,6 @@
 ## FunLife
 
-[An Intro to FunLife](https://github.com/Leonas/funlife/wiki/Introduction-to-FunLife)  
+[What we're all about.](https://github.com/Leonas/funlife/wiki/Introduction-to-FunLife)
 
 Take a look at our [wiki!](https://github.com/Leonas/funlife/wiki)  
 

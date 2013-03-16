@@ -1,8 +1,8 @@
 ## FunLife
 
-Take a look at our wiki:   
-There are no changes?
+[An Intro to FunLife](https://github.com/Leonas/funlife/wiki/Introduction-to-FunLife)  
 
+Take a look at our [wiki!](https://github.com/Leonas/funlife/wiki)  
 
 
 ## Folder Structure
@@ -11,17 +11,14 @@ Both the backend and the app are in this repo
 
 JS files for the app are under /public/src/
 
-The other files in /public/ are Trigger.io files
+## Engineering Notes
 
-## Engineering Objective
-
-Our goal is to be as efficient as possible in creating FunLife.  
-No branches - all commits must be merged to master.  
-If you have any ideas how to make this process faster, please do a pull request.
-No other pages require pull requests.
+* Efficiency and beautiful code are our goals.
+* No branches - all commits must be merged to master.  
+* Please add to the wiki to make it better
 
 
-## Development Cycle
+## Possible Development Cycle
 
 Step 1 - Look at the app visual design - choose a page you would like to implement.
 

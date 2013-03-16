@@ -11,7 +11,7 @@ gem 'newrelic_rpm'
 group :production do
   gem 'pg'
   gem 'puma'
- # gem 'thin'           #crashes for some reason
+ # gem 'thin'           #crashes probably because procfile mentioning Puma
 end
 
 

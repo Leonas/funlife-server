@@ -1,4 +1,4 @@
-interactor :simple         #opens a interaction window in rubymine
+#interactor :simple         #opens a interaction window in rubymine
 guard 'spork', :cucumber_env => { 'RAILS_ENV' => 'test' }, :rspec_env => { 'RAILS_ENV' => 'test' } do
   watch('config/application.rb')
   watch('config/environment.rb')

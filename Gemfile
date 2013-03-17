@@ -10,8 +10,10 @@ gem 'newrelic_rpm'
 
 group :production do
   gem 'pg'
-  gem 'puma'
- # gem 'thin'           #crashes probably because procfile mentioning Puma
+
+  #Change the procfile to have the name of whatever server is being used
+  #gem 'puma'
+  gem 'thin'
 end
 
 

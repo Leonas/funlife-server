@@ -11,9 +11,10 @@ gem 'newrelic_rpm'
 group :production do
   gem 'pg'
 
-  #Change the procfile to have the name of whatever server is being used
-  #gem 'puma'
-  gem 'thin'
+
+  #gem 'puma'        #procfile = web: bundle exec rails server puma -p $PORT -e $RACK_ENV
+  #gem 'thin'        #procfile = web: bundle exec rails server thin -p $PORT -e $RACK_ENV
+  gem 'unicorn'      #procfile = web: bundle exec unicorn -p $PORT -c ./config/unicorn.rb
 end
 
 

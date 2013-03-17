@@ -34,6 +34,11 @@ $.mvc.controller.create('photos_controller', {
     //Show the view
     $.ui.loadContent('photos_index_view', false, false, 'fade');
 
+  },
+
+  take_photo: function() {
+
+    forge.file.getImage();
   }
 });
 

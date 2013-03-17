@@ -21,7 +21,7 @@ JS files for the app are under /public/src/
 * Be efficient! Always google before tackling a hard problem to get insights into how others have solved it.
 * Write clean and easy to understand code.
 * Refactor often!
-* Optimize js for speed as mobile devices are quite slow.
+* Optimize js for speed as older android devices can be slow. We want to give everyone a great experience.
 * We are using a single branch only; merge all commits to master.
 * Add useful stuff to the wiki.
 * Thanks for joining on this awesome project! :)

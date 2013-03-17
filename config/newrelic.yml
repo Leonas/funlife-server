@@ -1,4 +1,17 @@
 # Here are the settings that are common to all environments
+
+
+
+
+#---------------Important - not completed yet-------------
+#Might need to clean this up per these instructions:
+#https://newrelic.com/docs/site/cleaning-up-your-agent-configuration-file
+#---------------------------------------------------------
+
+
+
+
+
 common: &default_settings
   # ============================== LICENSE KEY ===============================
 

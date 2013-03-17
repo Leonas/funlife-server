@@ -18,9 +18,13 @@ JS files for the app are under /public/src/
 
 ## Engineering Notes
 
-* Efficiency and beautiful code are our goals.
-* No branches - all commits must be merged to master.  
-* Please add to the wiki to make it better
+* Be efficient! Always google before tackling a hard problem to get insights into how others have solved it.
+* Write clean and easy to understand code.
+* Refactor often!
+* Optimize js for speed as mobile devices are quite slow.
+* We are using a single branch only; merge all commits to master.
+* Add useful stuff to the wiki.
+* Thanks for joining on this awesome project! :)
 
 
 ## Possible Development Cycle

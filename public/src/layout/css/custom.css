@@ -53,6 +53,7 @@
   box-shadow: none;
   -webkit-transition: none;
   transition: none;
+  margin: 0 0px 0 10px;
 }
 
 .no_borders{
@@ -74,9 +75,10 @@ a.thumbnail:focus {
 min-height: 0px;
 }
 
+/*This is only needed when the js scroller is active for bootstrap top to work
 .panel > * {
    padding-top: 28px;
-}
+}*/
 
 .navbar-fixed-bottom {
 bottom: 28px;

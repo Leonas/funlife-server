@@ -4,6 +4,7 @@
 
 Take a look at our [wiki!](https://github.com/Leonas/funlife/wiki)  
 
+[Funlife Hipchat](https://funlife.hipchat.com/invite/37167/c94b0b6ec80c64003dbb173da531ae15)
 
 ## Folder Structure
 

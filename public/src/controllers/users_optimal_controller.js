@@ -17,18 +17,19 @@ $.mvc.controller.create('users_controller', {
     get_with_token: function(path, success, failure){
 
     },
-    show_page: function(template_location, div_id, title, data){
+    show_page: function(options){
+      options.data = options.data || 'none';
 
-
-      if ($('#user_index_view').length == 0) {
-        $.ui.addContentDiv('user_index_view',
-            $.template('views/users/user_index_view.js'), 'Users index View');
+      if ($('#' + options.div_id).length == 0) {
+        $.ui.addContentDiv(options.div_id,
+            $.template(options.template), options.title, options.data);
       }
       //otherwise, update the content inside
       else {
-        //$.ui.updateContentDiv('user_index_view', $.template('views/user/user_index_view.js'));
+        $.ui.updateContentDiv(options.div_id, $.template(options.template), options.data);
       }
       //trigger the page transition/navigation event
+      //These 4 things are ____??? Get from the API
       $.ui.loadContent('user_index_view', false, false, 'fade');
     }
 
@@ -41,8 +42,15 @@ $.mvc.controller.create('users_controller', {
     $.get_with_token('/users/', )
 
     //click on page
-    //do we have localstorage? if yes, load instantly
-    //else, load spinner
+    //if( localstorage for page present ) {
+    // load page with it
+    // do ajax request (on success, update contents)
+    // }
+
+    //else {
+    //    load spinner
+    //    ajax request(on success, remove spinner + load content)
+    //}
 
     $.show_page({
        title: 'FunLife',

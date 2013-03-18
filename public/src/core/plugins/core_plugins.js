@@ -4,6 +4,8 @@ var global = {
   cached_pages: []
 };
 
+//Before finishing up this page, check out more of the jqUI code
+
 
 (function($){
 

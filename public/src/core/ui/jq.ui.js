@@ -54,7 +54,7 @@
         //click back event
          window.addEventListener("popstate", function() {
 
-            var id = $.ui.getPanelId(document.location.hash);
+            var id = $.ui.get_panel_id_from_hash(document.location.hash);
             //make sure we allow hash changes outside jqUi
             if(id==""&&$.ui.history.length===1) //Fix going back to first panel and an empty hash
                 id="#"+$.ui.firstDiv.id;
@@ -240,7 +240,7 @@
             previousTarget = new_hash;
 
             var previousHash = window.location.hash;
-            var panelName = this.getPanelId(new_hash).substring(1); //remove the #
+            var panelName = this.get_panel_id_from_hash(new_hash).substring(1); //remove the #
             try {
                 window.history.replaceState(panelName, panelName, startPath + new_hash);
                 $(window).trigger("hashchange", {
@@ -251,7 +251,7 @@
             }
         },
         /*gets the panel name from an hash*/
-        getPanelId: function(hash) {
+        get_panel_id_from_hash: function(hash) {
             var firstSlash = hash.indexOf('/');
             return firstSlash == -1 ? hash : hash.substring(0, firstSlash);
         },
@@ -836,10 +836,8 @@
                 this.toggleSideMenu(false);
             }
         },
-        /**
-         * Helper function that parses a contents html for any script tags and either adds them or executes the code
-         * @api private
-         */
+
+        //Helper function that parses a contents html for any script tags and either adds them or executes the code
         parseScriptTags: function(div) {
             if (!div)
                 return;
@@ -1114,29 +1112,15 @@
             if (this.showLoading)
                 this.show_loading_mask();
         },
-        /**
-         * This executes the transition for the panel
-            ```
-            $.ui.runTransition(transition,old_div,current_div,back)
-            ```
-         * @api private
-         * @title $.ui.runTransition(transition,old_div,current_div,back)
-         */
-        runTransition: function(transition, old_div, currWhat, back) {
+
+        runTransition: function(transition, old_div, current_div, back) {
             if (!this.availableTransitions[transition])
                 transition = 'default';
-            this.availableTransitions[transition].call(this, old_div, currWhat, back);
+            this.availableTransitions[transition].call(this, old_div, current_div, back);
         },
 
-        /**
-         * This is callled when you want to launch jqUi.  If autoLaunch is set to true, it gets called on DOMContentLoaded.
-         * If autoLaunch is set to false, you can manually invoke it.
-           ```
-           $.ui.autoLaunch=false;
-           $.ui.launch();
-           ```
-         * @title $.ui.launch();
-         */
+        //This is called when you want to launch jqUi.  If autoLaunch is set to true, it gets called on DOMContentLoaded.
+        //If autoLaunch is set to false, you can manually invoke it.
         launch: function() {
 
             if (this.hasLaunched == false || this.launchCompleted) {
@@ -1145,15 +1129,16 @@
             }
 
             var that = this;
+
+            console.log(that);
+            //that is just the $.ui object which loads only once
+
             this.isAppMobi = (window.AppMobi && typeof (AppMobi) == "object" && AppMobi.app !== undefined) ? true : false;
             this.viewportContainer = jq("#jQUi");
             this.navbar = jq("#navbar").get(0);
             this.content_string = jq("#content").get(0);
-            ;
             this.header = jq("#header").get(0);
-            ;
             this.menu = jq("#menu").get(0);
-            ;
             //set anchor click handler for UI
             this.viewportContainer[0].addEventListener('click', function(e) {
                 var theTarget = e.target;
@@ -1376,7 +1361,7 @@
 
 
                     //go to activeDiv
-                    var firstPanelId = that.getPanelId(defaultHash);
+                    var firstPanelId = that.get_panel_id_from_hash(defaultHash);
                     //that.history=[{target:'#'+that.firstDiv.id}];   //set the first id as origin of path
                     if (firstPanelId.length > 0 && that.loadDefaultHash && firstPanelId != ("#" + that.firstDiv.id)&&$(firstPanelId).length>0) {
                         that.loadContent(defaultHash, true, false, 'none'); //load the active page as a newTab with no transition
@@ -1400,7 +1385,7 @@
                     }
                     //trigger ui ready
                     jq(document).trigger("jq.ui.ready");
-                    //remove splashscreen
+                    //remove splash screen
 
                     // Run after the first div animation has been triggered - avoids flashing
                     jq("#splashscreen").remove();
@@ -1423,9 +1408,8 @@
             this.topClickScroll();
 
         },
-        /**
-         * This simulates the click and scroll to top of browsers
-         */
+
+        //Simulates the click and scroll to top of browser
         topClickScroll:function(){
              document.getElementById("header").addEventListener("click",function(e){
                 if(e.clientY<=15&&e.target.nodeName.toLowerCase()=="h1") //hack - the title spans the whole width of the header
@@ -1433,9 +1417,7 @@
             });
 
         },
-        /**
-         * This blocks the page from scrolling/panning.  Usefull for native apps
-         */
+
         blockPageScroll: function() {
             jq("#jQUi #header").bind("touchmove", function(e) {
                 e.preventDefault();

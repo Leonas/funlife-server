@@ -7,16 +7,16 @@
 (function($) {
   $['selectBox'] = {
     scroller: null,
-    getOldSelects: function(elID) {
+    getOldSelects: function(element_id) {
       if (!$.os.android || $.os.androidICS)
         return;
       if (!$.fn['scroller']) {
         alert("This library requires jq.web.Scroller");
         return;
       }
-      var container = elID && document.getElementById(elID) ? document.getElementById(elID) : document;
+      var container = element_id && document.getElementById(element_id) ? document.getElementById(element_id) : document;
       if (!container) {
-        alert("Could not find container element for jq.web.selectBox " + elID);
+        alert("Could not find container element for jq.web.selectBox " + element_id);
         return;
       }
       var sels = container.getElementsByTagName("select");
@@ -95,13 +95,13 @@
       that.createHtml();
     },
     updateDropdown: function(id) {
-      var el = document.getElementById(id);
-      if (!el)
+      var element = document.getElementById(id);
+      if (!element)
         return;
-      for (var j = 0; j < el.options.length; j++) {
-        if (el.options[j].selected)
-          fakeInput.value = el.options[j].text;
-        el.options[j].watch("selected", function(prop, oldValue, newValue) {
+      for (var j = 0; j < element.options.length; j++) {
+        if (element.options[j].selected)
+          fakeInput.value = element.options[j].text;
+        element.options[j].watch("selected", function(prop, oldValue, newValue) {
           if (newValue == true) {
             that.updateMaskValue(this.parentNode.id, this.text, this.value);
             this.parentNode.value = this.value;
@@ -109,32 +109,32 @@
           return newValue;
         });
       }
-      el = null;
+      element = null;
     },
-    initDropDown: function(elID) {
+    initDropDown: function(element_id) {
 
       var that = this;
-      var el = document.getElementById(elID);
-      if (el.disabled)
+      var element = document.getElementById(element_id);
+      if (element.disabled)
         return;
-      if (!el || !el.options || el.options.length == 0)
+      if (!element || !element.options || element.options.length == 0)
         return;
       var htmlTemplate = "";
       var foundInd = 0;
       document.getElementById("jqmobiSelectBoxScroll").innerHTML = "";
 
-      document.getElementById("jqmobiSelectBoxHeaderTitle").innerHTML = (el.name != undefined && el.name != "undefined" && el.name != "" ? el.name : elID);
+      document.getElementById("jqmobiSelectBoxHeaderTitle").innerHTML = (element.name != undefined && element.name != "undefined" && element.name != "" ? element.name : element_id);
 
-      for (var j = 0; j < el.options.length; j++) {
+      for (var j = 0; j < element.options.length; j++) {
         var currInd = j;
-        el.options[j].watch( "selected", function(prop, oldValue, newValue) {
+        element.options[j].watch( "selected", function(prop, oldValue, newValue) {
           if (newValue == true) {
             that.updateMaskValue(this.parentNode.id, this.text, this.value);
             this.parentNode.value = this.value;
           }
           return newValue;
         });
-        var checked = (el.options[j].selected) ? true : false;
+        var checked = (element.options[j].selected) ? true : false;
         var button = "";
         var div = document.createElement("div");
         div.className = "jqmobiSelectRow";
@@ -144,10 +144,10 @@
         anchor.href = "javascript:;";
         div.tmpValue = j;
         div.onclick = function(e) {
-          that.setDropDownValue(elID, this.tmpValue,this);
+          that.setDropDownValue(element_id, this.tmpValue,this);
         };
         anchor.style.cssText = "text-decoration:none;color:black;";
-        anchor.innerHTML = el.options[j].text;
+        anchor.innerHTML = element.options[j].text;
         var span = document.createElement("span");
         span.style.cssText = "float:right;margin-right:20px;margin-top:-2px";
         var rad = document.createElement("button");
@@ -197,32 +197,32 @@
         console.log("error init dropdown" + e);
       }
       div = null;
-      el = null;
+      element = null;
     },
-    updateMaskValue: function(elID, value, val2) {
+    updateMaskValue: function(element_id, value, val2) {
 
-      var el = document.getElementById(elID + "_jqmobiSelect");
-      var el2 = document.getElementById(elID);
-      if (el)
-        el.innerHTML = value;
+      var element = document.getElementById(element_id + "_jqmobiSelect");
+      var el2 = document.getElementById(element_id);
+      if (element)
+        element.innerHTML = value;
       if (typeof (el2.onchange) == "function")
         el2.onchange(val2);
-      el = null;
+      element = null;
       el2 = null;
     },
-    setDropDownValue: function(elID, value,div) {
+    setDropDownValue: function(element_id, value,div) {
 
 
-      var el = document.getElementById(elID);
-      if(!el)
+      var element = document.getElementById(element_id);
+      if(!element)
         return
 
-      if(!el.getAttribute("multiple")){
-        el.selectedIndex = value;
-        $(el).find("option").forEach(function(obj){
+      if(!element.getAttribute("multiple")){
+        element.selectedIndex = value;
+        $(element).find("option").forEach(function(obj){
           obj.selected=false;
         });
-        $(el).find("option:nth-child("+(value+1)+")").get(0).selected=true;
+        $(element).find("option:nth-child("+(value+1)+")").get(0).selected=true;
         this.scroller.scrollTo({
           x: 0,
           y: 0
@@ -232,7 +232,7 @@
       else {
         //multi select
 
-        var myEl=$(el).find("option:nth-child("+(value+1)+")").get(0);
+        var myEl=$(element).find("option:nth-child("+(value+1)+")").get(0);
         if(myEl.selected){
           myEl.selected=false;
           $(div).find("button").css("background","#fff");
@@ -243,8 +243,8 @@
         }
 
       }
-      $(el).trigger("change");
-      el = null;
+      $(element).trigger("change");
+      element = null;
     },
     hideDropDown: function() {
       document.getElementById("jqmobiSelectModal").style.display = 'none';

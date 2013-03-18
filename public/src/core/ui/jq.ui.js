@@ -118,9 +118,9 @@
                 this.launch();
             }
         },
-        css3animate: function(el, options) {
-            el = jq(el);
-            return el.css3Animate(options);
+        css3animate: function(element, options) {
+            element = jq(element);
+            return element.css3Animate(options);
         },
         loadDefaultHash: true,        //load THAT(wtf is that?) panel when the app is started  
         useAjaxCacheBuster: false,    //add "&cache=_rand_" to any ajax loaded link
@@ -727,8 +727,8 @@
          */
         updateContentDiv: function(id, content) {
             id="#"+id.replace("#","");
-            var el = jq(id).get(0);
-            if (!el)
+            var element = jq(id).get(0);
+            if (!element)
                 return;
 
             var newDiv = document.createElement("div");
@@ -738,15 +738,15 @@
 
 
 
-            if (el.getAttribute("js-scrolling") && el.getAttribute("js-scrolling").toLowerCase() == "yes") {
-                $.cleanUpContent(el.childNodes[0], false, true);
-                el.childNodes[0].innerHTML = content;
+            if (element.getAttribute("js-scrolling") && element.getAttribute("js-scrolling").toLowerCase() == "yes") {
+                $.cleanUpContent(element.childNodes[0], false, true);
+                element.childNodes[0].innerHTML = content;
             } else {
-                $.cleanUpContent(el, false, true);
-                el.innerHTML = content;
+                $.cleanUpContent(element, false, true);
+                element.innerHTML = content;
             }
             if ($(newDiv).title)
-                el.title = $(newDiv).title;
+                element.title = $(newDiv).title;
         },
         /**
          * Dynamically create a new panel on the fly.  It wires events, creates the scroller, applies Android fixes, etc.
@@ -758,9 +758,9 @@
          * @param {String} title
          * @title $.ui.addContentDiv(id,content,title);
          */
-        addContentDiv: function(el, content, title, refresh, refreshFunc) {
-            el = typeof (el) !== "string" ? el : el.indexOf("#") == -1 ? "#" + el : el;
-            var myEl = jq(el).get(0);
+        addContentDiv: function(element, content, title, refresh, refreshFunc) {
+            element = typeof (element) !== "string" ? element : element.indexOf("#") == -1 ? "#" + element : element;
+            var myEl = jq(element).get(0);
             if (!myEl) {
                 var newDiv = document.createElement("div");
                 newDiv.innerHTML = content;
@@ -769,10 +769,10 @@
 
                 if (!newDiv.title && title)
                     newDiv.title = title;
-                var newId = (newDiv.id) ? newDiv.id : el.replace("#",""); //figure out the new id - either the id from the loaded div.panel or the crc32 hash
+                var newId = (newDiv.id) ? newDiv.id : element.replace("#",""); //figure out the new id - either the id from the loaded div.panel or the crc32 hash
                 newDiv.id = newId;
-                if (newDiv.id != el)
-                    newDiv.setAttribute("data-crc", el.replace("#",""));
+                if (newDiv.id != element)
+                    newDiv.setAttribute("data-crc", element.replace("#",""));
             } else {
                 newDiv = myEl;
             }
@@ -892,14 +892,14 @@
          *  This is used when a transition fires to do helper events.  We check to see if we need to change the nav menus, footer, and fire
          * the load/onload functions for panels
            ```
-           $.ui.parsePanelFunctions(currentDiv,oldDiv);
+           $.ui.parsePanelFunctions(currentDiv,old_div);
            ```
          * @param {Object} current div
          * @param {Object} old div
-         * @title $.ui.parsePanelFunctions(currentDiv,oldDiv);
+         * @title $.ui.parsePanelFunctions(currentDiv,old_div);
          * @api private
          */
-        parsePanelFunctions: function(what, oldDiv) {
+        parsePanelFunctions: function(what, old_div) {
             //check for custom footer
             var that = this;
             var hasFooter = what.getAttribute("data-footer");
@@ -973,12 +973,12 @@
 
 
 
-            if (oldDiv) {
-                fnc = oldDiv.getAttribute("data-unload");
+            if (old_div) {
+                fnc = old_div.getAttribute("data-unload");
                 if (typeof fnc == "string" && window[fnc]) {
-                    window[fnc](oldDiv);
+                    window[fnc](old_div);
                 }
-                $(oldDiv).trigger("unloadpanel");
+                $(old_div).trigger("unloadpanel");
             }
             var fnc = what.getAttribute("data-load");
             if (typeof fnc == "string" && window[fnc]) {
@@ -1091,7 +1091,7 @@
                 return;
             }
             this.transitionType = transition;
-            var oldDiv = this.activeDiv;
+            var old_div = this.activeDiv;
             var currWhat = what;
 
             if (what.getAttribute("data-modal") == "true" || what.getAttribute("modal") == "true") {
@@ -1106,7 +1106,7 @@
 
 
 
-            if (oldDiv == currWhat) //prevent it from going to itself
+            if (old_div == currWhat) //prevent it from going to itself
                 return;
 
             if (newTab) {
@@ -1122,20 +1122,20 @@
 
             this.doingTransition = true;
 
-            oldDiv.style.display="block";
+            old_div.style.display="block";
             currWhat.style.display="block";
 
-            this.runTransition(transition, oldDiv, currWhat, back);
+            this.runTransition(transition, old_div, currWhat, back);
 
 
             //Let's check if it has a function to run to update the data
-            this.parsePanelFunctions(what, oldDiv);
+            this.parsePanelFunctions(what, old_div);
             //Need to call after parsePanelFunctions, since new headers can override
             this.loadContentData(what, newTab, back, transition);
             var that=this;
             setTimeout(function(){
-                if(that.scrollingDivs[oldDiv.id]) {
-                    that.scrollingDivs[oldDiv.id].disable();
+                if(that.scrollingDivs[old_div.id]) {
+                    that.scrollingDivs[old_div.id].disable();
                 }
             },200);
 
@@ -1161,10 +1161,10 @@
                         var prevId = val.target.substr(0, slashIndex);
                     } else
                         var prevId = val.target;
-                    var el = jq(prevId).get(0);
+                    var element = jq(prevId).get(0);
                     //make sure panel is there
-                    if (el)
-                        this.setBackButtonText(el.title);
+                    if (element)
+                        this.setBackButtonText(element.title);
                     else
                         this.setBackButtonText("Back");
                 }
@@ -1270,15 +1270,15 @@
         /**
          * This executes the transition for the panel
             ```
-            $.ui.runTransition(transition,oldDiv,currDiv,back)
+            $.ui.runTransition(transition,old_div,currDiv,back)
             ```
          * @api private
-         * @title $.ui.runTransition(transition,oldDiv,currDiv,back)
+         * @title $.ui.runTransition(transition,old_div,currDiv,back)
          */
-        runTransition: function(transition, oldDiv, currWhat, back) {
+        runTransition: function(transition, old_div, currWhat, back) {
             if (!this.availableTransitions[transition])
                 transition = 'default';
-            this.availableTransitions[transition].call(this, oldDiv, currWhat, back);
+            this.availableTransitions[transition].call(this, old_div, currWhat, back);
         },
 
         /**
@@ -1318,8 +1318,8 @@
             //focus scroll adjust fix
             var enterEditEl = null;
             //on enter-edit keep a reference of the actioned element
-            $.bind($.touchLayer, 'enter-edit', function(el) {
-                enterEditEl = el;
+            $.bind($.touchLayer, 'enter-edit', function(element) {
+                enterEditEl = element;
             });
             //enter-edit-reshape panel padding and scroll adjust
             $.bind($.touchLayer, 'enter-edit-reshape', function() {
@@ -1430,34 +1430,34 @@
             var defer = {};
             var contentDivs = this.viewportContainer.get().querySelectorAll(".panel");
             for (var i = 0; i < contentDivs.length; i++) {
-                var el = contentDivs[i];
-                var tmp = el;
+                var element = contentDivs[i];
+                var tmp = element;
                 var id;
-                var prevSibling=el.previousSibling;
-                if (el.parentNode && el.parentNode.id != "content") {
+                var prevSibling=element.previousSibling;
+                if (element.parentNode && element.parentNode.id != "content") {
 
-                    el.parentNode.removeChild(el);
-                    id = el.id;
+                    element.parentNode.removeChild(element);
+                    id = element.id;
                     if (tmp.getAttribute("selected"))
                         this.firstDiv = jq("#" + id).get(0);
                     this.addDivAndScroll(tmp);
                     jq("#"+id).insertAfter(prevSibling);
-                } else if (!el.parsedContent) {
-                    el.parsedContent = 1;
-                    el.parentNode.removeChild(el);
-                    id = el.id;
+                } else if (!element.parsedContent) {
+                    element.parsedContent = 1;
+                    element.parentNode.removeChild(element);
+                    id = element.id;
                     if (tmp.getAttribute("selected"))
                         this.firstDiv = jq("#" + id).get(0);
                     this.addDivAndScroll(tmp);
                     jq("#"+id).insertAfter(prevSibling);
                 }
-                if (el.getAttribute("data-defer")) {
-                    defer[id] = el.getAttribute("data-defer");
+                if (element.getAttribute("data-defer")) {
+                    defer[id] = element.getAttribute("data-defer");
                 }
                 if (!this.firstDiv)
                     this.firstDiv = $("#" + id).get(0);
 
-                el = null;
+                element = null;
             }
             contentDivs = null;
             var loadingDefer = false;
@@ -1597,32 +1597,32 @@
         /**
          * This is the default transition.  It simply shows the new panel and hides the old
          */
-        noTransition: function(oldDiv, currDiv, back) {
+        noTransition: function(old_div, currDiv, back) {
             currDiv.style.display = "block";
-            oldDiv.style.display = "block";
+            old_div.style.display = "block";
             var that = this;
             that.clearAnimations(currDiv);
-            that.css3animate(oldDiv, {
+            that.css3animate(old_div, {
                 x: "0%",
                 y: 0
             });
-            that.finishTransition(oldDiv);
+            that.finishTransition(old_div);
             currDiv.style.zIndex = 2;
-            oldDiv.style.zIndex = 1;
+            old_div.style.zIndex = 1;
         },
         /**
          * This must be called at the end of every transition to hide the old div and reset the doingTransition variable
          *
          * @param {Object} Div that transitioned out
-         * @title $.ui.finishTransition(oldDiv)
+         * @title $.ui.finishTransition(old_div)
          */
-        finishTransition: function(oldDiv, currDiv) {
-            oldDiv.style.display = 'none';
+        finishTransition: function(old_div, currDiv) {
+            old_div.style.display = 'none';
             this.doingTransition = false;
             if (currDiv)
                 this.clearAnimations(currDiv);
-            if (oldDiv)
-                this.clearAnimations(oldDiv);
+            if (old_div)
+                this.clearAnimations(old_div);
             $.trigger(this, "content-loaded");
         },
 
@@ -1630,7 +1630,7 @@
          * This must be called at the end of every transition to remove all transforms and transitions attached to the inView object (performance + native scroll)
          *
          * @param {Object} Div that transitioned out
-         * @title $.ui.finishTransition(oldDiv)
+         * @title $.ui.finishTransition(old_div)
          */
         clearAnimations: function(inViewDiv) {
             inViewDiv.style[$.feat.cssPrefix + 'Transform'] = "none";

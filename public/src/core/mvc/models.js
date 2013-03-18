@@ -33,9 +33,9 @@
 
         _prepareModel: function (theObj) {
             var self = this;
-            var el = $.mvc.model.clone({}, self,true);
-            el = $.mvc.model.clone(el, theObj);
-            return el;
+            var element = $.mvc.model.clone({}, self,true);
+            element = $.mvc.model.clone(element, theObj);
+            return element;
         }
     };
 

@@ -400,8 +400,8 @@ if (!window.jq || typeof (jq) !== "function") {
             * @title $().each(function)
             */
             each: function(callback) {
-                this.forEach(function(el, idx) {
-                    callback.call(el, idx, el);
+                this.forEach(function(element, idx) {
+                    callback.call(element, idx, element);
                 });
                 return this;
             },

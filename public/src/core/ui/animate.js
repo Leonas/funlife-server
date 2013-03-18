@@ -4,24 +4,24 @@
     if(!obj.jqmCSS3AnimateId) obj.jqmCSS3AnimateId=$.uuid();
     return obj.jqmCSS3AnimateId;
   };
-  var getEl=function(elID){
-    if (typeof elID == "string" || elID instanceof String) {
-      return document.getElementById(elID);
-    } else if($.is$(elID)){
-      return elID[0];
+  var getEl=function(element_id){
+    if (typeof element_id == "string" || element_id instanceof String) {
+      return document.getElementById(element_id);
+    } else if($.is$(element_id)){
+      return element_id[0];
     } else {
-      return elID;
+      return element_id;
     }
   };
   var getCSS3Animate=function(obj, options){
-    var tmp, id, el = getEl(obj);
+    var tmp, id, element = getEl(obj);
     //first one
-    id = objId(el);
+    id = objId(element);
     if(cache[id]){
       cache[id].animate(options);
       tmp = cache[id];
     } else {
-      tmp = css3Animate(el, options);
+      tmp = css3Animate(element, options);
       cache[id] = tmp;
     }
     return tmp;
@@ -55,24 +55,24 @@
 
   var css3Animate = (function () {
 
-    var css3Animate = function (elID, options) {
-      if(!(this instanceof css3Animate)) return new css3Animate(elID, options);
+    var css3Animate = function (element_id, options) {
+      if(!(this instanceof css3Animate)) return new css3Animate(element_id, options);
 
       //start doing stuff
       this.callbacksStack = [];
       this.activeEvent = null;
       this.countStack = 0;
       this.isActive = false;
-      this.el = elID;
+      this.element = element_id;
       this.linkFinishedProxy_ = $.proxy(this.linkFinished, this);
 
-      if (!this.el) return;
+      if (!this.element) return;
 
       this.animate(options);
 
       var that = this;
-      jq(this.el).bind('destroy', function(){
-        var id = that.el.jqmCSS3AnimateId;
+      jq(this.element).bind('destroy', function(){
+        var id = that.element.jqmCSS3AnimateId;
         that.callbacksStack = [];
         if(cache[id]) delete cache[id];
       });
@@ -85,7 +85,7 @@
         this.isActive = true;
 
         if (!options) {
-          alert("Please provide configuration options for animation of " + this.el.id);
+          alert("Please provide configuration options for animation of " + this.element.id);
           return;
         }
 
@@ -94,9 +94,9 @@
         if(classMode){
           //class defines properties being changed
           if(options["removeClass"]){
-            jq(this.el).replaceClass(options["removeClass"], options["addClass"]);
+            jq(this.element).replaceClass(options["removeClass"], options["addClass"]);
           } else {
-            jq(this.el).addClass(options["addClass"]);
+            jq(this.element).addClass(options["addClass"]);
           }
 
         } else {
@@ -107,7 +107,7 @@
           if (!options["y"]) options["y"] = 0;
           if (!options["x"]) options["x"] = 0;
           if (options["previous"]) {
-            var cssMatrix = new $.getCssMatrix(this.el);
+            var cssMatrix = new $.getCssMatrix(this.element);
             options.y += numOnly(cssMatrix.f);
             options.x += numOnly(cssMatrix.e);
           }
@@ -131,22 +131,22 @@
           if(!$.os.opera)
             trans+=" rotateY(" + options.rotateY + ")";
           trans+=" skew(" + options.skewX + "," + options.skewY + ")";
-          this.el.style[$.feat.cssPrefix+"Transform"]=trans;
-          this.el.style[$.feat.cssPrefix+"BackfaceVisibility"] = "hidden";
+          this.element.style[$.feat.cssPrefix+"Transform"]=trans;
+          this.element.style[$.feat.cssPrefix+"BackfaceVisibility"] = "hidden";
           var properties = $.feat.cssPrefix+"Transform";
           if (options["opacity"]!==undefined) {
-            this.el.style.opacity = options["opacity"];
+            this.element.style.opacity = options["opacity"];
             properties+=", opacity";
           }
           if (options["width"]) {
-            this.el.style.width = options["width"];
+            this.element.style.width = options["width"];
             properties = "all";
           }
           if (options["height"]) {
-            this.el.style.height = options["height"];
+            this.element.style.height = options["height"];
             properties = "all";
           }
-          this.el.style[$.feat.cssPrefix+"TransitionProperty"] = "all";
+          this.element.style[$.feat.cssPrefix+"TransitionProperty"] = "all";
 
           if((""+options["time"]).indexOf("s")===-1) {
             var scale = 'ms';
@@ -159,9 +159,9 @@
             var time = options["time"]+scale;
           }
 
-          this.el.style[$.feat.cssPrefix+"TransitionDuration"] = time;
-          this.el.style[$.feat.cssPrefix+"TransitionTimingFunction"] = options["timingFunction"];
-          this.el.style[$.feat.cssPrefix+"TransformOrigin"] = options.origin;
+          this.element.style[$.feat.cssPrefix+"TransitionDuration"] = time;
+          this.element.style[$.feat.cssPrefix+"TransitionTimingFunction"] = options["timingFunction"];
+          this.element.style[$.feat.cssPrefix+"TransformOrigin"] = options.origin;
 
         }
 
@@ -175,7 +175,7 @@
         this.countStack++;
 
         var that = this;
-        var style = window.getComputedStyle(this.el);
+        var style = window.getComputedStyle(this.element);
         if(classMode){
           //get the duration
           var duration = style[$.feat.cssPrefix+"TransitionDuration"];
@@ -200,10 +200,10 @@
           this.activeEvent = function(event){
             clearTimeout(that.timeout);
             that.finishAnimation(event);
-            that.el.removeEventListener(transitionEnd, that.activeEvent, false);
+            that.element.removeEventListener(transitionEnd, that.activeEvent, false);
           };
           that.timeout=setTimeout(this.activeEvent, numOnly(options["time"]) + 50);
-          this.el.addEventListener(transitionEnd, this.activeEvent, false);
+          this.element.addEventListener(transitionEnd, this.activeEvent, false);
 
         }
 
@@ -258,17 +258,17 @@
       },
       clearEvents:function(){
         if(this.activeEvent) {
-          this.el.removeEventListener(transitionEnd, this.activeEvent, false);
+          this.element.removeEventListener(transitionEnd, this.activeEvent, false);
         }
         this.activeEvent = null;
       },
-      link: function (elID, opts) {
+      link: function (element_id, opts) {
         var callbacks = {complete:opts.complete,success:opts.success,failure:opts.failure};
         opts.complete = this.addCallbackHook(callbacks);
         opts.success = null;
         opts.failure = null;
         //run the animation with the replaced callbacks
-        getCSS3Animate(elID, opts);
+        getCSS3Animate(element_id, opts);
         //set the old callback back in the obj to avoid strange stuff
         opts.complete = callbacks.complete;
         opts.success = callbacks.success;
@@ -283,8 +283,8 @@
   css3Animate.queue = function () {
     return {
       elements: [],
-      push: function (el) {
-        this.elements.push(el);
+      push: function (element) {
+        this.elements.push(element);
       },
       pop: function () {
         return this.elements.pop();

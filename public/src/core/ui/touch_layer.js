@@ -21,9 +21,9 @@
 (function() {
 
   //singleton
-  $.touchLayer = function(el) {
+  $.touchLayer = function(element) {
     //	if(jq.os.desktop||!jq.os.webkit) return;
-    $.touchLayer = new touchLayer(el);
+    $.touchLayer = new touchLayer(element);
     return $.touchLayer;
   };
   //configuration stuff
@@ -44,17 +44,17 @@
     var n = d.getTime();
     return n;
   }
-  var touchLayer = function(el) {
+  var touchLayer = function(element) {
     this.clearTouchVars();
-    el.addEventListener('touchstart', this, false);
-    el.addEventListener('touchmove', this, false);
-    el.addEventListener('touchend', this, false);
-    el.addEventListener('click', this, false);
-    el.addEventListener("focusin",this,false);
+    element.addEventListener('touchstart', this, false);
+    element.addEventListener('touchmove', this, false);
+    element.addEventListener('touchend', this, false);
+    element.addEventListener('click', this, false);
+    element.addEventListener("focusin",this,false);
     document.addEventListener('scroll', this, false);
     window.addEventListener("resize", this, false);
     window.addEventListener("orientationchange", this, false);
-    this.layer = el;
+    this.layer = element;
     //proxies
     this.scrollEndedProxy_ = $.proxy(this.scrollEnded, this);
     this.exitEditProxy_ = $.proxy(this.exitExit, this, []);
@@ -79,15 +79,15 @@
       }
     }, true);
     //js scrollers self binding
-    $.bind(this, 'scrollstart', function(el) {
+    $.bind(this, 'scrollstart', function(element) {
       that.isScrolling=true;
-      that.scrollingEl_=el;
-      that.fireEvent('UIEvents', 'scrollstart', el, false, false);
+      that.scrollingEl_=element;
+      that.fireEvent('UIEvents', 'scrollstart', element, false, false);
     });
-    $.bind(this, 'scrollend', function(el) {
+    $.bind(this, 'scrollend', function(element) {
       that.isScrolling=false;
 
-      that.fireEvent('UIEvents', 'scrollend', el, false, false);
+      that.fireEvent('UIEvents', 'scrollend', element, false, false);
     });
     //fix layer positioning
     this.launchFixUI(5); //try a lot to set page into place
@@ -326,11 +326,11 @@
       this.justBlurred_ = true;
       $.asap(this.exitEditProxy_, this, [e.target]);
     },
-    exitExit: function(el) {
+    exitExit: function(element) {
       this.justBlurred_ = false;
       if(!this.isFocused_) {
         //this.log("exit edit mode");
-        $.trigger(this, 'exit-edit', [el]);
+        $.trigger(this, 'exit-edit', [element]);
         //do not allow scroll anymore
         this.allowDocumentScroll_ = false;
         //fire / preview reshape event
@@ -434,32 +434,32 @@
     },
     //set rules here to ignore scrolling check on these elements
     //consider forcing user to use scroller object to assess these... might be causing bugs
-    ignoreScrolling: function(el) {
-      if(el['scrollWidth'] === undefined || el['clientWidth'] === undefined) return true;
-      if(el['scrollHeight'] === undefined || el['clientHeight'] === undefined) return true;
+    ignoreScrolling: function(element) {
+      if(element['scrollWidth'] === undefined || element['clientWidth'] === undefined) return true;
+      if(element['scrollHeight'] === undefined || element['clientHeight'] === undefined) return true;
       return false;
     },
 
-    allowsVerticalScroll: function(el, styles) {
+    allowsVerticalScroll: function(element, styles) {
       var overflowY = styles.overflowY;
       if(overflowY == 'scroll') return true;
-      if(overflowY == 'auto' && el['scrollHeight'] > el['clientHeight']) return true;
+      if(overflowY == 'auto' && element['scrollHeight'] > element['clientHeight']) return true;
       return false;
     },
-    allowsHorizontalScroll: function(el, styles) {
+    allowsHorizontalScroll: function(element, styles) {
       var overflowX = styles.overflowX;
       if(overflowX == 'scroll') return true;
-      if(overflowX == 'auto' && el['scrollWidth'] > el['clientWidth']) return true;
+      if(overflowX == 'auto' && element['scrollWidth'] > element['clientWidth']) return true;
       return false;
     },
 
 
     //check if pan or native scroll is possible
-    checkDOMTree: function(el, parentTarget) {
+    checkDOMTree: function(element, parentTarget) {
 
       //check panning
       //temporarily disabled for android - click vs panning issues
-      if(requirePanning && this.panElementId == el.id) {
+      if(requirePanning && this.panElementId == element.id) {
         this.isPanning_ = true;
         return;
       }
@@ -467,18 +467,18 @@
       if($.feat.nativeTouchScroll) {
 
         //prevent errors
-        if(this.ignoreScrolling(el)) {
+        if(this.ignoreScrolling(element)) {
           return;
         }
 
         //check if vertical or hor scroll are allowed
-        var styles = window.getComputedStyle(el);
-        if(this.allowsVerticalScroll(el, styles)) {
+        var styles = window.getComputedStyle(element);
+        if(this.allowsVerticalScroll(element, styles)) {
           this.isScrollingVertical_ = true;
-          this.scrollingEl_ = el;
+          this.scrollingEl_ = element;
           this.isScrolling = true;
           return;
-        } else if(this.allowsHorizontalScroll(el, styles)) {
+        } else if(this.allowsHorizontalScroll(element, styles)) {
           this.isScrollingVertical_ = false;
           this.scrollingEl_ = null;
           this.isScrolling = true;
@@ -486,8 +486,8 @@
 
       }
       //check recursive up to top element
-      var isTarget = el==(parentTarget);
-      if(!isTarget && el.parentNode) this.checkDOMTree(el.parentNode, parentTarget);
+      var isTarget = element==(parentTarget);
+      if(!isTarget && element.parentNode) this.checkDOMTree(element.parentNode, parentTarget);
     },
     //scroll finish detectors
     scrollEnded: function(e) {

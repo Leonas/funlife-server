@@ -7,20 +7,20 @@
    * @param {Boolean} go back
    * @title $ui.slideTransition(previousPanel,currentPanel,goBack);
    */
-  function slideTransition(oldDiv, currDiv, back) {
-    oldDiv.style.display = "block";
+  function slideTransition(old_div, currDiv, back) {
+    old_div.style.display = "block";
     currDiv.style.display = "block";
     var that = this;
     if (back) {
-      that.css3animate(oldDiv, {
+      that.css3animate(old_div, {
         x:"0%",
         y:"0%",
         complete:function(){
-          that.css3animate(oldDiv, {
+          that.css3animate(old_div, {
             x: "100%",
             time: "150ms",
             complete: function() {
-              that.finishTransition(oldDiv, currDiv);
+              that.finishTransition(old_div, currDiv);
             }
           }).link(currDiv, {
                 x: "0%",
@@ -32,15 +32,15 @@
             y:"0%"
           });
     } else {
-      that.css3animate(oldDiv, {
+      that.css3animate(old_div, {
         x:"0%",
         y:"0%",
         complete:function(){
-          that.css3animate(oldDiv, {
+          that.css3animate(old_div, {
             x: "-100%",
             time: "150ms",
             complete: function() {
-              that.finishTransition(oldDiv, currDiv);
+              that.finishTransition(old_div, currDiv);
             }
           }).link(currDiv, {
                 x: "0%",

@@ -11,14 +11,14 @@
     return this.length == 1 ? tmp : this;
   };
   var actionsheet = (function() {
-    var actionsheet = function(elID, options) {
-      if (typeof elID == "string" || elID instanceof String) {
-        this.el = document.getElementById(elID);
+    var actionsheet = function(element_id, options) {
+      if (typeof element_id == "string" || element_id instanceof String) {
+        this.element = document.getElementById(element_id);
       } else {
-        this.el = elID;
+        this.element = element_id;
       }
-      if (!this.el) {
-        alert("Could not find element for actionsheet " + elID);
+      if (!this.element) {
+        alert("Could not find element for actionsheet " + element_id);
         return;
       }
 
@@ -29,7 +29,7 @@
           }
         }
       } else {
-        return new actionsheet(elID, options);
+        return new actionsheet(element_id, options);
       }
 
       try {
@@ -51,17 +51,17 @@
             container.append(item);
           }
         }
-        $(elID).find("#jq_actionsheet").remove();
-        $(elID).find("#jq_action_mask").remove();
-        actionsheetEl = $(elID).append(markup);
+        $(element_id).find("#jq_actionsheet").remove();
+        $(element_id).find("#jq_action_mask").remove();
+        actionsheetEl = $(element_id).append(markup);
 
         markup.get().style[$.feat.cssPrefix+'Transition']="all 0ms";
         markup.css($.feat.cssPrefix+"Transform",  "translate"+$.feat.cssTransformStart+"0,0"+$.feat.cssTransformEnd);
         markup.css("top",window.innerHeight+"px");
-        this.el.style.overflow = "hidden";
+        this.element.style.overflow = "hidden";
         markup.on("click", "a",function(){that.hideSheet()});
         this.activeSheet=markup;
-        $(elID).append('<div id="jq_action_mask" style="position:absolute;top:0px;left:0px;right:0px;bottom:0px;z-index:9998;background:rgba(0,0,0,.4)"/>');
+        $(element_id).append('<div id="jq_action_mask" style="position:absolute;top:0px;left:0px;right:0px;bottom:0px;z-index:9998;background:rgba(0,0,0,.4)"/>');
         setTimeout(function(){
           markup.get().style[$.feat.cssPrefix+'Transition']="all 300ms";
           markup.css($.feat.cssPrefix+"Transform", "translate"+ $.feat.cssTransformStart+"0,"+(-(markup.height()))+"px"+$.feat.cssTransformEnd);
@@ -75,10 +75,10 @@
       hideSheet: function() {
         var that=this;
         this.activeSheet.off("click","a",function(){that.hideSheet()});
-        $(this.el).find("#jq_action_mask").remove();
+        $(this.element).find("#jq_action_mask").remove();
         this.activeSheet.get().style[$.feat.cssPrefix+'Transition']="all 0ms";
         var markup = this.activeSheet;
-        var theEl = this.el;
+        var theEl = this.element;
         setTimeout(function(){
 
           markup.get().style[$.feat.cssPrefix+'Transition']="all 300ms";

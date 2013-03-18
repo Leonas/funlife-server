@@ -13,11 +13,11 @@
   };
   passwordBox.prototype = {
     showPasswordPlainText: false,
-    getOldPasswords: function (elID) {
+    getOldPasswords: function (element_id) {
       //   if ($.os.android == false) return; -  iOS users seem to want this too, so we'll let everyone join the party
-      var container = elID && document.getElementById(elID) ? document.getElementById(elID) : document;
+      var container = element_id && document.getElementById(element_id) ? document.getElementById(element_id) : document;
       if (!container) {
-        alert("Could not find container element for passwordBox " + elID);
+        alert("Could not find container element for passwordBox " + element_id);
         return;
       }
       var sels = container.getElementsByTagName("input");

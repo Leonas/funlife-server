@@ -79,35 +79,35 @@
 
 
     ui.prototype = {
-        showLoading: true,
+        show_loading: true,
         loadContentQueue: [],
         isAppMobi: false,
         titlebar: "",
         navbar: "",
         header: "",
-        viewportContainer: "",
+        viewport_container: "",
         backButton: "",
         remotePages: {},
         history: [],
         homeDiv: "",
-        screenWidth: "",
+        screen_width: "",
         content_string: "",
         modal_window: "",
         custom_footer: false,
         default_footer: "",
-        defaultHeader: null,
-        customMenu: false,
+        default_header: null,
+        custom_menu: false,
         default_menu: "",
         _readyFunc: null,
         doing_transition: false,
         password_box: jq.password_box ? new jq.password_box() : false,
         select_box: jq.select_box ? jq.select_box : false,
-        ajaxUrl: "",
+        ajax_url: "",
         transitionType: "slide",
         scrollingDivs: [],
         firstDiv: "",
         hasLaunched: false,
-        launchCompleted: false,
+        launch_completed: false,
         active_div: "",
         custom_click_handler: "",
         menu_animation: null,
@@ -173,7 +173,7 @@
 
         // function to fire when jqUi is ready and completed launch
         ready: function(param) {
-            if (this.launchCompleted)
+            if (this.launch_completed)
                 param();
             else
                 document.addEventListener("jq.ui.ready", function(e) {
@@ -446,15 +446,15 @@
 
 
         update_footer_elements: function(elements) {
-            var nb = jq("#navbar");
+            var footer_nav = jq("#navbar");
             if (elements === undefined || elements == null)
                 return;
             if (typeof (elements) == "string")
-                return nb.html(elements, true), null;
-            nb.html("");
+                return footer_nav.html(elements, true), null;
+            footer_nav.html("");
             for (var i = 0; i < elements.length; i++) {
                 var node = elements[i].cloneNode(true);
-                nb.append(node);
+                footer_nav.append(node);
             }
             var tmpAnchors = jq("#navbar a");
             if (tmpAnchors.length > 0)
@@ -462,44 +462,44 @@
         },
 
         updateHeaderElements: function(elements) {
-            var nb = jq("#header");
+            var header_nav = jq("#header");
             if (elements === undefined || elements == null)
                 return;
             if (typeof (elements) == "string")
-                return nb.html(elements, true), null;
-            nb.html("");
+                return header_nav.html(elements, true), null;
+            header_nav.html("");
             for (var i = 0; i < elements.length; i++) {
                 var node = elements[i].cloneNode(true);
-                nb.append(node);
+                header_nav.append(node);
             }
         },
 
         updateSideMenu: function(elements) {
             var that = this;
 
-            var nb = jq("#menu_scroller");
+            var side_menu_nav = jq("#menu_scroller");
 
             if (elements === undefined || elements == null)
                 return;
             if (typeof (elements) == "string") {
-                nb.html(elements, true)
+                side_menu_nav.html(elements, true)
             }
             else {
-                nb.html('');
+                side_menu_nav.html('');
                 var close = document.createElement("a");
                 close.className = "closebutton jqMenuClose";
                 close.href = "javascript:;"
                 close.onclick = function() {
                     that.toggleSideMenu(false);
                 };
-                nb.append(close);
+                side_menu_nav.append(close);
                 var tmp = document.createElement("div");
                 tmp.className = "jqMenuHeader";
                 tmp.innerHTML = "Menu";
-                nb.append(tmp);
+                side_menu_nav.append(tmp);
                 for (var i = 0; i < elements.length; i++) {
                     var node = elements[i].cloneNode(true);
-                    nb.append(node);
+                    side_menu_nav.append(node);
                 }
             }
             //Move the scroller to the top and hide it
@@ -701,7 +701,7 @@
                     refresh: refreshPull,
                     useJsScroll: jsScroll,
                     noParent: !jsScroll,
-                    autoEnable: false //dont enable the events unnecessarilly
+                    autoEnable: false //dont enable the events unnecessarily
                 }));
                 //backwards compatibility
                 if (refreshFunc)
@@ -715,14 +715,7 @@
             scrollEl = null;
         },
 
-        /**
-         *  Scrolls a panel to the top
-           ```
-           $.ui.scrollToTop(id);
-           ```
-         * @param {String} id without hash
-         * @title $.ui.scrollToTop(id);
-         */
+
         scrollToTop: function(id) {
             if (this.scrollingDivs[id]) {
                 this.scrollingDivs[id].scrollToTop("300ms");
@@ -776,7 +769,7 @@
                 that.updateHeaderElements(jq("#" + hasHeader).children());
             } else if (hasHeader != that.customHeader) {
                 if (that.customHeader) {
-                    that.updateHeaderElements(that.defaultHeader);
+                    that.updateHeaderElements(that.default_header);
                     that.setTitle(that.active_div.title);
                 }
                 that.customHeader = false;
@@ -807,14 +800,14 @@
             }
 
             var hasMenu = what.getAttribute("data-nav");
-            if (hasMenu && this.customMenu != hasMenu) {
-                this.customMenu = hasMenu;
+            if (hasMenu && this.custom_menu != hasMenu) {
+                this.custom_menu = hasMenu;
                 this.updateSideMenu(jq("#" + hasMenu).children());
-            } else if (hasMenu != this.customMenu) {
-                if (this.customMenu) {
+            } else if (hasMenu != this.custom_menu) {
+                if (this.custom_menu) {
                     this.updateSideMenu(this.default_menu);
                 }
-                this.customMenu = false;
+                this.custom_menu = false;
             }
 
 
@@ -865,7 +858,7 @@
             if (target.length === 0)
                 return;
 
-            what = null;
+            var what = null;
             var that = this;
             var loadAjax = true;
             anchor = anchor || document.createElement("a"); //Hack to allow passing in no anchor
@@ -1047,7 +1040,7 @@
          */
         loadAjax: function(target, newTab, back, transition, anchor) {
             // XML Request
-            if (this.active_div.id == "jQui_ajax" && target == this.ajaxUrl)
+            if (this.active_div.id == "jQui_ajax" && target == this.ajax_url)
                 return;
             var urlHash = "url" + crc32(target); //Ajax urls
             var that = this;
@@ -1091,24 +1084,24 @@
 
                     if (doReturn)
                     {
-                         if (that.showLoading)
+                         if (that.show_loading)
                             that.hide_loading_mask();
                         return;
                     }
 
                     that.loadContent("#" + urlHash);
-                    if (that.showLoading)
+                    if (that.show_loading)
                        that.hide_loading_mask();
                     return null;
                 }
             };
-            ajaxUrl = target;
+            ajax_url = target;
             var newtarget = this.useAjaxCacheBuster ? target + (target.split('?')[1] ? '&' : '?') + "cache=" + Math.random() * 10000000000000000 : target;
             xmlhttp.open("GET", newtarget, true);
             xmlhttp.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
             xmlhttp.send();
             // show Ajax Mask
-            if (this.showLoading)
+            if (this.show_loading)
                 this.show_loading_mask();
         },
 
@@ -1122,7 +1115,7 @@
         //If autoLaunch is set to false, you can manually invoke it.
         launch: function() {
 
-            if (this.hasLaunched == false || this.launchCompleted) {
+            if (this.hasLaunched == false || this.launch_completed) {
                 this.hasLaunched = true;
                 return;
             }
@@ -1133,13 +1126,13 @@
             //that is just the $.ui object which loads only once
 
             this.isAppMobi = (window.AppMobi && typeof (AppMobi) == "object" && AppMobi.app !== undefined) ? true : false;
-            this.viewportContainer = jq("#jQUi");
+            this.viewport_container = jq("#jQUi");
             this.navbar = jq("#navbar").get(0);
             this.content_string = jq("#content").get(0);
             this.header = jq("#header").get(0);
             this.menu = jq("#menu").get(0);
             //set anchor click handler for UI
-            this.viewportContainer[0].addEventListener('click', function(e) {
+            this.viewport_container[0].addEventListener('click', function(e) {
                 var theTarget = e.target;
                 checkAnchorClick(e, theTarget);
             }, false);
@@ -1192,19 +1185,19 @@
                 this.navbar = document.createElement("div");
                 this.navbar.id = "navbar";
                 this.navbar.style.cssText = "display:none";
-                this.viewportContainer.append(this.navbar);
+                this.viewport_container.append(this.navbar);
             }
             if (!this.header) {
                 this.header = document.createElement("div");
                 this.header.id = "header";
-                this.viewportContainer.prepend(this.header);
+                this.viewport_container.prepend(this.header);
             }
             if (!this.menu) {
                 this.menu = document.createElement("div");
                 this.menu.id = "menu";
                 //this.menu.style.overflow = "hidden";
                 this.menu.innerHTML = '<div id="menu_scroller"></div>';
-                this.viewportContainer.append(this.menu);
+                this.viewport_container.append(this.menu);
                 this.menu.style.overflow = "hidden";
                 this.scrollingDivs["menu_scroller"] = jq("#menu_scroller").scroller({
                     scrollBars: true,
@@ -1220,7 +1213,7 @@
             if (!this.content_string) {
                 this.content_string = document.createElement("div");
                 this.content_string.id = "content";
-                this.viewportContainer.append(this.content_string);
+                this.viewport_container.append(this.content_string);
             }
 
             //insert backbutton (should optionally be left to developer..)
@@ -1247,7 +1240,7 @@
             //setup modalDiv
             var modalDiv = document.createElement("div");
             modalDiv.id = "jQui_modal";
-            this.viewportContainer.prepend(modalDiv);
+            this.viewport_container.prepend(modalDiv);
             modalDiv.appendChild(jq("<div id='modalContainer'></div>").get());
             this.scrollingDivs['modal_container'] = jq("#modalContainer").scroller({
                 scrollBars: true,
@@ -1259,7 +1252,7 @@
             this.modal_window = modalDiv;
             //get first div, defer
             var defer = {};
-            var contentDivs = this.viewportContainer.get().querySelectorAll(".panel");
+            var contentDivs = this.viewport_container.get().querySelectorAll(".panel");
             for (var i = 0; i < contentDivs.length; i++) {
                 var element = contentDivs[i];
                 var tmp = element;
@@ -1351,7 +1344,7 @@
                         that.updateSideMenu(that.default_menu);
                     }
                     //get default header
-                    that.defaultHeader = jq("#header").children().clone();
+                    that.default_header = jq("#header").children().clone();
                     //
                     jq("#navbar").on("click", "a", function(e) {
                         jq("#navbar a").not(this).removeClass("selected");
@@ -1376,7 +1369,7 @@
                         }
                     }
 
-                    that.launchCompleted = true;
+                    that.launch_completed = true;
                     if (jq("nav").length > 0) {
                         jq("#jQUi #header").addClass("hasMenu off");
                         jq("#jQUi #content").addClass("hasMenu off");
@@ -1422,9 +1415,8 @@
                 e.preventDefault();
             });
         },
-        /**
-         * This is the default transition.  It simply shows the new panel and hides the old
-         */
+
+        //This is the default transition.  It simply shows the new panel and hides the old
         noTransition: function(old_div, current_div, back) {
             current_div.style.display = "block";
             old_div.style.display = "block";
@@ -1438,12 +1430,9 @@
             current_div.style.zIndex = 2;
             old_div.style.zIndex = 1;
         },
-        /**
-         * This must be called at the end of every transition to hide the old div and reset the doing_transition variable
-         *
-         * @param {Object} Div that transitioned out
-         * @title $.ui.finishTransition(old_div)
-         */
+
+        //This must be called at the end of every transition to hide the old div and
+        // reset the doing_transition variable
         finishTransition: function(old_div, current_div) {
             old_div.style.display = 'none';
             this.doing_transition = false;
@@ -1454,15 +1443,12 @@
             $.trigger(this, "content-loaded");
         },
 
-        /**
-         * This must be called at the end of every transition to remove all transforms and transitions attached to the inView object (performance + native scroll)
-         *
-         * @param {Object} Div that transitioned out
-         * @title $.ui.finishTransition(old_div)
-         */
-        clearAnimations: function(inViewDiv) {
-            inViewDiv.style[$.feat.cssPrefix + 'Transform'] = "none";
-            inViewDiv.style[$.feat.cssPrefix + 'Transition'] = "none";
+
+        //This must be called at the end of every transition to remove all transforms and
+        // transitions attached to the inView object (performance + native scroll)
+        clearAnimations: function(in_view_div_object) {
+            in_view_div_object.style[$.feat.cssPrefix + 'Transform'] = "none";
+            in_view_div_object.style[$.feat.cssPrefix + 'Transition'] = "none";
         }
 
     /**

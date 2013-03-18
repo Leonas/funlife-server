@@ -7,7 +7,7 @@
         var new_model = {};
         options && options.modelName && delete options.modelName;      //If there is a model name, delete it
         options && options.id && delete options.id;                    //If there is a model id, delete it
-        $.extend(new_model, options);                                  //Extends the obj with additional arguments
+        $.extend(new_model, options);                                  //Extends the object with additional arguments
         new_model.modelName = name;                                    //set the modelname to given name
         return new_model;
     };

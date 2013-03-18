@@ -192,13 +192,13 @@ if (!window.jq || typeof (jq) !== "function") {
             return this;
         }
 		
-        function _shimNodes(nodes,obj){
+        function _shimNodes(nodes,object){
             if(!nodes)
                 return;
             if(nodes.nodeType)
-                return obj[obj.length++]=nodes;
+                return object[object.length++]=nodes;
             for(var i=0,iz=nodes.length;i<iz;i++)
-                obj[obj.length++]=nodes[i];
+                object[object.length++]=nodes[i];
         }
         /**
         * Checks to see if the parameter is a $jqm object
@@ -211,7 +211,7 @@ if (!window.jq || typeof (jq) !== "function") {
         * @return {Boolean}
         * @title $.is$(param)
         */
-		$.is$ = function(obj){return obj instanceof $jqm;}
+		$.is$ = function(object){return object instanceof $jqm;}
         /**
         * Map takes in elements and executes a callback function on each and returns a collection
         ```
@@ -311,8 +311,8 @@ if (!window.jq || typeof (jq) !== "function") {
         * @example $.isArray([1]);
         * @title $.isArray(param)
         */
-        $.isArray = function(obj) {
-            return obj instanceof Array && obj['push'] != undefined; //ios 3.1.3 doesn't have Array.isArray
+        $.isArray = function(object) {
+            return object instanceof Array && object['push'] != undefined; //ios 3.1.3 doesn't have Array.isArray
         };
 
         /**
@@ -326,8 +326,8 @@ if (!window.jq || typeof (jq) !== "function") {
         * @return {Boolean}
         * @title $.isFunction(param)
         */
-        $.isFunction = function(obj) {
-            return typeof obj === "function";
+        $.isFunction = function(object) {
+            return typeof object === "function";
         };
         /**
         * Checks to see if the parameter is a object
@@ -340,8 +340,8 @@ if (!window.jq || typeof (jq) !== "function") {
         * @return {Boolean}
         * @title $.isObject(param)
         */
-        $.isObject = function(obj) {
-            return typeof obj === "object";
+        $.isObject = function(object) {
+            return typeof object === "object";
         };
 
         /**
@@ -514,8 +514,8 @@ if (!window.jq || typeof (jq) !== "function") {
             * @return {Object} a jqMobi object
             * @title $().css(attribute,[value])
             */
-            css: function(attribute, value, obj) {
-                var toAct = obj != undefined ? obj : this[0];
+            css: function(attribute, value, object) {
+                var toAct = object != undefined ? object : this[0];
                 if (this.length === 0)
                     return this;
                 if (value == undefined && typeof (attribute) === "string") {
@@ -546,8 +546,8 @@ if (!window.jq || typeof (jq) !== "function") {
             * @return {Object} a jqMobi object
             * @title $().css(attribute,[value])
             */
-            vendorCss:function(attribute,value,obj){
-                return this.css($.feat.cssPrefix+attribute,value,obj);
+            vendorCss:function(attribute,value,object){
+                return this.css($.feat.cssPrefix+attribute,value,object);
             },
             /**
             * Sets the innerHTML of all elements to an empty string
@@ -950,17 +950,17 @@ if (!window.jq || typeof (jq) !== "function") {
                         element = $(element);
                         _insertFragments(element,this[i],insert);
                     } else {
-                        var obj =fragementRE.test(element)?$(element):undefined;
-                        if (obj == undefined || obj.length == 0) {
-                            obj = document.createTextNode(element);
+                        var object =fragementRE.test(element)?$(element):undefined;
+                        if (object == undefined || object.length == 0) {
+                            object = document.createTextNode(element);
                         }
-                        if (obj.nodeName != undefined && obj.nodeName.toLowerCase() == "script" && (!obj.type || obj.type.toLowerCase() === 'text/javascript')) {
-                            window.eval(obj.innerHTML);
-                        } else if(obj instanceof $jqm) {
-                            _insertFragments(obj,this[i],insert);
+                        if (object.nodeName != undefined && object.nodeName.toLowerCase() == "script" && (!object.type || object.type.toLowerCase() === 'text/javascript')) {
+                            window.eval(object.innerHTML);
+                        } else if(object instanceof $jqm) {
+                            _insertFragments(object,this[i],insert);
                         }
                         else {
-                            insert != undefined ? this[i].insertBefore(obj, this[i].firstChild) : this[i].appendChild(obj);
+                            insert != undefined ? this[i].insertBefore(object, this[i].firstChild) : this[i].appendChild(object);
                         }
                     }
                 }
@@ -1081,14 +1081,14 @@ if (!window.jq || typeof (jq) !== "function") {
                         height:window.innerHeight
                     }
                 else
-                    var obj = this[0].getBoundingClientRect();
+                    var object = this[0].getBoundingClientRect();
                 return {
-                    left: obj.left + window.pageXOffset,
-                    top: obj.top + window.pageYOffset,
-                    right: obj.right + window.pageXOffset,
-                    bottom: obj.bottom + window.pageYOffset,
-                    width: obj.right-obj.left,
-                    height: obj.bottom-obj.top
+                    left: object.left + window.pageXOffset,
+                    top: object.top + window.pageYOffset,
+                    right: object.right + window.pageXOffset,
+                    bottom: object.bottom + window.pageYOffset,
+                    width: object.right-object.left,
+                    height: object.bottom-object.top
                 };
             },
              /**
@@ -1738,11 +1738,11 @@ if (!window.jq || typeof (jq) !== "function") {
         /**
         * Converts an object into a key/value par with an optional prefix.  Used for converting objects to a query string
             ```
-            var obj={
+            var object={
             foo:'foo',
             bar:'bar'
             }
-            var kvp=$.param(obj,'data');
+            var kvp=$.param(object,'data');
             ```
 
         * @param {Object} object
@@ -1750,18 +1750,18 @@ if (!window.jq || typeof (jq) !== "function") {
         * @return {String} Key/value pair representation
         * @title $.param(object,[prefix];
         */
-        $.param = function(obj, prefix) {
+        $.param = function(object, prefix) {
             var str = [];
-            if (obj instanceof $jqm) {
-                obj.each(function() {
+            if (object instanceof $jqm) {
+                object.each(function() {
                     var k = prefix ? prefix + "[]" : this.id, 
                     v = this.value;
                     str.push((k) + "=" + encodeURIComponent(v));
                 });
             } else {
-                for (var p in obj) {
+                for (var p in object) {
                     var k = prefix ? prefix + "[" + p + "]" : p, 
-                    v = obj[p];
+                    v = object[p];
                     str.push($.isObject(v) ? $.param(v, k) : (k) + "=" + encodeURIComponent(v));
                 }
             }
@@ -1770,7 +1770,7 @@ if (!window.jq || typeof (jq) !== "function") {
         /**
         * Used for backwards compatibility.  Uses native JSON.parse function
             ```
-            var obj=$.parseJSON("{\"bar\":\"bar\"}");
+            var object=$.parseJSON("{\"bar\":\"bar\"}");
             ```
 
         * @params {String} string
@@ -2267,12 +2267,12 @@ if (!window.jq || typeof (jq) !== "function") {
          * @param {Function} function to execute
          * @title $.bind(object,event,function);
          */
-		$.bind = function(obj, ev, f){
-			if(!obj.__events) obj.__events = {};
+		$.bind = function(object, ev, f){
+			if(!object.__events) object.__events = {};
 			if(!$.isArray(ev)) ev = [ev];
 			for(var i=0; i<ev.length; i++){
-				if(!obj.__events[ev[i]]) obj.__events[ev[i]] = [];
-				obj.__events[ev[i]].push(f);
+				if(!object.__events[ev[i]]) object.__events[ev[i]] = [];
+				object.__events[ev[i]].push(f);
 			}
 		};
 
@@ -2286,16 +2286,16 @@ if (!window.jq || typeof (jq) !== "function") {
          * @param {Array} arguments
          * @title $.trigger(object,event,argments);
          */
-		$.trigger = function(obj, ev, args){
+		$.trigger = function(object, ev, args){
 			var ret = true;
-			if(!obj.__events) return ret;
+			if(!object.__events) return ret;
 			if(!$.isArray(ev)) ev = [ev];
 			if(!$.isArray(args)) args = [];
 			for(var i=0; i<ev.length; i++){
-				if(obj.__events[ev[i]]){
-					var evts = obj.__events[ev[i]];
+				if(object.__events[ev[i]]){
+					var evts = object.__events[ev[i]];
 					for(var j = 0; j<evts.length; j++)
-						if($.isFunction(evts[j]) && evts[j].apply(obj, args)===false) 
+						if($.isFunction(evts[j]) && evts[j].apply(object, args)===false)
 							ret = false;
 				}
 			}
@@ -2311,12 +2311,12 @@ if (!window.jq || typeof (jq) !== "function") {
          * @param {Function} function to execute
          * @title $.unbind(object,event,function);
          */
-        $.unbind = function(obj, ev, f){
-			if(!obj.__events) return;
+        $.unbind = function(object, ev, f){
+			if(!object.__events) return;
 			if(!$.isArray(ev)) ev = [ev];
 			for(var i=0; i<ev.length; i++){
-				if(obj.__events[ev[i]]){
-					var evts = obj.__events[ev[i]];
+				if(object.__events[ev[i]]){
+					var evts = object.__events[ev[i]];
 					for(var j = 0; j<evts.length; j++){
                         if(f==undefined)
                             delete evts[j];

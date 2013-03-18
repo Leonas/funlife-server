@@ -25,12 +25,12 @@ $.mvc.controller.create("foo",
         //todo_model is an instace of the Todo model.  We will get all of them and then list them
         var items = todo_model.getAll(function (items) {
           //Filter active items
-          var active = items.filter(function (obj) {
-            return obj.archive !== true;
+          var active = items.filter(function (object) {
+            return object.archive !== true;
           });
           //Filter archived items
-          var archived = items.filter(function (obj) {
-            return obj.archive == true;
+          var archived = items.filter(function (object) {
+            return object.archive == true;
           });
           //Loop through the active items and put them in the DOM
           active.forEach(function (theItem) {

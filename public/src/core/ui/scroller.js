@@ -5,9 +5,9 @@
 (function($) {
   var HIDE_REFRESH_TIME = 75; // hide animation of pull2ref duration in ms
   var cache = [];
-  var objId = function(obj) {
-    if(!obj.jqmScrollerId) obj.jqmScrollerId = $.uuid();
-    return obj.jqmScrollerId;
+  var objId = function(object) {
+    if(!object.jqmScrollerId) object.jqmScrollerId = $.uuid();
+    return object.jqmScrollerId;
   }
   $.fn["scroller"] = function(options) {
     var tmp, id;
@@ -862,8 +862,8 @@
       } else {
         //regular transform
 
-        var obj = $.getCssMatrix(element);
-        return obj;
+        var object = $.getCssMatrix(element);
+        return object;
       }
     }
     jsScroller.prototype.saveEventInfo = function(event) {

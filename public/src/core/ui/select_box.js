@@ -219,8 +219,8 @@
 
       if(!element.getAttribute("multiple")){
         element.selectedIndex = value;
-        $(element).find("option").forEach(function(obj){
-          obj.selected=false;
+        $(element).find("option").forEach(function(object){
+          object.selected=false;
         });
         $(element).find("option:nth-child("+(value+1)+")").get(0).selected=true;
         this.scroller.scrollTo({

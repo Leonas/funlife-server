@@ -6,23 +6,23 @@
         viewsLoaded = {}, modelsLoaded = {}, controllerReady = {};
 
 
-    $.mvc.controller = {};                                                   //set mvc controller to empty obj
+    $.mvc.controller = {};                                                   //set mvc controller to empty object
 
-    $.mvc.controller.create = function (name, obj) {
+    $.mvc.controller.create = function (name, object) {
         var loaded = true, i, shortName;
-        $.mvc.controller[name] = obj;
+        $.mvc.controller[name] = object;
         viewsTotal[name] = 0;
         viewsLoaded[name] = 0;
         modelsLoaded[name] = 0;
         modelsTotal[name] = 0;
-        if (obj.hasOwnProperty("init")) { controllerReady[name] = obj; }
-        if (obj.hasOwnProperty("views") && (obj.views.length > 0 || Object.keys(obj.views).length) > 0) {
+        if (object.hasOwnProperty("init")) { controllerReady[name] = object; }
+        if (object.hasOwnProperty("views") && (object.views.length > 0 || Object.keys(object.views).length) > 0) {
             loaded = false;
-            viewsTotal[name] = obj.views.length || Object.keys(obj.views).length;
-            for (i in obj.views) {
-                shortName = $.isArray(obj.views) ? obj.views[i] : i;                           //replace this
+            viewsTotal[name] = object.views.length || Object.keys(object.views).length;
+            for (i in object.views) {
+                shortName = $.isArray(object.views) ? object.views[i] : i;                           //replace this
                 if (!viewsCache[shortName] && jq("#" + shortName).length === 0) {
-                    $.mvc.controller.addView(obj.views[i], name, shortName);
+                    $.mvc.controller.addView(object.views[i], name, shortName);
                     viewsCache[shortName] = 1;
                 }
             }

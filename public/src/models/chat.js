@@ -84,7 +84,7 @@ Chat = new $.mvc.model.Extend("chat", {
       contentType: 'application/json',
       headers: { TOKEN: current_user.token },
       dataType: 'application/json',
-      data: { message: messages }, //Can be Key/Value, string, or object. $.serialize called if obj
+      data: { message: messages }, //Can be Key/Value, string, or object. $.serialize called if object
       success: function (response) {
         //sent date time should display
       },

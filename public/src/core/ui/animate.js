@@ -1,8 +1,8 @@
 (function ($) {
   var cache = [];
-  var objId=function(obj){
-    if(!obj.jqmCSS3AnimateId) obj.jqmCSS3AnimateId=$.uuid();
-    return obj.jqmCSS3AnimateId;
+  var objId=function(object){
+    if(!object.jqmCSS3AnimateId) object.jqmCSS3AnimateId=$.uuid();
+    return object.jqmCSS3AnimateId;
   };
   var getEl=function(element_id){
     if (typeof element_id == "string" || element_id instanceof String) {
@@ -13,8 +13,8 @@
       return element_id;
     }
   };
-  var getCSS3Animate=function(obj, options){
-    var tmp, id, element = getEl(obj);
+  var getCSS3Animate=function(object, options){
+    var tmp, id, element = getEl(object);
     //first one
     id = objId(element);
     if(cache[id]){
@@ -269,7 +269,7 @@
         options.failure = null;
         //run the animation with the replaced callbacks
         getCSS3Animate(element_id, options);
-        //set the old callback back in the obj to avoid strange stuff
+        //set the old callback back in the object to avoid strange stuff
         options.complete = callbacks.complete;
         options.success = callbacks.success;
         options.failure = callbacks.failure;

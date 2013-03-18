@@ -15,10 +15,10 @@
         // Init the page
         var that = this;
 
-        //setup the menu and boot touchLayer
+        //setup the menu and boot touch_layer
         jq(document).ready(function() {
 
-            //boot touchLayer
+            //boot touch_layer
             //create jQUi element if it still does not exist
             var jQUi = document.getElementById("jQUi");
             if (jQUi == null) {
@@ -31,7 +31,7 @@
                 jq(document.body).prepend(jQUi);
             }
             if (jq.os.supportsTouch)
-                $.touchLayer(jQUi);
+                $.touch_layer(jQUi);
         });
 
         if (window.AppMobi)
@@ -41,7 +41,8 @@
             }, false);
         else if (document.readyState == "complete" || document.readyState == "loaded") {
             this.autoBoot();
-        } else
+        }
+        else
             document.addEventListener("DOMContentLoaded", function() {
                 that.autoBoot();
                 this.removeEventListener("DOMContentLoaded", arguments.callee);
@@ -256,7 +257,7 @@
                     that.transitionType = tmpEl.transition;
                     //document.location.hash=tmpEl.target;
                     that.updateHash(tmpEl.target);
-                //for Android 4.0.x, we must touchLayer.hideAdressBar()
+                //for Android 4.0.x, we must touch_layer.hideAdressBar()
             //    });
             }
         },
@@ -1318,11 +1319,11 @@
             //focus scroll adjust fix
             var enterEditEl = null;
             //on enter-edit keep a reference of the actioned element
-            $.bind($.touchLayer, 'enter-edit', function(element) {
+            $.bind($.touch_layer, 'enter-edit', function(element) {
                 enterEditEl = element;
             });
             //enter-edit-reshape panel padding and scroll adjust
-            $.bind($.touchLayer, 'enter-edit-reshape', function() {
+            $.bind($.touch_layer, 'enter-edit-reshape', function() {
                 //onReshape UI fixes
                 //check if focused element is within active panel
                 var jQel = $(enterEditEl);
@@ -1351,7 +1352,7 @@
                 }
             });
             if ($.os.ios) {
-                $.bind($.touchLayer, 'exit-edit-reshape', function() {
+                $.bind($.touch_layer, 'exit-edit-reshape', function() {
                     that.scrollingDivs[that.activeDiv.id].setPaddings(0, 0);
                 });
             }

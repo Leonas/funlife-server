@@ -21,10 +21,10 @@
 (function() {
 
   //singleton
-  $.touchLayer = function(element) {
+  $.touch_layer = function(element) {
     //	if(jq.os.desktop||!jq.os.webkit) return;
-    $.touchLayer = new touchLayer(element);
-    return $.touchLayer;
+    $.touch_layer = new touch_layer(element);
+    return $.touch_layer;
   };
   //configuration stuff
   var inputElements = ['input', 'select', 'textarea'];
@@ -44,7 +44,7 @@
     var n = d.getTime();
     return n;
   }
-  var touchLayer = function(element) {
+  var touch_layer = function(element) {
     this.clearTouchVars();
     element.addEventListener('touchstart', this, false);
     element.addEventListener('touchmove', this, false);
@@ -93,7 +93,7 @@
     this.launchFixUI(5); //try a lot to set page into place
   }
 
-  touchLayer.prototype = {
+  touch_layer.prototype = {
     dX: 0,
     dY: 0,
     cX: 0,
@@ -198,7 +198,7 @@
         window.scrollTo(1, 1);
         this.layer.style.height = this.isFocused_ ? (window.innerHeight) + "px" : (window.outerHeight / window.devicePixelRatio) + 'px';
         //sometimes android devices are stubborn
-        that = this;
+        var that = this;
         //re-test in a bit (some androids (SII, Nexus S, etc) fail to resize on first try)
         var nextTry = retry + 1;
         this.reHideAddressBarTimeout_ = setTimeout(this.retestAndFixUIProxy_, 250 * nextTry, [nextTry, maxTries]); //each fix is progressibily longer (slower phones fix)

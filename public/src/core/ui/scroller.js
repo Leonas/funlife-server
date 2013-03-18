@@ -40,8 +40,8 @@
     //use a single bind for all scrollers
     if(jq.os.android && !jq.os.chrome&&jq.os.webkit) {
       var androidFixOn = false;
-      //connect to touchLayer to detect editMode
-      $.bind($.touchLayer, 'pre-enter-edit', function(focusEl) {
+      //connect to touch_layer to detect editMode
+      $.bind($.touch_layer, 'pre-enter-edit', function(focusEl) {
         if(!androidFixOn) {
           androidFixOn = true;
           //activate on scroller
@@ -49,7 +49,7 @@
             if(checkConsistency(element) && cache[element].needsFormsFix(focusEl)) cache[element].startFormsMode();
         }
       });
-      $.bind($.touchLayer, ['cancel-enter-edit', 'exit-edit'], function(focusEl) {
+      $.bind($.touch_layer, ['cancel-enter-edit', 'exit-edit'], function(focusEl) {
         if(androidFixOn) {
           androidFixOn = false;
           //dehactivate on scroller
@@ -69,8 +69,8 @@
     var scroller = function(element_id, options) {
 
 
-      if(!boundTouchLayer && $.touchLayer && $.isObject($.touchLayer)) bindTouchLayer()
-      else if(!($.touchLayer && $.isObject($.touchLayer))) $.touchLayer = {};
+      if(!boundTouchLayer && $.touch_layer && $.isObject($.touch_layer)) bindTouchLayer()
+      else if(!($.touch_layer && $.isObject($.touch_layer))) $.touch_layer = {};
 
       if(typeof element_id == "string" || element_id instanceof String) {
         var element = document.getElementById(element_id);
@@ -197,9 +197,9 @@
           that.disable(true); //with destroy notice
           var id = that.element.jqmScrollerId;
           if(cache[id]) delete cache[id];
-          $.unbind($.touchLayer, 'orientationchange-reshape', orientationChangeProxy);
+          $.unbind($.touch_layer, 'orientationchange-reshape', orientationChangeProxy);
         });
-        $.bind($.touchLayer, 'orientationchange-reshape', orientationChangeProxy);
+        $.bind($.touch_layer, 'orientationchange-reshape', orientationChangeProxy);
       },
       needsFormsFix: function(focusEl) {
         return this.useJsScroll && this.isEnabled() && this.element.style.display != "none" && $(focusEl).closest(this.jqEl).size() > 0;
@@ -451,7 +451,7 @@
         }
       }
       $.trigger(this,"scrollstart",[this.element]);
-      $.trigger($.touchLayer,"scrollstart",[this.element]);
+      $.trigger($.touch_layer,"scrollstart",[this.element]);
     }
     nativeScroller.prototype.onTouchMove = function(e) {
 
@@ -522,7 +522,7 @@
         }
         if(self.element.scrollTop!=currPos.top||self.element.scrollLeft!=currPos.left){
           clearInterval(self.nativePolling);
-          $.trigger($.touchLayer, 'scrollend', [self.element]); //notify touchLayer of this elements scrollend
+          $.trigger($.touch_layer, 'scrollend', [self.element]); //notify touch_layer of this elements scrollend
           $.trigger(self,"scrollend",[self.element]);
           //self.doScroll(e);
         }
@@ -1186,7 +1186,7 @@
       var that = this;
       this.scrollingFinishCB = setTimeout(function() {
         that.hideScrollbars();
-        $.trigger($.touchLayer, 'scrollend', [that.element]); //notify touchLayer of this elements scrollend
+        $.trigger($.touch_layer, 'scrollend', [that.element]); //notify touch_layer of this elements scrollend
         $.trigger(that,"scrollend",[that.element]);
         that.isScrolling = false;
         that.elementInfo = null; //reset elementInfo when idle

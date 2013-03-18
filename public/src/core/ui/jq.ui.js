@@ -91,7 +91,7 @@
         history: [],
         homeDiv: "",
         screenWidth: "",
-        content: "",
+        content_string: "",
         modalWindow: "",
         customFooter: false,
         defaultFooter: "",
@@ -461,14 +461,7 @@
             if (tmpAnchors.length > 0)
                 tmpAnchors.data("ignore-pressed", "true").data("resetHistory", "true");
         },
-        /**
-         * Updates the elements in the header
-           ```
-           $.ui.updateHeaderElements(elements);
-           ```
-         * @param {String|Object} Elements
-         * @title $.ui.updateHeaderElement(Elements)
-         */
+
         updateHeaderElements: function(elements) {
             var nb = jq("#header");
             if (elements === undefined || elements == null)
@@ -481,14 +474,7 @@
                 nb.append(node);
             }
         },
-        /**
-         * Updates the elements in the side menu
-           ```
-           $.ui.updateSideMenu(elements);
-           ```
-         * @param {String|Object} Elements
-         * @title $.ui.updateSideMenu(Elements)
-         */
+
         updateSideMenu: function(elements) {
             var that = this;
 
@@ -521,73 +507,36 @@
             this.scrollingDivs['menu_scroller'].hideScrollbars();
             this.scrollingDivs['menu_scroller'].scrollToTop();
         },
-        /**
-         * Set the title of the current panel
-           ```
-           $.ui.setTitle("new title");
-           ```
 
-         * @param {String} value
-         * @title $.ui.setTitle(value)
-         */
         setTitle: function(val) {
             jq("#header #pageTitle").html(val);
         },
-        /**
-         * Override the text for the back button
-           ```
-           $.ui.setBackButtonText("GO...");
-           ```
 
-         * @param {String} value
-         * @title $.ui.setBackButtonText(value)
-         */
         setBackButtonText: function(text) {
             if (this.backButtonText.length > 0)
                 jq("#header #backButton").html(this.backButtonText);
             else
                 jq("#header #backButton").html(text);
         },
-        /**
-         * Toggle visibility of the back button
-         */
+
         setBackButtonVisibility: function(show) {
             if (!show)
                 jq("#header #backButton").css("visibility", "hidden");
             else
                 jq("#header #backButton").css("visibility", "visible");
         },
-        /**
-         * Show the loading mask
-           ```
-           $.ui.showMask()
-           $.ui.showMask(;Doing work')
-           ```
 
-         * @param {String} [text]
-         * @title $.ui.showMask(text);
-         */
-        showMask: function(text) {
+        show_loading_mask: function(text) {
             if (!text)
                 text = "Loading Content";
             jq("#jQui_mask>h1").html(text);
             jq("#jQui_mask").show()
         },
-        /**
-         * Hide the loading mask
-         * @title $.ui.hideMask();
-         */
-        hideMask: function() {
+
+        hide_loading_mask: function() {
             jq("#jQui_mask").hide()
         },
-        /**
-         * Load a content panel in a modal window.  We set the innerHTML so event binding will not work.
-           ```
-           $.ui.showModal("#myDiv");
-           ```
-         * @param {String|Object} panel to show
-         * @title $.ui.showModal();
-         */
+
         showModal: function(id) {
             var that = this;
             id="#"+id.replace("#","");
@@ -598,7 +547,7 @@
                     this.modalWindow.style.display = "block";
 
                     button = null;
-                    content = null;
+                    content_string = null;
                     this.scrollingDivs['modal_container'].enable(that.resetScrollers);
                     this.scrollToTop('modal');
                      jq("#modalContainer").data("panel",id);
@@ -607,13 +556,7 @@
                 console.log("Error with modal - " + e, this.modalWindow);
             }
         },
-        /**
-         * Hide the modal window and remove the content
-           ```
-           $.ui.hideModal("#myDiv");
-           ```
-         * @title $.ui.hideModal();
-         */
+
         hideModal: function() {
             $("#modalContainer").html("", true);
             jq("#jQui_modal").hide()
@@ -629,23 +572,14 @@
 
         },
 
-        /**
-         * Update the HTML in a content panel
-           ```
-           $.ui.updateContentDiv("#myDiv","This is the new content");
-           ```
-         * @param {String,Object} panel
-         * @param {String} html to update with
-         * @title $.ui.updateContentDiv(id,content);
-         */
-        updateContentDiv: function(id, content) {
+        updateContentDiv: function(id, content_string) {
             id="#"+id.replace("#","");
             var element = jq(id).get(0);
             if (!element)
                 return;
 
             var newDiv = document.createElement("div");
-            newDiv.innerHTML = content;
+            newDiv.innerHTML = content_string;
             if ($(newDiv).children('.panel') && $(newDiv).children('.panel').length > 0)
                 newDiv = $(newDiv).children('.panel').get();
 
@@ -653,10 +587,10 @@
 
             if (element.getAttribute("js-scrolling") && element.getAttribute("js-scrolling").toLowerCase() == "yes") {
                 $.cleanUpContent(element.childNodes[0], false, true);
-                element.childNodes[0].innerHTML = content;
+                element.childNodes[0].innerHTML = content_string;
             } else {
                 $.cleanUpContent(element, false, true);
-                element.innerHTML = content;
+                element.innerHTML = content_string;
             }
             if ($(newDiv).title)
                 element.title = $(newDiv).title;
@@ -669,14 +603,14 @@
          * @param {String|Object} Element to add
          * @param {String} Content
          * @param {String} title
-         * @title $.ui.addContentDiv(id,content,title);
+         * @title $.ui.addContentDiv(id,content_string,title);
          */
-        addContentDiv: function(element, content, title, refresh, refreshFunc) {
+        addContentDiv: function(element, content_string, title, refresh, refreshFunc) {
             element = typeof (element) !== "string" ? element : element.indexOf("#") == -1 ? "#" + element : element;
             var myEl = jq(element).get(0);
             if (!myEl) {
                 var newDiv = document.createElement("div");
-                newDiv.innerHTML = content;
+                newDiv.innerHTML = content_string;
                 if ($(newDiv).children('.panel') && $(newDiv).children('.panel').length > 0)
                     newDiv = $(newDiv).children('.panel').get();
 
@@ -710,7 +644,7 @@
             var overflowStyle = tmp.style.overflow;
             var hasScroll = overflowStyle != 'hidden' && overflowStyle != 'visible';
 
-            container = container || this.content;
+            container = container || this.content_string;
             //sets up scroll when required and not supported
             if (!$.feat.nativeTouchScroll && hasScroll)
                 tmp.setAttribute("js-scrolling", "yes");
@@ -1161,13 +1095,13 @@
                     if (doReturn)
                     {
                          if (that.showLoading)
-                            that.hideMask();
+                            that.hide_loading_mask();
                         return;
                     }
 
                     that.loadContent("#" + urlHash);
                     if (that.showLoading)
-                       that.hideMask();
+                       that.hide_loading_mask();
                     return null;
                 }
             };
@@ -1178,7 +1112,7 @@
             xmlhttp.send();
             // show Ajax Mask
             if (this.showLoading)
-                this.showMask();
+                this.show_loading_mask();
         },
         /**
          * This executes the transition for the panel
@@ -1214,7 +1148,7 @@
             this.isAppMobi = (window.AppMobi && typeof (AppMobi) == "object" && AppMobi.app !== undefined) ? true : false;
             this.viewportContainer = jq("#jQUi");
             this.navbar = jq("#navbar").get(0);
-            this.content = jq("#content").get(0);
+            this.content_string = jq("#content").get(0);
             ;
             this.header = jq("#header").get(0);
             ;
@@ -1299,10 +1233,10 @@
                     $("#menu_scroller").css("height", "100%");
             }
 
-            if (!this.content) {
-                this.content = document.createElement("div");
-                this.content.id = "content";
-                this.viewportContainer.append(this.content);
+            if (!this.content_string) {
+                this.content_string = document.createElement("div");
+                this.content_string.id = "content";
+                this.viewportContainer.append(this.content_string);
             }
 
             //insert backbutton (should optionally be left to developer..)

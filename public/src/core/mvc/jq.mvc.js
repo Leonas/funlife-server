@@ -195,7 +195,7 @@
 
 
     if ($.ui) {
-        $.ui.customClickHandler = $.mvc.route;
+        $.ui.custom_click_handler = $.mvc.route;
     } else {
         $(document).on("click", "a", function (evt) {
             $.mvc.route(evt.target, evt);

@@ -1,23 +1,23 @@
 /*
- * jq.web.passwordBox - password box replacement for html5 mobile apps on android due to a bug with CSS3 translate3d
+ * jq.web.password_box - password box replacement for html5 mobile apps on android due to a bug with CSS3 translate3d
  * @copyright 2011 - Intel
  */
 (function ($) {
-  $["passwordBox"] = function () {
+  $["password_box"] = function () {
 
-    return new passwordBox();
+    return new password_box();
   };
 
-  var passwordBox = function () {
+  var password_box = function () {
     this.oldPasswords = {};
   };
-  passwordBox.prototype = {
+  password_box.prototype = {
     showPasswordPlainText: false,
     getOldPasswords: function (element_id) {
       //   if ($.os.android == false) return; -  iOS users seem to want this too, so we'll let everyone join the party
       var container = element_id && document.getElementById(element_id) ? document.getElementById(element_id) : document;
       if (!container) {
-        alert("Could not find container element for passwordBox " + element_id);
+        alert("Could not find container element for password_box " + element_id);
         return;
       }
       var sels = container.getElementsByTagName("input");

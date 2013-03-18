@@ -27,7 +27,7 @@ We have four special registered div blocks for your layout based off id's.  They
 
 * To add divs to the content, simply set the class to "panel".  This is a special css class that we search for at startup.
  
-* jq.scroller is added automatically, along with jq.selectBox, jq.passwordBox, and jq.css3animate.
+* jq.scroller is added automatically, along with jq.select_box, jq.password_box, and jq.css3animate.
 
 * Linking to pages - You can link two ways.  You can link to a file by setting the URL, which will load via AJAX.  Or you can set the href property to "#div_id"
 ``` html
@@ -183,8 +183,8 @@ Each div/panel has properties you can set that will change the app.  Below are t
 * To get the current active div/page
 
 ``` html
-<script>$.ui.activeDiv //reference to the div</script>
-<script>var activeId=$.ui.activeDiv.id</script>
+<script>$.ui.active_div //reference to the div</script>
+<script>var activeId=$.ui.active_div.id</script>
 ``` 
 	
 * To make the back button text static

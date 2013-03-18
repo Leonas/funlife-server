@@ -5,7 +5,7 @@
 
  */
 (function($) {
-  $['selectBox'] = {
+  $['select_box'] = {
     scroller: null,
     getOldSelects: function(element_id) {
       if (!$.os.android || $.os.androidICS)
@@ -16,7 +16,7 @@
       }
       var container = element_id && document.getElementById(element_id) ? document.getElementById(element_id) : document;
       if (!container) {
-        alert("Could not find container element for jq.web.selectBox " + element_id);
+        alert("Could not find container element for jq.web.select_box " + element_id);
         return;
       }
       var sels = container.getElementsByTagName("select");

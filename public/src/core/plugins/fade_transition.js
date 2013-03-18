@@ -1,20 +1,20 @@
 (function($ui){
 
-  function fadeTransition (old_div, currDiv, back) {
+  function fadeTransition (old_div, current_div, back) {
     old_div.style.display = "block";
-    currDiv.style.display = "block";
-    var that = this
+    current_div.style.display = "block";
+    var that = this;
     if (back) {
-      currDiv.style.zIndex = 1;
+      current_div.style.zIndex = 1;
       old_div.style.zIndex = 2;
-      that.clearAnimations(currDiv);
+      that.clearAnimations(current_div);
       that.css3animate(old_div, {
         x: "0%",
         time: "150ms",
         opacity: .1,
         complete: function(canceled) {
           if(canceled) {
-            that.finishTransition(old_div, currDiv);
+            that.finishTransition(old_div, current_div);
             return;
           }
 
@@ -26,29 +26,29 @@
             }
 
           });
-          currDiv.style.zIndex = 2;
+          current_div.style.zIndex = 2;
           old_div.style.zIndex = 1;
         }
       });
     } else {
       old_div.style.zIndex = 1;
-      currDiv.style.zIndex = 2;
-      currDiv.style.opacity = 0;
-      that.css3animate(currDiv, {
+      current_div.style.zIndex = 2;
+      current_div.style.opacity = 0;
+      that.css3animate(current_div, {
         x: "0%",
         opacity: .1,
         complete: function() {
-          that.css3animate(currDiv, {
+          that.css3animate(current_div, {
             x: "0%",
             time: "150ms",
             opacity: 1,
             complete:function(canceled){
               if(canceled) {
-                that.finishTransition(old_div, currDiv);
+                that.finishTransition(old_div, current_div);
                 return;
               }
 
-              that.clearAnimations(currDiv);
+              that.clearAnimations(current_div);
               that.css3animate(old_div, {
                 x: "-100%",
                 y: 0,

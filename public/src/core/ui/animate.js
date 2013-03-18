@@ -26,16 +26,16 @@
     }
     return tmp;
   };
-  $.fn["css3Animate"] = function (opts) {
+  $.fn["css3Animate"] = function (options) {
     //keep old callback system - backwards compatibility - should be deprecated in future versions
-    if(!opts.complete && opts.callback) opts.complete = opts.callback;
+    if(!options.complete && options.callback) options.complete = options.callback;
     //first on
-    var tmp = getCSS3Animate(this[0], opts);
-    opts.complete=null;
-    opts.sucess=null;
-    opts.failure=null;
+    var tmp = getCSS3Animate(this[0], options);
+    options.complete=null;
+    options.sucess=null;
+    options.failure=null;
     for (var i = 1; i < this.length; i++) {
-      tmp.link(this[i], opts);
+      tmp.link(this[i], options);
     }
     return tmp;
   };
@@ -262,17 +262,17 @@
         }
         this.activeEvent = null;
       },
-      link: function (element_id, opts) {
-        var callbacks = {complete:opts.complete,success:opts.success,failure:opts.failure};
-        opts.complete = this.addCallbackHook(callbacks);
-        opts.success = null;
-        opts.failure = null;
+      link: function (element_id, options) {
+        var callbacks = {complete:options.complete,success:options.success,failure:options.failure};
+        options.complete = this.addCallbackHook(callbacks);
+        options.success = null;
+        options.failure = null;
         //run the animation with the replaced callbacks
-        getCSS3Animate(element_id, opts);
+        getCSS3Animate(element_id, options);
         //set the old callback back in the obj to avoid strange stuff
-        opts.complete = callbacks.complete;
-        opts.success = callbacks.success;
-        opts.failure = callbacks.failure;
+        options.complete = callbacks.complete;
+        options.success = callbacks.success;
+        options.failure = callbacks.failure;
         return this;
       }
     }

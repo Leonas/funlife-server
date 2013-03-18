@@ -15,10 +15,10 @@
 
 
     $.mvc.model.clone = function (cloned, original, clone_proto){       //Clone one model to another (usually {})
-        for(var a_property in original)
+        for(var property in original)
         {
-            if (original.hasOwnProperty(a_property)) {
-                cloned[a_property] =original[a_property];
+            if (original.hasOwnProperty(property)) {
+                cloned[property] =original[property];
             }
         }
         if (clone_proto)  {

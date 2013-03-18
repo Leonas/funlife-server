@@ -533,15 +533,15 @@
          * @param {String|Object} Elements
          * @title $.ui.updateNavbarElements(Elements)
          */
-        updateNavbarElements: function(elems) {
+        updateNavbarElements: function(elements) {
             var nb = jq("#navbar");
-            if (elems === undefined || elems == null)
+            if (elements === undefined || elements == null)
                 return;
-            if (typeof (elems) == "string")
-                return nb.html(elems, true), null;
+            if (typeof (elements) == "string")
+                return nb.html(elements, true), null;
             nb.html("");
-            for (var i = 0; i < elems.length; i++) {
-                var node = elems[i].cloneNode(true);
+            for (var i = 0; i < elements.length; i++) {
+                var node = elements[i].cloneNode(true);
                 nb.append(node);
             }
             var tmpAnchors = jq("#navbar a");
@@ -556,15 +556,15 @@
          * @param {String|Object} Elements
          * @title $.ui.updateHeaderElement(Elements)
          */
-        updateHeaderElements: function(elems) {
+        updateHeaderElements: function(elements) {
             var nb = jq("#header");
-            if (elems === undefined || elems == null)
+            if (elements === undefined || elements == null)
                 return;
-            if (typeof (elems) == "string")
-                return nb.html(elems, true), null;
+            if (typeof (elements) == "string")
+                return nb.html(elements, true), null;
             nb.html("");
-            for (var i = 0; i < elems.length; i++) {
-                var node = elems[i].cloneNode(true);
+            for (var i = 0; i < elements.length; i++) {
+                var node = elements[i].cloneNode(true);
                 nb.append(node);
             }
         },
@@ -576,15 +576,15 @@
          * @param {String|Object} Elements
          * @title $.ui.updateSideMenu(Elements)
          */
-        updateSideMenu: function(elems) {
+        updateSideMenu: function(elements) {
             var that = this;
 
             var nb = jq("#menu_scroller");
 
-            if (elems === undefined || elems == null)
+            if (elements === undefined || elements == null)
                 return;
-            if (typeof (elems) == "string") {
-                nb.html(elems, true)
+            if (typeof (elements) == "string") {
+                nb.html(elements, true)
             }
             else {
                 nb.html('');
@@ -599,8 +599,8 @@
                 tmp.className = "jqMenuHeader";
                 tmp.innerHTML = "Menu";
                 nb.append(tmp);
-                for (var i = 0; i < elems.length; i++) {
-                    var node = elems[i].cloneNode(true);
+                for (var i = 0; i < elements.length; i++) {
+                    var node = elements[i].cloneNode(true);
                     nb.append(node);
                 }
             }
@@ -1270,10 +1270,10 @@
         /**
          * This executes the transition for the panel
             ```
-            $.ui.runTransition(transition,old_div,currDiv,back)
+            $.ui.runTransition(transition,old_div,current_div,back)
             ```
          * @api private
-         * @title $.ui.runTransition(transition,old_div,currDiv,back)
+         * @title $.ui.runTransition(transition,old_div,current_div,back)
          */
         runTransition: function(transition, old_div, currWhat, back) {
             if (!this.availableTransitions[transition])
@@ -1597,17 +1597,17 @@
         /**
          * This is the default transition.  It simply shows the new panel and hides the old
          */
-        noTransition: function(old_div, currDiv, back) {
-            currDiv.style.display = "block";
+        noTransition: function(old_div, current_div, back) {
+            current_div.style.display = "block";
             old_div.style.display = "block";
             var that = this;
-            that.clearAnimations(currDiv);
+            that.clearAnimations(current_div);
             that.css3animate(old_div, {
                 x: "0%",
                 y: 0
             });
             that.finishTransition(old_div);
-            currDiv.style.zIndex = 2;
+            current_div.style.zIndex = 2;
             old_div.style.zIndex = 1;
         },
         /**
@@ -1616,11 +1616,11 @@
          * @param {Object} Div that transitioned out
          * @title $.ui.finishTransition(old_div)
          */
-        finishTransition: function(old_div, currDiv) {
+        finishTransition: function(old_div, current_div) {
             old_div.style.display = 'none';
             this.doingTransition = false;
-            if (currDiv)
-                this.clearAnimations(currDiv);
+            if (current_div)
+                this.clearAnimations(current_div);
             if (old_div)
                 this.clearAnimations(old_div);
             $.trigger(this, "content-loaded");

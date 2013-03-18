@@ -7,9 +7,9 @@
    * @param {Boolean} go back
    * @title $ui.slideTransition(previousPanel,currentPanel,goBack);
    */
-  function slideTransition(old_div, currDiv, back) {
+  function slideTransition(old_div, current_div, back) {
     old_div.style.display = "block";
-    currDiv.style.display = "block";
+    current_div.style.display = "block";
     var that = this;
     if (back) {
       that.css3animate(old_div, {
@@ -20,14 +20,14 @@
             x: "100%",
             time: "150ms",
             complete: function() {
-              that.finishTransition(old_div, currDiv);
+              that.finishTransition(old_div, current_div);
             }
-          }).link(currDiv, {
+          }).link(current_div, {
                 x: "0%",
                 time: "150ms"
               });
         }
-      }).link(currDiv, {
+      }).link(current_div, {
             x:"-100%",
             y:"0%"
           });
@@ -40,14 +40,14 @@
             x: "-100%",
             time: "150ms",
             complete: function() {
-              that.finishTransition(old_div, currDiv);
+              that.finishTransition(old_div, current_div);
             }
-          }).link(currDiv, {
+          }).link(current_div, {
                 x: "0%",
                 time: "150ms"
               });
         }
-      }).link(currDiv, {
+      }).link(current_div, {
             x:"100%",
             y:"0%"
           });

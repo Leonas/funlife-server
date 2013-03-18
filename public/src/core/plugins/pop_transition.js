@@ -1,13 +1,13 @@
 (function($ui){
 
-  function popTransition(old_div, currDiv, back) {
+  function popTransition(old_div, current_div, back) {
     old_div.style.display = "block";
-    currDiv.style.display = "block";
+    current_div.style.display = "block";
     var that = this
     if (back) {
-      currDiv.style.zIndex = 1;
+      current_div.style.zIndex = 1;
       old_div.style.zIndex = 2;
-      that.clearAnimations(currDiv);
+      that.clearAnimations(current_div);
       that.css3animate(old_div, {
         x: "0%",
         time: "150ms",
@@ -26,21 +26,21 @@
               that.finishTransition(old_div);
             }
           });
-          currDiv.style.zIndex = 2;
+          current_div.style.zIndex = 2;
           old_div.style.zIndex = 1;
         }
       });
     } else {
       old_div.style.zIndex = 1;
-      currDiv.style.zIndex = 2;
-      that.css3animate(currDiv, {
+      current_div.style.zIndex = 2;
+      that.css3animate(current_div, {
         x: "0%",
         y: "0%",
         scale: .2,
         origin: "-50%"+" 50%",
         opacity: .1,
         complete: function() {
-          that.css3animate(currDiv, {
+          that.css3animate(current_div, {
             x: "0%",
             time: "150ms",
             scale: 1,
@@ -48,11 +48,11 @@
             origin: "0%"+" 0%",
             complete: function(canceled){
               if(canceled) {
-                that.finishTransition(old_div, currDiv);
+                that.finishTransition(old_div, current_div);
                 return;
               }
 
-              that.clearAnimations(currDiv);
+              that.clearAnimations(current_div);
               that.css3animate(old_div, {
                 x: "100%",
                 y: 0,

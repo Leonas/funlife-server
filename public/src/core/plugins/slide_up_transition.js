@@ -1,14 +1,14 @@
 (function($ui){
 
-  function slideUpTransition(old_div, currDiv, back) {
+  function slideUpTransition(old_div, current_div, back) {
     old_div.style.display = "block";
-    currDiv.style.display = "block";
+    current_div.style.display = "block";
     var that = this;
     if (back) {
-      currDiv.style.zIndex = 1;
+      current_div.style.zIndex = 1;
       old_div.style.zIndex = 2;
 
-      that.clearAnimations(currDiv);
+      that.clearAnimations(current_div);
 
       that.css3animate(old_div, {
         y: "100%",
@@ -16,28 +16,28 @@
         time: "150ms",
         complete: function() {
           that.finishTransition(old_div);
-          currDiv.style.zIndex = 2;
+          current_div.style.zIndex = 2;
           old_div.style.zIndex = 1;
         }
       });
     } else {
-      currDiv.style.zIndex = 2;
+      current_div.style.zIndex = 2;
       old_div.style.zIndex = 1;
-      that.css3animate(currDiv, {
+      that.css3animate(current_div, {
         y: "100%",
         x: "0%",
         complete: function() {
-          that.css3animate(currDiv, {
+          that.css3animate(current_div, {
             y: "0%",
             x: "0%",
             time: "150ms",
             complete: function(canceled) {
               if(canceled) {
-                that.finishTransition(old_div, currDiv);
+                that.finishTransition(old_div, current_div);
                 return;
               }
 
-              that.clearAnimations(currDiv);
+              that.clearAnimations(current_div);
               that.css3animate(old_div, {
                 x: "-100%",
                 y: 0,

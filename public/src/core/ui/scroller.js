@@ -9,16 +9,16 @@
     if(!obj.jqmScrollerId) obj.jqmScrollerId = $.uuid();
     return obj.jqmScrollerId;
   }
-  $.fn["scroller"] = function(opts) {
+  $.fn["scroller"] = function(options) {
     var tmp, id;
     for(var i = 0; i < this.length; i++) {
       //cache system
       id = objId(this[i]);
       if(!cache[id]) {
-        if(!opts) opts = {};
-        if(!$.feat.nativeTouchScroll) opts.useJsScroll = true;
+        if(!options) options = {};
+        if(!$.feat.nativeTouchScroll) options.useJsScroll = true;
 
-        tmp = scroller(this[i], opts);
+        tmp = scroller(this[i], options);
         cache[id] = tmp;
       } else {
         tmp = cache[id];
@@ -45,7 +45,7 @@
         if(!androidFixOn) {
           androidFixOn = true;
           //activate on scroller
-          for(element in cache)
+          for(var element in cache)
             if(checkConsistency(element) && cache[element].needsFormsFix(focusEl)) cache[element].startFormsMode();
         }
       });
@@ -53,7 +53,7 @@
         if(androidFixOn) {
           androidFixOn = false;
           //dehactivate on scroller
-          for(element in cache)
+          for(var element in cache)
             if(checkConsistency(element) && cache[element].androidFormsMode) cache[element].stopFormsMode();
         }
       });
@@ -66,7 +66,7 @@
     var jsScroller, nativeScroller;
 
     //initialize and js/native mode selector
-    var scroller = function(element_id, opts) {
+    var scroller = function(element_id, options) {
 
 
       if(!boundTouchLayer && $.touchLayer && $.isObject($.touchLayer)) bindTouchLayer()
@@ -82,18 +82,18 @@
         return;
       }
       if(jq.os.desktop)
-        return new scrollerCore(element,opts);
-      else if(opts.useJsScroll) return new jsScroller(element, opts);
-      return new nativeScroller(element, opts);
+        return new scrollerCore(element,options);
+      else if(options.useJsScroll) return new jsScroller(element, options);
+      return new nativeScroller(element, options);
 
     };
 
     //parent abstract class (common functionality)
-    var scrollerCore = function(element,opts) {
+    var scrollerCore = function(element,options) {
       this.element=element;
       this.jqEl = $(this.element);
-      for(j in opts) {
-        this[j] = opts[j];
+      for(var property in options) {
+        this[property] = options[property];
       }
     };
     scrollerCore.prototype = {
@@ -180,12 +180,12 @@
       },
 
       //methods
-      init: function(element, opts) {
+      init: function(element, options) {
         this.element = element;
         this.jqEl = $(this.element);
         this.defaultProperties();
-        for(j in opts) {
-          this[j] = opts[j];
+        for(var property in options) {
+          this[property] = options[property];
         }
         //assign self destruct
         var that = this;
@@ -325,8 +325,8 @@
     }
 
     //extend to jsScroller and nativeScroller (constructs)
-    jsScroller = function(element, opts) {
-      this.init(element, opts);
+    jsScroller = function(element, options) {
+      this.init(element, options);
       //test
       //this.refresh=true;
       this.container = this.element.parentNode;
@@ -365,11 +365,11 @@
       this.element.hasScroller = true;
 
     };
-    nativeScroller = function(element, opts) {
+    nativeScroller = function(element, options) {
 
-      this.init(element, opts);
+      this.init(element, options);
       var $el = $(element);
-      if(opts.noParent !== true) {
+      if(options.noParent !== true) {
         var oldParent = $el.parent();
         var oldHeight=oldParent.height();
         oldHeight+=oldHeight.indexOf("%")==-1?"px":"";

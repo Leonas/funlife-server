@@ -38,7 +38,7 @@ if (!window.jq || typeof (jq) !== "function") {
         function _insertFragments(jqm,container,insert){
             var frag=document.createDocumentFragment();
             if(insert){
-                for(var j=jqm.length-1;j>=0;j--)
+                for(var j = jqm.length-1;j>=0;j--)
                 {
                     frag.insertBefore(jqm[j],frag.firstChild);
                 }
@@ -93,16 +93,16 @@ if (!window.jq || typeof (jq) !== "function") {
          * @api private
          */
         function siblings(nodes, element) {
-            var elems = [];
+            var elements = [];
             if (nodes == undefined)
-                return elems;
+                return elements;
             
             for (; nodes; nodes = nodes.nextSibling) {
                 if (nodes.nodeType == 1 && nodes !== element) {
-                    elems.push(nodes);
+                    elements.push(nodes);
                 }
             }
-            return elems;
+            return elements;
         }
 
         /**
@@ -436,19 +436,19 @@ if (!window.jq || typeof (jq) !== "function") {
             * @title $().find(selector)
 
             */
-            find: function(sel) {
+            find: function(selector) {
                 if (this.length === 0)
                     return this;
-                var elems = [];
-                var tmpElems;
+                var elements = [];
+                var temporary_elements;
                 for (var i = 0; i < this.length; i++) {
-                    tmpElems = ($(sel, this[i]));
+                    temporary_elements = ($(selector, this[i]));
                     
-                    for (var j = 0; j < tmpElems.length; j++) {
-                        elems.push(tmpElems[j]);
+                    for (var j = 0; j < temporary_elements.length; j++) {
+                        elements.push(temporary_elements[j]);
                     }
                 }
-                return $(unique(elems));
+                return $(unique(elements));
             },
             /**
             * Gets or sets the innerHTML for the collection.
@@ -812,12 +812,12 @@ if (!window.jq || typeof (jq) !== "function") {
             * @title $().remove(selector)
             */
             remove: function(selector) {
-                var elems = $(this).filter(selector);
-                if (elems == undefined)
+                var elements = $(this).filter(selector);
+                if (elements == undefined)
                     return this;
-                for (var i = 0; i < elems.length; i++) {
-                    $.cleanUpContent(elems[i], true, true);
-                    elems[i].parentNode.removeChild(elems[i]);
+                for (var i = 0; i < elements.length; i++) {
+                    $.cleanUpContent(elements[i], true, true);
+                    elements[i].parentNode.removeChild(elements[i]);
                 }
                 return this;
             },
@@ -1157,18 +1157,18 @@ if (!window.jq || typeof (jq) !== "function") {
             parent: function(selector,recursive) {
                 if (this.length == 0)
                     return this;
-                var elems = [];
+                var elements = [];
                 for (var i = 0; i < this.length; i++) {
                     var tmp=this[i];
                     while(tmp.parentNode&&tmp.parentNode!=document){
-                        elems.push(tmp.parentNode);
+                        elements.push(tmp.parentNode);
                         if(tmp.parentNode)
                             tmp=tmp.parentNode;
                         if(!recursive)
                             break;
                     }
                 }
-                return this.setupOld($(unique(elems)).filter(selector));
+                return this.setupOld($(unique(elements)).filter(selector));
             },
              /**
             * Returns the parents of the elements based off the selector (traversing up until html document)
@@ -1201,11 +1201,11 @@ if (!window.jq || typeof (jq) !== "function") {
                 
                 if (this.length == 0)
                     return this;
-                var elems = [];
+                var elements = [];
                 for (var i = 0; i < this.length; i++) {
-                    elems = elems.concat(siblings(this[i].firstChild));
+                    elements = elements.concat(siblings(this[i].firstChild));
                 }
-                return this.setupOld($((elems)).filter(selector));
+                return this.setupOld($((elements)).filter(selector));
             
             },
             /**
@@ -1223,12 +1223,12 @@ if (!window.jq || typeof (jq) !== "function") {
             siblings: function(selector) {
                 if (this.length == 0)
                     return this;
-                var elems = [];
+                var elements = [];
                 for (var i = 0; i < this.length; i++) {
                     if (this[i].parentNode)
-                        elems = elems.concat(siblings(this[i].parentNode.firstChild, this[i]));
+                        elements = elements.concat(siblings(this[i].parentNode.firstChild, this[i]));
                 }
-                return this.setupOld($(elems).filter(selector));
+                return this.setupOld($(elements).filter(selector));
             },
             /**
             * Returns the closest element based off the selector and optional context
@@ -1246,7 +1246,7 @@ if (!window.jq || typeof (jq) !== "function") {
             closest: function(selector, context) {
                 if (this.length == 0)
                     return this;
-                var elems = [], 
+                var elements = [],
                 cur = this[0];
                 
                 var start = $(selector, context);
@@ -1276,13 +1276,13 @@ if (!window.jq || typeof (jq) !== "function") {
                 
                 if (selector == undefined)
                     return this;
-                var elems = [];
+                var elements = [];
                 for (var i = 0; i < this.length; i++) {
                     var val = this[i];
                     if (val.parentNode && $(selector, val.parentNode).indexOf(val) >= 0)
-                        elems.push(val);
+                        elements.push(val);
                 }
-                return this.setupOld($(unique(elems)));
+                return this.setupOld($(unique(elements)));
             },
             /**
             * Basically the reverse of filter.  Return all elements that do NOT match the selector
@@ -1299,13 +1299,13 @@ if (!window.jq || typeof (jq) !== "function") {
             not: function(selector) {
                 if (this.length == 0)
                     return this;
-                var elems = [];
+                var elements = [];
                 for (var i = 0; i < this.length; i++) {
                     var val = this[i];
                     if (val.parentNode && $(selector, val.parentNode).indexOf(val) == -1)
-                        elems.push(val);
+                        elements.push(val);
                 }
-                return this.setupOld($(unique(elems)));
+                return this.setupOld($(unique(elements)));
             },
             /**
             * Gets or set data-* attribute parameters on elements
@@ -1352,12 +1352,12 @@ if (!window.jq || typeof (jq) !== "function") {
                 deep = deep === false ? false : true;
                 if (this.length == 0)
                     return this;
-                var elems = [];
+                var elements = [];
                 for (var i = 0; i < this.length; i++) {
-                    elems.push(this[i].cloneNode(deep));
+                    elements.push(this[i].cloneNode(deep));
                 }
                 
-                return $(elems);
+                return $(elements);
             },
             /**
             * Returns the number of elements in the collection
@@ -1520,23 +1520,23 @@ if (!window.jq || typeof (jq) !== "function") {
         * options.dataType - Data type of request
         * options.data - data to pass into request.  $.param is called on objects
             ```
-            var opts={
+            var options={
             type:"GET",
             success:function(data){},
             url:"mypage.php",
             data:{bar:'bar'},
             }
-            $.ajax(opts);
+            $.ajax(options);
             ```
 
         * @param {Object} options
         * @title $.ajax(options)
         */
-        $.ajax = function(opts) {
+        $.ajax = function(options) {
             var xhr;
             try {
 				
-                var settings = opts || {};
+                var settings = options || {};
                 for (var key in ajaxSettings) {
                     if (typeof(settings[key]) == 'undefined')
                         settings[key] = ajaxSettings[key];
@@ -1575,7 +1575,7 @@ if (!window.jq || typeof (jq) !== "function") {
                             settings.dataType = "text/html";
                             break;
                         case "jsonp":
-                            return $.jsonP(opts);
+                            return $.jsonP(options);
                             break;
                     }
                 }
@@ -1928,7 +1928,7 @@ if (!window.jq || typeof (jq) !== "function") {
             if (event.ns)
                 var matcher = matcherFor(event.ns);
             return (handlers[jqmid(element)] || []).filter(function(handler) {
-                return handler && (!event.e || handler.e == event.e) && (!event.ns || matcher.test(handler.ns)) && (!fn || handler.fn == fn || (typeof handler.fn === 'function' && typeof fn === 'function' && "" + handler.fn === "" + fn)) && (!selector || handler.sel == selector);
+                return handler && (!event.e || handler.e == event.e) && (!event.ns || matcher.test(handler.ns)) && (!fn || handler.fn == fn || (typeof handler.fn === 'function' && typeof fn === 'function' && "" + handler.fn === "" + fn)) && (!selector || handler.selector == selector);
             });
         }
         /**
@@ -1996,7 +1996,7 @@ if (!window.jq || typeof (jq) !== "function") {
                 var handler = $.extend(parse(event), {
                     fn: fn,
                     proxy: proxyfn,
-                    sel: selector,
+                    selector: selector,
                     del: delegate,
                     i: set.length
                 });
@@ -2029,7 +2029,7 @@ if (!window.jq || typeof (jq) !== "function") {
         $.event = {
             add: add,
             remove: remove
-        }
+        };
 
         /**
         * Binds an event to each element in the collection and executes the callback
@@ -2181,7 +2181,7 @@ if (!window.jq || typeof (jq) !== "function") {
                 remove(this[i], event, callback, selector);
             }
             return this;
-        }
+        };
 
         /**
         * Similar to delegate, but the function parameter order is easier to understand.
@@ -2355,7 +2355,7 @@ if (!window.jq || typeof (jq) !== "function") {
 				if(args) return f.apply(c, args);	//use provided arguments
                	return f.apply(c, arguments);	//use scope function call arguments
             }
-		}
+		};
 
       
          /**
@@ -2394,7 +2394,7 @@ if (!window.jq || typeof (jq) !== "function") {
         	for(var i=0;i<els.length;i++){
             	cleanUpContent(els[i], kill);
             }	
-		}
+		};
 
         /**
          * Function to clean up node content to prevent memory leaks

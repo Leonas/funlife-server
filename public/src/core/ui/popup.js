@@ -29,12 +29,12 @@
  */
 (function($) {
 
-  $.fn.popup = function(opts) {
-    return new popup(this[0], opts);
+  $.fn.popup = function(options) {
+    return new popup(this[0], options);
   };
   var queue = [];
   var popup = (function() {
-    var popup = function(containerEl, opts) {
+    var popup = function(containerEl, options) {
 
       if (typeof containerEl === "string" || containerEl instanceof String) {
         this.container = document.getElementById(containerEl);
@@ -47,24 +47,24 @@
       }
 
       try {
-        if (typeof (opts) === "string" || typeof (opts) === "number")
-          opts = {message: opts,cancelOnly: "true",cancelText: "OK"};
-        this.id = id = opts.id = opts.id || $.uuid(); //opts is passed by reference
+        if (typeof (options) === "string" || typeof (options) === "number")
+          options = {message: options,cancelOnly: "true",cancelText: "OK"};
+        this.id = id = options.id = options.id || $.uuid(); //options is passed by reference
         var self = this;
-        this.title = opts.suppressTitle?"":(opts.title || "Alert");
-        this.message = opts.message || "";
-        this.cancelText = opts.cancelText || "Cancel";
-        this.cancelCallback = opts.cancelCallback || function() {
+        this.title = options.suppressTitle?"":(options.title || "Alert");
+        this.message = options.message || "";
+        this.cancelText = options.cancelText || "Cancel";
+        this.cancelCallback = options.cancelCallback || function() {
         };
-        this.cancelClass = opts.cancelClass || "button";
-        this.doneText = opts.doneText || "Done";
-        this.doneCallback = opts.doneCallback || function(self) {
+        this.cancelClass = options.cancelClass || "button";
+        this.doneText = options.doneText || "Done";
+        this.doneCallback = options.doneCallback || function(self) {
           // no action by default
         };
-        this.doneClass = opts.doneClass || "button";
-        this.cancelOnly = opts.cancelOnly || false;
-        this.onShow = opts.onShow || function(){};
-        this.autoCloseDone=opts.autoCloseDone!==undefined?opts.autoCloseDone:true;
+        this.doneClass = options.doneClass || "button";
+        this.cancelOnly = options.cancelOnly || false;
+        this.onShow = options.onShow || function(){};
+        this.autoCloseDone=options.autoCloseDone!==undefined?options.autoCloseDone:true;
 
         queue.push(this);
         if (queue.length == 1)

@@ -31,41 +31,41 @@
 
     var mapsCache = {};
 
-    $.fn.gmaps = function (opts) {
+    $.fn.gmaps = function (options) {
       console.log('im here');
         if (this.length == 0) {
           console.log('error')
           return;
         }
-        if (!opts) {
+        if (!options) {
           console.log('section 2');
           return mapsCache[this[0].id];
         }
-        if(opts=="resize"&&mapsCache[this[0].id])
+        if(options=="resize"&&mapsCache[this[0].id])
         {
           console.log('section 3');
            return google.maps.event.trigger(mapsCache[this[0].id], 'resize');
         }
         for (var i = 0; i < this.length; i++) {
           console.log('section 4');
-            new gmaps(this[i], opts);
+            new gmaps(this[i], options);
         }
     };
 
 
     
-    var gmaps = function (elem, opts) {
+    var gmaps = function (elem, options) {
         var createMap = function () {
           console.log('creating a map');
-            if (!opts || Object.keys(opts).length == 0) {
+            if (!options || Object.keys(options).length == 0) {
               console.log('setting default options');
-                opts = {
+                options = {
                     zoom: 8,
                     center: new google.maps.LatLng(40.010787, -76.278076),
                     mapTypeId: google.maps.MapTypeId.ROADMAP
                 };
             }
-            mapsCache[elem.id] = new google.maps.Map(elem, opts);
+            mapsCache[elem.id] = new google.maps.Map(elem, options);
             google.maps.event.trigger(mapsCache[elem.id], 'resize');
         };
 

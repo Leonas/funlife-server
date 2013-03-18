@@ -24,8 +24,8 @@
 
       if (this instanceof actionsheet) {
         if(typeof(options)=="object"){
-          for (j in options) {
-            this[j] = options[j];
+          for (var property in options) {
+            this[property] = options[property];
           }
         }
       } else {

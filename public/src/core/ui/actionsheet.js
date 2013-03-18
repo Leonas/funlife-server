@@ -3,15 +3,15 @@
  * Copyright 2012 - Intel
  */
 (function($) {
-  $.fn["actionsheet"] = function(opts) {
+  $.fn["actionsheet"] = function(options) {
     var tmp;
     for (var i = 0; i < this.length; i++) {
-      tmp = new actionsheet(this[i], opts);
+      tmp = new actionsheet(this[i], options);
     }
     return this.length == 1 ? tmp : this;
   };
   var actionsheet = (function() {
-    var actionsheet = function(elID, opts) {
+    var actionsheet = function(elID, options) {
       if (typeof elID == "string" || elID instanceof String) {
         this.el = document.getElementById(elID);
       } else {
@@ -23,13 +23,13 @@
       }
 
       if (this instanceof actionsheet) {
-        if(typeof(opts)=="object"){
-          for (j in opts) {
-            this[j] = opts[j];
+        if(typeof(options)=="object"){
+          for (j in options) {
+            this[j] = options[j];
           }
         }
       } else {
-        return new actionsheet(elID, opts);
+        return new actionsheet(elID, options);
       }
 
       try {
@@ -37,17 +37,17 @@
         var markStart = '<div id="jq_actionsheet"><div style="width:100%">';
         var markEnd = '</div></div>';
         var markup;
-        if (typeof opts == "string") {
-          markup = $(markStart + opts +"<a href='javascript:;' class='cancel'>Cancel</a>"+markEnd);
-        } else if (typeof opts == "object") {
+        if (typeof options == "string") {
+          markup = $(markStart + options +"<a href='javascript:;' class='cancel'>Cancel</a>"+markEnd);
+        } else if (typeof options == "object") {
           markup = $(markStart + markEnd);
           var container = $(markup.children().get());
-          opts.push({text:"Cancel",cssClasses:"cancel"});
-          for (var i = 0; i < opts.length; i++) {
-            var item = $('<a href="javascript:;" >' + (opts[i].text || "TEXT NOT ENTERED") + '</a>');
-            item[0].onclick = (opts[i].handler || function() {});
-            if (opts[i].cssClasses && opts[i].cssClasses.length > 0)
-              item.addClass(opts[i].cssClasses);
+          options.push({text:"Cancel",cssClasses:"cancel"});
+          for (var i = 0; i < options.length; i++) {
+            var item = $('<a href="javascript:;" >' + (options[i].text || "TEXT NOT ENTERED") + '</a>');
+            item[0].onclick = (options[i].handler || function() {});
+            if (options[i].cssClasses && options[i].cssClasses.length > 0)
+              item.addClass(options[i].cssClasses);
             container.append(item);
           }
         }

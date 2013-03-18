@@ -148,30 +148,18 @@
         actionsheet: function(options) {
             return jq("#jQUi").actionsheet(options);
         },
-        //This is a wrapper to jq.popup.js plugin.  If you pass in a text string, it acts like an alert box and just gives a message
 
+        //Makes a popup. Look at popup.js for options
         popup: function(options) {
             return $("#jQUi").popup(options);
         },
 
-        /**
-         *This will throw up a mask and block the UI
-         ```
-         $.ui.blockUI(.9)
-         ````
-         * @param {Float} opacity
-         * @title $.ui.blockUI(opacity)
-         */
+        //Block the UI with a mask
         blockUI: function(opacity) {
             $.blockUI(opacity);
         },
-        /**
-         *This will remove the UI mask
-         ```
-         $.ui.unblockUI()
-         ````
-         * @title $.ui.unblockUI()
-         */
+
+        //remove the UI mask
         unblockUI: function() {
             $.unblockUI();
         },

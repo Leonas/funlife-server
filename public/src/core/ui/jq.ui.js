@@ -1352,7 +1352,7 @@
                 }
 
                 //window.setTimeout(function() {
-                var loadFirstDiv = function() {
+                var load_first_div = function() {
 
 
                     if (jq("#navbar a").length > 0) {
@@ -1406,9 +1406,9 @@
                     jq("#splashscreen").remove();
                 };
                 if (loadingDefer) {
-                    $(document).one("defer:loaded", loadFirstDiv);
+                    $(document).one("defer:loaded", load_first_div);
                 } else
-                    loadFirstDiv();
+                    load_first_div();
             }
             var that = this;
             $.bind(that, "content-loaded", function() {

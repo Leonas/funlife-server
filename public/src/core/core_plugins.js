@@ -1,5 +1,7 @@
 var global = {
-  current_nav_id: ''
+  current_nav_id: '',
+  last_click: '',
+  cached_pages: []
 };
 
 
@@ -15,15 +17,33 @@ var global = {
 
   $.show_page = function show_page(options){
 
-    if(options.active_nav && (options.active_nav != global.current_nav){
+    if (options.active_nav && (options.active_nav != global.current_nav){
       $.set_active_nav(options.active_nav);
     }
 
-    //click on page
-    //if( localstorage for page present ) {
-    // load page with it
-    // do ajax request (on success, update contents)
-    // }
+    //if there's a remote url we need to get go here
+    if(options.api_url){
+      //if we have a local cache of the page, use it first
+      if ( global.cached_pages[options.div_id] ) {
+        load page with it
+          do ajax request (on success, update contents)
+      }
+      else {
+        //load spinner while we get the data
+        //TODO loadspinner
+        $.get_with_token({
+          api_url: options.api_url,
+          data: options.data,
+          success: function(){
+
+          },
+          error: function(){
+
+          }
+      });
+      }
+    }
+
 
     //else {
     //    load spinner
@@ -44,9 +64,7 @@ var global = {
     $.ui.loadContent('user_index_view', false, false, 'fade');
 
 
-    if(options.api_url){
-      $.get_with_token(options.api_url, options.data)
-    }
+
     if
 
     title: 'FunLife',

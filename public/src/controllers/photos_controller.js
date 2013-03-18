@@ -37,7 +37,6 @@ $.mvc.controller.create('photos_controller', {
   },
 
   take_photo: function() {
-
     forge.file.getImage();
   }
 });

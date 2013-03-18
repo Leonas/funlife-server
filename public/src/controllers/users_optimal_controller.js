@@ -19,7 +19,7 @@ $.mvc.controller.create('users_controller', {
        template: 'views/users/user_index_view.js',
        back_button: true,
        api_url: '/users/',
-       data: {}
+       data: false
     });
 
   },
@@ -43,7 +43,7 @@ $.mvc.controller.create('users_controller', {
       break;
 
     case 'login':
-      $.post_without_token({
+      $.post_with_token({
         api_url: '/users/login/',
         data: $('#login_form').serialize(),
         success: function (response, statusText, xhr) {
@@ -64,7 +64,7 @@ $.mvc.controller.create('users_controller', {
       break;
 
     case 'register':
-      $.post_without_token({
+      $.post_with_token({
         api_url: '/users/register1/',
         data: $('#login_form').serialize(),
         success: function (response) {

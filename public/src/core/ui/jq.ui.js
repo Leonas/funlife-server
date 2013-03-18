@@ -123,7 +123,7 @@
             element = jq(element);
             return element.css3Animate(options);
         },
-        loadDefaultHash: true,        //load THAT(wtf is that?) panel when the app is started  
+        loadDefaultHash: true,        //load THAT(wtf is that?) panel when the app is started
         useAjaxCacheBuster: false,    //add "&cache=_rand_" to any ajax loaded link
         /**
          * This is a shorthand call to the jq.actionsheet plugin.  We wire it to the jQUi div automatically
@@ -151,73 +151,28 @@
         },
 
         //Makes a popup. Look at popup.js for options
-        popup: function(options) {
-            return $("#jQUi").popup(options);
-        },
+        popup: function(options) { return $("#jQUi").popup(options); },
 
-        //Block the UI with a mask
-        blockUI: function(opacity) {
-            $.blockUI(opacity);
-        },
+        //blocks the UI with a mask
+        blockUI: function(opacity) { $.blockUI(opacity); },
 
-        //remove the UI mask
-        unblockUI: function() {
-            $.unblockUI();
-        },
-        /**
-         * Will remove the bottom nav bar menu from your application
-           ```
-           $.ui.removeFooterMenu();
-           ```
-         * @title $.ui.removeFooterMenu
-         */
+        //removes the UI mask
+        unblockUI: function() { $.unblockUI(); },
+
+        //removes bottom nav
         removeFooterMenu: function() {
             jq("#navbar").hide();
             jq("#content").css("bottom", "0px");
             this.showNavMenu = false;
         },
-        /**
-         * Boolean if you want to show the bottom nav menu.
-           ```
-           $.ui.showNavMenu = false;
-           ```
-         * @title $.ui.showNavMenu
-         */
+
         showNavMenu: true,
-        /**
-         * Boolean if you want to auto launch jqUi
-           ```
-           $.ui.autoLaunch = false; //
-         * @title $.ui.autoLaunch
-         */
         autoLaunch: true,
-        /**
-         * Boolean if you want to show the back button
-           ```
-           $.ui.showBackButton = false; //
-         * @title $.ui.showBackButton
-         */
         showBackbutton: true,
-        /**
-         * @api private
-         */
         backButtonText: "",
-        /**
-         * Boolean if you want to reset the scroller position when navigating panels.  Default is true
-           ```
-           $.ui.resetScrollers=false; //Do not reset the scrollers when switching panels
-           ```
-         * @title $.ui.resetScrollers
-         */
         resetScrollers: true,
-        /**
-         * function to fire when jqUi is ready and completed launch
-           ```
-           $.ui.ready(function(){console.log('jqUi is ready');});
-           ```
-         * @param {Function} function to execute
-         * @title $.ui.ready
-         */
+
+        // function to fire when jqUi is ready and completed launch
         ready: function(param) {
             if (this.launchCompleted)
                 param();
@@ -227,61 +182,35 @@
                     this.removeEventListener('jq.ui.ready', arguments.callee);
                 }, false);
         },
-        /**
-         * Override the back button class name
-           ```
-           $.ui.setBackButtonStyle('newClass');
-           ```
-         * @param {String} new class name
-         * @title $.ui.setBackButtonStyle(class)
-         */
+
+        //set a new back button class name
         setBackButtonStyle: function(className) {
             jq("#backButton").get(0).className = className;
         },
-        /**
-         * Initiate a back transition
-           ```
-           $.ui.goBack()
-           ```
 
-         * @title $.ui.goBack()
-         */
+
         goBack: function() {
             if (this.history.length > 0) {
                 var that = this;
-                var tmpEl = this.history.pop();
+                var temporary_element = this.history.pop();
                 //$.asap(
 
                 //function() {
-                    that.loadContent(tmpEl.target + "", 0, 1, tmpEl.transition);
-                    that.transitionType = tmpEl.transition;
-                    //document.location.hash=tmpEl.target;
-                    that.updateHash(tmpEl.target);
+                    that.loadContent(temporary_element.target + "", 0, 1, temporary_element.transition);
+                    that.transitionType = temporary_element.transition;
+                    //document.location.hash=temporary_element.target;
+                    that.update_url_hash(temporary_element.target);
                 //for Android 4.0.x, we must touch_layer.hideAdressBar()
             //    });
             }
         },
-        /**
-         * Clear the history queue
-           ```
-           $.ui.clearHistory()
-           ```
 
-         * @title $.ui.clearHistory()
-         */
         clearHistory: function() {
             this.history = [];
             this.setBackButtonVisibility(false)
         },
 
-        /**
-         * PushHistory
-           ```
-           $.ui.pushHistory(previousPage, newPage, transition, hashExtras)
-           ```
 
-         * @title $.ui.pushHistory()
-         */
         pushHistory: function(previousPage, newPage, transition, hashExtras) {
             //push into local history
             this.history.push({
@@ -303,19 +232,19 @@
         /**
          * Updates the current window hash
          *
-         * @param {String} newHash New Hash value
-         * @title $.ui.updateHash(newHash)
+         * @param {String} new_hash New Hash value
+         * @title $.ui.update_url_hash(new_hash)
          */
-        updateHash: function(newHash) {
-            newHash = newHash.indexOf('#') == -1 ? '#' + newHash : newHash; //force having the # in the begginning as a standard
-            previousTarget = newHash;
+        update_url_hash: function(new_hash) {
+            new_hash = new_hash.indexOf('#') == -1 ? '#' + new_hash : new_hash; //force having the # in the begginning as a standard
+            previousTarget = new_hash;
 
             var previousHash = window.location.hash;
-            var panelName = this.getPanelId(newHash).substring(1); //remove the #
+            var panelName = this.getPanelId(new_hash).substring(1); //remove the #
             try {
-                window.history.replaceState(panelName, panelName, startPath + newHash);
+                window.history.replaceState(panelName, panelName, startPath + new_hash);
                 $(window).trigger("hashchange", {
-                    newUrl: startPath + newHash,
+                    newUrl: startPath + new_hash,
                     oldUrl: startPath + previousHash
                 });
             } catch (e) {
@@ -488,13 +417,7 @@
                 });
             }
         },
-        /**
-         * Disables the side menu
-           ```
-           $.ui.disableSideMenu();
-           ```
-        * @title $.ui.disableSideMenu();
-        */
+
         disableSideMenu: function() {
             var that = this;
             var els = jq("#content, #menu, #header, #navbar");
@@ -506,35 +429,24 @@
             } else
                 els.removeClass("hasMenu");
         },
-        /**
-         * Enables the side menu
-           ```
-           $.ui.enableSideMenu();
-           ```
-        * @title $.ui.enableSideMenu();
-        */
+
         enableSideMenu: function() {
             var that = this;
             var els = jq("#content, #menu, #header, #navbar");
             els.addClass("hasMenu");
         },
+
         isSideMenuEnabled: function() {
             return jq("#content").hasClass("hasMenu");
         },
+
         isSideMenuOn: function() {
             var menu = jq('#menu');
             return this.isSideMenuEnabled() && (menu.hasClass("on") || menu.hasClass("to-on"));
         },
 
-        /**
-         * Updates the elements in the navbar
-           ```
-           $.ui.updateNavbarElements(elements);
-           ```
-         * @param {String|Object} Elements
-         * @title $.ui.updateNavbarElements(Elements)
-         */
-        updateNavbarElements: function(elements) {
+
+        update_footer_elements: function(elements) {
             var nb = jq("#navbar");
             if (elements === undefined || elements == null)
                 return;
@@ -914,10 +826,10 @@
             }
             if (hasFooter && that.customFooter != hasFooter) {
                 that.customFooter = hasFooter;
-                that.updateNavbarElements(jq("#" + hasFooter).children());
+                that.update_footer_elements(jq("#" + hasFooter).children());
             } else if (hasFooter != that.customFooter) {
                 if (that.customFooter)
-                    that.updateNavbarElements(that.defaultFooter);
+                    that.update_footer_elements(that.defaultFooter);
                 that.customFooter = false;
             }
             if (hasHeader && hasHeader.toLowerCase() == "none") {
@@ -945,7 +857,7 @@
             var inlineFooters = $(what).find("footer");
             if (inlineFooters.length > 0) {
                 that.customFooter = what.id;
-                that.updateNavbarElements(inlineFooters.children());
+                that.update_footer_elements(inlineFooters.children());
             }
             //load inline headers
             var inlineHeader = $(what).find("header");
@@ -1512,7 +1424,7 @@
                     if (jq("#navbar a").length > 0) {
                         jq("#navbar a").data("ignore-pressed", "true").data("resetHistory", "true");
                         that.defaultFooter = jq("#navbar").children().clone();
-                        that.updateNavbarElements(that.defaultFooter);
+                        that.update_footer_elements(that.defaultFooter);
                     }
                     //setup initial menu
                     var firstMenu = jq("nav").get();

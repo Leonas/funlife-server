@@ -2390,9 +2390,9 @@ if (!window.jq || typeof (jq) !== "function") {
 			
 			cleanUpNode(node, kill);
 		}
-		var cleanUpAsap = function(els, kill){
-        	for(var i=0;i<els.length;i++){
-            	cleanUpContent(els[i], kill);
+		var cleanUpAsap = function(elements, kill){
+        	for(var i=0;i<elements.length;i++){
+            	cleanUpContent(elements[i], kill);
             }	
 		};
 

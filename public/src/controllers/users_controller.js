@@ -43,7 +43,7 @@ $.mvc.controller.create('users_controller', {
           //$.ui.update_content_div('user_index_view', $.template('views/user/user_index_view.js'));
         }
         //show the user_index view
-        $.ui.load_content('user_index_view', false, false, 'fade');
+        $.ui.load_content('user_index_view', false, false, 'none');
       },
 
       error: function () {

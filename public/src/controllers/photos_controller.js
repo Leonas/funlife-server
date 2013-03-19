@@ -21,7 +21,7 @@ $.mvc.controller.create('photos_controller', {
       $.ui.add_content_div('photos_index_view', $.template('views/photos/photos_index_view.js'), 'Photos');
     }
     //Show the view
-    $.ui.load_content('photos_index_view', false, false, 'fade');
+    $.ui.load_content('photos_index_view', false, false, 'none');
 
   },
 

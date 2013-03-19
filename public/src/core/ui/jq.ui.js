@@ -59,6 +59,13 @@
             if (id != "#" + $.ui.active_div.id)
                 that.go_back();
         }, false);
+
+      window.addEventListener("unloadpanel", function() {
+
+      console.log('fuckin unload');
+        console.log($.ui.get_panel_id_from_hash(document.location.hash));
+      }, false);
+
         /**
          * Helper function to setup the transition objects
          * Custom transitions can be added via $.ui.availableTransitions
@@ -76,7 +83,6 @@
         show_loading: true,
         load_content_queue: [],
         isAppMobi: false,
-        titlebar: "",
         navbar: "",
         header: "",
         viewport_container: "",
@@ -335,17 +341,17 @@
 
             var that = this;
             var menu = jq("#menu");
-            var els = jq("#content, #menu, #header, #navbar");
+            var elements = jq("#content, #menu, #header, #navbar");
 
             if (!(menu.hasClass("on") || menu.hasClass("to-on")) && ((force !== undefined && force !== false) || force === undefined)) {
 
                 menu.show();
-                that.css3animate(els, {
+                that.css3animate(elements, {
                     "removeClass": "to-off off on",
                     "addClass": "to-on",
                     complete: function(canceled) {
                         if (!canceled) {
-                            that.css3animate(els, {
+                            that.css3animate(elements, {
                                 "removeClass": "to-off off to-on",
                                 "addClass": "on",
                                 time: 0,
@@ -366,12 +372,12 @@
             } else if (force === undefined || (force !== undefined && force === false)) {
 
 
-                that.css3animate(els, {
+                that.css3animate(elements, {
                     "removeClass": "on off to-on",
                     "addClass": "to-off",
                     complete: function(canceled) {
                         if (!canceled) {
-                            that.css3animate(els, {
+                            that.css3animate(elements, {
                                 "removeClass": "to-off on to-on",
                                 "addClass": "off",
                                 time: 0,
@@ -393,21 +399,19 @@
         },
 
         disableSideMenu: function() {
-            var that = this;
-            var els = jq("#content, #menu, #header, #navbar");
+            var elements = jq("#content, #menu, #header, #navbar");
             if (this.isSideMenuOn()) {
                 this.toggle_side_menu(false, function(canceled) {
                     if (!canceled)
-                        els.removeClass("hasMenu");
+                        elements.removeClass("hasMenu");
                 });
             } else
-                els.removeClass("hasMenu");
+                elements.removeClass("hasMenu");
         },
 
         enableSideMenu: function() {
-            var that = this;
-            var els = jq("#content, #menu, #header, #navbar");
-            els.addClass("hasMenu");
+            var elements = jq("#content, #menu, #header, #navbar");
+            elements.addClass("hasMenu");
         },
 
         isSideMenuEnabled: function() {
@@ -547,6 +551,7 @@
         },
 
         update_content_div: function(id, content_string) {
+        console.log('update_content_div');
             id="#"+id.replace("#","");
             var element = jq(id).get(0);
             if (!element)
@@ -580,6 +585,8 @@
          * @title $.ui.add_content_div(id,content_string,title);
          */
         add_content_div: function(element, content_string, title, refresh, refreshFunc) {
+            console.log('add_content_div');
+
             element = typeof (element) !== "string" ? element : element.indexOf("#") == -1 ? "#" + element : element;
             var myEl = jq(element).get(0);
             if (!myEl) {
@@ -641,6 +648,11 @@
                 var scrollEl = tmp;
                 tmp.style['-webkit-overflow-scrolling'] = "none"
             } else {
+
+
+
+
+
                 //WE need to clone the div so we keep events
                 var scrollEl = tmp.cloneNode(false);
 
@@ -810,6 +822,8 @@
                 return;
             $.parseJS(div);
         },
+
+
         /**
          * This is called to initiate a transition or load content via ajax.
          * We can pass in a hash+id or URL and then we parse the panel for additional functions
@@ -1001,84 +1015,85 @@
                 this.scrolling_divs[this.active_div.id].enable(this.reset_scrollers);
             }
         },
-        /**
-         * This is called internally by load_content.  Here we are using Ajax to fetch the data
-           ```
-           $.ui.loadDiv("page.html",false,false,"up");
-           ```
-         * @param {String} target
-         * @param {Boolean} newtab (resets history)
-         * @param {Boolean} go back (initiate the back click)
-         * @param {String} transition
-         * @title $.ui.loadDiv(target,newTab,go_back,transition);
-         * @api private
-         */
-        loadAjax: function(target, newTab, back, transition, anchor) {
-            // XML Request
-            if (this.active_div.id == "jQui_ajax" && target == this.ajax_url)
-                return;
-            var urlHash = "url" + crc32(target); //Ajax urls
-            var that = this;
-            if (target.indexOf("http") == -1)
-                target = AppMobi.webRoot + target;
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.onreadystatechange = function() {
-                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                    this.doing_transition = false;
-
-                    var doReturn = false;
-
-                    //Here we check to see if we are retaining the div, if so update it
-                    if (jq("#" + urlHash).length > 0) {
-                        that.update_content_div(urlHash, xmlhttp.responseText);
-                        jq("#" + urlHash).get(0).title = anchor.title ? anchor.title : target;
-                    } else if (anchor.getAttribute("data-persist-ajax") || that.is_ajax_app) {
-
-                        var refresh = (anchor.getAttribute("data-pull-scroller") === 'true') ? true : false;
-                        refreshFunction = refresh ?
-                        function() {
-                            anchor.refresh = true;
-                            that.load_content(target, newTab, back, transition, anchor);
-                            anchor.refresh = false;
-                        } : null;
-                        //that.add_content_div(urlHash, xmlhttp.responseText, refresh, refreshFunction);
-                        urlHash = that.add_content_div(urlHash, xmlhttp.responseText, anchor.title ? anchor.title : target, refresh, refreshFunction);
-                    } else {
-
-                        that.update_content_div("jQui_ajax", xmlhttp.responseText);
-                        jq("#jQui_ajax").get(0).title = anchor.title ? anchor.title : target;
-                        that.load_content("#jQui_ajax", newTab, back);
-                      console.log('im in here');
-                        doReturn = true;
-                    }
-                    //Let's load the content now.
-                    //We need to check for any script tags and handle them
-                    var div = document.createElement("div");
-                    div.innerHTML = xmlhttp.responseText;
-                    that.parseScriptTags(div);
-
-                    if (doReturn)
-                    {
-                         if (that.show_loading)
-                            that.hide_loading_mask();
-                        return;
-                    }
-
-                    that.load_content("#" + urlHash);
-                    if (that.show_loading)
-                       that.hide_loading_mask();
-                    return null;
-                }
-            };
-            ajax_url = target;
-            var newtarget = this.useAjaxCacheBuster ? target + (target.split('?')[1] ? '&' : '?') + "cache=" + Math.random() * 10000000000000000 : target;
-            xmlhttp.open("GET", newtarget, true);
-            xmlhttp.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-            xmlhttp.send();
-            // show Ajax Mask
-            if (this.show_loading)
-                this.show_loading_mask();
-        },
+//        /**
+//         * This is called internally by load_content.  Here we are using Ajax to fetch the data
+//           ```
+//           $.ui.loadDiv("page.html",false,false,"up");
+//           ```
+//         * @param {String} target
+//         * @param {Boolean} newtab (resets history)
+//         * @param {Boolean} go back (initiate the back click)
+//         * @param {String} transition
+//         * @title $.ui.loadDiv(target,newTab,go_back,transition);
+//         * @api private
+//         */
+//        loadAjax: function(target, newTab, back, transition, anchor) {
+//          alert('prepping for deletion. this should never be called');
+//            // XML Request
+//            if (this.active_div.id == "jQui_ajax" && target == this.ajax_url)
+//                return;
+//            var urlHash = "url" + crc32(target); //Ajax urls
+//            var that = this;
+//            if (target.indexOf("http") == -1)
+//                target = AppMobi.webRoot + target;
+//            var xmlhttp = new XMLHttpRequest();
+//            xmlhttp.onreadystatechange = function() {
+//                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+//                    this.doing_transition = false;
+//
+//                    var doReturn = false;
+//
+//                    //Here we check to see if we are retaining the div, if so update it
+//                    if (jq("#" + urlHash).length > 0) {
+//                        that.update_content_div(urlHash, xmlhttp.responseText);
+//                        jq("#" + urlHash).get(0).title = anchor.title ? anchor.title : target;
+//                    } else if (anchor.getAttribute("data-persist-ajax") || that.is_ajax_app) {
+//
+//                        var refresh = (anchor.getAttribute("data-pull-scroller") === 'true') ? true : false;
+//                        refreshFunction = refresh ?
+//                        function() {
+//                            anchor.refresh = true;
+//                            that.load_content(target, newTab, back, transition, anchor);
+//                            anchor.refresh = false;
+//                        } : null;
+//                        //that.add_content_div(urlHash, xmlhttp.responseText, refresh, refreshFunction);
+//                        urlHash = that.add_content_div(urlHash, xmlhttp.responseText, anchor.title ? anchor.title : target, refresh, refreshFunction);
+//                    } else {
+//
+//                        that.update_content_div("jQui_ajax", xmlhttp.responseText);
+//                        jq("#jQui_ajax").get(0).title = anchor.title ? anchor.title : target;
+//                        that.load_content("#jQui_ajax", newTab, back);
+//                      console.log('im in here');
+//                        doReturn = true;
+//                    }
+//                    //Let's load the content now.
+//                    //We need to check for any script tags and handle them
+//                    var div = document.createElement("div");
+//                    div.innerHTML = xmlhttp.responseText;
+//                    that.parseScriptTags(div);
+//
+//                    if (doReturn)
+//                    {
+//                         if (that.show_loading)
+//                            that.hide_loading_mask();
+//                        return;
+//                    }
+//
+//                    that.load_content("#" + urlHash);
+//                    if (that.show_loading)
+//                       that.hide_loading_mask();
+//                    return null;
+//                }
+//            };
+//            ajax_url = target;
+//            var newtarget = this.useAjaxCacheBuster ? target + (target.split('?')[1] ? '&' : '?') + "cache=" + Math.random() * 10000000000000000 : target;
+//            xmlhttp.open("GET", newtarget, true);
+//            xmlhttp.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+//            xmlhttp.send();
+//            // show Ajax Mask
+//            if (this.show_loading)
+//                this.show_loading_mask();
+//        },
 
         runTransition: function(transition, old_div, current_div, back) {
             if (!this.availableTransitions[transition])
@@ -1097,8 +1112,6 @@
 
             var that = this;
 
-            console.log(that);
-            //that is just the $.ui object which loads only once
 
             this.isAppMobi = (window.AppMobi && typeof (AppMobi) == "object" && AppMobi.app !== undefined) ? true : false;
             this.viewport_container = jq("#jQUi");
@@ -1200,8 +1213,6 @@
             });
             this.backButton.style.visibility = "hidden";
 
-            //page title (should optionally be left to developer..)
-            this.titleBar = $("#header #pageTitle").get(0);
 
             //setup ajax mask
             this.add_content_div("jQui_ajax", "");
@@ -1409,6 +1420,23 @@
         //This must be called at the end of every transition to hide the old div and
         // reset the doing_transition variable
         finishTransition: function(old_div, current_div) {
+          console.log('$.ui.finishTransition(old_div, current_div)');
+          console.log('old_div=' + old_div.title);
+
+
+
+
+
+
+          //Its possible to destroy the old div from this point
+
+
+
+
+
+
+//          console.log(old_div.title);
+//          console.log(current_div.title);
             old_div.style.display = 'none';
             this.doing_transition = false;
             if (current_div)
@@ -1419,23 +1447,19 @@
         },
 
 
-        //This must be called at the end of every transition to remove all transforms and
-        // transitions attached to the inView object (performance + native scroll)
+        //Must be called at the end of every transition for performance and native scroll
         clearAnimations: function(in_view_div_object) {
             in_view_div_object.style[$.feat.cssPrefix + 'Transform'] = "none";
             in_view_div_object.style[$.feat.cssPrefix + 'Transition'] = "none";
         }
 
-    /**
-         * END
-         * @api private
-         */
+
     };
 
 
     //lookup for a clicked anchor recursively and fire UI own actions when applicable
     var checkAnchorClick = function(e, theTarget) {
-
+        console.log('checkAnchorClick is called');
 
         if (theTarget == (jQUi)) {
             return;
@@ -1481,6 +1505,7 @@
             if (href.indexOf(prefix) === 0) {
                 href = href.substring(prefix.length+1);
             }
+
             //empty links
             if (href == "#" ||(href.indexOf("#")===href.length-1)|| (href.length == 0 && theTarget.hash.length == 0))
                 return;
@@ -1490,11 +1515,11 @@
             var mytransition = theTarget.getAttribute("data-transition");
             var resetHistory = theTarget.getAttribute("data-resetHistory");
             resetHistory = resetHistory && resetHistory.toLowerCase() == "true" ? true : false;
-            var href = theTarget.hash.length > 0 ? theTarget.hash : theTarget.href;
+            href = theTarget.hash.length > 0 ? theTarget.hash : theTarget.href;
             jq.ui.load_content(href, resetHistory, 0, mytransition, theTarget);
-            return;
+
         }
-    }
+    };
 
     var table = "00000000 77073096 EE0E612C 990951BA 076DC419 706AF48F E963A535 9E6495A3 0EDB8832 79DCB8A4 E0D5E91E 97D2D988 09B64C2B 7EB17CBD E7B82D07 90BF1D91 1DB71064 6AB020F2 F3B97148 84BE41DE 1ADAD47D 6DDDE4EB F4D4B551 83D385C7 136C9856 646BA8C0 FD62F97A 8A65C9EC 14015C4F 63066CD9 FA0F3D63 8D080DF5 3B6E20C8 4C69105E D56041E4 A2677172 3C03E4D1 4B04D447 D20D85FD A50AB56B 35B5A8FA 42B2986C DBBBC9D6 ACBCF940 32D86CE3 45DF5C75 DCD60DCF ABD13D59 26D930AC 51DE003A C8D75180 BFD06116 21B4F4B5 56B3C423 CFBA9599 B8BDA50F 2802B89E 5F058808 C60CD9B2 B10BE924 2F6F7C87 58684C11 C1611DAB B6662D3D 76DC4190 01DB7106 98D220BC EFD5102A 71B18589 06B6B51F 9FBFE4A5 E8B8D433 7807C9A2 0F00F934 9609A88E E10E9818 7F6A0DBB 086D3D2D 91646C97 E6635C01 6B6B51F4 1C6C6162 856530D8 F262004E 6C0695ED 1B01A57B 8208F4C1 F50FC457 65B0D9C6 12B7E950 8BBEB8EA FCB9887C 62DD1DDF 15DA2D49 8CD37CF3 FBD44C65 4DB26158 3AB551CE A3BC0074 D4BB30E2 4ADFA541 3DD895D7 A4D1C46D D3D6F4FB 4369E96A 346ED9FC AD678846 DA60B8D0 44042D73 33031DE5 AA0A4C5F DD0D7CC9 5005713C 270241AA BE0B1010 C90C2086 5768B525 206F85B3 B966D409 CE61E49F 5EDEF90E 29D9C998 B0D09822 C7D7A8B4 59B33D17 2EB40D81 B7BD5C3B C0BA6CAD EDB88320 9ABFB3B6 03B6E20C 74B1D29A EAD54739 9DD277AF 04DB2615 73DC1683 E3630B12 94643B84 0D6D6A3E 7A6A5AA8 E40ECF0B 9309FF9D 0A00AE27 7D079EB1 F00F9344 8708A3D2 1E01F268 6906C2FE F762575D 806567CB 196C3671 6E6B06E7 FED41B76 89D32BE0 10DA7A5A 67DD4ACC F9B9DF6F 8EBEEFF9 17B7BE43 60B08ED5 D6D6A3E8 A1D1937E 38D8C2C4 4FDFF252 D1BB67F1 A6BC5767 3FB506DD 48B2364B D80D2BDA AF0A1B4C 36034AF6 41047A60 DF60EFC3 A867DF55 316E8EEF 4669BE79 CB61B38C BC66831A 256FD2A0 5268E236 CC0C7795 BB0B4703 220216B9 5505262F C5BA3BBE B2BD0B28 2BB45A92 5CB36A04 C2D7FFA7 B5D0CF31 2CD99E8B 5BDEAE1D 9B64C2B0 EC63F226 756AA39C 026D930A 9C0906A9 EB0E363F 72076785 05005713 95BF4A82 E2B87A14 7BB12BAE 0CB61B38 92D28E9B E5D5BE0D 7CDCEFB7 0BDBDF21 86D3D2D4 F1D4E242 68DDB3F8 1FDA836E 81BE16CD F6B9265B 6FB077E1 18B74777 88085AE6 FF0F6A70 66063BCA 11010B5C 8F659EFF F862AE69 616BFFD3 166CCF45 A00AE278 D70DD2EE 4E048354 3903B3C2 A7672661 D06016F7 4969474D 3E6E77DB AED16A4A D9D65ADC 40DF0B66 37D83BF0 A9BCAE53 DEBB9EC5 47B2CF7F 30B5FFE9 BDBDF21C CABAC28A 53B39330 24B4A3A6 BAD03605 CDD70693 54DE5729 23D967BF B3667A2E C4614AB8 5D681B02 2A6F2B94 B40BBE37 C30C8EA1 5A05DF1B 2D02EF8D"; /* Number */
     var crc32 = function( /* String */str,  /* Number */crc) {

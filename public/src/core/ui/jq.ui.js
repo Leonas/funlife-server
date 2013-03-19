@@ -111,64 +111,41 @@
         custom_click_handler: "",
         menu_animation: null,
         side_menu_displayed: false,
-        autoBoot: function() {
+      show_footer_menu: true,
+      auto_launch: true,
+      showBackbutton: true,
+      back_button_text: "Back",
+      reset_scrollers: true,
+      load_default_hash: true,
+      useAjaxCacheBuster: false,    //add "&cache=_rand_" to any ajax loaded link
+
+      autoBoot: function() {
             this.has_launched = true;
             if (this.auto_launch) {
                 this.launch();
             }
         },
+
         css3animate: function(element, options) {
             element = jq(element);
             return element.css3Animate(options);
         },
-        load_default_hash: true,        //load THAT(wtf is that?) panel when the app is started
-        useAjaxCacheBuster: false,    //add "&cache=_rand_" to any ajax loaded link
-        /**
-         * This is a shorthand call to the jq.actionsheet plugin.  We wire it to the jQUi div automatically
-           ```
-           $.ui.actionsheet("<a href='javascript:;' class='button'>Settings</a> <a href='javascript:;' class='button red'>Logout</a>")
-           $.ui.actionsheet("[{
-                        text: 'back',
-                        cssClasses: 'red',
-                        handler: function () { $.ui.go_back(); ; }
-                    }, {
-                        text: 'show alert 5',
-                        cssClasses: 'blue',
-                        handler: function () { alert("hi"); }
-                    }, {
-                        text: 'show alert 6',
-                        cssClasses: '',
-                        handler: function () { alert("goodbye"); }
-                    }]");
-           ```
-         * @param {String,Array} links
-         * @title $.ui.actionsheet()
-         */
+
         actionsheet: function(options) {
             return jq("#jQUi").actionsheet(options);
         },
 
-        //Makes a popup. Look at popup.js for options
         popup: function(options) { return $("#jQUi").popup(options); },
 
-        //blocks the UI with a mask
         block_ui: function(opacity) { $.block_ui(opacity); },
 
-        //removes the UI mask
         unblock_ui: function() { $.unblock_ui(); },
 
-        //removes bottom nav
-        remove_footer_menu: function() {
+        remove_footer_nav: function() {
             jq("#navbar").hide();
             jq("#content").css("bottom", "0px");
             this.show_footer_menu = false;
         },
-
-        show_footer_menu: true,
-        auto_launch: true,
-        showBackbutton: true,
-        back_button_text: "Back",
-        reset_scrollers: true,
 
         // function to fire when jqUi is ready and completed launch
         ready: function(param) {
@@ -181,11 +158,9 @@
                 }, false);
         },
 
-        //set a new back button class name
         set_back_button_style: function(className) {
             jq("#backButton").get(0).className = className;
         },
-
 
         go_back: function() {
             if (this.history.length > 0) {
@@ -208,7 +183,6 @@
             this.set_back_button_visibility(false)
         },
 
-
         pushHistory: function(previousPage, newPage, transition, hashExtras) {
             //push into local history
             this.history.push({
@@ -226,13 +200,6 @@
             }
         },
 
-
-        /**
-         * Updates the current window hash
-         *
-         * @param {String} new_hash New Hash value
-         * @title $.ui.update_url_hash(new_hash)
-         */
         update_url_hash: function(new_hash) {
             new_hash = new_hash.indexOf('#') == -1 ? '#' + new_hash : new_hash; //force having the # in the begginning as a standard
             previous_target = new_hash;
@@ -248,27 +215,12 @@
             } catch (e) {
             }
         },
-        /*gets the panel name from an hash*/
+
         get_panel_id_from_hash: function(hash) {
             var firstSlash = hash.indexOf('/');
             return firstSlash == -1 ? hash : hash.substring(0, firstSlash);
         },
 
-        /**
-         * Update a badge on the selected target.  Position can be
-            bl = bottom left
-            tl = top left
-            br = bottom right
-            tr = top right (default)
-           ```
-           $.ui.update_badge('#mydiv','3','bl','green');
-           ```
-         * @param {String} target
-         * @param {String} Value
-         * @param {String} [position]
-         * @param {String|Object} [color or CSS hash]
-         * @title $.ui.update_badge(target,value,[position],[color])
-         */
         update_badge: function(target, value, position, color) {
             if (position === undefined)
                 position = "";
@@ -295,12 +247,10 @@
 
         },
 
-        //removes the badge from a target like '#bob'
         remove_badge: function(target) {
             jq(target).find("span.jq-badge").remove();
         },
 
-        //force = set to true or false
         toggle_footer_menu: function(force) {
             if (!this.show_footer_menu)
                 return;
@@ -314,8 +264,6 @@
             }
         },
 
-
-        //toggle
         toggle_header_menu: function(force) {
             if (jq("#header").css("display") != "none" && ((force !== undefined && force !== true) || force === undefined)) {
                 jq("#content").css("top", "0px");
@@ -326,14 +274,7 @@
                 jq("#content").css("top", val + 'px');
             }
         },
-        /**
-         * Toggles the side menu.  Force is a boolean to force show or hide.
-           ```
-           $.ui.toggle_side_menu();//toggle it
-           ```
-         * @param {Boolean} [force]
-         * @title $.ui.toggle_side_menu([force])
-         */
+
         toggle_side_menu: function(force, callback) {
             if (!this.isSideMenuEnabled() || this.side_menu_displayed)
                 return;
@@ -422,7 +363,6 @@
             var menu = jq('#menu');
             return this.isSideMenuEnabled() && (menu.hasClass("on") || menu.hasClass("to-on"));
         },
-
 
         update_footer_elements: function(elements) {
             var footer_nav = jq("#navbar");
@@ -574,16 +514,8 @@
             if ($(newDiv).title)
                 element.title = $(newDiv).title;
         },
-        /**
-         * Dynamically create a new panel on the fly.  It wires events, creates the scroller, applies Android fixes, etc.
-           ```
-           $.ui.add_content_div("myDiv","This is the new content","Title");
-           ```
-         * @param {String|Object} Element to add
-         * @param {String} Content
-         * @param {String} title
-         * @title $.ui.add_content_div(id,content_string,title);
-         */
+
+        //Dynamically create a new panel on the fly.  It wires events, creates the scroller, applies Android fixes, etc.
         add_content_div: function(element, content_string, title, refresh, refreshFunc) {
             console.log('add_content_div');
 
@@ -611,15 +543,8 @@
             newDiv = null;
             return newId;
         },
-        /**
-         *  Takes a div and sets up scrolling for it..
-           ```
-           $.ui.addDivAndScroll(object);
-           ```
-         * @param {Object} Element
-         * @title $.ui.addDivAndScroll(element);
-         * @api private
-         */
+
+        //sets up scrolling for a div
         addDivAndScroll: function(tmp, refreshPull, refreshFunc, container) {
             var jsScroll = false;
             var overflowStyle = tmp.style.overflow;
@@ -702,29 +627,21 @@
             scrollEl = null;
         },
 
-
         scrollToTop: function(id) {
             if (this.scrolling_divs[id]) {
                 this.scrolling_divs[id].scrollToTop("300ms");
             }
         },
+
         scrollToBottom: function(id) {
             if (this.scrolling_divs[id]) {
                 this.scrolling_divs[id].scrollToBottom("300ms");
             }
         },
 
-        /**
-         *  This is used when a transition fires to do helper events.  We check to see if we need to change the nav menus, footer, and fire
-         * the load/onload functions for panels
-           ```
-           $.ui.parsePanelFunctions(currentDiv,old_div);
-           ```
-         * @param {Object} current div
-         * @param {Object} old div
-         * @title $.ui.parsePanelFunctions(currentDiv,old_div);
-         * @api private
-         */
+
+        //This is used when a transition fires to do helper events.  We check to see if we need to change the nav menus, footer, and fire
+        //the load/onload functions for panels
         parsePanelFunctions: function(what, old_div) {
             //check for custom footer
             var that = this;
@@ -824,76 +741,64 @@
         },
 
 
-        /**
-         * This is called to initiate a transition or load content via ajax.
-         * We can pass in a hash+id or URL and then we parse the panel for additional functions
-           ```
-           $.ui.load_content("#main",false,false,"up");
-           ```
-         * @param {String} target
-         * @param {Boolean} newtab (resets history)
-         * @param {Boolean} go back (initiate the back click)
-         * @param {String} transition
-         * @title $.ui.load_content(target,newTab,go_back,transition);
-         * @api public
-         */
+        //This is called to initiate a transition or load content via ajax.
+        //We can pass in a hash+id or URL and then we parse the panel for additional functions
+        //newTab = true = resetHistory, back = true = back click
         load_content: function(target, newTab, back, transition, anchor) {
 
-            if (this.doing_transition) {
-                var that = this;
+           if (this.doing_transition) {
                 this.load_content_queue.push([target, newTab, back, transition, anchor]);
-                return
-            }
-            if (target.length === 0)
                 return;
-
-            var what = null;
-            var that = this;
-            var loadAjax = true;
-            anchor = anchor || document.createElement("a"); //Hack to allow passing in no anchor
-            if (target.indexOf("#") == -1) {
-                var urlHash = "url" + crc32(target); //Ajax urls
-                var crcCheck = jq("div.panel[data-crc='" + urlHash + "']");
-                if (jq("#" + target).length > 0) {
-                    loadAjax = false;
-                }
-                else if (crcCheck.length > 0) {
-                    loadAjax = false;
-                    if (anchor.getAttribute("data-refresh-ajax") === 'true' || (anchor.refresh && anchor.refresh === true || this.is_ajax_app)) {
-                        loadAjax = true;
-                    }
-                    else {
-                        target = "#" + crcCheck.get(0).id;
-                    }
-                } else if (jq("#" + urlHash).length > 0) {
-
-                    //ajax div already exists.  Let's see if we should be refreshing it.
-                    loadAjax = false;
-                    if (anchor.getAttribute("data-refresh-ajax") === 'true' || (anchor.refresh && anchor.refresh === true || this.is_ajax_app)) {
-                        loadAjax = true;
-                    } else
-                        target = "#" + urlHash;
-                }
-            }
-            if (target.indexOf("#") == -1 && loadAjax) {
-                this.loadAjax(target, newTab, back, transition, anchor);
-            } else {
-                this.loadDiv(target, newTab, back, transition);
-            }
+           }
+           else if (target.length === 0) {
+                return;
+           }
+           else {
+           this.loadDiv(target, newTab, back, transition);
+           }
+//            var what = null;
+//            var that = this;
+//            var loadAjax = true;
+//            anchor = anchor || document.createElement("a"); //Hack to allow passing in no anchor
+//            if (target.indexOf("#") == -1) {
+//              alert('this gets called');
+////                var urlHash = "url" + crc32(target); //Ajax urls
+////                var crcCheck = jq("div.panel[data-crc='" + urlHash + "']");
+////                if (jq("#" + target).length > 0) {
+////                  alert('here1');
+////                    loadAjax = false;
+////                }
+////                else if (crcCheck.length > 0) {
+////                  alert('devils2');
+////                    loadAjax = false;
+////                    if (anchor.getAttribute("data-refresh-ajax") === 'true' || (anchor.refresh && anchor.refresh === true || this.is_ajax_app)) {
+////                        loadAjax = true;
+////                      alert('devil4s');
+////                    }
+////                    else {
+////                        target = "#" + crcCheck.get(0).id;
+////                      alert('devils5');
+////                    }
+////                }
+////                else if (jq("#" + urlHash).length > 0) {
+////
+////                    //ajax div already exists.  Let's see if we should be refreshing it.
+////                    loadAjax = false;
+////                    if (anchor.getAttribute("data-refresh-ajax") === 'true' || (anchor.refresh && anchor.refresh === true || this.is_ajax_app)) {
+////                        loadAjax = true;
+////                    } else
+////                        target = "#" + urlHash;
+////                }
+//            }
+//            if (target.indexOf("#") == -1 && loadAjax) {
+//                this.loadAjax(target, newTab, back, transition, anchor);
+//            } else {
+//                this.loadDiv(target, newTab, back, transition);
+//            }
         },
-        /**
-         * This is called internally by load_content.  Here we are loading a div instead of an Ajax link
-           ```
-           $.ui.loadDiv("#main",false,false,"up");
-           ```
-         * @param {String} target
-         * @param {Boolean} newtab (resets history)
-         * @param {Boolean} go back (initiate the back click)
-         * @param {String} transition
-         * @title $.ui.loadDiv(target,newTab,go_back,transition);
-         * @api private
-         */
-        loadDiv: function(target, newTab, back, transition) {
+
+            //This is called internally by load_content.  Here we are loading a div instead of an Ajax link
+            loadDiv: function(target, newTab, back, transition) {
             // load a div
             var that=this;
             what = target.replace("#", "");
@@ -966,19 +871,9 @@
             },200);
 
         },
-        /**
-         * This is called internally by loadDiv.  This sets up the back button in the header and scroller for the panel
-           ```
-           $.ui.loadContentData("#main",false,false,"up");
-           ```
-         * @param {String} target
-         * @param {Boolean} newtab (resets history)
-         * @param {Boolean} go back (initiate the back click)
-         * @param {String} transition
-         * @title $.ui.loadDiv(target,newTab,go_back,transition);
-         * @api private
-         */
-        loadContentData: function(what, newTab, back, transition) {
+
+        //This is called internally by loadDiv.  This sets up the back button in the header and scroller for the panel
+          loadContentData: function(what, newTab, back, transition) {
             if (back) {
                 if (this.history.length > 0) {
                     var val = this.history[this.history.length - 1];
@@ -1015,6 +910,7 @@
                 this.scrolling_divs[this.active_div.id].enable(this.reset_scrollers);
             }
         },
+
 //        /**
 //         * This is called internally by load_content.  Here we are using Ajax to fetch the data
 //           ```
@@ -1204,14 +1100,22 @@
                 this.viewport_container.append(this.content_string);
             }
 
+
+            //=======================================================================================
+          //setting up the header and back button
+
             //insert backbutton (should optionally be left to developer..)
-            this.header.innerHTML = '<a id="backButton"  href="javascript:;"></a> <h1 id="pageTitle"></h1>' + header.innerHTML;
-            this.backButton = $("#header #backButton").get(0);
+            this.header.innerHTML = '<a id="backButton"  href="javascript:;"></a>FUCK <h1 id="pageTitle"></h1>' + header.innerHTML;
+
+          this.backButton = $("#header #backButton").get(0);
+
             this.backButton.className = "button";
             jq(document).on("click", "#header #backButton", function() {
                 that.go_back();
             });
             this.backButton.style.visibility = "hidden";
+
+           //
 
 
             //setup ajax mask

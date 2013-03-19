@@ -93,7 +93,7 @@ To prevent a div from scrolling, set the property “scrolling” to “no” on
 load_default_hash  boolean to load/not load panel from hash when app started (default is true)
 block_ui(opacity)       ///throw up a mask and block the UI
 unblock_ui()           //removes the UI mask
-remove_footer_menu()    //removes the bottom nav bar from app
+remove_footer_nav()    //removes the bottom nav bar from app
 show_footer_menu       //boolean to show bottom nav bar
 auto_launch             //boolean to auto launch jqUi
 is_ajax_app                 //boolean that when true treats every request as if the anchor had
@@ -108,8 +108,15 @@ set_back_button_style(class) //override the back button class name
 go_back()                           //goes to the previous page in history
 clear_history()                       //clears the history stack
 update_badge(target,value,[position])  //update a badge on the selected target
+         * Update a badge on the selected target.  Position can be
+            bl = bottom left
+            tl = top left
+            br = bottom right
+            tr = top right (default)
+           ```
+           $.ui.update_badge('#mydiv','3','bl','green');
 remove_badge(target)                     //remove a badge from the selected target
-toggle_footer_menu(optional_boolean)               //will hide or show the bottom nav menu   WTF is force?
+toggle_footer_menu(optional_boolean)               //will hide or show the bottom nav menu
 toggle_header_menu(optional_boolean)                 //hide or show the header menu
 toggle_side_menu(optional_boolean)                     //hide or show the side menu
 update_footer_elements(elements)          //update the elements in the footer

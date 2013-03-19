@@ -241,8 +241,7 @@
       //=======================================================================================
       //setting up the header and back button
 
-      //insert backbutton (should optionally be left to developer..)
-      this.header.innerHTML = '<a id="backButton"  href="javascript:;"></a>FUCK <h1 id="pageTitle"></h1>' + header.innerHTML;
+      this.header.innerHTML = header.innerHTML;
 
       this.backButton = $("#header #backButton").get(0);
 
@@ -874,11 +873,14 @@
       var hasScroll = overflowStyle != 'hidden' && overflowStyle != 'visible';
 
       var container = this.content_string;
+
+      var js_scrolling = false;
+
       //sets up scroll when required and not supported
       if (!$.feat.nativeTouchScroll && hasScroll)
-        tmp.setAttribute("js-scrolling", "yes");
+        js_scrolling = true;
 
-      if (tmp.getAttribute("js-scrolling") && tmp.getAttribute("js-scrolling").toLowerCase() == "yes") {
+      if (js_scrolling) {
         jsScroll = true;
         hasScroll = true;
       }
@@ -887,7 +889,7 @@
       if (tmp.getAttribute("scrolling") && tmp.getAttribute("scrolling") == "no") {
         hasScroll = false;
         jsScroll = false;
-        tmp.removeAttribute("js-scrolling");
+        js_scrolling = false;
       }
 
       if (!jsScroll) {
@@ -906,13 +908,13 @@
 
         tmp.title = null;
         tmp.id = null;
-//        tmp.removeAttribute("data-footer");
-//        tmp.removeAttribute("data-nav");
-//        tmp.removeAttribute("data-header");
-//        tmp.removeAttribute("selected");
-//        tmp.removeAttribute("data-load");
-//        tmp.removeAttribute("data-unload");
-//        tmp.removeAttribute("data-tab");
+        tmp.removeAttribute("data-footer");
+        tmp.removeAttribute("data-nav");
+        tmp.removeAttribute("data-header");
+        tmp.removeAttribute("selected");
+        tmp.removeAttribute("data-load");
+        tmp.removeAttribute("data-unload");
+        tmp.removeAttribute("data-tab");
         jq(tmp).replaceClass("panel", "jqmScrollPanel");
 
         scrollEl.appendChild(tmp);

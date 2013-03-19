@@ -36,15 +36,6 @@ body {
 	
 } /* General styles that apply to elements not contained within other classes and styles */
 
-p {
-	color:#fff;
-	font-family:Arial, Helvetica, sans-serif;
-	font-size:14px;
-	line-height:18px;
-	
-	padding:16px;
-	-webkit-box-shadow:rgba(0,0,0,0.5) 0px 0px 24px inset; box-shadow:rgba(0,0,0,0.5) 0px 0px 24px inset; /* Applies an inner shadow to the text area */
-} /* Paragraph class used for text areas. */
 
 
 #modal_ui{
@@ -131,7 +122,7 @@ z-index:2;
 	width:100%;
     z-index:1;
     text-align:center;
-	height:48px; 
+	height:48px;
 	font-family: Helvetica, Arial, sans-serif;
 	font-weight:normal;
 	font-size:24px;
@@ -178,8 +169,8 @@ z-index:2;
 	text-shadow:#fff 0 1px 0;
 	height:36px; min-width:40px;
 	padding:0px 8px;
-	margin-top:6px; margin-left:6px; 
-	text-overflow:ellipsis; 
+	margin-top:6px; margin-left:6px;
+	text-overflow:ellipsis;
 	-webkit-border-radius:6px; border-radius:6px;
 	background-image:-webkit-gradient(linear, left top, left bottom, from(#fff), to(#999), color-stop(.5,#fff), color-stop(.5,#ccc)); background-image:linear-gradient(left top, left bottom, from(#fff), to(#999), color-stop(.5,#fff), color-stop(.5,#ccc));
 	background:#ccc;
@@ -219,7 +210,7 @@ text-decoration:none;
 .closebutton:before { content:'x'; }
 .closebutton.selected,.closebutton.modalButton.selected {
 color:#fff;
-background:#333; 
+background:#333;
 }
 
 

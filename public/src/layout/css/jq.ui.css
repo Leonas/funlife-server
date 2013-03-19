@@ -47,7 +47,7 @@ p {
 } /* Paragraph class used for text areas. */
 
 
-#jQui_modal{
+#modal_ui{
     
     -webkit-backface-visibility: hidden;
 	z-index:9999 !important;

@@ -133,8 +133,8 @@ $.ui.active_div                   //reference to the div. id = $.ui.active_div.i
 
 
 
-add_content_div (element, content_string, title, refresh, refreshFunc)       //Adds a div to the DOM and wires it up.
-                                                        //refresh and refreshFunc are used for the jq.scroller
+add_content_div (element, content_string, title, refresh)       //Adds a div to the DOM and wires it up.
+
                                                         //pull to refresh functions
 load_content(target,newTab,goBackInHistory,transition);   //Force a transition call via javascript.   DOESTHISUSEAJAX? DOC ERROR
                                                         //target is an element ID or URL.  newTab clears

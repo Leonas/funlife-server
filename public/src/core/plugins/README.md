@@ -126,7 +126,6 @@ var options={
    vScrollCSS : "scrollBarV", //CSS class for veritcal scrollbar
    hScrollCSS : "scrollBarH", //CSS class for horizontal scrollbar
    refresh:true, //Adds 'Pull to refresh' at the top
-   refreshFunction:updateMessage //callback function to execute on pull to refresh
 }
 var scroller = $("#my_div").scroller(options);
 ```

@@ -106,6 +106,357 @@
       }
     },
 
+
+
+
+
+
+
+    //=============================================================
+    //                 Start Launch
+    //=============================================================
+
+
+
+
+
+
+    //Launches ui_kit.
+    //If Auto_launch is set to true, it gets called on DOMContentLoaded.
+    //If false, you must manually invoke it
+    launch: function () {
+
+      //If its launched, get out of here
+      if (this.has_launched == false || this.launch_completed) {
+        this.has_launched = true;
+        alert('i am in a bad place');
+        return;
+      }
+
+      var that = this;
+
+
+      this.viewport_container = jq("#ui_kit");
+      this.navbar = jq("#navbar").get(0);
+      this.content_string = jq("#content").get(0);
+      this.header = jq("#header").get(0);
+      this.menu = jq("#menu").get(0);
+      //set anchor click handler for UI
+      this.viewport_container[0].addEventListener('click', function (e) {
+        var theTarget = e.target;
+        checkAnchorClick(e, theTarget);
+      }, false);
+
+
+      //enter-edit scroll paddings fix
+      //focus scroll adjust fix
+      var enterEditEl = null;
+      //on enter-edit keep a reference of the actioned element
+      $.bind($.touch_layer, 'enter-edit', function (element) {
+        enterEditEl = element;
+      });
+      //enter-edit-reshape panel padding and scroll adjust
+      $.bind($.touch_layer, 'enter-edit-reshape', function () {
+        //onReshape UI fixes
+        //check if focused element is within active panel
+        var jQel = $(enterEditEl);
+        var jQactive = jQel.closest(that.active_div);
+        if (jQactive && jQactive.size() > 0) {
+          if ($.os.ios || $.os.chrome) {
+            var paddingTop, paddingBottom;
+            if (document.body.scrollTop) {
+              paddingTop = document.body.scrollTop - jQactive.offset().top;
+            } else {
+              paddingTop = 0;
+            }
+            //not exact, can be a little above the actual value
+            //but we haven't found an accurate way to measure it and this is the best so far
+            paddingBottom = jQactive.offset().bottom - jQel.offset().bottom;
+            that.scrolling_divs[that.active_div.id].setPaddings(paddingTop, paddingBottom);
+
+          } else if ($.os.android || $.os.blackberry) {
+            var elPos = jQel.offset();
+            var containerPos = jQactive.offset();
+            if (elPos.bottom > containerPos.bottom && elPos.height < containerPos.height) {
+              //apply fix
+              that.scrolling_divs[that.active_div.id].scrollToItem(jQel, 'bottom');
+            }
+          }
+        }
+      });
+
+
+
+      if ($.os.ios) {
+        $.bind($.touch_layer, 'exit-edit-reshape', function () {
+          that.scrolling_divs[that.active_div.id].setPaddings(0, 0);
+        });
+      }
+
+
+
+      //If there is no navbar, make one
+      if (!this.navbar) {
+        this.navbar = document.createElement("div");
+        this.navbar.id = "navbar";
+        this.navbar.style.cssText = "display:none";
+        this.viewport_container.append(this.navbar);
+      }
+
+
+      //If there is no header, make one
+      if (!this.header) {
+        this.header = document.createElement("div");
+        this.header.id = "header";
+        this.viewport_container.prepend(this.header);
+      }
+
+
+      //If there is no menu, make one
+      if (!this.menu) {
+        this.menu = document.createElement("div");
+        this.menu.id = "menu";
+        this.menu.innerHTML = '<div id="menu_scroller"></div>';
+        this.viewport_container.append(this.menu);
+        this.menu.style.overflow = "hidden";
+        this.scrolling_divs["menu_scroller"] = jq("#menu_scroller").scroller({
+          scrollBars: true,
+          verticalScroll: true,
+          vScrollCSS: "jqmScrollbar",
+          useJsScroll: !$.feat.nativeTouchScroll,
+          noParent: $.feat.nativeTouchScroll
+        });
+        if ($.feat.nativeTouchScroll)
+          $("#menu_scroller").css("height", "100%");
+      }
+
+
+      if (!this.content_string) {
+        this.content_string = document.createElement("div");
+        this.content_string.id = "content";
+        this.viewport_container.append(this.content_string);
+      }
+
+
+      //=======================================================================================
+      //setting up the header and back button
+
+      //insert backbutton (should optionally be left to developer..)
+      this.header.innerHTML = '<a id="backButton"  href="javascript:;"></a>FUCK <h1 id="pageTitle"></h1>' + header.innerHTML;
+
+      this.backButton = $("#header #backButton").get(0);
+
+      this.backButton.className = "button";
+      jq(document).on("click", "#header #backButton", function () {
+        that.go_back();
+      });
+      this.backButton.style.visibility = "hidden";
+
+      //
+
+
+      this.add_content_div("first_div_here", "this is the first panel to load");
+
+
+      //Make the maskDiv in the background
+      var maskDiv = document.createElement("div");
+      maskDiv.id = "jQui_mask";
+      maskDiv.className = "ui-loader";
+      maskDiv.innerHTML = "<span class='ui-icon ui-icon-loading spin'></span><h1>Loading Content</h1>";
+      maskDiv.style.zIndex = 20000;
+      maskDiv.style.display = "none";
+      document.body.appendChild(maskDiv);
+
+
+
+      //Setup the modalDiv in the background
+      var modalDiv = document.createElement("div");
+      modalDiv.id = "modal_ui";
+      this.viewport_container.prepend(modalDiv);
+      modalDiv.appendChild(jq("<div id='modalContainer'></div>").get());
+      this.scrolling_divs['modal_container'] = jq("#modalContainer").scroller({
+        scrollBars: true,
+        vertical: true,
+        vScrollCSS: "jqmScrollbar",
+        noParent: true
+      });
+      this.modal_window = modalDiv;
+
+
+
+      //get first div, defer
+      var defer = {};
+      var contentDivs = this.viewport_container.get().querySelectorAll(".panel");
+      for (var i = 0; i < contentDivs.length; i++) {
+        var element = contentDivs[i];
+        var tmp = element;
+        var id;
+        var prevSibling = element.previousSibling;
+        if (element.parentNode && element.parentNode.id != "content") {
+
+          element.parentNode.removeChild(element);
+          id = element.id;
+          if (tmp.getAttribute("selected"))
+            this.firstDiv = jq("#" + id).get(0);
+          this.addDivAndScroll(tmp);
+          jq("#" + id).insertAfter(prevSibling);
+        } else if (!element.parsedContent) {
+          element.parsedContent = 1;
+          element.parentNode.removeChild(element);
+          id = element.id;
+          if (tmp.getAttribute("selected"))
+            this.firstDiv = jq("#" + id).get(0);
+          this.addDivAndScroll(tmp);
+          jq("#" + id).insertAfter(prevSibling);
+        }
+        if (element.getAttribute("data-defer")) {
+          defer[id] = element.getAttribute("data-defer");
+        }
+        if (!this.firstDiv)
+          this.firstDiv = $("#" + id).get(0);
+
+        element = null;
+      }
+      contentDivs = null;
+      var loadingDefer = false;
+      var toLoad = Object.keys(defer).length;
+      if (toLoad > 0) {
+        loadingDefer = true;
+        var loaded = 0;
+        for (var j in defer) {
+          (function (j) {
+            jq.ajax({
+              url: server + defer[j],
+              success: function (data) {
+                if (data.length == 0)
+                  return;
+                $.ui.update_content_div(j, data);
+                that.parseScriptTags(jq(j).get());
+                loaded++;
+                if (loaded >= toLoad) {
+                  $(document).trigger("defer:loaded");
+                  loadingDefer = false;
+
+                }
+              },
+              error: function (msg) {
+                //still trigger the file as being loaded to not block jq.ui.ready
+                console.log("Error with deferred load " + server + defer[j])
+                loaded++;
+                if (loaded >= toLoad) {
+                  $(document).trigger("defer:loaded");
+                  loadingDefer = false;
+                }
+              }
+            });
+          })(j);
+        }
+      }
+      if (this.firstDiv) {
+
+        var that = this;
+        // Fix a bug in iOS where translate3d makes the content blurry
+        this.active_div = this.firstDiv;
+
+        if (this.scrolling_divs[this.active_div.id]) {
+          this.scrolling_divs[this.active_div.id].enable();
+        }
+
+        //window.setTimeout(function() {
+        var load_first_div = function () {
+
+
+          if (jq("#navbar a").length > 0) {
+            jq("#navbar a").data("ignore-pressed", "true").data("resetHistory", "true");
+            that.default_footer = jq("#navbar").children().clone();
+            that.update_footer_elements(that.default_footer);
+          }
+          //setup initial menu
+          var firstMenu = jq("nav").get();
+          if (firstMenu) {
+            that.default_menu = jq(firstMenu).children().clone();
+            that.update_side_menu(that.default_menu);
+          }
+          //get default header
+          that.default_header = jq("#header").children().clone();
+          //
+          jq("#navbar").on("click", "a", function (e) {
+            jq("#navbar a").not(this).removeClass("selected");
+            $(e.target).addClass("selected");
+          });
+
+
+          //go to active_div
+          var firstPanelId = that.get_panel_id_from_hash(default_hash);
+          //that.history=[{target:'#'+that.firstDiv.id}];   //set the first id as origin of path
+          if (firstPanelId.length > 0 && that.load_default_hash && firstPanelId != ("#" + that.firstDiv.id) && $(firstPanelId).length > 0) {
+            that.load_content(default_hash, true, false, 'none'); //load the active page as a newTab with no transition
+          } else {
+            previous_target = "#" + that.firstDiv.id;
+            that.loadContentData(that.firstDiv); //load the info off the first panel
+            that.parsePanelFunctions(that.firstDiv);
+
+            that.firstDiv.style.display = "block";
+            $("#header #backButton").css("visibility", "hidden");
+            if (that.firstDiv.getAttribute("data-modal") == "true" || that.firstDiv.getAttribute("modal") == "true") {
+              that.show_modal(that.firstDiv.id);
+            }
+          }
+
+          that.launch_completed = true;
+          if (jq("nav").length > 0) {
+            jq("#ui_kit #header").addClass("hasMenu off");
+            jq("#ui_kit #content").addClass("hasMenu off");
+            jq("#ui_kit #navbar").addClass("hasMenu off");
+          }
+          //trigger ui ready
+          jq(document).trigger("jq.ui.ready");
+          //remove splash screen
+
+          // Run after the first div animation has been triggered - avoids flashing
+          jq("#splashscreen").remove();
+        };
+        if (loadingDefer) {
+          $(document).one("defer:loaded", load_first_div);
+        } else
+          load_first_div();
+      }
+      var that = this;
+      $.bind(that, "content-loaded", function () {
+        if (that.load_content_queue.length > 0) {
+          var tmp = that.load_content_queue.splice(0, 1)[0];
+          that.load_content(tmp[0], tmp[1], tmp[2], tmp[3], tmp[4]);
+        }
+      });
+      if (window.navigator.standalone) {
+        this.blockPageScroll();
+      }
+      this.topClickScroll();
+
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //=============================================================
+    //                 End Launch
+    //=============================================================
+
+
+
+
+
+
+
     css3animate: function (element, options) {
       element = jq(element);
       return element.css3Animate(options);
@@ -437,8 +788,6 @@
           jq('#modalContainer').append("<a href='javascript:;' onclick='$.ui.hide_modal();' class='closebutton modalbutton'></a>");
           this.modal_window.style.display = "block";
 
-          button = null;
-          content_string = null;
           this.scrolling_divs['modal_container'].enable(that.reset_scrollers);
           this.scrollToTop('modal');
           jq("#modalContainer").data("panel", id);
@@ -449,12 +798,13 @@
     },
 
     hide_modal: function () {
-      $("#modalContainer").html("", true);
-      jq("#jQui_modal").hide()
+      var modal = $("#modalContainer");
+      modal.html("", true);
+      jq("#modal_ui").hide();
 
       this.scrolling_divs['modal_container'].disable();
 
-      var tmp = $($("#modalContainer").data("panel"));
+      var tmp = $(modal.data("panel"));
       var fnc = tmp.data("unload");
       if (typeof fnc == "string" && window[fnc]) {
         window[fnc](tmp.get(0));
@@ -488,7 +838,7 @@
     },
 
     //Dynamically create a new panel on the fly.  It wires events, creates the scroller, applies Android fixes, etc.
-    add_content_div: function (element, content_string, title, refresh, refreshFunc) {
+    add_content_div: function (element, content_string, title, refresh) {
       console.log('add_content_div');
 
       element = typeof (element) !== "string" ? element : element.indexOf("#") == -1 ? "#" + element : element;
@@ -510,19 +860,20 @@
       }
       newDiv.className = "panel";
       newId = newDiv.id;
-      this.addDivAndScroll(newDiv, refresh, refreshFunc);
+      this.addDivAndScroll(newDiv, refresh);
       myEl = null;
       newDiv = null;
       return newId;
     },
 
     //sets up scrolling for a div
-    addDivAndScroll: function (tmp, refreshPull, refreshFunc, container) {
+    addDivAndScroll: function (tmp, refreshPull) {
+
       var jsScroll = false;
       var overflowStyle = tmp.style.overflow;
       var hasScroll = overflowStyle != 'hidden' && overflowStyle != 'visible';
 
-      container = container || this.content_string;
+      var container = this.content_string;
       //sets up scroll when required and not supported
       if (!$.feat.nativeTouchScroll && hasScroll)
         tmp.setAttribute("js-scrolling", "yes");
@@ -555,13 +906,13 @@
 
         tmp.title = null;
         tmp.id = null;
-        tmp.removeAttribute("data-footer");
-        tmp.removeAttribute("data-nav");
-        tmp.removeAttribute("data-header");
-        tmp.removeAttribute("selected");
-        tmp.removeAttribute("data-load");
-        tmp.removeAttribute("data-unload");
-        tmp.removeAttribute("data-tab");
+//        tmp.removeAttribute("data-footer");
+//        tmp.removeAttribute("data-nav");
+//        tmp.removeAttribute("data-header");
+//        tmp.removeAttribute("selected");
+//        tmp.removeAttribute("data-load");
+//        tmp.removeAttribute("data-unload");
+//        tmp.removeAttribute("data-tab");
         jq(tmp).replaceClass("panel", "jqmScrollPanel");
 
         scrollEl.appendChild(tmp);
@@ -586,12 +937,6 @@
           noParent: !jsScroll,
           autoEnable: false //dont enable the events unnecessarily
         }));
-        //backwards compatibility
-        if (refreshFunc)
-          $.bind(this.scrolling_divs[scrollEl.id], 'refresh-release', function (trigger) {
-            if (trigger)
-              refreshFunc()
-          });
       }
 
       tmp = null;
@@ -611,7 +956,8 @@
     },
 
 
-    //This is used when a transition fires to do helper events.  We check to see if we need to change the nav menus, footer, and fire
+    //This is used when a transition fires to do helper events.
+    // We check to see if we need to change the nav menus, footer, and fire
     //the load/onload functions for panels
     parsePanelFunctions: function (what, old_div) {
       //check for custom footer
@@ -731,8 +1077,7 @@
     //This is called internally by load_content.  Here we are loading a div instead of an Ajax link
     loadDiv: function (target, newTab, back, transition) {
       // load a div
-      var that = this;
-      what = target.replace("#", "");
+      var what = target.replace("#", "");
 
       var slashIndex = what.indexOf('/');
       var hashLink = "";
@@ -790,8 +1135,9 @@
 
       //Let's check if it has a function to run to update the data
       this.parsePanelFunctions(what, old_div);
+
       //Need to call after parsePanelFunctions, since new headers can override
-      this.loadContentData(what, newTab, back, transition);
+      this.loadContentData(what, newTab, back);
       var that = this;
       setTimeout(function () {
         if (that.scrolling_divs[old_div.id]) {
@@ -801,8 +1147,9 @@
 
     },
 
-    //This is called internally by loadDiv.  This sets up the back button in the header and scroller for the panel
-    loadContentData: function (what, newTab, back, transition) {
+    //This is called internally by loadDiv.  This sets up the back button
+    // in the header and scroller for the panel
+    loadContentData: function (what, newTab, back) {
       if (back) {
         if (this.history.length > 0) {
           var val = this.history[this.history.length - 1];
@@ -846,320 +1193,7 @@
       this.availableTransitions[transition].call(this, old_div, current_div, back);
     },
 
-    //Launches ui_kit.
-    //If Auto_launch is set to true, it gets called on DOMContentLoaded.
-    //If false, you must manually invoke it
-    launch: function () {
 
-      //If its launched, get out of here
-      if (this.has_launched == false || this.launch_completed) {
-        this.has_launched = true;
-        alert('i am in a bad place');
-        return;
-      }
-
-      var that = this;
-
-
-      //this.isAppMobi = (window.AppMobi && typeof (AppMobi) == "object" && AppMobi.app !== undefined) ? true : false;
-      this.viewport_container = jq("#ui_kit");
-      this.navbar = jq("#navbar").get(0);
-      this.content_string = jq("#content").get(0);
-      this.header = jq("#header").get(0);
-      this.menu = jq("#menu").get(0);
-      //set anchor click handler for UI
-      this.viewport_container[0].addEventListener('click', function (e) {
-        var theTarget = e.target;
-        checkAnchorClick(e, theTarget);
-      }, false);
-
-
-      //enter-edit scroll paddings fix
-      //focus scroll adjust fix
-      var enterEditEl = null;
-      //on enter-edit keep a reference of the actioned element
-      $.bind($.touch_layer, 'enter-edit', function (element) {
-        enterEditEl = element;
-      });
-      //enter-edit-reshape panel padding and scroll adjust
-      $.bind($.touch_layer, 'enter-edit-reshape', function () {
-        //onReshape UI fixes
-        //check if focused element is within active panel
-        var jQel = $(enterEditEl);
-        var jQactive = jQel.closest(that.active_div);
-        if (jQactive && jQactive.size() > 0) {
-          if ($.os.ios || $.os.chrome) {
-            var paddingTop, paddingBottom;
-            if (document.body.scrollTop) {
-              paddingTop = document.body.scrollTop - jQactive.offset().top;
-            } else {
-              paddingTop = 0;
-            }
-            //not exact, can be a little above the actual value
-            //but we haven't found an accurate way to measure it and this is the best so far
-            paddingBottom = jQactive.offset().bottom - jQel.offset().bottom;
-            that.scrolling_divs[that.active_div.id].setPaddings(paddingTop, paddingBottom);
-
-          } else if ($.os.android || $.os.blackberry) {
-            var elPos = jQel.offset();
-            var containerPos = jQactive.offset();
-            if (elPos.bottom > containerPos.bottom && elPos.height < containerPos.height) {
-              //apply fix
-              that.scrolling_divs[that.active_div.id].scrollToItem(jQel, 'bottom');
-            }
-          }
-        }
-      });
-
-
-
-      if ($.os.ios) {
-        $.bind($.touch_layer, 'exit-edit-reshape', function () {
-          that.scrolling_divs[that.active_div.id].setPaddings(0, 0);
-        });
-      }
-
-
-
-      //If there is no navbar, make one
-      if (!this.navbar) {
-        this.navbar = document.createElement("div");
-        this.navbar.id = "navbar";
-        this.navbar.style.cssText = "display:none";
-        this.viewport_container.append(this.navbar);
-      }
-
-
-      //If there is no header, make one
-      if (!this.header) {
-        this.header = document.createElement("div");
-        this.header.id = "header";
-        this.viewport_container.prepend(this.header);
-      }
-
-
-      //If there is no menu, make one
-      if (!this.menu) {
-        this.menu = document.createElement("div");
-        this.menu.id = "menu";
-        this.menu.innerHTML = '<div id="menu_scroller"></div>';
-        this.viewport_container.append(this.menu);
-        this.menu.style.overflow = "hidden";
-        this.scrolling_divs["menu_scroller"] = jq("#menu_scroller").scroller({
-          scrollBars: true,
-          verticalScroll: true,
-          vScrollCSS: "jqmScrollbar",
-          useJsScroll: !$.feat.nativeTouchScroll,
-          noParent: $.feat.nativeTouchScroll
-        });
-        if ($.feat.nativeTouchScroll)
-          $("#menu_scroller").css("height", "100%");
-      }
-
-
-      if (!this.content_string) {
-        this.content_string = document.createElement("div");
-        this.content_string.id = "content";
-        this.viewport_container.append(this.content_string);
-      }
-
-
-      //=======================================================================================
-      //setting up the header and back button
-
-      //insert backbutton (should optionally be left to developer..)
-      this.header.innerHTML = '<a id="backButton"  href="javascript:;"></a>FUCK <h1 id="pageTitle"></h1>' + header.innerHTML;
-
-      this.backButton = $("#header #backButton").get(0);
-
-      this.backButton.className = "button";
-      jq(document).on("click", "#header #backButton", function () {
-        that.go_back();
-      });
-      this.backButton.style.visibility = "hidden";
-
-      //
-
-
-      this.add_content_div("first_div_here", "this is the first panel to load");
-
-
-      //Make the maskDiv in the background
-      var maskDiv = document.createElement("div");
-      maskDiv.id = "jQui_mask";
-      maskDiv.className = "ui-loader";
-      maskDiv.innerHTML = "<span class='ui-icon ui-icon-loading spin'></span><h1>Loading Content</h1>";
-      maskDiv.style.zIndex = 20000;
-      maskDiv.style.display = "none";
-      document.body.appendChild(maskDiv);
-
-
-
-      //Setup the modalDiv in the background
-      var modalDiv = document.createElement("div");
-      modalDiv.id = "jQui_modal";
-      this.viewport_container.prepend(modalDiv);
-      modalDiv.appendChild(jq("<div id='modalContainer'></div>").get());
-      this.scrolling_divs['modal_container'] = jq("#modalContainer").scroller({
-        scrollBars: true,
-        vertical: true,
-        vScrollCSS: "jqmScrollbar",
-        noParent: true
-      });
-      this.modal_window = modalDiv;
-
-
-
-      //get first div, defer
-      var defer = {};
-      var contentDivs = this.viewport_container.get().querySelectorAll(".panel");
-      for (var i = 0; i < contentDivs.length; i++) {
-        var element = contentDivs[i];
-        var tmp = element;
-        var id;
-        var prevSibling = element.previousSibling;
-        if (element.parentNode && element.parentNode.id != "content") {
-
-          element.parentNode.removeChild(element);
-          id = element.id;
-          if (tmp.getAttribute("selected"))
-            this.firstDiv = jq("#" + id).get(0);
-          this.addDivAndScroll(tmp);
-          jq("#" + id).insertAfter(prevSibling);
-        } else if (!element.parsedContent) {
-          element.parsedContent = 1;
-          element.parentNode.removeChild(element);
-          id = element.id;
-          if (tmp.getAttribute("selected"))
-            this.firstDiv = jq("#" + id).get(0);
-          this.addDivAndScroll(tmp);
-          jq("#" + id).insertAfter(prevSibling);
-        }
-        if (element.getAttribute("data-defer")) {
-          defer[id] = element.getAttribute("data-defer");
-        }
-        if (!this.firstDiv)
-          this.firstDiv = $("#" + id).get(0);
-
-        element = null;
-      }
-      contentDivs = null;
-      var loadingDefer = false;
-      var toLoad = Object.keys(defer).length;
-      if (toLoad > 0) {
-        loadingDefer = true;
-        var loaded = 0;
-        for (var j in defer) {
-          (function (j) {
-            jq.ajax({
-              url: server + defer[j],
-              success: function (data) {
-                if (data.length == 0)
-                  return;
-                $.ui.update_content_div(j, data);
-                that.parseScriptTags(jq(j).get());
-                loaded++;
-                if (loaded >= toLoad) {
-                  $(document).trigger("defer:loaded");
-                  loadingDefer = false;
-
-                }
-              },
-              error: function (msg) {
-                //still trigger the file as being loaded to not block jq.ui.ready
-                console.log("Error with deferred load " + server + defer[j])
-                loaded++;
-                if (loaded >= toLoad) {
-                  $(document).trigger("defer:loaded");
-                  loadingDefer = false;
-                }
-              }
-            });
-          })(j);
-        }
-      }
-      if (this.firstDiv) {
-
-        var that = this;
-        // Fix a bug in iOS where translate3d makes the content blurry
-        this.active_div = this.firstDiv;
-
-        if (this.scrolling_divs[this.active_div.id]) {
-          this.scrolling_divs[this.active_div.id].enable();
-        }
-
-        //window.setTimeout(function() {
-        var load_first_div = function () {
-
-
-          if (jq("#navbar a").length > 0) {
-            jq("#navbar a").data("ignore-pressed", "true").data("resetHistory", "true");
-            that.default_footer = jq("#navbar").children().clone();
-            that.update_footer_elements(that.default_footer);
-          }
-          //setup initial menu
-          var firstMenu = jq("nav").get();
-          if (firstMenu) {
-            that.default_menu = jq(firstMenu).children().clone();
-            that.update_side_menu(that.default_menu);
-          }
-          //get default header
-          that.default_header = jq("#header").children().clone();
-          //
-          jq("#navbar").on("click", "a", function (e) {
-            jq("#navbar a").not(this).removeClass("selected");
-            $(e.target).addClass("selected");
-          });
-
-
-          //go to active_div
-          var firstPanelId = that.get_panel_id_from_hash(default_hash);
-          //that.history=[{target:'#'+that.firstDiv.id}];   //set the first id as origin of path
-          if (firstPanelId.length > 0 && that.load_default_hash && firstPanelId != ("#" + that.firstDiv.id) && $(firstPanelId).length > 0) {
-            that.load_content(default_hash, true, false, 'none'); //load the active page as a newTab with no transition
-          } else {
-            previous_target = "#" + that.firstDiv.id;
-            that.loadContentData(that.firstDiv); //load the info off the first panel
-            that.parsePanelFunctions(that.firstDiv);
-
-            that.firstDiv.style.display = "block";
-            $("#header #backButton").css("visibility", "hidden");
-            if (that.firstDiv.getAttribute("data-modal") == "true" || that.firstDiv.getAttribute("modal") == "true") {
-              that.show_modal(that.firstDiv.id);
-            }
-          }
-
-          that.launch_completed = true;
-          if (jq("nav").length > 0) {
-            jq("#ui_kit #header").addClass("hasMenu off");
-            jq("#ui_kit #content").addClass("hasMenu off");
-            jq("#ui_kit #navbar").addClass("hasMenu off");
-          }
-          //trigger ui ready
-          jq(document).trigger("jq.ui.ready");
-          //remove splash screen
-
-          // Run after the first div animation has been triggered - avoids flashing
-          jq("#splashscreen").remove();
-        };
-        if (loadingDefer) {
-          $(document).one("defer:loaded", load_first_div);
-        } else
-          load_first_div();
-      }
-      var that = this;
-      $.bind(that, "content-loaded", function () {
-        if (that.load_content_queue.length > 0) {
-          var tmp = that.load_content_queue.splice(0, 1)[0];
-          that.load_content(tmp[0], tmp[1], tmp[2], tmp[3], tmp[4]);
-        }
-      });
-      if (window.navigator.standalone) {
-        this.blockPageScroll();
-      }
-      this.topClickScroll();
-
-    },
 
     //Simulates the click and scroll to top of browser
     topClickScroll: function () {

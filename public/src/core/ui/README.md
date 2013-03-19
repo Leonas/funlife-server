@@ -1,15 +1,102 @@
-# jqUi
+# Mobile Webkit UI/UX
 
-jqUi is a UI/UX framework for building jqMobi mobile apps targeted at the Webkit browser.
+Usage
+There are four special registered div blocks for a layout based off id's.
+The ids are header(top header), content (content area), navbar(bottom navbar), and jqUi (app container).
+
+To add divs to the content, simply set the class to “panel”
+`<div id="my_id" title="My Title" class="panel">`
+`<!-- content goes here -->`
+`</div>`
+
+To add a new div dynamically, call the function `addContentDiv(id,content);`
+`<script>$.ui.addContentDiv("newdiv","This is some new html");</script>`
+
+To open links in a new window, set the target property
+`<a href=http://www.appmobi.com target=”_blank”>AppMobi</a>`
+
+### WTF THIS IS A DUPLICATE FROM MVC NAVIGATION!!!!
+To open links in a new window, set the target property AppMobi Select from six transitions by setting the data-transition property (default is slide) Login //Slide left/right Login //Slide up/down Login //Slide down/up Login //Flip the page Login //Fade in/out Login //Pop in/out
+### And here
+To navigate to a page transition via javascript, call the function loadContent(_id_,clearHistory,goBackInHistory,transition)
 
 
-# Demo
 
-Please see the kitchensink application as it was built using jqUi
+To update content, call the function updateContentDiv(id,content);
+`<script>$.ui.updateContentDiv("login","New Login HTML");</script>`
 
-# How to use jqUi
+To prevent a div from scrolling, set the propert “scrolling” to “no” on the div
+`<div class=”panel” scrolling=”no”></div>`
 
-To use jqUi, you need to include the javascript files.  We suggest using jqUi.min.js which has all the necesary files, otherwise include the source for all of them, along with the CSS.  A global variable, $.ui is created by default.  This is what you will use if you need to access it.
+To add custom headers or footers via the <header> or <footer> tags, reference them on the panel with the data-header of data-footer attribute, respectively.
+
+**Prefix all calls with** `$.ui.`
+```js
+loadDefaultHash  boolean to load/not load panel from hash when app started (default is true)
+
+blockUI(opacity) throw up a mask and block the UI
+
+unblockUI() removes the UI mask
+
+removeFooterMenu() removes the bottom nav bar from app
+
+showNavMenu boolean to show bottom nav bar
+
+autoLaunch boolean to auto launch jqUi
+
+isAjaxApp boolean that when true treats every request as if the anchor had data-refresh-ajax=true and data-persist-ajax=true
+showLoading boolean to show/not show loading spinner on ajax requests
+launch() launch jqUi. If autoLaunch is true, gets called on DOMContentLoaded
+launch() //Manually invoke the launch of jqUi
+showBackButton boolean to show the back button
+resetScrollers boolean to reset the scroller position when navigating panels
+ready(function) function to fire when jqUi is ready and completed launch
+ready(function) //Takes in a function and executes it when .launch has completed
+setBackButtonStyle(class) override the back button class name
+
+goBack() initiate a back transition
+goBack() //Takes the user back in the history
+clearHistory() vlear the history queue
+clearHistory() //Clears the history stack
+updateBadge(target,value,[position]) update a badge on the selected target
+removeBadge(target) remove a badge from the selected target
+updateBadge(target,value) //Creates a badge on a target
+removeBadge(target) //Roves the bagde for the target
+toggleNavMenu([force]) toggle the bottom nav menu
+toggleNavMenu() //will hide or show the bottom nav menu
+toggleHeaderMenu([force]) toggle the top header menu
+toggleHeaderMenu() //Will hide or show the header menu
+toggleSideMenu([force]) toggle the side menu
+toggleSideMenu() //Will hide or show the side menu
+
+updateNavbarElements(elements) update the elements in the navbar
+updateSideMenu(elements) update the elements in the side menu
+setTitle(value) set the title of the current panel
+setTitle(text) //Sets the page title via javascript
+setBackButtonText(text) //Sets the back button text (default is back)
+showMask(text) show the loading mask
+showMask() //Shows the loading mask
+hideMask() //Hides the loading mask
+showModal() load a content panel in a modal window
+hideModal() hide the modal window and remove the content
+updateContentDiv(id,content) update the HTML in a content panel
+addContentDiv(id,content,title) dynamically create a new panel
+addContentDiv (el, content, refresh, refreshFunc) //Adds a div to the DOM and wires it up.  refresh and refreshFunc are used for the jq.scroller pull to refresh functions
+updateAnchors(element,resetHistoryOnClick) //Loops through a div and finds all anchors and wires them up for transitions, etc.  If resetHistoryOnClick is true, it will clear the history when the links are clicked
+loadContent(target,newTab,goBack,transition) initiate a transition or load via ajax
+loadContent(target,newTab,goBackInHistory,transition); //Force a transition call via javascript. target is an element ID or URL.  newTab clears the stack as if a bottom navbar button was pressed.  goBackInHistory is the same as a back button being pressed.  Transition is the transition to show.
+scrollToTop(id) scroll a panel to the top
+scrollToTop(div_id) //Will scroll a content panel to the top of the page.  Useful for "Go to Top" links
+slideTransition(prevPanel,currPanel,goBack) initiate a sliding transition
+finishTransition(oldDiv) called at end of each transition to hide the old div and reset the doingTransition variable
+
+```
+
+**jqPluginsAccess ($.ui)**
+```js
+actionSheet(opts) shorthand call to jq.actionsheet plugin. Auto wired to jQUi div.
+`popup(opts) wrapper to jq.popup plugin. If a text string is passed in, acts like an alert box and just gives a message.
+```
 
 We have four special registered div blocks for your layout based off id's.  They are the header, content, navbar and app container
 
@@ -47,30 +134,7 @@ document.addEventListener("jq.ui.ready",jqUiLaunched,false);
 jq.ui.ready(function(){});
 ```
 
-* Ajax - using AppMobi, you can do cross domain requests.   We will crawl the pages and wire any links found.  We added new features to add the content to the dom, force refresh and more.
- 
 
-# jqUi semi-public methods
-
-``` js
-.ready(function) //Takes in a function and executes it when .launch has completed
-.launch() //Manually invoke the launch of jqUi
-.goBack() //Takes the user back in the history
-.clearHistory() //Clears the history stack
-.addContentDiv (el, content, refresh, refreshFunc) //Adds a div to the DOM and wires it up.  refresh and refreshFunc are used for the jq.scroller pull to refresh functions
-.updateAnchors(element,resetHistoryOnClick) //Loops throuh a div and finds all anchors and wires them up for transitions, etc.  If resetHistoryOnClick is true, it will clear the history when the links are clicked
-.setTitle(text) //Sets the page title via javascript
-.setBackButtonText(text) //Sets the back button text
-.showMask() //Shows the loading mask
-.hideMask() //Hides the loading mask
-.loadContent(target,newTab,goBackInHistory,transition); //Force a transition call via javascript. target is an element ID or URL.  newTab clears the stack as if a bottom navbar button was pressed.  goBackInHistory is the same as a back button being pressed.  Transition is the transition to show.
-.updateBage(target,value) //Creates a badge on a target
-.removeBadge(target) //Roves the bagde for the target
-.scrollToTop(div_id) //Will scroll a content panel to the top of the page.  Usefull for "Go to Top" links
-.toggleSideMenu() //Will hide or show the side menu
-.toggleNavMenu() //will hide or show the bottom nav menu
-.toggleHeaderMenu() //Will hide or show the header menu
-```
 
 
 #jqUi Side Menu
@@ -220,27 +284,6 @@ function getAppsClosed(targetDiv)
 </script>
 <a href="#games" data-function="getApps" data-load="getApps" data-onunload="getAppsClosed"> Games </a>
 ```
-	
-* Please see jqUi.css for additional button colors and ways to change the theme				
 
-# Contribute
-
-You can contribute to the core code by forking it and make a pull request.  Please keep in mind we do not want to add functionality that is a one-off case.  These are best dealt with via plugins.
-
-
-# Bugs
-
-Please use github to report any bugs found.  Please provide the following
-
-1. Any error messages from the console
-
-2. Line numbers of offending code
-
-3. Test cases
-
-4. Description of Error
-
-5. Expected result
-
-6. Browser/Device you are testing on
-
+# Need to include info about the css here
+# 12 column fluid layout

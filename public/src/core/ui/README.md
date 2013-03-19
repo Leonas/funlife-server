@@ -28,7 +28,7 @@ To add a new div dynamically, call the function `addContentDiv(id,content);`
 `<script>$.ui.addContentDiv("newdiv","This is some new html");</script>`
 
 
-To navigate to a page transition via javascript, call the function loadContent(_id_,clearHistory,goBackInHistory,transition)
+To navigate to a page transition via javascript, call the function loadContent(_id_,clear_history,goBackInHistory,transition)
 
 
 
@@ -48,9 +48,9 @@ blockUI(opacity) throw up a mask and block the UI
 
 unblockUI() removes the UI mask
 
-removeFooterMenu() removes the bottom nav bar from app
+remove_footer_menu() removes the bottom nav bar from app
 
-showNavMenu boolean to show bottom nav bar
+show_nav_menu boolean to show bottom nav bar
 
 autoLaunch boolean to auto launch jqUi
 
@@ -64,10 +64,10 @@ ready(function) function to fire when jqUi is ready and completed launch
 ready(function) //Takes in a function and executes it when .launch has completed
 setBackButtonStyle(class) override the back button class name
 
-goBack() initiate a back transition
-goBack() //Takes the user back in the history
-clearHistory() vlear the history queue
-clearHistory() //Clears the history stack
+go_back() initiate a back transition
+go_back() //Takes the user back in the history
+clear_history() vlear the history queue
+clear_history() //Clears the history stack
 updateBadge(target,value,[position]) update a badge on the selected target
 removeBadge(target) remove a badge from the selected target
 updateBadge(target,value) //Creates a badge on a target
@@ -93,11 +93,11 @@ updateContentDiv(id,content) update the HTML in a content panel
 addContentDiv(id,content,title) dynamically create a new panel
 addContentDiv (el, content, refresh, refreshFunc) //Adds a div to the DOM and wires it up.  refresh and refreshFunc are used for the jq.scroller pull to refresh functions
 updateAnchors(element,resetHistoryOnClick) //Loops through a div and finds all anchors and wires them up for transitions, etc.  If resetHistoryOnClick is true, it will clear the history when the links are clicked
-loadContent(target,newTab,goBack,transition) initiate a transition or load via ajax
+loadContent(target,newTab,go_back,transition) initiate a transition or load via ajax
 loadContent(target,newTab,goBackInHistory,transition); //Force a transition call via javascript. target is an element ID or URL.  newTab clears the stack as if a bottom navbar button was pressed.  goBackInHistory is the same as a back button being pressed.  Transition is the transition to show.
 scrollToTop(id) scroll a panel to the top
 scrollToTop(div_id) //Will scroll a content panel to the top of the page.  Useful for "Go to Top" links
-slideTransition(prevPanel,currPanel,goBack) initiate a sliding transition
+slideTransition(prevPanel,currPanel,go_back) initiate a sliding transition
 finishTransition(oldDiv) called at end of each transition to hide the old div and reset the doingTransition variable
 
 ```
@@ -228,7 +228,7 @@ Each div/panel has properties you can set that will change the app.  Below are t
 <script>$.ui.addContentDiv("newdiv","This is some new html");
 ```	
 
-* To navigate to a a page transition via javascript, you can call the function loadContent(_id_,clearHistory,goBackInHistory,transition)
+* To navigate to a a page transition via javascript, you can call the function loadContent(_id_,clear_history,goBackInHistory,transition)
 
 ``` js
 <scritp>$.ui.loadContent("my_id",false,false,"pop");</script>

@@ -3,8 +3,8 @@
 
     var has_launched = false;
     var start_path = window.location.pathname;
-    var defaultHash = window.location.hash;
-    var previousTarget = defaultHash;
+    var default_hash = window.location.hash;
+    var previous_target = default_hash;
     var ui = function() {
         // Init the page
         var that = this;
@@ -57,7 +57,7 @@
             if(document.querySelectorAll(id+".panel").length===0)
                 return;
             if (id != "#" + $.ui.active_div.id)
-                that.goBack();
+                that.go_back();
         }, false);
         /**
          * Helper function to setup the transition objects
@@ -97,7 +97,7 @@
         password_box: jq.password_box ? new jq.password_box() : false,
         select_box: jq.select_box ? jq.select_box : false,
         ajax_url: "",
-        transitionType: "slide",
+        transition_effect: "fade",
         scrollingDivs: [],
         firstDiv: "",
         has_launched: false,
@@ -125,7 +125,7 @@
            $.ui.actionsheet("[{
                         text: 'back',
                         cssClasses: 'red',
-                        handler: function () { $.ui.goBack(); ; }
+                        handler: function () { $.ui.go_back(); ; }
                     }, {
                         text: 'show alert 5',
                         cssClasses: 'blue',
@@ -153,13 +153,13 @@
         unblockUI: function() { $.unblockUI(); },
 
         //removes bottom nav
-        removeFooterMenu: function() {
+        remove_footer_menu: function() {
             jq("#navbar").hide();
             jq("#content").css("bottom", "0px");
-            this.showNavMenu = false;
+            this.show_nav_menu = false;
         },
 
-        showNavMenu: true,
+        show_nav_menu: true,
         autoLaunch: true,
         showBackbutton: true,
         backButtonText: "",
@@ -182,7 +182,7 @@
         },
 
 
-        goBack: function() {
+        go_back: function() {
             if (this.history.length > 0) {
                 var that = this;
                 var temporary_element = this.history.pop();
@@ -190,7 +190,7 @@
 
                 //function() {
                     that.loadContent(temporary_element.target + "", 0, 1, temporary_element.transition);
-                    that.transitionType = temporary_element.transition;
+                    that.transition_effect = temporary_element.transition;
                     //document.location.hash=temporary_element.target;
                     that.update_url_hash(temporary_element.target);
                 //for Android 4.0.x, we must touch_layer.hideAdressBar()
@@ -198,7 +198,7 @@
             }
         },
 
-        clearHistory: function() {
+        clear_history: function() {
             this.history = [];
             this.setBackButtonVisibility(false)
         },
@@ -230,7 +230,7 @@
          */
         update_url_hash: function(new_hash) {
             new_hash = new_hash.indexOf('#') == -1 ? '#' + new_hash : new_hash; //force having the # in the begginning as a standard
-            previousTarget = new_hash;
+            previous_target = new_hash;
 
             var previousHash = window.location.hash;
             var panelName = this.get_panel_id_from_hash(new_hash).substring(1); //remove the #
@@ -310,7 +310,7 @@
          * @title $.ui.toggleNavMenu([force])
          */
         toggleNavMenu: function(force) {
-            if (!this.showNavMenu)
+            if (!this.show_nav_menu)
                 return;
             if (jq("#navbar").css("display") != "none" && ((force !== undefined && force !== true) || force === undefined)) {
                 jq("#content").css("bottom", "0px");
@@ -839,7 +839,7 @@
          * @param {Boolean} newtab (resets history)
          * @param {Boolean} go back (initiate the back click)
          * @param {String} transition
-         * @title $.ui.loadContent(target,newTab,goBack,transition);
+         * @title $.ui.loadContent(target,newTab,go_back,transition);
          * @api public
          */
         loadContent: function(target, newTab, back, transition, anchor) {
@@ -895,7 +895,7 @@
          * @param {Boolean} newtab (resets history)
          * @param {Boolean} go back (initiate the back click)
          * @param {String} transition
-         * @title $.ui.loadDiv(target,newTab,goBack,transition);
+         * @title $.ui.loadDiv(target,newTab,go_back,transition);
          * @api private
          */
         loadDiv: function(target, newTab, back, transition) {
@@ -921,7 +921,7 @@
                     this.toggleSideMenu(false);
                 return;
             }
-            this.transitionType = transition;
+            this.transition_effect = transition;
             var old_div = this.active_div;
             var currWhat = what;
 
@@ -941,14 +941,14 @@
                 return;
 
             if (newTab) {
-                this.clearHistory();
+                this.clear_history();
                 this.pushHistory("#" + this.firstDiv.id, what.id, transition, hashLink);
             } else if (!back) {
-                this.pushHistory(previousTarget, what.id, transition, hashLink);
+                this.pushHistory(previous_target, what.id, transition, hashLink);
             }
 
 
-            previousTarget = '#' + what.id + hashLink;
+            previous_target = '#' + what.id + hashLink;
 
 
             this.doing_transition = true;
@@ -980,7 +980,7 @@
          * @param {Boolean} newtab (resets history)
          * @param {Boolean} go back (initiate the back click)
          * @param {String} transition
-         * @title $.ui.loadDiv(target,newTab,goBack,transition);
+         * @title $.ui.loadDiv(target,newTab,go_back,transition);
          * @api private
          */
         loadContentData: function(what, newTab, back, transition) {
@@ -1029,7 +1029,7 @@
          * @param {Boolean} newtab (resets history)
          * @param {Boolean} go back (initiate the back click)
          * @param {String} transition
-         * @title $.ui.loadDiv(target,newTab,goBack,transition);
+         * @title $.ui.loadDiv(target,newTab,go_back,transition);
          * @api private
          */
         loadAjax: function(target, newTab, back, transition, anchor) {
@@ -1215,7 +1215,7 @@
             this.backButton = $("#header #backButton").get(0);
             this.backButton.className = "button";
             jq(document).on("click", "#header #backButton", function() {
-                that.goBack();
+                that.go_back();
             });
             this.backButton.style.visibility = "hidden";
 
@@ -1347,12 +1347,12 @@
 
 
                     //go to active_div
-                    var firstPanelId = that.get_panel_id_from_hash(defaultHash);
+                    var firstPanelId = that.get_panel_id_from_hash(default_hash);
                     //that.history=[{target:'#'+that.firstDiv.id}];   //set the first id as origin of path
                     if (firstPanelId.length > 0 && that.loadDefaultHash && firstPanelId != ("#" + that.firstDiv.id)&&$(firstPanelId).length>0) {
-                        that.loadContent(defaultHash, true, false, 'none'); //load the active page as a newTab with no transition
+                        that.loadContent(default_hash, true, false, 'none'); //load the active page as a newTab with no transition
                     } else {
-                        previousTarget = "#" + that.firstDiv.id;
+                        previous_target = "#" + that.firstDiv.id;
                         that.loadContentData(that.firstDiv); //load the info off the first panel
                         that.parsePanelFunctions(that.firstDiv);
 

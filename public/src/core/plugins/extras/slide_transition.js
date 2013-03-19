@@ -5,7 +5,7 @@
    * @param {Object} previous panel
    * @param {Object} current panel
    * @param {Boolean} go back
-   * @title $ui.slideTransition(previousPanel,currentPanel,goBack);
+   * @title $ui.slideTransition(previousPanel,currentPanel,go_back);
    */
   function slideTransition(old_div, current_div, back) {
     old_div.style.display = "block";

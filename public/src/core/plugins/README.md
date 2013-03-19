@@ -1,20 +1,3 @@
-# jqPlugins
-
-jqPlugins are plugins to use with jqMobi
-
-# About
-
-
-jq.web.min.js contains a minified version of functions that can be used for mobile web development.
-
-
-The sources are in the src/ folder.  For demos please see the kitchensink app.
-
-# Mobile Web Libaries (jq.web.min.js)
-
-jq.8tiles
-
-* A plugin for themeing jqUi apps as Win8/Tiles style. 
 
 jq.alphaTable
 
@@ -33,10 +16,6 @@ jq.swipeListener
 * This detects swipe events on an element.  You can set the threshold of pixels they must move for veritcal or horizontal.
 
 * Executes a callback function with an object as a parameter that indicates if the swipe was north, south, east, or west.  
-
-jq.template
-
-* A template parsing library, similar to popular scripting languages syntax.  The parsing engine is John Resig's micro template engine.
 
 jq.selectBox
 

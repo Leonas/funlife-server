@@ -42,44 +42,32 @@ To add custom headers or footers via the <header> or <footer> tags, reference th
 
 **Prefix all calls with** `$.ui.`
 ```js
-loadDefaultHash  boolean to load/not load panel from hash when app started (default is true)
-
-blockUI(opacity) throw up a mask and block the UI
-
-unblockUI() removes the UI mask
-
-remove_footer_menu() removes the bottom nav bar from app
-
-show_nav_menu boolean to show bottom nav bar
-
-autoLaunch boolean to auto launch jqUi
-
-isAjaxApp boolean that when true treats every request as if the anchor had data-refresh-ajax=true and data-persist-ajax=true
+load_default_hash  boolean to load/not load panel from hash when app started (default is true)
+block_ui(opacity)       ///throw up a mask and block the UI
+unblock_ui()           //removes the UI mask
+remove_footer_menu()    //removes the bottom nav bar from app
+show_footer_menu       //boolean to show bottom nav bar
+auto_launch             //boolean to auto launch jqUi
+is_ajax_app                 //boolean that when true treats every request as if the anchor had
+                            //data-refresh-ajax=true and data-persist-ajax=true
 show_loading                   //boolean to show/not show loading spinner on ajax requests
-launch()                      //Manually invoke the launch of jqUi. If autoLaunch is true, gets called on DOMContentLoaded
+launch()                      //Manually invoke the launch of jqUi. If auto_launch is true, gets called
+                              //on DOMContentLoaded
 showBackButton                //boolean to show the back button
 reset_scrollers                //boolean to reset the scroller position when navigating panels (default true)
 ready(function)               //Takes in a function and executes it when launch() has completed
 set_back_button_style(class) //override the back button class name
-
-go_back() //Goes to the previous page in history
-clear_history() vlear the history queue
-clear_history() //Clears the history stack
-updateBadge(target,value,[position]) update a badge on the selected target
-removeBadge(target) remove a badge from the selected target
-updateBadge(target,value) //Creates a badge on a target
-removeBadge(target) //Roves the bagde for the target
-toggleNavMenu([force]) toggle the bottom nav menu
-toggleNavMenu() //will hide or show the bottom nav menu
-toggleHeaderMenu([force]) toggle the top header menu
-toggleHeaderMenu() //Will hide or show the header menu
-toggleSideMenu([force]) toggle the side menu
-toggleSideMenu() //Will hide or show the side menu
-
-updateNavbarElements(elements) update the elements in the navbar
-updateSideMenu(elements) update the elements in the side menu
-setTitle(value) set the title of the current panel
-setTitle(text) //Sets the page title via javascript
+go_back()                           //goes to the previous page in history
+clear_history()                       //clears the history stack
+update_badge(target,value,[position])  //update a badge on the selected target
+remove_badge(target)                     //remove a badge from the selected target
+toggle_footer_menu([force])               //will hide or show the bottom nav menu   WTF is force?
+toggle_header_menu([force])                 //hide or show the header menu
+toggle_side_menu([force])                     //hide or show the side menu
+update_footer_elements(elements)          //update the elements in the footer
+update_side_menu(elements)                //update the elements in the side menu
+set_title(value) set the title of the current panel
+set_title(text) //Sets the page title via javascript
 setBackButtonText(text) //Sets the back button text (default is back)
 showMask(text) show the loading mask
 showMask() //Shows the loading mask
@@ -131,7 +119,7 @@ We have four special registered div blocks for your layout based off id's.  They
 * We automatically launch the app for you.  If you would like to launch jqUi yourself, do the following
 ``` js
 <script>
-jq.ui.autoLaunch=false;
+jq.ui.auto_launch=false;
 <script>
 ```	
 

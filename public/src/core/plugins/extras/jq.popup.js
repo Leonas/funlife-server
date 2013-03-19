@@ -125,7 +125,7 @@
                      });
                 });
                 self.positionPopup();
-                $.blockUI(0.5);
+                $.block_ui(0.5);
                 $el.removeClass('hidden');
                 $el.bind("orientationchange", function() {
                     self.positionPopup();
@@ -141,7 +141,7 @@
             hide: function() {
                 var self = this;
                 $('#' + self.id).addClass('hidden');
-                $.unblockUI();
+                $.unblock_ui();
                 setTimeout(function() {
                     self.remove();
                 }, 250);
@@ -169,7 +169,7 @@
         return popup;
     })();
     var uiBlocked = false;
-    $.blockUI = function(opacity) {
+    $.block_ui = function(opacity) {
         if (uiBlocked)
             return;
         opacity = opacity ? " style='opacity:" + opacity + ";'" : "";
@@ -183,7 +183,7 @@
         uiBlocked = true
     };
     
-    $.unblockUI = function() {
+    $.unblock_ui = function() {
         uiBlocked = false;
         $('BODY DIV#mask').unbind("touchstart");
         $('BODY DIV#mask').unbind("touchmove");

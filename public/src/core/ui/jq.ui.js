@@ -74,14 +74,13 @@
 
     ui.prototype = {
         show_loading: true,
-        loadContentQueue: [],
+        load_content_queue: [],
         isAppMobi: false,
         titlebar: "",
         navbar: "",
         header: "",
         viewport_container: "",
         backButton: "",
-        remotePages: {},
         history: [],
         homeDiv: "",
         screen_width: "",
@@ -98,7 +97,7 @@
         select_box: jq.select_box ? jq.select_box : false,
         ajax_url: "",
         transition_effect: "fade",
-        scrollingDivs: [],
+        scrolling_divs: [],
         firstDiv: "",
         has_launched: false,
         launch_completed: false,
@@ -108,7 +107,7 @@
         side_menu_displayed: false,
         autoBoot: function() {
             this.has_launched = true;
-            if (this.autoLaunch) {
+            if (this.auto_launch) {
                 this.launch();
             }
         },
@@ -116,7 +115,7 @@
             element = jq(element);
             return element.css3Animate(options);
         },
-        loadDefaultHash: true,        //load THAT(wtf is that?) panel when the app is started
+        load_default_hash: true,        //load THAT(wtf is that?) panel when the app is started
         useAjaxCacheBuster: false,    //add "&cache=_rand_" to any ajax loaded link
         /**
          * This is a shorthand call to the jq.actionsheet plugin.  We wire it to the jQUi div automatically
@@ -147,20 +146,20 @@
         popup: function(options) { return $("#jQUi").popup(options); },
 
         //blocks the UI with a mask
-        blockUI: function(opacity) { $.blockUI(opacity); },
+        block_ui: function(opacity) { $.block_ui(opacity); },
 
         //removes the UI mask
-        unblockUI: function() { $.unblockUI(); },
+        unblock_ui: function() { $.unblock_ui(); },
 
         //removes bottom nav
         remove_footer_menu: function() {
             jq("#navbar").hide();
             jq("#content").css("bottom", "0px");
-            this.show_nav_menu = false;
+            this.show_footer_menu = false;
         },
 
-        show_nav_menu: true,
-        autoLaunch: true,
+        show_footer_menu: true,
+        auto_launch: true,
         showBackbutton: true,
         backButtonText: "",
         reset_scrollers: true,
@@ -256,15 +255,15 @@
             br = bottom right
             tr = top right (default)
            ```
-           $.ui.updateBadge('#mydiv','3','bl','green');
+           $.ui.update_badge('#mydiv','3','bl','green');
            ```
          * @param {String} target
          * @param {String} Value
          * @param {String} [position]
          * @param {String|Object} [color or CSS hash]
-         * @title $.ui.updateBadge(target,value,[position],[color])
+         * @title $.ui.update_badge(target,value,[position],[color])
          */
-        updateBadge: function(target, value, position, color) {
+        update_badge: function(target, value, position, color) {
             if (position === undefined)
                 position = "";
             if (target[0] != "#")
@@ -292,25 +291,25 @@
         /**
          * Removes a badge from the selected target.
            ```
-           $.ui.removeBadge('#mydiv');
+           $.ui.remove_badge('#mydiv');
            ```
          * @param {String} target
-         * @title $.ui.removeBadge(target)
+         * @title $.ui.remove_badge(target)
          */
-        removeBadge: function(target) {
+        remove_badge: function(target) {
             jq(target).find("span.jq-badge").remove();
         },
         /**
          * Toggles the bottom nav nav menu.  Force is a boolean to force show or hide.
            ```
-           $.ui.toggleNavMenu();//toggle it
-           $.ui.toggleNavMenu(true); //force show it
+           $.ui.toggle_footer_menu();//toggle it
+           $.ui.toggle_footer_menu(true); //force show it
            ```
          * @param {Boolean} [force]
-         * @title $.ui.toggleNavMenu([force])
+         * @title $.ui.toggle_footer_menu([force])
          */
-        toggleNavMenu: function(force) {
-            if (!this.show_nav_menu)
+        toggle_footer_menu: function(force) {
+            if (!this.show_footer_menu)
                 return;
             if (jq("#navbar").css("display") != "none" && ((force !== undefined && force !== true) || force === undefined)) {
                 jq("#content").css("bottom", "0px");
@@ -324,12 +323,12 @@
         /**
          * Toggles the top header menu.
            ```
-           $.ui.toggleHeaderMenu();//toggle it
+           $.ui.toggle_header_menu();//toggle it
            ```
          * @param {Boolean} [force]
-         * @title $.ui.toggleHeaderMenu([force])
+         * @title $.ui.toggle_header_menu([force])
          */
-        toggleHeaderMenu: function(force) {
+        toggle_header_menu: function(force) {
             if (jq("#header").css("display") != "none" && ((force !== undefined && force !== true) || force === undefined)) {
                 jq("#content").css("top", "0px");
                 jq("#header").hide();
@@ -342,12 +341,12 @@
         /**
          * Toggles the side menu.  Force is a boolean to force show or hide.
            ```
-           $.ui.toggleSideMenu();//toggle it
+           $.ui.toggle_side_menu();//toggle it
            ```
          * @param {Boolean} [force]
-         * @title $.ui.toggleSideMenu([force])
+         * @title $.ui.toggle_side_menu([force])
          */
-        toggleSideMenu: function(force, callback) {
+        toggle_side_menu: function(force, callback) {
             if (!this.isSideMenuEnabled() || this.side_menu_displayed)
                 return;
             this.side_menu_displayed = true;
@@ -415,7 +414,7 @@
             var that = this;
             var els = jq("#content, #menu, #header, #navbar");
             if (this.isSideMenuOn()) {
-                this.toggleSideMenu(false, function(canceled) {
+                this.toggle_side_menu(false, function(canceled) {
                     if (!canceled)
                         els.removeClass("hasMenu");
                 });
@@ -455,7 +454,7 @@
                 tmpAnchors.data("ignore-pressed", "true").data("resetHistory", "true");
         },
 
-        updateHeaderElements: function(elements) {
+        update_header_elements: function(elements) {
             var header_nav = jq("#header");
             if (elements === undefined || elements == null)
                 return;
@@ -468,7 +467,7 @@
             }
         },
 
-        updateSideMenu: function(elements) {
+        update_side_menu: function(elements) {
             var that = this;
 
             var side_menu_nav = jq("#menu_scroller");
@@ -484,7 +483,7 @@
                 close.className = "closebutton jqMenuClose";
                 close.href = "javascript:;"
                 close.onclick = function() {
-                    that.toggleSideMenu(false);
+                    that.toggle_side_menu(false);
                 };
                 side_menu_nav.append(close);
                 var tmp = document.createElement("div");
@@ -497,11 +496,11 @@
                 }
             }
             //Move the scroller to the top and hide it
-            this.scrollingDivs['menu_scroller'].hideScrollbars();
-            this.scrollingDivs['menu_scroller'].scrollToTop();
+            this.scrolling_divs['menu_scroller'].hideScrollbars();
+            this.scrolling_divs['menu_scroller'].scrollToTop();
         },
 
-        setTitle: function(val) {
+        set_title: function(val) {
             jq("#header #pageTitle").html(val);
         },
 
@@ -541,7 +540,7 @@
 
                     button = null;
                     content_string = null;
-                    this.scrollingDivs['modal_container'].enable(that.reset_scrollers);
+                    this.scrolling_divs['modal_container'].enable(that.reset_scrollers);
                     this.scrollToTop('modal');
                      jq("#modalContainer").data("panel",id);
                 }
@@ -554,7 +553,7 @@
             $("#modalContainer").html("", true);
             jq("#jQui_modal").hide()
 
-            this.scrollingDivs['modal_container'].disable();
+            this.scrolling_divs['modal_container'].disable();
 
             var tmp=$($("#modalContainer").data("panel"));
             var fnc = tmp.data("unload");
@@ -687,7 +686,7 @@
             }
 
             if (hasScroll) {
-                this.scrollingDivs[scrollEl.id] = (jq(tmp).scroller({
+                this.scrolling_divs[scrollEl.id] = (jq(tmp).scroller({
                     scrollBars: true,
                     verticalScroll: true,
                     horizontalScroll: false,
@@ -699,7 +698,7 @@
                 }));
                 //backwards compatibility
                 if (refreshFunc)
-                    $.bind(this.scrollingDivs[scrollEl.id], 'refresh-release', function(trigger) {
+                    $.bind(this.scrolling_divs[scrollEl.id], 'refresh-release', function(trigger) {
                         if (trigger)
                             refreshFunc()
                     });
@@ -711,13 +710,13 @@
 
 
         scrollToTop: function(id) {
-            if (this.scrollingDivs[id]) {
-                this.scrollingDivs[id].scrollToTop("300ms");
+            if (this.scrolling_divs[id]) {
+                this.scrolling_divs[id].scrollToTop("300ms");
             }
         },
         scrollToBottom: function(id) {
-            if (this.scrollingDivs[id]) {
-                this.scrollingDivs[id].scrollToBottom("300ms");
+            if (this.scrolling_divs[id]) {
+                this.scrolling_divs[id].scrollToBottom("300ms");
             }
         },
 
@@ -740,9 +739,9 @@
 
             //$asap removed since animations are fixed in css3animate
             if (hasFooter && hasFooter.toLowerCase() == "none") {
-                that.toggleNavMenu(false);
+                that.toggle_footer_menu(false);
             } else {
-                that.toggleNavMenu(true);
+                that.toggle_footer_menu(true);
             }
             if (hasFooter && that.custom_footer != hasFooter) {
                 that.custom_footer = hasFooter;
@@ -753,18 +752,18 @@
                 that.custom_footer = false;
             }
             if (hasHeader && hasHeader.toLowerCase() == "none") {
-                that.toggleHeaderMenu(false);
+                that.toggle_header_menu(false);
             } else {
-                that.toggleHeaderMenu(true);
+                that.toggle_header_menu(true);
             }
 
             if (hasHeader && that.customHeader != hasHeader) {
                 that.customHeader = hasHeader;
-                that.updateHeaderElements(jq("#" + hasHeader).children());
+                that.update_header_elements(jq("#" + hasHeader).children());
             } else if (hasHeader != that.customHeader) {
                 if (that.customHeader) {
-                    that.updateHeaderElements(that.default_header);
-                    that.setTitle(that.active_div.title);
+                    that.update_header_elements(that.default_header);
+                    that.set_title(that.active_div.title);
                 }
                 that.customHeader = false;
             }
@@ -785,7 +784,7 @@
 
             if (inlineHeader.length > 0) {
                 that.customHeader = what.id;
-                that.updateHeaderElements(inlineHeader.children());
+                that.update_header_elements(inlineHeader.children());
             }
             //check if the panel has a footer
             if (what.getAttribute("data-tab")) { //Allow the dev to force the footer menu
@@ -796,10 +795,10 @@
             var hasMenu = what.getAttribute("data-nav");
             if (hasMenu && this.custom_menu != hasMenu) {
                 this.custom_menu = hasMenu;
-                this.updateSideMenu(jq("#" + hasMenu).children());
+                this.update_side_menu(jq("#" + hasMenu).children());
             } else if (hasMenu != this.custom_menu) {
                 if (this.custom_menu) {
-                    this.updateSideMenu(this.default_menu);
+                    this.update_side_menu(this.default_menu);
                 }
                 this.custom_menu = false;
             }
@@ -819,7 +818,7 @@
             }
             $(what).trigger("loadpanel");
             if (this.isSideMenuOn()) {
-                this.toggleSideMenu(false);
+                this.toggle_side_menu(false);
             }
         },
 
@@ -846,7 +845,7 @@
 
             if (this.doing_transition) {
                 var that = this;
-                this.loadContentQueue.push([target, newTab, back, transition, anchor]);
+                this.load_content_queue.push([target, newTab, back, transition, anchor]);
                 return
             }
             if (target.length === 0)
@@ -864,7 +863,7 @@
                 }
                 else if (crcCheck.length > 0) {
                     loadAjax = false;
-                    if (anchor.getAttribute("data-refresh-ajax") === 'true' || (anchor.refresh && anchor.refresh === true || this.isAjaxApp)) {
+                    if (anchor.getAttribute("data-refresh-ajax") === 'true' || (anchor.refresh && anchor.refresh === true || this.is_ajax_app)) {
                         loadAjax = true;
                     }
                     else {
@@ -874,7 +873,7 @@
 
                     //ajax div already exists.  Let's see if we should be refreshing it.
                     loadAjax = false;
-                    if (anchor.getAttribute("data-refresh-ajax") === 'true' || (anchor.refresh && anchor.refresh === true || this.isAjaxApp)) {
+                    if (anchor.getAttribute("data-refresh-ajax") === 'true' || (anchor.refresh && anchor.refresh === true || this.is_ajax_app)) {
                         loadAjax = true;
                     } else
                         target = "#" + urlHash;
@@ -918,7 +917,7 @@
             if (what == this.active_div && !back) {
                 //toggle the menu if applicable
                 if (this.isSideMenuOn())
-                    this.toggleSideMenu(false);
+                    this.toggle_side_menu(false);
                 return;
             }
             this.transition_effect = transition;
@@ -965,8 +964,8 @@
             this.loadContentData(what, newTab, back, transition);
             var that=this;
             setTimeout(function(){
-                if(that.scrollingDivs[old_div.id]) {
-                    that.scrollingDivs[old_div.id].disable();
+                if(that.scrolling_divs[old_div.id]) {
+                    that.scrolling_divs[old_div.id].disable();
                 }
             },200);
 
@@ -1004,7 +1003,7 @@
             else
                 this.setBackButtonText("Back");
             if (what.title) {
-                this.setTitle(what.title);
+                this.set_title(what.title);
             }
             if (newTab) {
                 this.setBackButtonText(this.firstDiv.title)
@@ -1016,8 +1015,8 @@
             } else if (this.showBackbutton)
                 this.setBackButtonVisibility(true);
             this.active_div = what;
-            if (this.scrollingDivs[this.active_div.id]) {
-                this.scrollingDivs[this.active_div.id].enable(this.reset_scrollers);
+            if (this.scrolling_divs[this.active_div.id]) {
+                this.scrolling_divs[this.active_div.id].enable(this.reset_scrollers);
             }
         },
         /**
@@ -1051,7 +1050,7 @@
                     if (jq("#" + urlHash).length > 0) {
                         that.updateContentDiv(urlHash, xmlhttp.responseText);
                         jq("#" + urlHash).get(0).title = anchor.title ? anchor.title : target;
-                    } else if (anchor.getAttribute("data-persist-ajax") || that.isAjaxApp) {
+                    } else if (anchor.getAttribute("data-persist-ajax") || that.is_ajax_app) {
 
                         var refresh = (anchor.getAttribute("data-pull-scroller") === 'true') ? true : false;
                         refreshFunction = refresh ?
@@ -1105,8 +1104,8 @@
             this.availableTransitions[transition].call(this, old_div, current_div, back);
         },
 
-        //This is called when you want to launch jqUi.  If autoLaunch is set to true, it gets called on DOMContentLoaded.
-        //If autoLaunch is set to false, you can manually invoke it.
+        //This is called when you want to launch jqUi.  If auto_launch is set to true, it gets called on DOMContentLoaded.
+        //If auto_launch is set to false, you can manually invoke it.
         launch: function() {
 
             if (this.has_launched == false || this.launch_completed) {
@@ -1156,21 +1155,21 @@
                         //not exact, can be a little above the actual value
                         //but we haven't found an accurate way to measure it and this is the best so far
                         paddingBottom = jQactive.offset().bottom - jQel.offset().bottom;
-                        that.scrollingDivs[that.active_div.id].setPaddings(paddingTop, paddingBottom);
+                        that.scrolling_divs[that.active_div.id].setPaddings(paddingTop, paddingBottom);
 
                     } else if ($.os.android || $.os.blackberry) {
                         var elPos = jQel.offset();
                         var containerPos = jQactive.offset();
                         if (elPos.bottom > containerPos.bottom && elPos.height < containerPos.height) {
                             //apply fix
-                            that.scrollingDivs[that.active_div.id].scrollToItem(jQel, 'bottom');
+                            that.scrolling_divs[that.active_div.id].scrollToItem(jQel, 'bottom');
                         }
                     }
                 }
             });
             if ($.os.ios) {
                 $.bind($.touch_layer, 'exit-edit-reshape', function() {
-                    that.scrollingDivs[that.active_div.id].setPaddings(0, 0);
+                    that.scrolling_divs[that.active_div.id].setPaddings(0, 0);
                 });
             }
 
@@ -1193,7 +1192,7 @@
                 this.menu.innerHTML = '<div id="menu_scroller"></div>';
                 this.viewport_container.append(this.menu);
                 this.menu.style.overflow = "hidden";
-                this.scrollingDivs["menu_scroller"] = jq("#menu_scroller").scroller({
+                this.scrolling_divs["menu_scroller"] = jq("#menu_scroller").scroller({
                     scrollBars: true,
                     verticalScroll: true,
                     vScrollCSS: "jqmScrollbar",
@@ -1236,7 +1235,7 @@
             modalDiv.id = "jQui_modal";
             this.viewport_container.prepend(modalDiv);
             modalDiv.appendChild(jq("<div id='modalContainer'></div>").get());
-            this.scrollingDivs['modal_container'] = jq("#modalContainer").scroller({
+            this.scrolling_divs['modal_container'] = jq("#modalContainer").scroller({
                 scrollBars: true,
                 vertical: true,
                 vScrollCSS: "jqmScrollbar",
@@ -1318,8 +1317,8 @@
                 // Fix a bug in iOS where translate3d makes the content blurry
                 this.active_div = this.firstDiv;
 
-                if (this.scrollingDivs[this.active_div.id]) {
-                    this.scrollingDivs[this.active_div.id].enable();
+                if (this.scrolling_divs[this.active_div.id]) {
+                    this.scrolling_divs[this.active_div.id].enable();
                 }
 
                 //window.setTimeout(function() {
@@ -1335,7 +1334,7 @@
                     var firstMenu = jq("nav").get();
                     if (firstMenu) {
                         that.default_menu = jq(firstMenu).children().clone();
-                        that.updateSideMenu(that.default_menu);
+                        that.update_side_menu(that.default_menu);
                     }
                     //get default header
                     that.default_header = jq("#header").children().clone();
@@ -1349,7 +1348,7 @@
                     //go to active_div
                     var firstPanelId = that.get_panel_id_from_hash(default_hash);
                     //that.history=[{target:'#'+that.firstDiv.id}];   //set the first id as origin of path
-                    if (firstPanelId.length > 0 && that.loadDefaultHash && firstPanelId != ("#" + that.firstDiv.id)&&$(firstPanelId).length>0) {
+                    if (firstPanelId.length > 0 && that.load_default_hash && firstPanelId != ("#" + that.firstDiv.id)&&$(firstPanelId).length>0) {
                         that.loadContent(default_hash, true, false, 'none'); //load the active page as a newTab with no transition
                     } else {
                         previous_target = "#" + that.firstDiv.id;
@@ -1383,8 +1382,8 @@
             }
             var that = this;
             $.bind(that, "content-loaded", function() {
-                if (that.loadContentQueue.length > 0) {
-                    var tmp = that.loadContentQueue.splice(0, 1)[0];
+                if (that.load_content_queue.length > 0) {
+                    var tmp = that.load_content_queue.splice(0, 1)[0];
                     that.loadContent(tmp[0], tmp[1], tmp[2], tmp[3], tmp[4]);
                 }
             });
@@ -1399,7 +1398,7 @@
         topClickScroll:function(){
              document.getElementById("header").addEventListener("click",function(e){
                 if(e.clientY<=15&&e.target.nodeName.toLowerCase()=="h1") //hack - the title spans the whole width of the header
-                    $.ui.scrollingDivs[$.ui.active_div.id].scrollToTop("100");
+                    $.ui.scrolling_divs[$.ui.active_div.id].scrollToTop("100");
             });
 
         },

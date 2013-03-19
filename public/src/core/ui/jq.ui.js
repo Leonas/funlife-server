@@ -365,18 +365,6 @@
         tmpAnchors.data("ignore-pressed", "true").data("resetHistory", "true");
     },
 
-    update_header_elements: function (elements) {
-      var header_nav = jq("#header");
-      if (elements === undefined || elements == null)
-        return;
-      if (typeof (elements) == "string")
-        return header_nav.html(elements, true), null;
-      header_nav.html("");
-      for (var i = 0; i < elements.length; i++) {
-        var node = elements[i].cloneNode(true);
-        header_nav.append(node);
-      }
-    },
 
     update_side_menu: function (elements) {
       var that = this;

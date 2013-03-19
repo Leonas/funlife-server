@@ -161,7 +161,7 @@
         show_footer_menu: true,
         auto_launch: true,
         showBackbutton: true,
-        backButtonText: "",
+        back_button_text: "Back",
         reset_scrollers: true,
 
         // function to fire when jqUi is ready and completed launch
@@ -199,7 +199,7 @@
 
         clear_history: function() {
             this.history = [];
-            this.setBackButtonVisibility(false)
+            this.set_back_button_visibility(false)
         },
 
 
@@ -505,13 +505,13 @@
         },
 
         set_back_button_text: function(text) {
-            if (this.backButtonText.length > 0)
-                jq("#header #backButton").html(this.backButtonText);
+            if (this.back_button_text.length > 0)
+                jq("#header #backButton").html(this.back_button_text);
             else
                 jq("#header #backButton").html(text);
         },
 
-        setBackButtonVisibility: function(show) {
+        set_back_button_visibility: function(show) {
             if (!show)
                 jq("#header #backButton").css("visibility", "hidden");
             else
@@ -1010,10 +1010,10 @@
             }
 
             if (this.history.length == 0) {
-                this.setBackButtonVisibility(false);
+                this.set_back_button_visibility(false);
                 this.history = [];
             } else if (this.showBackbutton)
-                this.setBackButtonVisibility(true);
+                this.set_back_button_visibility(true);
             this.active_div = what;
             if (this.scrolling_divs[this.active_div.id]) {
                 this.scrolling_divs[this.active_div.id].enable(this.reset_scrollers);

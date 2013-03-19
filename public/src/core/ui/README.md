@@ -1,6 +1,9 @@
 # Mobile Webkit UI/UX
 
 # Duplicates & Problems to fix
+*  Search the code for load and unload references but the actual unload panel function was never defined
+* on each show page, we need to add in scrolling option
+* defered loading - make this work with routing and not how it works now
 
 Remove this crap I only want it setable from the router:
 * We handle history and transitions.  You can select from six transitions by setting the data-transition property.  The default is slide.
@@ -12,6 +15,20 @@ Remove this crap I only want it setable from the router:
     <a href="#login" data-transition="flip">Login</a>  //Flip the page
     <a href="#login" data-transition="fade">Login</a>  //Fade in/out
     <a href="#login" data-transition="pop">Login</a>  //Pop in/out
+```
+
+#These dont work. Need to fix this up. Probably just move these functions into the router
+
+Each div/panel has properties you can set that will change the app.  Below are the properties
+``` html
+   data-footer = "_id_"  //Change the custom footer
+   data-nav = "_id_" //Change the custom nav
+   data-load="function_name" //Function that is called when a panel is loaded - passes in the div
+   data-unload="function_name" //Function that is called when a panel is unloaded - passes in the div
+   data-modal="true" //Load the panel in a modal window
+   data-defer="filename.html" //Defer loading teh panel until $.ui.ready and specify the path of the html file to load
+<div class="panel" scrolling="no"></div>
+
 ```
 
 
@@ -53,7 +70,7 @@ is_ajax_app                 //boolean that when true treats every request as if 
 show_loading                   //boolean to show/not show loading spinner on ajax requests
 launch()                      //Manually invoke the launch of jqUi. If auto_launch is true, gets called
                               //on DOMContentLoaded
-showBackButton                //boolean to show the back button
+set_back_button_visibility(something)   //look it up
 reset_scrollers                //boolean to reset the scroller position when navigating panels (default true)
 ready(function)               //Takes in a function and executes it when launch() has completed
 set_back_button_style(class) //override the back button class name
@@ -74,15 +91,14 @@ hide_loading_mask()                      //Hides the loading mask
 show_modal(div_id)                      //load a content panel in a modal window
 hide_modal()                            //hide the modal window and remove the content ?? Does it really remove?
 update_content_div(id,content) update the HTML in a content panel
+$.ui.active_div                   //reference to the div. id = $.ui.active_div.id
+
 
 //DOC CONFLICT
-add_content_div(id,content,title) dynamically create a new panel
+add_content_div(id, content, title) dynamically create a new panel
 add_content_div (el, content, refresh, refreshFunc)       //Adds a div to the DOM and wires it up.
                                                         //refresh and refreshFunc are used for the jq.scroller
                                                         //pull to refresh functions
-updateAnchors(element,resetHistoryOnClick)            //Loops through a div and finds all anchors and wires them
-                                                      //up for transitions, etc.  If resetHistoryOnClick is true,
-                                                      //it will clear the history when the links are clicked
 loadContent(target,newTab,goBackInHistory,transition);   //Force a transition call via javascript.   DOESTHISUSEAJAX? DOC ERROR
                                                         //target is an element ID or URL.  newTab clears
                                                          //the stack as if a bottom navbar button was pressed.
@@ -94,7 +110,7 @@ finishTransition(oldDiv) called at end of each transition to hide the old div an
 
 ```
 
-**jqPluginsAccess ($.ui)**
+**Plugins**
 ```js
 actionSheet(opts) shorthand call to jq.actionsheet plugin. Auto wired to jQUi div.
 `popup(opts) wrapper to jq.popup plugin. If a text string is passed in, acts like an alert box and just gives a message.
@@ -164,114 +180,6 @@ You can add additional footer menus that can be assigned to each panel.
       <a href="#jqmtransitions" id='navbar_js' class="navbar_js" >Trans</a>
 	  <a href="#jqmui" id='navbar_ui'  class="navbar_ui" >ui</a>
 	  <a href="#uiapi" id='navbar_plugins'  class="navbar_plugins" >api</a>
-</footer>	
+</footer>
 ```
 
-
-#jqUi anchor properties
-
-Anchors can have special properties for wiring transitions and events
-
-``` html
-<a href="#id" data-transition="pop">Pop</a>  //data-transition allows you to set the transtion
-<a href="http://www.mysite.com/api/getdata" data-refresh-ajax="true">Get Latest Data</a> //data-refresh-ajax allows you to always get the latest data from an Ajax request
-<a href="http://www.mysite.com/api/twitterfeed" data-pull-scroller="true">Get latest twitter feed</a> // data-pull-scroller will tell the scrolling div to enable Pull to Refresh
-<a href="http://www.mysite.com/api/twitterfeed" data-persist-ajax="true">Add this to the dom</a> // data-persist-ajax will take the result and add it to the dom.  When users navigate to that URL now, it will no longer make an Ajax refresh and adds the div to the container. 
-``` 
-
-#jqUi panel properties
-
-Each div/panel has properties you can set that will change the app.  Below are the properties
-``` html
-   data-footer = "_id_"  //Change the custom footer
-   
-   data-nav = "_id_" //Change the custom nav
-   
-   data-load="function_name" //Function that is called when a panel is loaded - passes in the div
-   
-   data-unload="function_name" //Function that is called when a panel is unloaded - passes in the div
-   
-   data-modal="true" //Load the panel in a modal window
-   
-   data-defer="filename.html" //Defer loading teh panel until $.ui.ready and specify the path of the html file to load
-```
-# Tips
-
-* Ajax - you can add an ajax request into the DOM that will be accessible by the URL referenced by setting the data-persist attribute.  You can force a refresh by setting data-refresh-ajax="true".  You can also make the scroller "pull to refresh" by setting data-pull-scroller="true"
-
-``` html
-    <a href="http://www.appmobi.com" data-persist="true">AppMobi</a>  //Div will be added to the dom
-    <a href="http://www.appmobi.com" data-persist="true" data-refresh-ajax="true">AppMobi</a>  //Everytime the link is clicked, it will fetch the data
-    <a href="http://www.appmobi.com" data-pull-scroller="true">AppMobi</a>  //When the scroller content is pulled down, it will refresh the page
-```	
-
-
-
-	
-* To update the content of a div, you must call the function update_content_div(_id_,_content_);
-
-``` js
-<script>$.ui.update_content_div("login","New Login HTML");
-```	
-
-* To dynamically add a new div, you can call the function add_content_div(_id_,_content_);
-
-``` js
-<script>$.ui.add_content_div("newdiv","This is some new html");
-```	
-
-* To navigate to a a page transition via javascript, you can call the function loadContent(_id_,clear_history,goBackInHistory,transition)
-
-``` js
-<scritp>$.ui.loadContent("my_id",false,false,"pop");</script>
-```
-
-* To prevent a div from scrolling, set the property "scrolling" to "no" on the div
-
-``` html
-<div class="panel" scrolling="no"></div>
-```
-
-* To get the current active div/page
-
-``` html
-<script>$.ui.active_div //reference to the div</script>
-<script>var activeId=$.ui.active_div.id</script>
-``` 
-	
-* To make the back button text static
-
-``` html
-<script>$.ui.backButtonText="Back...";</script>
-```
-
-* To change the back button text dynamically
-
-``` html
-<script>$.ui.set_back_button_text("Go Back");</script>
-```
-
-* To reprocess a div and autowire the anchors again
-
-``` html
-<script $.ui.updateAnchors(_element);</script>	
-```
-	
-* You can assign a javascript function to be executed on panel load and unload.
-   
-``` html
-<script>
-function getApps(targetDiv)
-{
-    targetDiv.innerHTML="The id called = "+obj.id;
-}
-function getAppsClosed(targetDiv)
-{
-    targetDiv.innerHTML="The id called = "+obj.id+" and the panel was unloaded";
-}
-</script>
-<a href="#games" data-function="getApps" data-load="getApps" data-onunload="getAppsClosed"> Games </a>
-```
-
-# Need to include info about the css here
-# 12 column fluid layout

@@ -188,7 +188,7 @@
                 //$.asap(
 
                 //function() {
-                    that.loadContent(temporary_element.target + "", 0, 1, temporary_element.transition);
+                    that.load_content(temporary_element.target + "", 0, 1, temporary_element.transition);
                     that.transition_effect = temporary_element.transition;
                     //document.location.hash=temporary_element.target;
                     that.update_url_hash(temporary_element.target);
@@ -288,26 +288,13 @@
             badge.data("ignore-pressed", "true");
 
         },
-        /**
-         * Removes a badge from the selected target.
-           ```
-           $.ui.remove_badge('#mydiv');
-           ```
-         * @param {String} target
-         * @title $.ui.remove_badge(target)
-         */
+
+        //removes the badge from a target like '#bob'
         remove_badge: function(target) {
             jq(target).find("span.jq-badge").remove();
         },
-        /**
-         * Toggles the bottom nav nav menu.  Force is a boolean to force show or hide.
-           ```
-           $.ui.toggle_footer_menu();//toggle it
-           $.ui.toggle_footer_menu(true); //force show it
-           ```
-         * @param {Boolean} [force]
-         * @title $.ui.toggle_footer_menu([force])
-         */
+
+        //force = set to true or false
         toggle_footer_menu: function(force) {
             if (!this.show_footer_menu)
                 return;
@@ -320,14 +307,9 @@
 
             }
         },
-        /**
-         * Toggles the top header menu.
-           ```
-           $.ui.toggle_header_menu();//toggle it
-           ```
-         * @param {Boolean} [force]
-         * @title $.ui.toggle_header_menu([force])
-         */
+
+
+        //toggle
         toggle_header_menu: function(force) {
             if (jq("#header").css("display") != "none" && ((force !== undefined && force !== true) || force === undefined)) {
                 jq("#content").css("top", "0px");
@@ -832,16 +814,16 @@
          * This is called to initiate a transition or load content via ajax.
          * We can pass in a hash+id or URL and then we parse the panel for additional functions
            ```
-           $.ui.loadContent("#main",false,false,"up");
+           $.ui.load_content("#main",false,false,"up");
            ```
          * @param {String} target
          * @param {Boolean} newtab (resets history)
          * @param {Boolean} go back (initiate the back click)
          * @param {String} transition
-         * @title $.ui.loadContent(target,newTab,go_back,transition);
+         * @title $.ui.load_content(target,newTab,go_back,transition);
          * @api public
          */
-        loadContent: function(target, newTab, back, transition, anchor) {
+        load_content: function(target, newTab, back, transition, anchor) {
 
             if (this.doing_transition) {
                 var that = this;
@@ -886,7 +868,7 @@
             }
         },
         /**
-         * This is called internally by loadContent.  Here we are loading a div instead of an Ajax link
+         * This is called internally by load_content.  Here we are loading a div instead of an Ajax link
            ```
            $.ui.loadDiv("#main",false,false,"up");
            ```
@@ -1020,7 +1002,7 @@
             }
         },
         /**
-         * This is called internally by loadContent.  Here we are using Ajax to fetch the data
+         * This is called internally by load_content.  Here we are using Ajax to fetch the data
            ```
            $.ui.loadDiv("page.html",false,false,"up");
            ```
@@ -1056,7 +1038,7 @@
                         refreshFunction = refresh ?
                         function() {
                             anchor.refresh = true;
-                            that.loadContent(target, newTab, back, transition, anchor);
+                            that.load_content(target, newTab, back, transition, anchor);
                             anchor.refresh = false;
                         } : null;
                         //that.add_content_div(urlHash, xmlhttp.responseText, refresh, refreshFunction);
@@ -1065,7 +1047,7 @@
 
                         that.update_content_div("jQui_ajax", xmlhttp.responseText);
                         jq("#jQui_ajax").get(0).title = anchor.title ? anchor.title : target;
-                        that.loadContent("#jQui_ajax", newTab, back);
+                        that.load_content("#jQui_ajax", newTab, back);
                       console.log('im in here');
                         doReturn = true;
                     }
@@ -1082,7 +1064,7 @@
                         return;
                     }
 
-                    that.loadContent("#" + urlHash);
+                    that.load_content("#" + urlHash);
                     if (that.show_loading)
                        that.hide_loading_mask();
                     return null;
@@ -1349,7 +1331,7 @@
                     var firstPanelId = that.get_panel_id_from_hash(default_hash);
                     //that.history=[{target:'#'+that.firstDiv.id}];   //set the first id as origin of path
                     if (firstPanelId.length > 0 && that.load_default_hash && firstPanelId != ("#" + that.firstDiv.id)&&$(firstPanelId).length>0) {
-                        that.loadContent(default_hash, true, false, 'none'); //load the active page as a newTab with no transition
+                        that.load_content(default_hash, true, false, 'none'); //load the active page as a newTab with no transition
                     } else {
                         previous_target = "#" + that.firstDiv.id;
                         that.loadContentData(that.firstDiv); //load the info off the first panel
@@ -1384,7 +1366,7 @@
             $.bind(that, "content-loaded", function() {
                 if (that.load_content_queue.length > 0) {
                     var tmp = that.load_content_queue.splice(0, 1)[0];
-                    that.loadContent(tmp[0], tmp[1], tmp[2], tmp[3], tmp[4]);
+                    that.load_content(tmp[0], tmp[1], tmp[2], tmp[3], tmp[4]);
                 }
             });
             if (window.navigator.standalone) {
@@ -1509,7 +1491,7 @@
             var resetHistory = theTarget.getAttribute("data-resetHistory");
             resetHistory = resetHistory && resetHistory.toLowerCase() == "true" ? true : false;
             var href = theTarget.hash.length > 0 ? theTarget.hash : theTarget.href;
-            jq.ui.loadContent(href, resetHistory, 0, mytransition, theTarget);
+            jq.ui.load_content(href, resetHistory, 0, mytransition, theTarget);
             return;
         }
     }

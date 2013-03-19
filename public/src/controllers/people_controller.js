@@ -22,7 +22,7 @@ $.mvc.controller.create('people_controller', {
       $.ui.add_content_div("people_index_view", $.template('views/people/people_index_view.js'), "People");
     }
     //Show the view
-    $.ui.loadContent("people_index_view", false, false, "fade");
+    $.ui.load_content("people_index_view", false, false, "fade");
 
   },
 
@@ -33,7 +33,7 @@ $.mvc.controller.create('people_controller', {
       $.ui.add_content_div("people_followers_view", $.template('views/people/people_followers_view.js'), "People");
     }
     //Show the view
-    $.ui.loadContent("people_followers_view", false, false, "fade");
+    $.ui.load_content("people_followers_view", false, false, "fade");
 
   },
 
@@ -56,7 +56,7 @@ $.mvc.controller.create('people_controller', {
           $.ui.update_content_div('people_nearby_view', $.template('views/people/people_nearby_view.js', data));
         }
         //show the view
-        $.ui.loadContent('people_nearby_view', false, false, 'fade');
+        $.ui.load_content('people_nearby_view', false, false, 'fade');
       },
 
       error: function () {
@@ -71,7 +71,7 @@ $.mvc.controller.create('people_controller', {
       $.ui.add_content_div("people_detail_view", $.template('views/people/people_detail_view.js'), "People");
     }
     //Show the view
-    $.ui.loadContent("people_detail_view", false, false, "fade");
+    $.ui.load_content("people_detail_view", false, false, "fade");
 
   }
 });

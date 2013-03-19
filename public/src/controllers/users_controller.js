@@ -43,7 +43,7 @@ $.mvc.controller.create('users_controller', {
           //$.ui.update_content_div('user_index_view', $.template('views/user/user_index_view.js'));
         }
         //show the user_index view
-        $.ui.loadContent('user_index_view', false, false, 'fade');
+        $.ui.load_content('user_index_view', false, false, 'fade');
       },
 
       error: function () {
@@ -60,7 +60,7 @@ $.mvc.controller.create('users_controller', {
       $.ui.add_content_div('user_login_register_view', $.template('views/users/user_login_register_view.js'), 'Login or Register');
     }
     //Show the view
-    $.ui.loadContent('user_login_register_view', false, false, 'fade');
+    $.ui.load_content('user_login_register_view', false, false, 'fade');
 
     var form_data = $('#login_form').serialize();
 
@@ -86,7 +86,7 @@ $.mvc.controller.create('users_controller', {
           $.template('views/users/user_register2_view.js', current_user), 'Complete Registration');
     }
     //Show the user_login_view
-    $.ui.loadContent('user_register2_view', false, false, 'fade');
+    $.ui.load_content('user_register2_view', false, false, 'fade');
 
 
     if (action == 'complete') {
@@ -118,7 +118,7 @@ $.mvc.controller.create('users_controller', {
     //
 
     //Show the user_login_view
-    $.ui.loadContent('user_login_register_view', false, false, 'fade');
+    $.ui.load_content('user_login_register_view', false, false, 'fade');
 
 
   }

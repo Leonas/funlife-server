@@ -69,7 +69,7 @@
                 console.log('token not found on localstorage. displaying login');
                 //$.mvc.route('/users_controller/login');
                 $.ui.add_content_div('user_login_register_view', $.template('views/users/user_login_register_view.js'), 'Login or Register');
-                $.ui.loadContent('user_login_register_view', false, false, 'fade'); //Show the user_login_view
+                $.ui.load_content('user_login_register_view', false, false, 'fade'); //Show the user_login_view
             }
         });
     </script>

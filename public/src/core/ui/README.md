@@ -45,7 +45,7 @@ To add a new div dynamically, call the function `add_content_div(id,content);`
 `<script>$.ui.add_content_div("newdiv","This is some new html");</script>`
 
 
-To navigate to a page transition via javascript, call the function loadContent(_id_,clear_history,goBackInHistory,transition)
+To navigate to a page transition via javascript, call the function load_content(_id_,clear_history,goBackInHistory,transition)
 
 
 
@@ -78,9 +78,9 @@ go_back()                           //goes to the previous page in history
 clear_history()                       //clears the history stack
 update_badge(target,value,[position])  //update a badge on the selected target
 remove_badge(target)                     //remove a badge from the selected target
-toggle_footer_menu([force])               //will hide or show the bottom nav menu   WTF is force?
-toggle_header_menu([force])                 //hide or show the header menu
-toggle_side_menu([force])                     //hide or show the side menu
+toggle_footer_menu(optional_boolean)               //will hide or show the bottom nav menu   WTF is force?
+toggle_header_menu(optional_boolean)                 //hide or show the header menu
+toggle_side_menu(optional_boolean)                     //hide or show the side menu
 update_footer_elements(elements)          //update the elements in the footer
 update_side_menu(elements)                //update the elements in the side menu
 set_title(value) set the title of the current panel
@@ -95,11 +95,10 @@ $.ui.active_div                   //reference to the div. id = $.ui.active_div.i
 
 
 //DOC CONFLICT
-add_content_div(id, content, title) dynamically create a new panel
-add_content_div (el, content, refresh, refreshFunc)       //Adds a div to the DOM and wires it up.
+add_content_div (element, content_string, title, refresh, refreshFunc)       //Adds a div to the DOM and wires it up.
                                                         //refresh and refreshFunc are used for the jq.scroller
                                                         //pull to refresh functions
-loadContent(target,newTab,goBackInHistory,transition);   //Force a transition call via javascript.   DOESTHISUSEAJAX? DOC ERROR
+load_content(target,newTab,goBackInHistory,transition);   //Force a transition call via javascript.   DOESTHISUSEAJAX? DOC ERROR
                                                         //target is an element ID or URL.  newTab clears
                                                          //the stack as if a bottom navbar button was pressed.
                                                          //goBackInHistory is the same as a back button being
@@ -182,4 +181,7 @@ You can add additional footer menus that can be assigned to each panel.
 	  <a href="#uiapi" id='navbar_plugins'  class="navbar_plugins" >api</a>
 </footer>
 ```
+
+
+# Verified Zone
 

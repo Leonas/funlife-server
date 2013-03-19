@@ -63,7 +63,7 @@ var global = {
     }
     //trigger the page transition/navigation event
     //These 4 things are ____??? Get from the API
-    $.ui.loadContent('user_index_view', false, false, 'fade');
+    $.ui.load_content('user_index_view', false, false, 'fade');
 
 
 

@@ -26,7 +26,7 @@ $.mvc.controller.create('places_controller', {
       });
     }
     //Show the view
-    $.ui.loadContent('places_index_view', false, false, 'fade');
+    $.ui.load_content('places_index_view', false, false, 'fade');
 
 
   }

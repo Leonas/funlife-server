@@ -57,7 +57,7 @@ $.mvc.controller.create('chats_controller', {
       //$.ui.update_content_div('chat_index_view', $.template('views/chat/chat_index_view.js'));
     }
     //show the chat_index view
-    $.ui.loadContent('chat_index_view', false, false, 'fade');
+    $.ui.load_content('chat_index_view', false, false, 'fade');
   },
 
   detail: function (chat_id, action, user_id) {
@@ -74,7 +74,7 @@ $.mvc.controller.create('chats_controller', {
       //$.ui.update_content_div('chat_detail_view', $.template('views/chat/chat_detail_view.js'));
     }
     //show the chat_detail view
-    $.ui.loadContent('chat_detail_view', false, false, 'fade');
+    $.ui.load_content('chat_detail_view', false, false, 'fade');
 
     $('#chat_submit').bind('click', function () {
       chat_id.send_message();
@@ -117,7 +117,7 @@ $.mvc.controller.create('chats_controller', {
       //$.ui.update_content_div('chat_sent_view', $.template('views/chat/chat_sent_view.js'));
     }
     //show the chat_detail view
-    $.ui.loadContent('chat_sent_view', false, false, 'fade');
+    $.ui.load_content('chat_sent_view', false, false, 'fade');
 
 
   },
@@ -134,7 +134,7 @@ $.mvc.controller.create('chats_controller', {
       //$.ui.update_content_div('chat_new_view', $.template('views/chat/chat_new_view.js'));
     }
     //show the chat_detail view
-    $.ui.loadContent('chat_new_view', false, false, 'fade');
+    $.ui.load_content('chat_new_view', false, false, 'fade');
 
 
   }

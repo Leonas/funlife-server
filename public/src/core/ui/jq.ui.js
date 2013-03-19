@@ -151,16 +151,10 @@
     go_back: function () {
       if (this.history.length > 0) {
         var that = this;
-        var temporary_element = this.history.pop();
-        //$.asap(
-
-        //function() {
-        that.load_content(temporary_element.target + "", 0, 1, temporary_element.transition);
-        that.transition_effect = temporary_element.transition;
-        //document.location.hash=temporary_element.target;
-        that.update_url_hash(temporary_element.target);
-        //for Android 4.0.x, we must touch_layer.hideAdressBar()
-        //    });
+        var previous_page = this.history.pop();
+        that.load_content(previous_page.target + "", false, true, previous_page.transition);
+        that.transition_effect = previous_page.transition;
+        that.update_url_hash(previous_page.target);
       }
     },
 

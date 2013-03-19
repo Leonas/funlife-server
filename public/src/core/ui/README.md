@@ -1,6 +1,21 @@
 # Mobile Webkit UI/UX
 
-Usage
+# Duplicates & Problems to fix
+
+Remove this crap I only want it setable from the router:
+* We handle history and transitions.  You can select from six transitions by setting the data-transition property.  The default is slide.
+
+``` html
+    <a href="#login" data-transition="slide">Login</a>  //slide left/right
+    <a href="#login" data-transition="up">Login</a>  //slide up/down
+    <a href="#login" data-transition="down">Login</a>  //slide down/up
+    <a href="#login" data-transition="flip">Login</a>  //Flip the page
+    <a href="#login" data-transition="fade">Login</a>  //Fade in/out
+    <a href="#login" data-transition="pop">Login</a>  //Pop in/out
+```
+
+
+## Usage
 There are four special registered div blocks for a layout based off id's.
 The ids are header(top header), content (content area), navbar(bottom navbar), and jqUi (app container).
 
@@ -12,20 +27,15 @@ To add divs to the content, simply set the class to “panel”
 To add a new div dynamically, call the function `addContentDiv(id,content);`
 `<script>$.ui.addContentDiv("newdiv","This is some new html");</script>`
 
-To open links in a new window, set the target property
-`<a href=http://www.appmobi.com target=”_blank”>AppMobi</a>`
 
-### WTF THIS IS A DUPLICATE FROM MVC NAVIGATION!!!!
-To open links in a new window, set the target property AppMobi Select from six transitions by setting the data-transition property (default is slide) Login //Slide left/right Login //Slide up/down Login //Slide down/up Login //Flip the page Login //Fade in/out Login //Pop in/out
-### And here
 To navigate to a page transition via javascript, call the function loadContent(_id_,clearHistory,goBackInHistory,transition)
 
 
 
-To update content, call the function updateContentDiv(id,content);
-`<script>$.ui.updateContentDiv("login","New Login HTML");</script>`
+To update content, call the function updateContentDiv(div_id,content);
+`$.ui.updateContentDiv("login","New Login HTML");`
 
-To prevent a div from scrolling, set the propert “scrolling” to “no” on the div
+To prevent a div from scrolling, set the property “scrolling” to “no” on the div
 `<div class=”panel” scrolling=”no”></div>`
 
 To add custom headers or footers via the <header> or <footer> tags, reference them on the panel with the data-header of data-footer attribute, respectively.
@@ -203,22 +213,8 @@ Each div/panel has properties you can set that will change the app.  Below are t
     <a href="http://www.appmobi.com" data-pull-scroller="true">AppMobi</a>  //When the scroller content is pulled down, it will refresh the page
 ```	
 
-* To open links in a new window, set the target property
 
-``` html
-    <a href="http://www.appmobi.com" target="_blank">AppMobi</a>
-```
 
-* We handle history and transitions.  You can select from six transitions by setting the data-transition property.  The default is slide.
-
-``` html
-    <a href="#login" data-transition="slide">Login</a>  //slide left/right
-    <a href="#login" data-transition="up">Login</a>  //slide up/down
-    <a href="#login" data-transition="down">Login</a>  //slide down/up
-    <a href="#login" data-transition="flip">Login</a>  //Flip the page
-    <a href="#login" data-transition="fade">Login</a>  //Fade in/out
-    <a href="#login" data-transition="pop">Login</a>  //Pop in/out
-```
 	
 * To update the content of a div, you must call the function updateContentDiv(_id_,_content_);
 

@@ -1,14 +1,8 @@
- /**
- * jq.ui - A User Interface library for creating jqMobi applications
- *
- * @copyright 2011 Intel
- * @author AppMobi
- */
 (function($) {
 
 
-    var hasLaunched = false;
-    var startPath = window.location.pathname;
+    var has_launched = false;
+    var start_path = window.location.pathname;
     var defaultHash = window.location.hash;
     var previousTarget = defaultHash;
     var ui = function() {
@@ -106,14 +100,14 @@
         transitionType: "slide",
         scrollingDivs: [],
         firstDiv: "",
-        hasLaunched: false,
+        has_launched: false,
         launch_completed: false,
         active_div: "",
         custom_click_handler: "",
         menu_animation: null,
         side_menu_displayed: false,
         autoBoot: function() {
-            this.hasLaunched = true;
+            this.has_launched = true;
             if (this.autoLaunch) {
                 this.launch();
             }
@@ -218,10 +212,10 @@
             });
             //push into the browser history
             try {
-                window.history.pushState(newPage, newPage, startPath + '#' + newPage + hashExtras);
+                window.history.pushState(newPage, newPage, start_path + '#' + newPage + hashExtras);
                 $(window).trigger("hashchange", {
-                    newUrl: startPath + '#' + newPage + hashExtras,
-                    oldURL: startPath + previousPage
+                    newUrl: start_path + '#' + newPage + hashExtras,
+                    oldURL: start_path + previousPage
                 });
             } catch (e) {
             }
@@ -241,10 +235,10 @@
             var previousHash = window.location.hash;
             var panelName = this.get_panel_id_from_hash(new_hash).substring(1); //remove the #
             try {
-                window.history.replaceState(panelName, panelName, startPath + new_hash);
+                window.history.replaceState(panelName, panelName, start_path + new_hash);
                 $(window).trigger("hashchange", {
-                    newUrl: startPath + new_hash,
-                    oldUrl: startPath + previousHash
+                    newUrl: start_path + new_hash,
+                    oldUrl: start_path + previousHash
                 });
             } catch (e) {
             }
@@ -1115,8 +1109,8 @@
         //If autoLaunch is set to false, you can manually invoke it.
         launch: function() {
 
-            if (this.hasLaunched == false || this.launch_completed) {
-                this.hasLaunched = true;
+            if (this.has_launched == false || this.launch_completed) {
+                this.has_launched = true;
                 return;
             }
 

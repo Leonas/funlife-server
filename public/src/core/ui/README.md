@@ -57,25 +57,26 @@ To prevent a div from scrolling, set the property “scrolling” to “no” on
 `<div class=”panel” scrolling=”no”></div>`
 
 
+**Prefix all calls with** `$.ui.`
 ```js
-$.ui.load_default_hash  boolean to load/not load panel from hash when app started (default is true)
-$.ui.block_ui(opacity)       ///throw up a mask and block the UI
-$.ui.unblock_ui()           //removes the UI mask
-$.ui.remove_footer_nav()    //removes the bottom nav bar from app
-$.ui.show_footer_menu       //boolean to show bottom nav bar
-$.ui.auto_launch             //boolean to auto launch jqUi
-$.ui.is_ajax_app                 //boolean that when true treats every request as if the anchor had
+load_default_hash  boolean to load/not load panel from hash when app started (default is true)
+block_ui(opacity)       ///throw up a mask and block the UI
+unblock_ui()           //removes the UI mask
+remove_footer_nav()    //removes the bottom nav bar from app
+show_footer_menu       //boolean to show bottom nav bar
+auto_launch             //boolean to auto launch jqUi
+is_ajax_app                 //boolean that when true treats every request as if the anchor had
                             //data-refresh-ajax=true and data-persist-ajax=true
-$.ui.show_loading                   //boolean to show/not show loading spinner on ajax requests
-$.ui.launch()                      //Manually invoke the launch of jqUi. If auto_launch is true, gets called
+show_loading                   //boolean to show/not show loading spinner on ajax requests
+launch()                      //Manually invoke the launch of jqUi. If auto_launch is true, gets called
                               //on DOMContentLoaded
-$.ui.set_back_button_visibility(something)   //look it up
-$.ui.reset_scrollers                //boolean to reset the scroller position when navigating panels (default true)
-$.ui.ready(function)               //Takes in a function and executes it when launch() has completed
-$.ui.set_back_button_style(class) //override the back button class name
-$.ui.go_back()                           //goes to the previous page in history
-$.ui.clear_history()                       //clears the history stack
-$.ui.update_badge(target,value,[position])  //update a badge on the selected target
+set_back_button_visibility(something)   //look it up
+reset_scrollers                //boolean to reset the scroller position when navigating panels (default true)
+ready(function)               //Takes in a function and executes it when launch() has completed
+set_back_button_style(class) //override the back button class name
+go_back()                           //goes to the previous page in history
+clear_history()                       //clears the history stack
+update_badge(target,value,[position])  //update a badge on the selected target
          * Update a badge on the selected target.  Position can be
             bl = bottom left
             tl = top left
@@ -83,20 +84,20 @@ $.ui.update_badge(target,value,[position])  //update a badge on the selected tar
             tr = top right (default)
            ```
            $.ui.update_badge('#mydiv','3','bl','green');
-$.ui.remove_badge(target)                     //remove a badge from the selected target
-$.ui.toggle_footer_menu(optional_boolean)               //will hide or show the bottom nav menu
-$.ui.toggle_header_menu(optional_boolean)                 //hide or show the header menu
-$.ui.toggle_side_menu(optional_boolean)                     //hide or show the side menu
-$.ui.update_footer_elements(elements)          //update the elements in the footer
-$.ui.update_side_menu(elements)                //update the elements in the side menu
-$.ui.set_title(value) set the title of the current panel
-$.ui.set_title(text) //Sets the page title via javascript
-$.ui.set_back_button_text(optional_text)        //Sets the back button text (default is back)
-$.ui.show_loading_mask(optional_text)           //show the loading mask
-$.ui.hide_loading_mask()                      //Hides the loading mask
-$.ui.show_modal(div_id)                      //load a content panel in a modal window
-$.ui.hide_modal()                            //hide the modal window and remove the content ?? Does it really remove?
-$.ui.update_content_div(id,content) update the HTML in a content panel
+remove_badge(target)                     //remove a badge from the selected target
+toggle_footer_menu(optional_boolean)               //will hide or show the bottom nav menu
+toggle_header_menu(optional_boolean)                 //hide or show the header menu
+toggle_side_menu(optional_boolean)                     //hide or show the side menu
+update_footer_elements(elements)          //update the elements in the footer
+update_side_menu(elements)                //update the elements in the side menu
+set_title(value) set the title of the current panel
+set_title(text) //Sets the page title via javascript
+set_back_button_text(optional_text)        //Sets the back button text (default is back)
+show_loading_mask(optional_text)           //show the loading mask
+hide_loading_mask()                      //Hides the loading mask
+show_modal(div_id)                      //load a content panel in a modal window
+hide_modal()                            //hide the modal window and remove the content ?? Does it really remove?
+update_content_div(id,content) update the HTML in a content panel
 $.ui.active_div                   //reference to the div. id = $.ui.active_div.id
 
 

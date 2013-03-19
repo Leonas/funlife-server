@@ -270,8 +270,8 @@
             
             $(document).ready(function() {
                
-                if(jq("#jQUi"))
-                   jq("#jQUi").append(modalDiv);
+                if(jq("#ui_kit"))
+                   jq("#ui_kit").append(modalDiv);
                 else
                     document.body.appendChild(modalDiv);
                 var close = $("#jqmobiSelectClose").get();

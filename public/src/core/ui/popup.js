@@ -195,8 +195,8 @@
   window.alert = function(text) {
     if(text===null||text===undefined)
       text="null";
-    if($("#jQUi").length>0)
-      $("#jQUi").popup(text.toString());
+    if($("#ui_kit").length>0)
+      $("#ui_kit").popup(text.toString());
     else
       $(document.body).popup(text.toString());
   }

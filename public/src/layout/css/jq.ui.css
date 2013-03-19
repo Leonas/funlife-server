@@ -79,7 +79,7 @@ width:100%;
 .jqmScrollbar { background:white !important; } /* Sets the color of the scrollbar */
 .jqmScrollPanel { width:100%; min-height:100%; }
 
-#jQUi {
+#ui_kit {
 	position:absolute;
 	width:100%;
 	top:0px;
@@ -88,7 +88,7 @@ width:100%;
 
 }
 
-#jQUi > #splashscreen {
+#ui_kit > #splashscreen {
 	position:absolute;
 	top:0px;bottom:0px;
 	width:100%;
@@ -110,7 +110,7 @@ width:100%;
 	header
 **********************************************************/
 
-#jQUi > #header {
+#ui_kit > #header {
 	display:block;
 	z-index:250;
 	-webkit-box-sizing:border-box; box-sizing:border-box;
@@ -370,11 +370,11 @@ background:#333;
 
 
 /* Custom footers - always hidden */
-#jQUi footer, #jQUi header, #jQUi nav {	display:none; }
+#ui_kit footer, #ui_kit header, #ui_kit nav {	display:none; }
 
 
 
-#jQUi > #menu {
+#ui_kit > #menu {
 	z-index:1;
 	width:200px;
 	bottom:0px;
@@ -561,7 +561,7 @@ input.jq-ui-forms {
 } /* These properties combine to create the look of the input fields. */
 
 
-#jQUi label {
+#ui_kit label {
 	position: relative;
 overflow: visible;
 white-space: nowrap;

@@ -5,66 +5,52 @@
   var default_hash = window.location.hash;
   var previous_target = default_hash;
   var ui = function () {
-    // Init the page
-    var that = this;
 
-    //setup the menu and boot touch_layer
+    var this_ui = this;
+
+    //when doc ready, add the touch layer
     jq(document).ready(function () {
-
-      //boot touch_layer
-      //create ui_kit element if it still does not exist
-      var ui_kit = document.getElementById("ui_kit");
-      if (ui_kit == null) {
-        ui_kit = document.createElement("div");
-        ui_kit.id = "ui_kit";
-        var body = document.body;
-        while (body.firstChild) {
-          ui_kit.appendChild(body.firstChild);
-        }
-        jq(document.body).prepend(ui_kit);
+      if (jq.os.supportsTouch){
+        $.touch_layer(document.getElementById("ui_kit"));
       }
-      if (jq.os.supportsTouch)
-        $.touch_layer(ui_kit);
     });
 
-//    if (window.AppMobi)
-//      document.addEventListener("appMobi.device.ready", function () {
-//        that.autoBoot();
-//        this.removeEventListener("appMobi.device.ready", arguments.callee);
-//      }, false);
-//    else
+
+    //If the document is ready, call autoBoot to launch
     if (document.readyState == "complete" || document.readyState == "loaded") {
       this.autoBoot();
     }
+    //Otherwise add a listener and launch when ready
     else {
       document.addEventListener("DOMContentLoaded", function () {
-        that.autoBoot();
+        this_ui.autoBoot();
         this.removeEventListener("DOMContentLoaded", arguments.callee);
       }, false);
     }
+
+
+    //popstate event is fired when the active history entry changes
+    //this will tell us if back button was clicked
+//    window.addEventListener("popstate", function () {
+//      var current_panel_id = $.ui.get_panel_id_from_hash(document.location.hash);
 //
-//    if (!window.AppMobi)
-//      AppMobi = {}, AppMobi.webRoot = "";
-
-    //click back event
-    window.addEventListener("popstate", function () {
-
-      var id = $.ui.get_panel_id_from_hash(document.location.hash);
-      //make sure we allow hash changes outside jqUi
-      if (id == "" && $.ui.history.length === 1) //Fix going back to first panel and an empty hash
-        id = "#" + $.ui.firstDiv.id;
-      if (id == "")
-        return;
-      if (document.querySelectorAll(id + ".panel").length === 0)
-        return;
-      if (id != "#" + $.ui.active_div.id)
-        that.go_back();
-    }, false);
+//      if (current_panel_id == "" && $.ui.history.length === 1) {
+//        alert('this happens once');
+//        current_panel_id = "#" + $.ui.firstDiv.id;
+//      }
+//      if (current_panel_id == ""){
+//        return;
+//      }
+//      else if (document.querySelectorAll(current_panel_id + ".panel").length === 0){
+//        return;
+//      }
+//      else if (current_panel_id != "#" + $.ui.active_div.id) {
+//        this_ui.go_back();
+//      }
+//    }, false);
 
     window.addEventListener("unloadpanel", function () {
-
-      console.log('fuckin unload');
-      console.log($.ui.get_panel_id_from_hash(document.location.hash));
+      console.log('unload requested but should be handled differently');
     }, false);
 
 
@@ -114,8 +100,8 @@
     useAjaxCacheBuster: false,    //add "&cache=_rand_" to any ajax loaded link
 
     autoBoot: function () {
-      this.has_launched = true;
       if (this.auto_launch) {
+        this.has_launched = true;
         this.launch();
       }
     },
@@ -753,45 +739,6 @@
       else {
         this.loadDiv(target, newTab, back, transition);
       }
-//            var what = null;
-//            var that = this;
-//            var loadAjax = true;
-//            anchor = anchor || document.createElement("a"); //Hack to allow passing in no anchor
-//            if (target.indexOf("#") == -1) {
-//              alert('this gets called');
-////                var urlHash = "url" + crc32(target); //Ajax urls
-////                var crcCheck = jq("div.panel[data-crc='" + urlHash + "']");
-////                if (jq("#" + target).length > 0) {
-////                  alert('here1');
-////                    loadAjax = false;
-////                }
-////                else if (crcCheck.length > 0) {
-////                  alert('devils2');
-////                    loadAjax = false;
-////                    if (anchor.getAttribute("data-refresh-ajax") === 'true' || (anchor.refresh && anchor.refresh === true || this.is_ajax_app)) {
-////                        loadAjax = true;
-////                      alert('devil4s');
-////                    }
-////                    else {
-////                        target = "#" + crcCheck.get(0).id;
-////                      alert('devils5');
-////                    }
-////                }
-////                else if (jq("#" + urlHash).length > 0) {
-////
-////                    //ajax div already exists.  Let's see if we should be refreshing it.
-////                    loadAjax = false;
-////                    if (anchor.getAttribute("data-refresh-ajax") === 'true' || (anchor.refresh && anchor.refresh === true || this.is_ajax_app)) {
-////                        loadAjax = true;
-////                    } else
-////                        target = "#" + urlHash;
-////                }
-//            }
-//            if (target.indexOf("#") == -1 && loadAjax) {
-//                this.loadAjax(target, newTab, back, transition, anchor);
-//            } else {
-//                this.loadDiv(target, newTab, back, transition);
-//            }
     },
 
     //This is called internally by load_content.  Here we are loading a div instead of an Ajax link
@@ -906,98 +853,21 @@
       }
     },
 
-//        /**
-//         * This is called internally by load_content.  Here we are using Ajax to fetch the data
-//           ```
-//           $.ui.loadDiv("page.html",false,false,"up");
-//           ```
-//         * @param {String} target
-//         * @param {Boolean} newtab (resets history)
-//         * @param {Boolean} go back (initiate the back click)
-//         * @param {String} transition
-//         * @title $.ui.loadDiv(target,newTab,go_back,transition);
-//         * @api private
-//         */
-//        loadAjax: function(target, newTab, back, transition, anchor) {
-//          alert('prepping for deletion. this should never be called');
-//            // XML Request
-//            if (this.active_div.id == "jQui_ajax" && target == this.ajax_url)
-//                return;
-//            var urlHash = "url" + crc32(target); //Ajax urls
-//            var that = this;
-//            if (target.indexOf("http") == -1)
-//                target = AppMobi.webRoot + target;
-//            var xmlhttp = new XMLHttpRequest();
-//            xmlhttp.onreadystatechange = function() {
-//                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-//                    this.doing_transition = false;
-//
-//                    var doReturn = false;
-//
-//                    //Here we check to see if we are retaining the div, if so update it
-//                    if (jq("#" + urlHash).length > 0) {
-//                        that.update_content_div(urlHash, xmlhttp.responseText);
-//                        jq("#" + urlHash).get(0).title = anchor.title ? anchor.title : target;
-//                    } else if (anchor.getAttribute("data-persist-ajax") || that.is_ajax_app) {
-//
-//                        var refresh = (anchor.getAttribute("data-pull-scroller") === 'true') ? true : false;
-//                        refreshFunction = refresh ?
-//                        function() {
-//                            anchor.refresh = true;
-//                            that.load_content(target, newTab, back, transition, anchor);
-//                            anchor.refresh = false;
-//                        } : null;
-//                        //that.add_content_div(urlHash, xmlhttp.responseText, refresh, refreshFunction);
-//                        urlHash = that.add_content_div(urlHash, xmlhttp.responseText, anchor.title ? anchor.title : target, refresh, refreshFunction);
-//                    } else {
-//
-//                        that.update_content_div("jQui_ajax", xmlhttp.responseText);
-//                        jq("#jQui_ajax").get(0).title = anchor.title ? anchor.title : target;
-//                        that.load_content("#jQui_ajax", newTab, back);
-//                      console.log('im in here');
-//                        doReturn = true;
-//                    }
-//                    //Let's load the content now.
-//                    //We need to check for any script tags and handle them
-//                    var div = document.createElement("div");
-//                    div.innerHTML = xmlhttp.responseText;
-//                    that.parseScriptTags(div);
-//
-//                    if (doReturn)
-//                    {
-//                         if (that.show_loading)
-//                            that.hide_loading_mask();
-//                        return;
-//                    }
-//
-//                    that.load_content("#" + urlHash);
-//                    if (that.show_loading)
-//                       that.hide_loading_mask();
-//                    return null;
-//                }
-//            };
-//            ajax_url = target;
-//            var newtarget = this.useAjaxCacheBuster ? target + (target.split('?')[1] ? '&' : '?') + "cache=" + Math.random() * 10000000000000000 : target;
-//            xmlhttp.open("GET", newtarget, true);
-//            xmlhttp.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-//            xmlhttp.send();
-//            // show Ajax Mask
-//            if (this.show_loading)
-//                this.show_loading_mask();
-//        },
-
     runTransition: function (transition, old_div, current_div, back) {
       if (!this.availableTransitions[transition])
         transition = 'default';
       this.availableTransitions[transition].call(this, old_div, current_div, back);
     },
 
-    //This is called when you want to launch jqUi.  If auto_launch is set to true, it gets called on DOMContentLoaded.
-    //If auto_launch is set to false, you can manually invoke it.
+    //Launches ui_kit.
+    //If Auto_launch is set to true, it gets called on DOMContentLoaded.
+    //If false, you must manually invoke it
     launch: function () {
 
+      //If its launched, get out of here
       if (this.has_launched == false || this.launch_completed) {
         this.has_launched = true;
+        alert('i am in a bad place');
         return;
       }
 
@@ -1053,28 +923,38 @@
           }
         }
       });
+
+
+
       if ($.os.ios) {
         $.bind($.touch_layer, 'exit-edit-reshape', function () {
           that.scrolling_divs[that.active_div.id].setPaddings(0, 0);
         });
       }
 
-      //elements setup
+
+
+      //If there is no navbar, make one
       if (!this.navbar) {
         this.navbar = document.createElement("div");
         this.navbar.id = "navbar";
         this.navbar.style.cssText = "display:none";
         this.viewport_container.append(this.navbar);
       }
+
+
+      //If there is no header, make one
       if (!this.header) {
         this.header = document.createElement("div");
         this.header.id = "header";
         this.viewport_container.prepend(this.header);
       }
+
+
+      //If there is no menu, make one
       if (!this.menu) {
         this.menu = document.createElement("div");
         this.menu.id = "menu";
-        //this.menu.style.overflow = "hidden";
         this.menu.innerHTML = '<div id="menu_scroller"></div>';
         this.viewport_container.append(this.menu);
         this.menu.style.overflow = "hidden";
@@ -1088,6 +968,7 @@
         if ($.feat.nativeTouchScroll)
           $("#menu_scroller").css("height", "100%");
       }
+
 
       if (!this.content_string) {
         this.content_string = document.createElement("div");
@@ -1113,8 +994,10 @@
       //
 
 
-      //setup ajax mask
-      this.add_content_div("jQui_ajax", "");
+      this.add_content_div("first_div_here", "this is the first panel to load");
+
+
+      //Make the maskDiv in the background
       var maskDiv = document.createElement("div");
       maskDiv.id = "jQui_mask";
       maskDiv.className = "ui-loader";
@@ -1122,7 +1005,10 @@
       maskDiv.style.zIndex = 20000;
       maskDiv.style.display = "none";
       document.body.appendChild(maskDiv);
-      //setup modalDiv
+
+
+
+      //Setup the modalDiv in the background
       var modalDiv = document.createElement("div");
       modalDiv.id = "jQui_modal";
       this.viewport_container.prepend(modalDiv);
@@ -1133,8 +1019,10 @@
         vScrollCSS: "jqmScrollbar",
         noParent: true
       });
-
       this.modal_window = modalDiv;
+
+
+
       //get first div, defer
       var defer = {};
       var contentDivs = this.viewport_container.get().querySelectorAll(".panel");

@@ -150,9 +150,8 @@ finishTransition(oldDiv) called at end of each transition to hide the old div an
 ### What is the actionsheet? Add comments on it too
 
 ### div id='ui_kit'
-This is the container div.
-If you do not include it, we create it and move everything inside.
-This is for people who want to use jqUi inside a preexisting project
+This is the container div
+Everything must be put inside this
 
 ### div id='header'
 This is the top header.

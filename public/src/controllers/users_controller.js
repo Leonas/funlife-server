@@ -35,12 +35,12 @@ $.mvc.controller.create('users_controller', {
         var data = JSON.parse(response);
         //If view doesn't exist, make one
         if ($('#user_index_view').length == 0) {
-          $.ui.addContentDiv('user_index_view',
+          $.ui.add_content_div('user_index_view',
               $.template('views/users/user_index_view.js'), 'Users index View');
         }
         //otherwise, update the content inside
         else {
-          //$.ui.updateContentDiv('user_index_view', $.template('views/user/user_index_view.js'));
+          //$.ui.update_content_div('user_index_view', $.template('views/user/user_index_view.js'));
         }
         //show the user_index view
         $.ui.loadContent('user_index_view', false, false, 'fade');
@@ -57,7 +57,7 @@ $.mvc.controller.create('users_controller', {
   login_register: function (action) {
     //If the div doesn't exist, make it!
     if ($('#user_login_register_view').length == 0) {
-      $.ui.addContentDiv('user_login_register_view', $.template('views/users/user_login_register_view.js'), 'Login or Register');
+      $.ui.add_content_div('user_login_register_view', $.template('views/users/user_login_register_view.js'), 'Login or Register');
     }
     //Show the view
     $.ui.loadContent('user_login_register_view', false, false, 'fade');
@@ -82,7 +82,7 @@ $.mvc.controller.create('users_controller', {
   register2: function (action) {
     //If the view doesn't exist, create it
     if ($('#user_register2_view').length == 0) {
-      $.ui.addContentDiv('user_register2_view',
+      $.ui.add_content_div('user_register2_view',
           $.template('views/users/user_register2_view.js', current_user), 'Complete Registration');
     }
     //Show the user_login_view
@@ -103,7 +103,7 @@ $.mvc.controller.create('users_controller', {
 
     //If the div doesn't exist, make it!
     if ($('#user_login_register_view').length == 0) {
-      $.ui.addContentDiv('user_login_register_view', $.template('views/users/user_login_register_view.js'), 'Login or Register');
+      $.ui.add_content_div('user_login_register_view', $.template('views/users/user_login_register_view.js'), 'Login or Register');
     } else {
 
       //this deletes the whole view just to get rid of the login form data
@@ -112,7 +112,7 @@ $.mvc.controller.create('users_controller', {
 
       var elem = document.getElementById('user_login_register_view');
       elem.parentNode.removeChild(elem);
-      $.ui.addContentDiv('user_login_register_view', $.template('views/users/user_login_register_view.js'), 'Login or Register');
+      $.ui.add_content_div('user_login_register_view', $.template('views/users/user_login_register_view.js'), 'Login or Register');
     }
 
     //

@@ -24,16 +24,16 @@ To add divs to the content, simply set the class to “panel”
 `<!-- content goes here -->`
 `</div>`
 
-To add a new div dynamically, call the function `addContentDiv(id,content);`
-`<script>$.ui.addContentDiv("newdiv","This is some new html");</script>`
+To add a new div dynamically, call the function `add_content_div(id,content);`
+`<script>$.ui.add_content_div("newdiv","This is some new html");</script>`
 
 
 To navigate to a page transition via javascript, call the function loadContent(_id_,clear_history,goBackInHistory,transition)
 
 
 
-To update content, call the function updateContentDiv(div_id,content);
-`$.ui.updateContentDiv("login","New Login HTML");`
+To update content, call the function update_content_div(div_id,content);
+`$.ui.update_content_div("login","New Login HTML");`
 
 To prevent a div from scrolling, set the property “scrolling” to “no” on the div
 `<div class=”panel” scrolling=”no”></div>`
@@ -68,19 +68,26 @@ update_footer_elements(elements)          //update the elements in the footer
 update_side_menu(elements)                //update the elements in the side menu
 set_title(value) set the title of the current panel
 set_title(text) //Sets the page title via javascript
-setBackButtonText(text) //Sets the back button text (default is back)
-showMask(text) show the loading mask
-showMask() //Shows the loading mask
-hideMask() //Hides the loading mask
-showModal() load a content panel in a modal window
-hideModal() hide the modal window and remove the content
-updateContentDiv(id,content) update the HTML in a content panel
-addContentDiv(id,content,title) dynamically create a new panel
-addContentDiv (el, content, refresh, refreshFunc) //Adds a div to the DOM and wires it up.  refresh and refreshFunc are used for the jq.scroller pull to refresh functions
-updateAnchors(element,resetHistoryOnClick) //Loops through a div and finds all anchors and wires them up for transitions, etc.  If resetHistoryOnClick is true, it will clear the history when the links are clicked
-loadContent(target,newTab,go_back,transition) initiate a transition or load via ajax
-loadContent(target,newTab,goBackInHistory,transition); //Force a transition call via javascript. target is an element ID or URL.  newTab clears the stack as if a bottom navbar button was pressed.  goBackInHistory is the same as a back button being pressed.  Transition is the transition to show.
-scrollToTop(id) scroll a panel to the top
+set_back_button_text(optional_text)        //Sets the back button text (default is back)
+show_loading_mask(optional_text)           //show the loading mask
+hide_loading_mask()                      //Hides the loading mask
+show_modal(div_id)                      //load a content panel in a modal window
+hide_modal()                            //hide the modal window and remove the content ?? Does it really remove?
+update_content_div(id,content) update the HTML in a content panel
+
+//DOC CONFLICT
+add_content_div(id,content,title) dynamically create a new panel
+add_content_div (el, content, refresh, refreshFunc)       //Adds a div to the DOM and wires it up.
+                                                        //refresh and refreshFunc are used for the jq.scroller
+                                                        //pull to refresh functions
+updateAnchors(element,resetHistoryOnClick)            //Loops through a div and finds all anchors and wires them
+                                                      //up for transitions, etc.  If resetHistoryOnClick is true,
+                                                      //it will clear the history when the links are clicked
+loadContent(target,newTab,goBackInHistory,transition);   //Force a transition call via javascript.   DOESTHISUSEAJAX? DOC ERROR
+                                                        //target is an element ID or URL.  newTab clears
+                                                         //the stack as if a bottom navbar button was pressed.
+                                                         //goBackInHistory is the same as a back button being
+                                                         //pressed.  Transition is the transition to show.
 scrollToTop(div_id) //Will scroll a content panel to the top of the page.  Useful for "Go to Top" links
 slideTransition(prevPanel,currPanel,go_back) initiate a sliding transition
 finishTransition(oldDiv) called at end of each transition to hide the old div and reset the doingTransition variable
@@ -201,16 +208,16 @@ Each div/panel has properties you can set that will change the app.  Below are t
 
 
 	
-* To update the content of a div, you must call the function updateContentDiv(_id_,_content_);
+* To update the content of a div, you must call the function update_content_div(_id_,_content_);
 
 ``` js
-<script>$.ui.updateContentDiv("login","New Login HTML");
+<script>$.ui.update_content_div("login","New Login HTML");
 ```	
 
-* To dynamically add a new div, you can call the function addContentDiv(_id_,_content_);
+* To dynamically add a new div, you can call the function add_content_div(_id_,_content_);
 
 ``` js
-<script>$.ui.addContentDiv("newdiv","This is some new html");
+<script>$.ui.add_content_div("newdiv","This is some new html");
 ```	
 
 * To navigate to a a page transition via javascript, you can call the function loadContent(_id_,clear_history,goBackInHistory,transition)
@@ -241,7 +248,7 @@ Each div/panel has properties you can set that will change the app.  Below are t
 * To change the back button text dynamically
 
 ``` html
-<script>$.ui.setBackButtonText("Go Back");</script>
+<script>$.ui.set_back_button_text("Go Back");</script>
 ```
 
 * To reprocess a div and autowire the anchors again

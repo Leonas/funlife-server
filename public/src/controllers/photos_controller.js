@@ -18,7 +18,7 @@ $.mvc.controller.create('photos_controller', {
 
     //If the view div doesn't exist, make it!
     if ($('#photos_index_view').length == 0) {
-      $.ui.addContentDiv('photos_index_view', $.template('views/photos/photos_index_view.js'), 'Photos');
+      $.ui.add_content_div('photos_index_view', $.template('views/photos/photos_index_view.js'), 'Photos');
     }
     //Show the view
     $.ui.loadContent('photos_index_view', false, false, 'fade');
@@ -29,7 +29,7 @@ $.mvc.controller.create('photos_controller', {
 
     //If the view div doesn't exist, make it!
     if ($('#photos_index_view').length == 0) {
-      $.ui.addContentDiv('photos_index_view', $.template('views/photos/photos_index_view.js'), 'Photos');
+      $.ui.add_content_div('photos_index_view', $.template('views/photos/photos_index_view.js'), 'Photos');
     }
     //Show the view
     $.ui.loadContent('photos_index_view', false, false, 'fade');

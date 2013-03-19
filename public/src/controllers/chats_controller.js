@@ -48,13 +48,13 @@ $.mvc.controller.create('chats_controller', {
 
     //If view doesn't exist, make one
     if ($('#chat_index_view').length == 0) {
-      $.ui.addContentDiv('chat_index_view',
+      $.ui.add_content_div('chat_index_view',
           $.template('views/chats/chat_index_view.js'), 'chats index View');
 
     }
     //otherwise, update the content inside
     else {
-      //$.ui.updateContentDiv('chat_index_view', $.template('views/chat/chat_index_view.js'));
+      //$.ui.update_content_div('chat_index_view', $.template('views/chat/chat_index_view.js'));
     }
     //show the chat_index view
     $.ui.loadContent('chat_index_view', false, false, 'fade');
@@ -65,13 +65,13 @@ $.mvc.controller.create('chats_controller', {
     $('#footer').hide();
     //If view doesn't exist, make one
     if ($('#chat_detail_view').length == 0) {
-      $.ui.addContentDiv('chat_detail_view',
+      $.ui.add_content_div('chat_detail_view',
           $.template('views/chats/chat_detail_view.js', chat_log), 'chats detail View');
 
     }
     //otherwise, update the content inside
     else {
-      //$.ui.updateContentDiv('chat_detail_view', $.template('views/chat/chat_detail_view.js'));
+      //$.ui.update_content_div('chat_detail_view', $.template('views/chat/chat_detail_view.js'));
     }
     //show the chat_detail view
     $.ui.loadContent('chat_detail_view', false, false, 'fade');
@@ -108,13 +108,13 @@ $.mvc.controller.create('chats_controller', {
   sent: function () {
     //If view doesn't exist, make one
     if ($('#chat_sent_view').length == 0) {
-      $.ui.addContentDiv('chat_sent_view',
+      $.ui.add_content_div('chat_sent_view',
           $.template('views/chats/chat_sent_view.js'), 'chats sent View');
 
     }
     //otherwise, update the content inside
     else {
-      //$.ui.updateContentDiv('chat_sent_view', $.template('views/chat/chat_sent_view.js'));
+      //$.ui.update_content_div('chat_sent_view', $.template('views/chat/chat_sent_view.js'));
     }
     //show the chat_detail view
     $.ui.loadContent('chat_sent_view', false, false, 'fade');
@@ -125,13 +125,13 @@ $.mvc.controller.create('chats_controller', {
   new: function () {
     //If view doesn't exist, make one
     if ($('#chat_new_view').length == 0) {
-      $.ui.addContentDiv('chat_new_view',
+      $.ui.add_content_div('chat_new_view',
           $.template('views/chats/chat_new_view.js'), 'chat new View');
 
     }
     //otherwise, update the content inside
     else {
-      //$.ui.updateContentDiv('chat_new_view', $.template('views/chat/chat_new_view.js'));
+      //$.ui.update_content_div('chat_new_view', $.template('views/chat/chat_new_view.js'));
     }
     //show the chat_detail view
     $.ui.loadContent('chat_new_view', false, false, 'fade');

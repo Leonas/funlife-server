@@ -19,7 +19,7 @@ $.mvc.controller.create('people_controller', {
 
     //If the view div doesn't exist, make it!
     if ($("#people_index_view").length == 0) {
-      $.ui.addContentDiv("people_index_view", $.template('views/people/people_index_view.js'), "People");
+      $.ui.add_content_div("people_index_view", $.template('views/people/people_index_view.js'), "People");
     }
     //Show the view
     $.ui.loadContent("people_index_view", false, false, "fade");
@@ -30,7 +30,7 @@ $.mvc.controller.create('people_controller', {
 
     //If the view div doesn't exist, make it!
     if ($("#people_followers_view").length == 0) {
-      $.ui.addContentDiv("people_followers_view", $.template('views/people/people_followers_view.js'), "People");
+      $.ui.add_content_div("people_followers_view", $.template('views/people/people_followers_view.js'), "People");
     }
     //Show the view
     $.ui.loadContent("people_followers_view", false, false, "fade");
@@ -48,12 +48,12 @@ $.mvc.controller.create('people_controller', {
         var data = JSON.parse(response);
         //If view doesn't exist, make one
         if ($('#people_nearby_view').length == 0) {
-          $.ui.addContentDiv('people_nearby_view',
+          $.ui.add_content_div('people_nearby_view',
               $.template('views/people/people_nearby_view.js', data), 'People Nearby View');
         }
         else {
           //otherwise, update the content inside
-          $.ui.updateContentDiv('people_nearby_view', $.template('views/people/people_nearby_view.js', data));
+          $.ui.update_content_div('people_nearby_view', $.template('views/people/people_nearby_view.js', data));
         }
         //show the view
         $.ui.loadContent('people_nearby_view', false, false, 'fade');
@@ -68,7 +68,7 @@ $.mvc.controller.create('people_controller', {
   detail: function (user_id) {
     //If the view div doesn't exist, make it!
     if ($("#people_detail_view").length == 0) {
-      $.ui.addContentDiv("people_detail_view", $.template('views/people/people_detail_view.js'), "People");
+      $.ui.add_content_div("people_detail_view", $.template('views/people/people_detail_view.js'), "People");
     }
     //Show the view
     $.ui.loadContent("people_detail_view", false, false, "fade");

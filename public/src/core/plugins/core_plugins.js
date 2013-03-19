@@ -54,12 +54,12 @@ var global = {
 
 
     if ($('#' + options.div_id).length == 0) {
-      $.ui.addContentDiv(options.div_id,
+      $.ui.add_content_div(options.div_id,
           $.template(options.template), options.title, options.data);
     }
     //otherwise, update the content inside
     else {
-      $.ui.updateContentDiv(options.div_id, $.template(options.template), options.data);
+      $.ui.update_content_div(options.div_id, $.template(options.template), options.data);
     }
     //trigger the page transition/navigation event
     //These 4 things are ____??? Get from the API

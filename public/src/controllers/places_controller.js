@@ -18,7 +18,7 @@ $.mvc.controller.create('places_controller', {
 
     //If the view div doesn't exist, make it!
     if ($('#places_index_view').length == 0) {
-      $.ui.addContentDiv('places_index_view', $.template('views/places/places_index_view.js'), 'places');
+      $.ui.add_content_div('places_index_view', $.template('views/places/places_index_view.js'), 'places');
       $('#places_index_view').gmaps({
         center: new google.maps.LatLng(37.76, -122.43),
         zoom: 10,

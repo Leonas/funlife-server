@@ -504,7 +504,7 @@
             jq("#header #pageTitle").html(val);
         },
 
-        setBackButtonText: function(text) {
+        set_back_button_text: function(text) {
             if (this.backButtonText.length > 0)
                 jq("#header #backButton").html(this.backButtonText);
             else
@@ -529,13 +529,13 @@
             jq("#jQui_mask").hide()
         },
 
-        showModal: function(id) {
+        show_modal: function(id) {
             var that = this;
             id="#"+id.replace("#","");
             try {
                 if (jq(id)) {
                     jq("#modalContainer").html($.feat.nativeTouchScroll ? jq(id).html() : jq(id).get(0).childNodes[0].innerHTML + '', true);
-                    jq('#modalContainer').append("<a href='javascript:;' onclick='$.ui.hideModal();' class='closebutton modalbutton'></a>");
+                    jq('#modalContainer').append("<a href='javascript:;' onclick='$.ui.hide_modal();' class='closebutton modalbutton'></a>");
                     this.modal_window.style.display = "block";
 
                     button = null;
@@ -549,7 +549,7 @@
             }
         },
 
-        hideModal: function() {
+        hide_modal: function() {
             $("#modalContainer").html("", true);
             jq("#jQui_modal").hide()
 
@@ -564,7 +564,7 @@
 
         },
 
-        updateContentDiv: function(id, content_string) {
+        update_content_div: function(id, content_string) {
             id="#"+id.replace("#","");
             var element = jq(id).get(0);
             if (!element)
@@ -590,14 +590,14 @@
         /**
          * Dynamically create a new panel on the fly.  It wires events, creates the scroller, applies Android fixes, etc.
            ```
-           $.ui.addContentDiv("myDiv","This is the new content","Title");
+           $.ui.add_content_div("myDiv","This is the new content","Title");
            ```
          * @param {String|Object} Element to add
          * @param {String} Content
          * @param {String} title
-         * @title $.ui.addContentDiv(id,content_string,title);
+         * @title $.ui.add_content_div(id,content_string,title);
          */
-        addContentDiv: function(element, content_string, title, refresh, refreshFunc) {
+        add_content_div: function(element, content_string, title, refresh, refreshFunc) {
             element = typeof (element) !== "string" ? element : element.indexOf("#") == -1 ? "#" + element : element;
             var myEl = jq(element).get(0);
             if (!myEl) {
@@ -930,7 +930,7 @@
                     window[fnc](what);
                 }
                 $(what).trigger("loadpanel");
-                return this.showModal(what.id);
+                return this.show_modal(what.id);
             }
 
 
@@ -994,19 +994,19 @@
                     var element = jq(prevId).get(0);
                     //make sure panel is there
                     if (element)
-                        this.setBackButtonText(element.title);
+                        this.set_back_button_text(element.title);
                     else
-                        this.setBackButtonText("Back");
+                        this.set_back_button_text("Back");
                 }
             } else if (this.active_div.title)
-                this.setBackButtonText(this.active_div.title)
+                this.set_back_button_text(this.active_div.title)
             else
-                this.setBackButtonText("Back");
+                this.set_back_button_text("Back");
             if (what.title) {
                 this.set_title(what.title);
             }
             if (newTab) {
-                this.setBackButtonText(this.firstDiv.title)
+                this.set_back_button_text(this.firstDiv.title)
             }
 
             if (this.history.length == 0) {
@@ -1048,7 +1048,7 @@
 
                     //Here we check to see if we are retaining the div, if so update it
                     if (jq("#" + urlHash).length > 0) {
-                        that.updateContentDiv(urlHash, xmlhttp.responseText);
+                        that.update_content_div(urlHash, xmlhttp.responseText);
                         jq("#" + urlHash).get(0).title = anchor.title ? anchor.title : target;
                     } else if (anchor.getAttribute("data-persist-ajax") || that.is_ajax_app) {
 
@@ -1059,11 +1059,11 @@
                             that.loadContent(target, newTab, back, transition, anchor);
                             anchor.refresh = false;
                         } : null;
-                        //that.addContentDiv(urlHash, xmlhttp.responseText, refresh, refreshFunction);
-                        urlHash = that.addContentDiv(urlHash, xmlhttp.responseText, anchor.title ? anchor.title : target, refresh, refreshFunction);
+                        //that.add_content_div(urlHash, xmlhttp.responseText, refresh, refreshFunction);
+                        urlHash = that.add_content_div(urlHash, xmlhttp.responseText, anchor.title ? anchor.title : target, refresh, refreshFunction);
                     } else {
 
-                        that.updateContentDiv("jQui_ajax", xmlhttp.responseText);
+                        that.update_content_div("jQui_ajax", xmlhttp.responseText);
                         jq("#jQui_ajax").get(0).title = anchor.title ? anchor.title : target;
                         that.loadContent("#jQui_ajax", newTab, back);
                       console.log('im in here');
@@ -1222,7 +1222,7 @@
             this.titleBar = $("#header #pageTitle").get(0);
 
             //setup ajax mask
-            this.addContentDiv("jQui_ajax", "");
+            this.add_content_div("jQui_ajax", "");
             var maskDiv = document.createElement("div");
             maskDiv.id = "jQui_mask";
             maskDiv.className = "ui-loader";
@@ -1289,7 +1289,7 @@
                             success: function(data) {
                                 if (data.length == 0)
                                     return;
-                                $.ui.updateContentDiv(j, data);
+                                $.ui.update_content_div(j, data);
                                 that.parseScriptTags(jq(j).get());
                                 loaded++;
                                 if (loaded >= toLoad) {
@@ -1358,7 +1358,7 @@
                         that.firstDiv.style.display = "block";
                         $("#header #backButton").css("visibility", "hidden");
                         if (that.firstDiv.getAttribute("data-modal") == "true" || that.firstDiv.getAttribute("modal") == "true") {
-                            that.showModal(that.firstDiv.id);
+                            that.show_modal(that.firstDiv.id);
                         }
                     }
 

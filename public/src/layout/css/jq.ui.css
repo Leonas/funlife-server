@@ -105,35 +105,13 @@ width:100%;
 	display:block;
 	z-index:250;
 	-webkit-box-sizing:border-box; box-sizing:border-box;
-	height:48px;
     left:0px;right:0px;
-	background-image:-webkit-gradient(linear, left top, left bottom, from(rgba(16,25,33,1)), to(rgba(14,23,32,1)), color-stop(.5, rgba(27,36,46,1)), color-stop(.5, rgba(14,23,32,1)));
-	-webkit-box-shadow:0px 0px 24px rgba(0,0,0,0.8); box-shadow:0px 0px 24px rgba(0,0,0,0.8);
 } /* This is masthead bar that appears at the top of the UI */
 
 #header > * {
 position:relative;
 z-index:2;
 }
-
-#header > h1 {
-	position:absolute;
-	overflow:hidden;
-	width:100%;
-    z-index:1;
-    text-align:center;
-	height:48px;
-	font-family: Helvetica, Arial, sans-serif;
-	font-weight:normal;
-	font-size:24px;
-	line-height:48px;
-	text-shadow:rgba(0,0,0,0.8) 0px -1px 0px 1px;
-	text-align:center;
-	text-overflow:ellipsis;
-	white-space:nowrap;
-	color:#fff;
-} /* This is text that appears in the header at the top of the screen */
-
 
 
 
@@ -155,34 +133,6 @@ z-index:2;
 	text-overflow:ellipsis;
 } /* sets up sizing and handling of excess text for the type in the back button */
 
-.button {
-    z-index:1;
-	color:#333;
-	cursor:pointer;
-	display:inline-block;
-	font-weight:bold;
-	font-size:14px;
-	line-height:36px;
-	position:relative;
-	text-decoration:none;
-	text-align:center;
-	text-shadow:#fff 0 1px 0;
-	height:36px; min-width:40px;
-	padding:0px 8px;
-	margin-top:6px; margin-left:6px;
-	text-overflow:ellipsis;
-	-webkit-border-radius:6px; border-radius:6px;
-	background-image:-webkit-gradient(linear, left top, left bottom, from(#fff), to(#999), color-stop(.5,#fff), color-stop(.5,#ccc)); background-image:linear-gradient(left top, left bottom, from(#fff), to(#999), color-stop(.5,#fff), color-stop(.5,#ccc));
-	background:#ccc;
-} /* Styling for CSS-generated buttons, including the back button. These buttons can bue used anywhere in the UI. */
-
-.button.pressed {
-	color:#fff;
-	text-shadow:#2e4987 0 1px 0;
-	background-color:#5884d6;
-	border-color:#7488b8;
-	background-image:-webkit-gradient(linear,left top,left bottom, color-stop(0.01, #eee), color-stop(0.05, #709de7), color-stop(0.70, #5884d6), color-stop(1, #4470ca));
-} /* behavior of button for touch interaction */
 
 .modalbutton {
 	position:absolute;
@@ -313,51 +263,6 @@ background:#333;
 /*font-size:48px;*/
 /*}*/
 
-.jq-badge {
-	display:-webkit-box;
-	-webkit-box-direction:reverse; 
-	position:absolute;
-	font-size:10px;
-	border:2px solid white;
-	color:white;
-	background:red;
-	line-height:12px;
-	border-radius:10px;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	min-width:20px;
-	max-width:90%;
-	height:20px;
-	margin:2px;
-	padding: 1px 4px 1px 4px;
-	top:2px;
-	right:2px;
-	text-align:center;
-	z-index:100;
-}
-
-.jq-badge.br {
-	bottom:2px;
-	right:2px;
-	top:auto;
-	left:auto;
-}
-
-.jq-badge.bl {
-	-webkit-box-direction:normal !important;
-	bottom:2px;
-	left:2px;
-	top:auto;
-	right:auto;
-}
-
-.jq-badge.tl {
-	-webkit-box-direction:normal !important;
-	top:2px;
-	left:2px;
-	right:auto;
-	bottom:auto;
-}
 
 
 /* Custom footers - always hidden */

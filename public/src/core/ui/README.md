@@ -1,15 +1,30 @@
 # Mobile Webkit UI/UX
 
-### Panel Choices to make
-header: which id?
-footer: which tab?
-back button true/false
+### Create or Update Content
+
+This call must be in another js file so it can be easily edited and not lost in the huge
+jqui file
 
 
+$.show_page({
+header: id_of_header or null
+footer: tab_id or null
+left_button: id_of_left_button_div
+right_button: id_of_right_button_div or null
+title: 'FunLife',
+active_nav: '#bottom_nav_home',
+div_id: 'user_index_view',
+template: 'views/users/user_index_view.js',
+back_button: true,### Headers
+api_url: '/users/',
+data: false
+on_load: function(){}
+on_unload: function(){} , presets of 'instant_disposal', 'no_disposal', 'default_disposal'
+})
 
 
-### Headers
-
+If local data is found, it will be loaded first, otherwise, its blank until the data pops in
+No spinners
 
 ### Footers
 
@@ -59,32 +74,52 @@ To prevent a div from scrolling, set the property “scrolling” to “no” on
 
 **Prefix all calls with** `$.ui.`
 ```js
-.load_default_hash  boolean to load/not load panel from hash when app started (default is true)
-.block_ui(opacity)       ///throw up a mask and block the UI
+
+For Deletion:
+
+.block_ui(opacity)       ///throw up a mask and
 .unblock_ui()           //removes the UI mask
-.remove_footer_nav()    //removes the bottom nav bar from app
+.show_loading                   //boolean to show/not show loading spinner on ajax requests
+
+
+End
+
+
+For Repairs
+  .remove_footer_nav()    //removes the bottom nav bar from app //it didnt work
+
+end
+
+.load_default_hash  boolean to load/not load panel from hash when app started (default is true)
+
+
+
+//Settings
 .show_footer_menu       //boolean to show bottom nav bar
 .auto_launch             //boolean to auto launch jqUi
-.is_ajax_app                 //boolean that when true treats every request as if the anchor had
-                            //data-refresh-ajax=true and data-persist-ajax=true
-.show_loading                   //boolean to show/not show loading spinner on ajax requests
+
+
+
+
+//Functions
 .launch()                      //Manually invoke the launch of jqUi. If auto_launch is true, gets called
                               //on DOMContentLoaded
-.set_back_button_visibility(something)   //look it up
+.set_back_button_visibility(force)   //force back button visibility to true or false
+
 .reset_scrollers                //boolean to reset the scroller position when navigating panels (default true)
 .ready(function)               //Takes in a function and executes it when launch() has completed
-.set_back_button_style(class) //override the back button class name
+.set_back_button_style(class) //sets new class for the back button
 .go_back()                           //goes to the previous page in history
 .clear_history()                       //clears the history stack
-.update_badge(target,value,[position])  //update a badge on the selected target
-         * Update a badge on the selected target.  Position can be
-            bl = bottom left
-            tl = top left
-            br = bottom right
-            tr = top right (default)
-           ```
-           $.ui.update_badge('#mydiv','3','bl','green');
-.remove_badge(target)                     //remove a badge from the selected target
+
+
+
+
+
+
+
+
+
 .toggle_footer_menu(optional_boolean)               //will hide or show the bottom nav menu
 .toggle_header_menu(optional_boolean)                 //hide or show the header menu
 .toggle_side_menu(optional_boolean)                     //hide or show the side menu
@@ -102,7 +137,7 @@ To prevent a div from scrolling, set the property “scrolling” to “no” on
 .add_content_div (element, content_string, title, refresh)       //Adds a div to the DOM and wires it up.
 
                                                         //pull to refresh functions
-.load_content(target,newTab,goBackInHistory,transition);   //Force a transition call via javascript.   DOESTHISUSEAJAX? DOC ERROR
+.load_content(target,newTab,goBackInHistory,transition);   //Force a transition call via javascript.
                                                         //target is an element ID or URL.  newTab clears
                                                          //the stack as if a bottom navbar button was pressed.
                                                          //goBackInHistory is the same as a back button being

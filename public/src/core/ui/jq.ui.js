@@ -126,10 +126,9 @@
     //If false, you must manually invoke it
     launch: function () {
 
-      //If its launched, get out of here
+      //I've been launched already, set has_launched to true and return
       if (this.has_launched == false || this.launch_completed) {
         this.has_launched = true;
-        alert('i am in a bad place');
         return;
       }
 
@@ -245,19 +244,15 @@
 
       this.backButton = $("#header #backButton").get(0);
 
-      this.backButton.className = "button";
       jq(document).on("click", "#header #backButton", function () {
         that.go_back();
       });
-      this.backButton.style.visibility = "hidden";
-
-      //
 
 
       this.add_content_div("first_div_here", "this is the first panel to load");
 
 
-      //Make the maskDiv in the background
+      //Make the loading mask Div in the background
       var maskDiv = document.createElement("div");
       maskDiv.id = "jQui_mask";
       maskDiv.className = "ui-loader";
@@ -555,35 +550,6 @@
       return firstSlash == -1 ? hash : hash.substring(0, firstSlash);
     },
 
-    update_badge: function (target, value, position, color) {
-      if (position === undefined)
-        position = "";
-      if (target[0] != "#")
-        target = "#" + target;
-      var badge = jq(target).find("span.jq-badge");
-
-      if (badge.length == 0) {
-        if (jq(target).css("position") != "absolute")
-          jq(target).css("position", "relative");
-        badge = jq("<span class='jq-badge " + position + "'>" + value + "</span>");
-        jq(target).append(badge);
-      } else
-        badge.html(value);
-
-
-      if (jq.isObject(color)) {
-        badge.css(color);
-      } else if (color) {
-        badge.css("background", color);
-      }
-
-      badge.data("ignore-pressed", "true");
-
-    },
-
-    remove_badge: function (target) {
-      jq(target).find("span.jq-badge").remove();
-    },
 
     toggle_footer_menu: function (force) {
       if (!this.show_footer_menu)
@@ -769,7 +735,7 @@
 
     show_loading_mask: function (text) {
       if (!text)
-        text = "Loading Content";
+        text = "Loading...";
       jq("#jQui_mask>h1").html(text);
       jq("#jQui_mask").show()
     },

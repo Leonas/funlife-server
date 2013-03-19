@@ -1,28 +1,39 @@
 //controllers.js
 
 (function ($) {
-    //"use strict";
+
     var viewsCache = [], modelsCache = [], readyFuncs = {}, viewsTotal = {}, modelsTotal = {},
         viewsLoaded = {}, modelsLoaded = {}, controllerReady = {};
 
+    //Create a new controller
+    $.mvc.controller = {};
 
-    $.mvc.controller = {};                                                   //set mvc controller to empty object
-
-    $.mvc.controller.create = function (name, object) {
+    //We will add each controller given to the $mvc.controller object
+    $.mvc.controller.create = function (name, controller) {
         var loaded = true, i, shortName;
-        $.mvc.controller[name] = object;
+
+        //make it easily accessible
+        $.mvc.controller[name] = controller;
+
+        //stats on total views
         viewsTotal[name] = 0;
         viewsLoaded[name] = 0;
+
+        //stats on total models
         modelsLoaded[name] = 0;
         modelsTotal[name] = 0;
-        if (object.hasOwnProperty("init")) { controllerReady[name] = object; }
-        if (object.hasOwnProperty("views") && (object.views.length > 0 || Object.keys(object.views).length) > 0) {
+        if (controller.hasOwnProperty("init")) { controllerReady[name] = controller; }
+
+        //if the controller has its own views
+        if (controller.hasOwnProperty("views") && (controller.views.length > 0 || controller.keys(controller.views).length) > 0) {
             loaded = false;
-            viewsTotal[name] = object.views.length || Object.keys(object.views).length;
-            for (i in object.views) {
-                shortName = $.isArray(object.views) ? object.views[i] : i;                           //replace this
+
+            //total views taken by length of array or by key.
+            viewsTotal[name] = controller.views.length || controller.keys(controller.views).length;
+            for (i in controller.views) {
+                shortName = $.isArray(controller.views) ? controller.views[i] : i;                           //replace this
                 if (!viewsCache[shortName] && jq("#" + shortName).length === 0) {
-                    $.mvc.controller.addView(object.views[i], name, shortName);
+                    $.mvc.controller.addView(controller.views[i], name, shortName);
                     viewsCache[shortName] = 1;
                 }
             }
@@ -39,12 +50,13 @@
 
     };
 
-
+    //
     $.mvc.controller.addView = function (path, controller, name) {
         $.get(path, function (data) {
             $(document.body).append($("<script type='" + $.mvc._app._templateType + "' id='" + name + "'>" + data + "</script>"));
             viewsLoaded[controller]++;
             if ((viewsLoaded[controller] === viewsTotal[controller])) {
+              console.log('fuuuuck!!!');
                 $(document).trigger(controller + ":ready", {
                     name: controller
                 });

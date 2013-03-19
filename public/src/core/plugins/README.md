@@ -1,11 +1,13 @@
 
 jq.alphaTable
 
-* A CSS3 Alphabetical/scrolling table.  This creates a table that you can scroll, but have the alphabetical index for users to jump around with.
+* A CSS3 Alphabetical/scrolling table.  This creates a table that you can scroll,
+but have the alphabetical index for users to jump around with.
 
 jq.scroller 
 
-* A CSS3 scrolling library.  This allows you to create a fixed height/width div and scroll veritical and/or horizontal.
+* A CSS3 scrolling library.  This allows you to create a fixed height/width
+div and scroll veritical and/or horizontal.
 
 jq.carousel
 
@@ -13,13 +15,16 @@ jq.carousel
 
 jq.swipeListener
 
-* This detects swipe events on an element.  You can set the threshold of pixels they must move for veritcal or horizontal.
+* This detects swipe events on an element.  You can set the threshold of
+pixels they must move for veritcal or horizontal.
 
-* Executes a callback function with an object as a parameter that indicates if the swipe was north, south, east, or west.  
+* Executes a callback function with an object as a parameter that indicates
+if the swipe was north, south, east, or west.
 
 jq.selectBox
 
-* A replacement for HTML select boxes on Android devices.  There is a bug when -webkit-transform:translate3d is applied to elements, it causes an issue with painting the active area.
+* A replacement for HTML select boxes on Android devices.  There is a bug when
+-webkit-transform:translate3d is applied to elements, it causes an issue with painting the active area.
 
 * This will find all select boxes in an element and replace them with the new widget.
 
@@ -27,7 +32,9 @@ jq.selectBox
 
 jq.passwordBox
 
-* A replacement for HTML password boxes on Android devices.  There is a bug when -webkit-transform:translate3d is applied to elements, it causes an issue with painting the focused box on the page.
+* A replacement for HTML password boxes on Android devices.  There is a bug when
+-webkit-transform:translate3d is applied to elements, it causes an issue with painting
+the focused box on the page.
 
 * This will find all password boxes in an element and replace them with the new widget.
 
@@ -35,7 +42,8 @@ jq.passwordBox
 
 jq.css3animate
 
-* This is a helper function for doing css3 animations.  It allows you to animate the x/y position, opacity and width/height (more properties coming soon).
+* This is a helper function for doing css3 animations.  It allows you to animate the x/y
+position, opacity and width/height (more properties coming soon).
 
 jq.drawer
 
@@ -45,19 +53,6 @@ jq.fx
 
 * These are fx helpers for providing some animations
 
-# How to use jQ.Web libraries
-
-#jq.8tiles
-
-To use jq.8tiles add the plugin in your app. Next, remove the reference to your jqUi CSS file and use the supplied jq.8tiles.css instead
-
-``` html
-   <link rel="stylesheet" type="text/css" href="plugins/css/jq.8tiles.css" title="8tiles"/>
-```
-
-``` html
-    <script type="text/javascript" charset="utf-8" src="./plugins/jq.8tiles.js"></script> 
-````
 
 #jq.alphaTable
 
@@ -76,7 +71,8 @@ To use jq.alphaTable, you must also include the jq.scroller library and do the f
 </div>
 ``` 
 
-3. Call the javascript function to create the object.  The first paramter is the ID for the scroller, the second is the scroller object.  The third is optional config parameters.
+3. Call the javascript function to create the object.  The first paramter is the ID for the
+scroller, the second is the scroller object.  The third is optional config parameters.
 
 ``` js
 var alphaTable = $("#contentDIV").alphaTable(scroller,{prefix:"contacts_",listCssClass:"cssClassName"});
@@ -87,7 +83,8 @@ There are two optional parameters
 ```` js
 var options{
    prefix:"contacts_", //prefix for your divs
-   listCssClass:"listTable" //CSS class name to style the alphabet list.  You can position it, set the background color, etc.
+   listCssClass:"listTable" //CSS class name to style the alphabet list.  You can position
+   it, set the background color, etc.
 }
 ``` 
 
@@ -150,7 +147,8 @@ If you want to make persistent scrollbars, override the opacity style for the cl
 
 To use jq.carousel you must do the following
 
-1. Create a div with the content inside you want to page between.  You must set the height and width of this div, along with overflow:hidden
+1. Create a div with the content inside you want to page between.  You must set the
+height and width of this div, along with overflow:hidden
 
 ``` html
 <div id="my_div" style="width:768px;height:400px;overflow:hidden">
@@ -162,7 +160,8 @@ To use jq.carousel you must do the following
 2. if you want the dots to show up for paging, create the div
 
 ``` html
-<div id="carousel_dots" style="text-align: center; margin-left: auto; margin-right: auto; clear: both;position:relative;top:-40px;z-index:200"></div>
+<div id="carousel_dots" style="text-align: center; margin-left: auto; margin-right: auto;
+clear: both;position:relative;top:-40px;z-index:200"></div>
 ```
 
 3. Call the javascript function to create the carousel
@@ -210,66 +209,27 @@ There are additional configuration options that are passed in as an object param
 var options={
    vthreshold:50, //vertical pixel threshold
    hthreshold:50, //horizontal pixel threshold
-   callback:null //callback function to execute.  It takes one parameter that is an object of the swipe directions {up:true,down:false,left:true,right:false}
+   callback:null //callback function to execute.  It takes one parameter that is an object of the
+                 //swipe directions {up:true,down:false,left:true,right:false}
 }
 
 var swipeListener = $("#mydiv").swipeListener(options);
-var swipeListener = $(document).swipeListener({vthreshold:30,hthreshold:50,callBack:function(dir){console.log(dir)}});
+var swipeListener = $(document).swipeListener({
+  vthreshold:30,
+  hthreshold:50,
+  callBack: function(dir){ console.log(dir) } });
 ```
 
-# jq.template
-
-The template parsing library is John Resig's micro templating, with some fixes and enhancements.  http://ejohn.org/blog/javascript-micro-templating/
-
-There are two functions
-
-1. $.template()  - returns an HTML string
-
-2. $.tmpl() - returns a jqMobi object (similar to jquery's $.tmpl)
-
-To use jq.template you must do the following
-
-1. Create your template.  The easiest way is to create &lt;script&lt; tags with the content type of "text/html" and set an id
-
-``` html
-<script type='text/html' id='user_info'>
-   Name <%=userinfo.name%><br>
-   Company <%=userinfo.company%><br>
-   Cool <%=userinfo.awesome%>
-</script>
-```
-
-2. To process the template you call a javascript function with the id of the template, and optional data to pass in
-
-``` js
- $("#output").html(template("my_template"));
- 
- $.tmpl("my_template").appendTo("#output");
-```
-
-You can pass in an optional object parameter that provides data to be used within the template.  Below is a sample that could display user information based on a user object
-
-``` html
-<script type='text/html' id='user_info'>
-   Name <%=userinfo.name%><br>
-   Company <%=userinfo.company%><br>
-   Cool <%=userinfo.awesome%>
-</script>
-<script type='text/javascript'>
-var user={
-   name:"Joe Programmer",
-   company:"appMobi",
-   awesome:"of course"
-}
- $("#template_content").html($.template("user_info",{userinfo:user}));
-</script>
-```
 
 # jq.selectBox
 
-Currently, there exists a bug in Android webkit with -webkit-transform:translate being applied to an element that has <select> elements in it.  The second the translate position is changed, 
-the active box for the select box changes. It could be above or below the actual select box, making the user experience a disaster.  What this does is replaces all select boxes with a custom widget
-that is similar to the Android picker.  The old select is still there and backwards compatible with other libraries for getting/setting values.
+Currently, there exists a bug in Android webkit with -webkit-transform:translate being applied
+ to an element that has <select> elements in it.  The second the translate position is changed,
+the active box for the select box changes. It could be above or below the actual select box,
+making the user experience a disaster.  What this does is replaces all select boxes with a
+custom widget
+that is similar to the Android picker.  The old select is still there and backwards compatible
+with other libraries for getting/setting values.
 
 To use jq.selectBox you must do the following
 
@@ -279,15 +239,19 @@ To use jq.selectBox you must do the following
 <span><select id="myid"><option>1</option></select></span>
 ```
 
-2. On the document.load or appMobi.device.ready listener, you must create an object, then call getOldSelects on the elements (div/spans/document) you want.
+2. On the document.load or appMobi.device.ready listener, you must create an object, then
+call getOldSelects on the elements (div/spans/document) you want.
 
 ``` js
 $.selectBox.getOldSelects("selectTest");
 ```
 
-getOldSelects takes in the id of the element you want to search for select tags in.  Ideally, you would call it on all the divs that have select boxes in it.  There are issues with Google Maps, and other libraries, that inject their own select boxes into the DOM.
+getOldSelects takes in the id of the element you want to search for select tags in.  Ideally,
+you would call it on all the divs that have select boxes in it.  There are issues with
+Google Maps, and other libraries, that inject their own select boxes into the DOM.
 
-To theme this, you can override the inline styles using css.  Please make sure you mark each entry with !important
+To theme this, you can override the inline styles using css.  Please make sure you mark
+each entry with !important
 
 ``` css
 This is a sample design for 768x1024 apps (iPad)
@@ -328,8 +292,12 @@ width:30px !important;
 
 # jq.passwordBox
 
-Currently, there exists a bug in Android webkit with -webkit-transform:translate being applied to an element that has <input type="password"> elements in it.  The second the translate position is changed, 
-the overlay for the password is in a different position, making it look like another input box appears.  What this does is replaces the password box with an input box that updates the content as it goes with an asterik to simulate a password box
+Currently, there exists a bug in Android webkit with -webkit-transform:translate being
+applied to an element that has <input type="password"> elements in it.  The second the
+translate position is changed,
+the overlay for the password is in a different position, making it look like another
+input box appears.  What this does is replaces the password box with an input box that
+updates the content as it goes with an asterik to simulate a password box
 
 To use jq.passwordBox you must do the following
 
@@ -339,14 +307,16 @@ To use jq.passwordBox you must do the following
 <span><input type="password" id="myid"></span>
 ```
 
-2. On the document.load or appMobi.device.ready listener you must create an object and then call getOldPasswords on the elements (div/spans/document) you want.
+2. On the document.load or appMobi.device.ready listener you must create an object and
+then call getOldPasswords on the elements (div/spans/document) you want.
 
 ``` js
 var pwFixer = new $.passwordBox();
 pwFixer.getOldPasswords("selectTest");//element you want to replace the password boxes in
 ```
    
-getOldPasswords takes in the id of the element you want to search for password boxes in.  This will replace them with the new tool.
+getOldPasswords takes in the id of the element you want to search for password boxes in.
+This will replace them with the new tool.
  
 Currently, you can not theme the input boxes, but that will be added soon.
    
@@ -367,7 +337,8 @@ There are additional configuration options that are passed in as an object param
 
 ``` js
 var options={
-   x:20, //x axis move. this can be a number (40), percent (50%), or pixels (40px) - if it's a number, px is added to it.
+   x:20, //x axis move. this can be a number (40), percent (50%), or pixels (40px) - if it's
+   a number, px is added to it.
    y:20, //y axis move
    opacity:.5, //opacity to change to
    width:"100px", //style.width to change to
@@ -390,7 +361,21 @@ $("#div").css3Animate(options);
 You can chain animations by passing in an animation in the callback function
 
 ``` js
-$("#animate").css3Animate({x : 20,y : 30,time : "300ms",callback : function() {$("#animate").css3Animate({x : 20,y : 30,time : "500ms",previous : true,callback : function() {reset();}});}});
+$("#animate").css3Animate({
+  x : 20,
+  y : 30,
+  time : "300ms",
+  callback : function() {
+    $("#animate").css3Animate({
+      x : 20,y : 30,
+      time : "500ms",
+      previous : true,
+      callback : function() {
+        reset();
+      }
+    });
+  }
+});
 ```
 
 You can create a queue of animations too.
@@ -408,7 +393,7 @@ tmp.run();
 
 #jq.drawer
 
-This is a pull widget like the nofication bar on phones.  Users can pull down or up based on configuration.
+This is a pull widget like the notification bar on phones.  Users can pull down or up based on configuration.
 
 to use jq.draw you must do the following
 
@@ -454,29 +439,3 @@ $(selector).fadeIn("300ms") //fade in for 300 ms
 
 $(selector).slideToggle() //Will slide the content in or out
 ```
-
-# Contribute
-
-You can contribute to the core code by forking it and make a pull request.  Please keep in mind we do not want to add functionality that is a one-off case.  These are best dealt with via plugins.
-
-
-# Bugs
-
-Please use github to report any bugs found.  Please provide the following
-
-1. Any error messages from the console
-
-2. Line numbers of offending code
-
-3. Test cases
-
-4. Description of Error
-
-5. Expected result
-
-6. Browser/Device you are testing on
-
-
-# License
-
-jQ.Web is is licensed under the terms of the MIT License, see the included license.txt file.

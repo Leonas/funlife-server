@@ -1,9 +1,41 @@
 # Mobile Webkit UI/UX
 
+### Headers
+
+
+### Footers
+
+
+### Side Menu
+
+
+# Content Area
+
+### Loading Content
+
+Using functionX, pass in the following options:
+
+unload, load
+
+### Updating Content
+
+
+
+
+
+
+
+
+
+
 # Duplicates & Problems to fix
 *  Search the code for load and unload references but the actual unload panel function was never defined
 * on each show page, we need to add in scrolling option
 * defered loading - make this work with routing and not how it works now
+
+* To add divs to the content, simply set the class to "panel".  This is a special css class that we search for at startup.
+ Remove the searching for this
+ Remove the searching for all data- shit
 
 Remove this crap I only want it setable from the router:
 * We handle history and transitions.  You can select from six transitions by setting the data-transition property.  The default is slide.
@@ -55,7 +87,6 @@ To update content, call the function update_content_div(div_id,content);
 To prevent a div from scrolling, set the property “scrolling” to “no” on the div
 `<div class=”panel” scrolling=”no”></div>`
 
-To add custom headers or footers via the <header> or <footer> tags, reference them on the panel with the data-header of data-footer attribute, respectively.
 
 **Prefix all calls with** `$.ui.`
 ```js
@@ -94,7 +125,7 @@ update_content_div(id,content) update the HTML in a content panel
 $.ui.active_div                   //reference to the div. id = $.ui.active_div.id
 
 
-//DOC CONFLICT
+
 add_content_div (element, content_string, title, refresh, refreshFunc)       //Adds a div to the DOM and wires it up.
                                                         //refresh and refreshFunc are used for the jq.scroller
                                                         //pull to refresh functions
@@ -109,55 +140,44 @@ finishTransition(oldDiv) called at end of each transition to hide the old div an
 
 ```
 
-**Plugins**
-```js
-actionSheet(opts) shorthand call to jq.actionsheet plugin. Auto wired to jQUi div.
-`popup(opts) wrapper to jq.popup plugin. If a text string is passed in, acts like an alert box and just gives a message.
-```
+### What is the actionsheet? Add comments on it too
 
-We have four special registered div blocks for your layout based off id's.  They are the header, content, navbar and app container
+### div id='jQUi'
+This is the container div.
+If you do not include it, we create it and move everything inside.
+This is for people who want to use jqUi inside a preexisting project
 
-* jQUi - This is the container div.  If you do not include it, we create it and move everything inside.  This is for people who want to use jqUi inside a prexisting project
+### div id='header'
+This is the top header.
+You can add additional buttons, turn other events on/off on clicks if you need.
+We handle the back button and the title for you.
+If this is not present, we will create it.
 
-* header - this is the top header.  You can add additional buttons, turn other events on/off on clicks if you need.  We handle the back button and the title for you.  If this is not present, we will create it. 
+### div id='content'
+This is the content area.
+You do not need to add anything here.
+All panel divs will be added here.
+If you put a div in there, it will be shown first.
 
-* content - this is the content area.  You do not need to add anything here.  All page divs will be added here.  If you put a div in there, it will be shown first.
+### div id='navbar'
+this is the bottom navbar.
+You can put your navigation buttons here.
+We reset the history queue when you switch the navigation buttons.
+This is optional.
+If you do not include it, it will not be shown.
 
-    Each div inside will need the class "panel".  jqUi will search for all elements with that classname and add them automatically.  These will scroll by default.
-	
-* navbar - this is the bottom navbar.  You can put your navigation buttons here.  We reset the history queue when you switch the navigation buttons.  This is optional.  If you do not include it, it will not be shown.
 
-* You can manipulate the height of the divs via the CSS class.  If you do not want the header to be shown, you can set the display property to none.
 
-* To add divs to the content, simply set the class to "panel".  This is a special css class that we search for at startup.
- 
 * jq.scroller is added automatically, along with jq.select_box, jq.password_box, and jq.css3animate.
-
-* Linking to pages - You can link two ways.  You can link to a file by setting the URL, which will load via AJAX.  Or you can set the href property to "#div_id"
-``` html
-<a href="#login">Login</a>
-```
-
-* We automatically launch the app for you.  If you would like to launch jqUi yourself, do the following
-``` js
-<script>
-jq.ui.auto_launch=false;
-<script>
-```	
-
-* We throw an event when jqUi.launch has completed if you need one.  There is also a ready function
-``` js
-document.addEventListener("jq.ui.ready",jqUiLaunched,false);
-jq.ui.ready(function(){});
-```
 
 
 
 
 #jqUi Side Menu
 
-You can add a side menu by creating <nav> elements.  You can assign them to panels by setting the data-nav attribute.  Note, the first nav is the default and will be shown unless specificied with the data-nav attribute.
-On tablets, this will be shown by default
+You can add a side menu by creating <nav> elements.
+You can assign them to panels by setting the data-nav attribute.
+Note, the first nav is the default and will be shown unless specificied with the data-nav attribute.
 
 ``` html
 <div id="welcome" data-nav="mainnav">
@@ -167,21 +187,4 @@ On tablets, this will be shown by default
 </nav>
 ```
 
-#jqUi Custom Footers
-You can add additional footer menus that can be assigned to each panel.
-
-``` html
-<div id="welcome" data-footer="footerui2">
-</div>
- <footer id='footerui2'>
-	 <div class="horzRule"></div>
-      <a href="#main" id='navbar_home' class='navbar_home' >Home <span class='jq-badge lr'>6</span></a>
-      <a href="#jqmtransitions" id='navbar_js' class="navbar_js" >Trans</a>
-	  <a href="#jqmui" id='navbar_ui'  class="navbar_ui" >ui</a>
-	  <a href="#uiapi" id='navbar_plugins'  class="navbar_plugins" >api</a>
-</footer>
-```
-
-
-# Verified Zone
 

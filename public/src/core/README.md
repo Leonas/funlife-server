@@ -4,6 +4,8 @@ it has been rewritten to make it much clearer, and a new documentation has been 
 Read the documentation, then read the source. The source should be easy to understand.
 If there are any mistakes or something isn't very clear, please fix it.
 
+**There is still so much that needs to be made cleaner and more understandable**
+
 The CSS used is almost identical to Twitter's Bootstrap but its modified to work better on mobile.
 
 The plan is to release the core as open source when we have made sure it works perfectly.

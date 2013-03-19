@@ -1,6 +1,6 @@
 /*global alert: false, confirm: false, console: false */
-                                                                    //self executing function, jq gets passed
-(function ($) {                                                     // $ is also set to jq now
+
+(function ($) {
    // "use strict";
 
                                                                   //lets set the baseUrl to http: // root of host

@@ -150,11 +150,10 @@
 
     go_back: function () {
       if (this.history.length > 0) {
-        var that = this;
         var previous_page = this.history.pop();
-        that.load_content(previous_page.target + "", false, true, previous_page.transition);
-        that.transition_effect = previous_page.transition;
-        that.update_url_hash(previous_page.target);
+        this.load_content(previous_page.target + "", false, true, previous_page.transition);
+        this.transition_effect = previous_page.transition;
+        this.update_url_hash(previous_page.target);
       }
     },
 

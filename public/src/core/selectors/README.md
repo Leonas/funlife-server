@@ -1,4 +1,6 @@
-The selector objects (won't overwrite a previously defined $):
+# Selector API
+
+The selector objects:
 ```js
 $('#main') = jq('#main')  
 ```

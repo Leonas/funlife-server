@@ -163,7 +163,7 @@
         autoLaunch: true,
         showBackbutton: true,
         backButtonText: "",
-        resetScrollers: true,
+        reset_scrollers: true,
 
         // function to fire when jqUi is ready and completed launch
         ready: function(param) {
@@ -177,7 +177,7 @@
         },
 
         //set a new back button class name
-        setBackButtonStyle: function(className) {
+        set_back_button_style: function(className) {
             jq("#backButton").get(0).className = className;
         },
 
@@ -541,7 +541,7 @@
 
                     button = null;
                     content_string = null;
-                    this.scrollingDivs['modal_container'].enable(that.resetScrollers);
+                    this.scrollingDivs['modal_container'].enable(that.reset_scrollers);
                     this.scrollToTop('modal');
                      jq("#modalContainer").data("panel",id);
                 }
@@ -1017,7 +1017,7 @@
                 this.setBackButtonVisibility(true);
             this.active_div = what;
             if (this.scrollingDivs[this.active_div.id]) {
-                this.scrollingDivs[this.active_div.id].enable(this.resetScrollers);
+                this.scrollingDivs[this.active_div.id].enable(this.reset_scrollers);
             }
         },
         /**

@@ -55,17 +55,14 @@ show_nav_menu boolean to show bottom nav bar
 autoLaunch boolean to auto launch jqUi
 
 isAjaxApp boolean that when true treats every request as if the anchor had data-refresh-ajax=true and data-persist-ajax=true
-showLoading boolean to show/not show loading spinner on ajax requests
-launch() launch jqUi. If autoLaunch is true, gets called on DOMContentLoaded
-launch() //Manually invoke the launch of jqUi
-showBackButton boolean to show the back button
-resetScrollers boolean to reset the scroller position when navigating panels
-ready(function) function to fire when jqUi is ready and completed launch
-ready(function) //Takes in a function and executes it when .launch has completed
-setBackButtonStyle(class) override the back button class name
+show_loading                   //boolean to show/not show loading spinner on ajax requests
+launch()                      //Manually invoke the launch of jqUi. If autoLaunch is true, gets called on DOMContentLoaded
+showBackButton                //boolean to show the back button
+reset_scrollers                //boolean to reset the scroller position when navigating panels (default true)
+ready(function)               //Takes in a function and executes it when launch() has completed
+set_back_button_style(class) //override the back button class name
 
-go_back() initiate a back transition
-go_back() //Takes the user back in the history
+go_back() //Goes to the previous page in history
 clear_history() vlear the history queue
 clear_history() //Clears the history stack
 updateBadge(target,value,[position]) update a badge on the selected target

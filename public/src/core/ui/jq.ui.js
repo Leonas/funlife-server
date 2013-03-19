@@ -162,34 +162,39 @@
       this.set_back_button_visibility(false)
     },
 
-    pushHistory: function (previousPage, newPage, transition, hashExtras) {
+    pushHistory: function (previous_page, new_page, transition, hash_extras) {
       //push into local history
       this.history.push({
-        target: previousPage,
+        target: previous_page,
         transition: transition
       });
       //push into the browser history
       try {
-        window.history.pushState(newPage, newPage, start_path + '#' + newPage + hashExtras);
-        $(window).trigger("hashchange", {
-          newUrl: start_path + '#' + newPage + hashExtras,
-          oldURL: start_path + previousPage
+        window.history.pushState(new_page, new_page, start_path + '#' + new_page + hash_extras);
+        $(window).trigger('hashchange', {
+          newUrl: start_path + '#' + new_page + hash_extras,
+          oldURL: start_path + previous_page
         });
-      } catch (e) {
+      }
+      catch (e) {
       }
     },
 
     update_url_hash: function (new_hash) {
-      new_hash = new_hash.indexOf('#') == -1 ? '#' + new_hash : new_hash; //force having the # in the begginning as a standard
+
+      //force having the # in the beginning as a standard
+      new_hash = new_hash.indexOf('#') == -1 ? '#' + new_hash : new_hash;
+
       previous_target = new_hash;
 
-      var previousHash = window.location.hash;
+      var previous_hash = window.location.hash;
       var panelName = this.get_panel_id_from_hash(new_hash).substring(1); //remove the #
       try {
+        alert('panelName is not an object & convert this to url format');
         window.history.replaceState(panelName, panelName, start_path + new_hash);
-        $(window).trigger("hashchange", {
+        $(window).trigger('hashchange', {
           newUrl: start_path + new_hash,
-          oldUrl: start_path + previousHash
+          oldUrl: start_path + previous_hash
         });
       } catch (e) {
       }
@@ -343,6 +348,7 @@
       return this.isSideMenuEnabled() && (menu.hasClass("on") || menu.hasClass("to-on"));
     },
 
+    //this needs to be thoroughly checked out so it can work for me
     update_footer_elements: function (elements) {
       var footer_nav = jq("#navbar");
       if (elements === undefined || elements == null)

@@ -29,18 +29,6 @@ still pull an ajax request to get updates.
 
 ```js
 
-For Deletion:
-
-.block_ui(opacity)       ///throw up a mask and
-.unblock_ui()           //removes the UI mask
-.show_loading                   //boolean to show/not show loading spinner on ajax requests
-  .remove_footer_nav()    //this makes it impossible to bring it back.
-.show_loading_mask(optional_text)           //show the loading mask
-.hide_loading_mask()                      //Hides the loading mask
-
-End
-
-
 For Repairs
    .reset_scrollers                //boolean to reset the scroller position when navigating panels (default true)
     //it resets even when set to false
@@ -89,7 +77,7 @@ end
                                                             //pressed.  Transition is the transition to show.
 
 //Not inspected yet
-.slideTransition(prevPanel,currPanel,go_back)     //initiate a sliding transition
+.slideTransition(prevPanel, currPanel, go_back)     //initiate a sliding transition
 .finishTransition(oldDiv)                         //called at end of each transition to hide the old div and reset
 .update_footer_elements(elements)                 //update the elements in the footer
 .update_side_menu(elements)                       //update the elements in the side menu                                                            //the doingTransition variable

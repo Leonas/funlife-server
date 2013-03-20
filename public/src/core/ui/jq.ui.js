@@ -61,7 +61,6 @@
 
 
   ui.prototype = {
-    show_loading: true,
     load_content_queue: [],
     navbar: "",
     header: "",
@@ -464,20 +463,6 @@
       return $("#ui_kit").popup(options);
     },
 
-    block_ui: function (opacity) {
-      $.block_ui(opacity);
-    },
-
-    unblock_ui: function () {
-      $.unblock_ui();
-    },
-
-    remove_footer_nav: function () {
-      jq("#navbar").hide();
-      jq("#content").css("bottom", "0px");
-      this.show_footer_menu = false;
-    },
-
     // function to fire when jqUi is ready and completed launch
     ready: function (param) {
       if (this.launch_completed)
@@ -731,17 +716,6 @@
         jq("#header #backButton").css("visibility", "hidden");
       else
         jq("#header #backButton").css("visibility", "visible");
-    },
-
-    show_loading_mask: function (text) {
-      if (!text)
-        text = "Loading...";
-      jq("#jQui_mask>h1").html(text);
-      jq("#jQui_mask").show()
-    },
-
-    hide_loading_mask: function () {
-      jq("#jQui_mask").hide()
     },
 
     show_modal: function (id) {

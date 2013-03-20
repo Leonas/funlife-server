@@ -793,8 +793,9 @@
           newDiv.title = title;
         var newId = (newDiv.id) ? newDiv.id : element.replace("#", ""); //figure out the new id - either the id from the loaded div.panel or the crc32 hash
         newDiv.id = newId;
-        if (newDiv.id != element)
+        if (newDiv.id != element){
 //          newDiv.setAttribute("data-crc", element.replace("#", ""));
+        }
       } else {
         newDiv = myEl;
       }

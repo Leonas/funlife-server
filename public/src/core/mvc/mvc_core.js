@@ -143,6 +143,7 @@
             url = url.href;
         }
         if (typeof (url) !== "string") {
+          console.log(url);
             throw "Invalid route parameter.  String or <a> expected";
         }
         var route, axt,
@@ -196,7 +197,7 @@
 
     };
 
-
+    //If $.ui is defined, handle the click through that
     if ($.ui) {
         $.ui.custom_click_handler = $.mvc.route;
     } else {

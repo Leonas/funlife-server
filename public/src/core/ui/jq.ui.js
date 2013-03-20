@@ -139,10 +139,11 @@
       this.content_string = jq("#content").get(0);
       this.header = jq("#header").get(0);
       this.menu = jq("#menu").get(0);
-      //set anchor click handler for UI
+
+//      set anchor click handler for UI
       this.viewport_container[0].addEventListener('click', function (e) {
-        var theTarget = e.target;
-        checkAnchorClick(e, theTarget);
+      //  var theTarget = e.target;
+        checkAnchorClick(e, e.target);
       }, false);
 
 
@@ -289,22 +290,22 @@
 
           element.parentNode.removeChild(element);
           id = element.id;
-          if (tmp.getAttribute("selected"))
-            this.firstDiv = jq("#" + id).get(0);
+//          if (tmp.getAttribute("selected"))
+//            this.firstDiv = jq("#" + id).get(0);
           this.addDivAndScroll(tmp);
           jq("#" + id).insertAfter(prevSibling);
         } else if (!element.parsedContent) {
           element.parsedContent = 1;
           element.parentNode.removeChild(element);
           id = element.id;
-          if (tmp.getAttribute("selected"))
-            this.firstDiv = jq("#" + id).get(0);
+//          if (tmp.getAttribute("selected"))
+//            this.firstDiv = jq("#" + id).get(0);
           this.addDivAndScroll(tmp);
           jq("#" + id).insertAfter(prevSibling);
         }
-        if (element.getAttribute("data-defer")) {
-          defer[id] = element.getAttribute("data-defer");
-        }
+//        if (element.getAttribute("data-defer")) {
+//          defer[id] = element.getAttribute("data-defer");
+//        }
         if (!this.firstDiv)
           this.firstDiv = $("#" + id).get(0);
 
@@ -347,7 +348,7 @@
       }
       if (this.firstDiv) {
 
-        var that = this;
+        that = this;
         // Fix a bug in iOS where translate3d makes the content blurry
         this.active_div = this.firstDiv;
 
@@ -391,9 +392,9 @@
 
             that.firstDiv.style.display = "block";
             $("#header #backButton").css("visibility", "hidden");
-            if (that.firstDiv.getAttribute("data-modal") == "true" || that.firstDiv.getAttribute("modal") == "true") {
-              that.show_modal(that.firstDiv.id);
-            }
+//            if (that.firstDiv.getAttribute("data-modal") == "true" || that.firstDiv.getAttribute("modal") == "true") {
+//              that.show_modal(that.firstDiv.id);
+//            }
           }
 
           that.launch_completed = true;
@@ -414,7 +415,7 @@
         } else
           load_first_div();
       }
-      var that = this;
+      that = this;
       $.bind(that, "content-loaded", function () {
         if (that.load_content_queue.length > 0) {
           var tmp = that.load_content_queue.splice(0, 1)[0];
@@ -937,10 +938,10 @@
         }
         that.customHeader = false;
       }
-      if (what.getAttribute("data-tab")) { //Allow the dev to force the footer menu
-        jq("#navbar a").removeClass("selected");
-        jq("#" + what.getAttribute("data-tab")).addClass("selected");
-      }
+//      if (what.getAttribute("data-tab")) { //Allow the dev to force the footer menu
+//        jq("#navbar a").removeClass("selected");
+//        jq("#" + what.getAttribute("data-tab")).addClass("selected");
+//      }
 
       //Load inline footers
       var inlineFooters = $(what).find("footer");
@@ -957,10 +958,10 @@
         that.update_header_elements(inlineHeader.children());
       }
       //check if the panel has a footer
-      if (what.getAttribute("data-tab")) { //Allow the dev to force the footer menu
-        jq("#navbar a").removeClass("selected");
-        jq("#navbar #" + what.getAttribute("data-tab")).addClass("selected");
-      }
+//      if (what.getAttribute("data-tab")) { //Allow the dev to force the footer menu
+//        jq("#navbar a").removeClass("selected");
+//        jq("#navbar #" + what.getAttribute("data-tab")).addClass("selected");
+//      }
 
       var hasMenu = what.getAttribute("data-nav");
       if (hasMenu && this.custom_menu != hasMenu) {
@@ -974,17 +975,17 @@
       }
 
 
-      if (old_div) {
-        fnc = old_div.getAttribute("data-unload");
-        if (typeof fnc == "string" && window[fnc]) {
-          window[fnc](old_div);
-        }
-        $(old_div).trigger("unloadpanel");
-      }
-      var fnc = what.getAttribute("data-load");
-      if (typeof fnc == "string" && window[fnc]) {
-        window[fnc](what);
-      }
+//      if (old_div) {
+//        fnc = old_div.getAttribute("data-unload");
+//        if (typeof fnc == "string" && window[fnc]) {
+//          window[fnc](old_div);
+//        }
+//        $(old_div).trigger("unloadpanel");
+//      }
+//      var fnc = what.getAttribute("data-load");
+//      if (typeof fnc == "string" && window[fnc]) {
+//        window[fnc](what);
+//      }
       $(what).trigger("loadpanel");
       if (this.isSideMenuOn()) {
         this.toggle_side_menu(false);
@@ -1043,14 +1044,14 @@
       var old_div = this.active_div;
       var currWhat = what;
 
-      if (what.getAttribute("data-modal") == "true" || what.getAttribute("modal") == "true") {
-        var fnc = what.getAttribute("data-load");
-        if (typeof fnc == "string" && window[fnc]) {
-          window[fnc](what);
-        }
-        $(what).trigger("loadpanel");
-        return this.show_modal(what.id);
-      }
+//      if (what.getAttribute("data-modal") == "true" || what.getAttribute("modal") == "true") {
+//        var fnc = what.getAttribute("data-load");
+//        if (typeof fnc == "string" && window[fnc]) {
+//          window[fnc](what);
+//        }
+//        $(what).trigger("loadpanel");
+//        return this.show_modal(what.id);
+//      }
 
 
       if (old_div == currWhat) //prevent it from going to itself

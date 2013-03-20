@@ -1,22 +1,22 @@
 # Mobile UI Kit
 
 ### Create or Update Content
-
+ make defaults
 ```js
 $.show_page({
 header: id_of_header or null
 footer: tab_id or null
-left_button: id_of_left_button_div
+left_button: id_of_left_button_div or null
 right_button: id_of_right_button_div or null
 title: 'FunLife',
 active_nav: '#bottom_nav_home',
 div_id: 'user_index_view',
 template: 'views/users/user_index_view.js',
-back_button: true,### Headers
 api_url: '/users/',
 data: false
 on_load: function(){}
 on_unload: function(){} , presets of 'instant_disposal', 'no_disposal', 'default_disposal'
+scrolling: true, js scrlloling is by phone data
 })
 ```
 

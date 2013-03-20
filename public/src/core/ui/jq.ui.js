@@ -49,9 +49,9 @@
 //      }
 //    }, false);
 
-    window.addEventListener("unloadpanel", function () {
-      console.log('unload requested but should be handled differently');
-    }, false);
+//    window.addEventListener("unloadpanel", function () {
+//      console.log('unload requested but should be handled differently');
+//    }, false);
 
 
     //Custom transitions can be added to $.ui.availableTransitions
@@ -388,7 +388,7 @@
           } else {
             previous_target = "#" + that.firstDiv.id;
             that.loadContentData(that.firstDiv); //load the info off the first panel
-            that.parsePanelFunctions(that.firstDiv);
+            //that.parsePanelFunctions(that.firstDiv);
 
             that.firstDiv.style.display = "block";
             $("#header #backButton").css("visibility", "hidden");
@@ -749,7 +749,7 @@
       if (typeof fnc == "string" && window[fnc]) {
         window[fnc](tmp.get(0));
       }
-      tmp.trigger("unloadpanel");
+//      tmp.trigger("unloadpanel");
 
     },
 
@@ -902,77 +902,77 @@
     //This is used when a transition fires to do helper events.
     // We check to see if we need to change the nav menus, footer, and fire
     //the load/onload functions for panels
-    parsePanelFunctions: function (what, old_div) {
+//    parsePanelFunctions: function (what, old_div) {
       //check for custom footer
-      var that = this;
-      var hasFooter = what.getAttribute("data-footer");
-      var hasHeader = what.getAttribute("data-header");
-
-      //$asap removed since animations are fixed in css3animate
-      if (hasFooter && hasFooter.toLowerCase() == "none") {
-        that.toggle_footer_menu(false);
-      } else {
-        that.toggle_footer_menu(true);
-      }
-      if (hasFooter && that.custom_footer != hasFooter) {
-        that.custom_footer = hasFooter;
-        that.update_footer_elements(jq("#" + hasFooter).children());
-      } else if (hasFooter != that.custom_footer) {
-        if (that.custom_footer)
-          that.update_footer_elements(that.default_footer);
-        that.custom_footer = false;
-      }
-      if (hasHeader && hasHeader.toLowerCase() == "none") {
-        that.toggle_header_menu(false);
-      } else {
-        that.toggle_header_menu(true);
-      }
-
-      if (hasHeader && that.customHeader != hasHeader) {
-        that.customHeader = hasHeader;
-        that.update_header_elements(jq("#" + hasHeader).children());
-      } else if (hasHeader != that.customHeader) {
-        if (that.customHeader) {
-          that.update_header_elements(that.default_header);
-          that.set_title(that.active_div.title);
-        }
-        that.customHeader = false;
-      }
+//      var that = this;
+//      var hasFooter = what.getAttribute("data-footer");
+//      var hasHeader = what.getAttribute("data-header");
+//
+//      //$asap removed since animations are fixed in css3animate
+////      if (hasFooter && hasFooter.toLowerCase() == "none") {
+////        that.toggle_footer_menu(false);
+////      } else {
+//        that.toggle_footer_menu(true);
+////      }
+//      if (hasFooter && that.custom_footer != hasFooter) {
+//        that.custom_footer = hasFooter;
+//        that.update_footer_elements(jq("#" + hasFooter).children());
+//      } else if (hasFooter != that.custom_footer) {
+//        if (that.custom_footer)
+//          that.update_footer_elements(that.default_footer);
+//        that.custom_footer = false;
+//      }
+//      if (hasHeader && hasHeader.toLowerCase() == "none") {
+//        that.toggle_header_menu(false);
+//      } else {
+//        that.toggle_header_menu(true);
+//      }
+//
+//      if (hasHeader && that.customHeader != hasHeader) {
+//        that.customHeader = hasHeader;
+//        that.update_header_elements(jq("#" + hasHeader).children());
+//      } else if (hasHeader != that.customHeader) {
+//        if (that.customHeader) {
+//          that.update_header_elements(that.default_header);
+//          that.set_title(that.active_div.title);
+//        }
+//        that.customHeader = false;
+//      }
 //      if (what.getAttribute("data-tab")) { //Allow the dev to force the footer menu
 //        jq("#navbar a").removeClass("selected");
 //        jq("#" + what.getAttribute("data-tab")).addClass("selected");
 //      }
 
       //Load inline footers
-      var inlineFooters = $(what).find("footer");
-      if (inlineFooters.length > 0) {
-        that.custom_footer = what.id;
-        that.update_footer_elements(inlineFooters.children());
-      }
-      //load inline headers
-      var inlineHeader = $(what).find("header");
-
-
-      if (inlineHeader.length > 0) {
-        that.customHeader = what.id;
-        that.update_header_elements(inlineHeader.children());
-      }
+//      var inlineFooters = $(what).find("footer");
+//      if (inlineFooters.length > 0) {
+//        that.custom_footer = what.id;
+//        that.update_footer_elements(inlineFooters.children());
+//      }
+//      //load inline headers
+//      var inlineHeader = $(what).find("header");
+//
+//
+//      if (inlineHeader.length > 0) {
+//        that.customHeader = what.id;
+//        that.update_header_elements(inlineHeader.children());
+//      }
       //check if the panel has a footer
 //      if (what.getAttribute("data-tab")) { //Allow the dev to force the footer menu
 //        jq("#navbar a").removeClass("selected");
 //        jq("#navbar #" + what.getAttribute("data-tab")).addClass("selected");
 //      }
 
-      var hasMenu = what.getAttribute("data-nav");
-      if (hasMenu && this.custom_menu != hasMenu) {
-        this.custom_menu = hasMenu;
-        this.update_side_menu(jq("#" + hasMenu).children());
-      } else if (hasMenu != this.custom_menu) {
-        if (this.custom_menu) {
-          this.update_side_menu(this.default_menu);
-        }
-        this.custom_menu = false;
-      }
+//      var hasMenu = what.getAttribute("data-nav");
+//      if (hasMenu && this.custom_menu != hasMenu) {
+//        this.custom_menu = hasMenu;
+//        this.update_side_menu(jq("#" + hasMenu).children());
+//      } else if (hasMenu != this.custom_menu) {
+//        if (this.custom_menu) {
+//          this.update_side_menu(this.default_menu);
+//        }
+//        this.custom_menu = false;
+//      }
 
 
 //      if (old_div) {
@@ -986,11 +986,11 @@
 //      if (typeof fnc == "string" && window[fnc]) {
 //        window[fnc](what);
 //      }
-      $(what).trigger("loadpanel");
-      if (this.isSideMenuOn()) {
-        this.toggle_side_menu(false);
-      }
-    },
+//      $(what).trigger("loadpanel");
+//      if (this.isSideMenuOn()) {
+//        this.toggle_side_menu(false);
+//      }
+//    },
 
     //Helper function that parses a contents html for any script tags and either adds them or executes the code
     parseScriptTags: function (div) {
@@ -1077,7 +1077,7 @@
 
 
       //Let's check if it has a function to run to update the data
-      this.parsePanelFunctions(what, old_div);
+      //this.parsePanelFunctions(what, old_div);
 
       //Need to call after parsePanelFunctions, since new headers can override
       this.loadContentData(what, newTab, back);

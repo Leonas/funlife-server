@@ -1,9 +1,9 @@
 # Mobile UI Kit
 
-### Create or Update Content
+### Show a page
  make defaults
 ```js
-$.show_page({
+$.ui.show_page({
 header: id_of_header or null
 footer: tab_id or null
 left_button: id_of_left_button_div or null
@@ -20,8 +20,7 @@ scrolling: true, js scrlloling is by phone data
 })
 ```
 
-`$.show_page` will first check if there is locally stored data for the page, and show that first but
-still pull an ajax request to get updates.
+`$.show_page` will first show locally stored content before making an ajax request to speed up load.
 
 
 ### API for $.ui

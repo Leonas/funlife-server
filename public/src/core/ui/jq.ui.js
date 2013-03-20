@@ -794,7 +794,7 @@
         var newId = (newDiv.id) ? newDiv.id : element.replace("#", ""); //figure out the new id - either the id from the loaded div.panel or the crc32 hash
         newDiv.id = newId;
         if (newDiv.id != element)
-          newDiv.setAttribute("data-crc", element.replace("#", ""));
+//          newDiv.setAttribute("data-crc", element.replace("#", ""));
       } else {
         newDiv = myEl;
       }
@@ -815,22 +815,22 @@
 
       var container = this.content_string;
 
-      var js_scrolling = false;
 
       //sets up scroll when required and not supported
       if (!$.feat.nativeTouchScroll && hasScroll)
-        js_scrolling = true;
+        tmp.setAttribute("js-scrolling", "yes");
 
-      if (js_scrolling) {
+      if (tmp.getAttribute("js-scrolling") && tmp.getAttribute("js-scrolling").toLowerCase() == "yes") {
         jsScroll = true;
         hasScroll = true;
       }
 
 
+
       if (tmp.getAttribute("scrolling") && tmp.getAttribute("scrolling") == "no") {
         hasScroll = false;
         jsScroll = false;
-        js_scrolling = false;
+        tmp.removeAttribute("js-scrolling");
       }
 
       if (!jsScroll) {
@@ -849,13 +849,13 @@
 
         tmp.title = null;
         tmp.id = null;
-        tmp.removeAttribute("data-footer");
-        tmp.removeAttribute("data-nav");
-        tmp.removeAttribute("data-header");
-        tmp.removeAttribute("selected");
-        tmp.removeAttribute("data-load");
-        tmp.removeAttribute("data-unload");
-        tmp.removeAttribute("data-tab");
+//        tmp.removeAttribute("data-footer");
+//        tmp.removeAttribute("data-nav");
+//        tmp.removeAttribute("data-header");
+//        tmp.removeAttribute("selected");
+//        tmp.removeAttribute("data-load");
+//        tmp.removeAttribute("data-unload");
+//        tmp.removeAttribute("data-tab");
         jq(tmp).replaceClass("panel", "jqmScrollPanel");
 
         scrollEl.appendChild(tmp);
@@ -1220,7 +1220,7 @@
           return e.preventDefault();
 
       }
-      if (theTarget.href.toLowerCase().indexOf("javascript:") !== -1 || theTarget.getAttribute("data-ignore")) {
+      if (theTarget.href.toLowerCase().indexOf("javascript:") !== -1 ) {
         return;
       }
 
@@ -1252,11 +1252,11 @@
 
       //internal links
       e.preventDefault();
-      var mytransition = theTarget.getAttribute("data-transition");
-      var resetHistory = theTarget.getAttribute("data-resetHistory");
-      resetHistory = resetHistory && resetHistory.toLowerCase() == "true" ? true : false;
+//      var mytransition = theTarget.getAttribute("data-transition");
+//      var resetHistory = theTarget.getAttribute("data-resetHistory");
+//      resetHistory = resetHistory && resetHistory.toLowerCase() == "true" ? true : false;
       href = theTarget.hash.length > 0 ? theTarget.hash : theTarget.href;
-      jq.ui.load_content(href, resetHistory, 0, mytransition, theTarget);
+      jq.ui.load_content(href, false, 0, 'none', theTarget);
 
     }
   };

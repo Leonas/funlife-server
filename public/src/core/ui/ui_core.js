@@ -29,31 +29,6 @@
     }
 
 
-    //popstate event is fired when the active history entry changes
-    //this will tell us if back button was clicked
-//    window.addEventListener("popstate", function () {
-//      var current_panel_id = $.ui.get_panel_id_from_hash(document.location.hash);
-//
-//      if (current_panel_id == "" && $.ui.history.length === 1) {
-//        alert('this happens once');
-//        current_panel_id = "#" + $.ui.firstDiv.id;
-//      }
-//      if (current_panel_id == ""){
-//        return;
-//      }
-//      else if (document.querySelectorAll(current_panel_id + ".panel").length === 0){
-//        return;
-//      }
-//      else if (current_panel_id != "#" + $.ui.active_div.id) {
-//        this_ui.go_back();
-//      }
-//    }, false);
-
-//    window.addEventListener("unloadpanel", function () {
-//      console.log('unload requested but should be handled differently');
-//    }, false);
-
-
     //Custom transitions can be added to $.ui.availableTransitions
     this.availableTransitions = {};
     this.availableTransitions['default'] = this.availableTransitions['none'] = this.noTransition;
@@ -66,7 +41,7 @@
     //stock element id's and class names
     header_id:                '#header',
     page_title_id:            '#IDUNNO',
-    footer_id:                '#navbar',
+    footer_id:                '#footer',
     content_id:               '#content',
     panel_id:                 '#panel',
     side_menu_id:             '#side_menu',   //wrong
@@ -75,7 +50,14 @@
     active_footer_button_id:  '',
     active_footer_class:      '.active_footer_button',
     title_id:                 '#title',
+    ui_kit_container_id:      '#ui_kit',
 
+
+    //These get grabbed right away so if you swap a header for a new one,
+    //you can still go back to the old one later
+    default_header_content: '',
+    default_footer_content: '',
+    default_side_menu_content: '',
 
 
     last_click: '',
@@ -91,7 +73,7 @@
     //end
 
     load_content_queue: [],
-    navbar: "",
+    footer: "",
     header: "",
     ui_kit_container: "",
     left_button: "",
@@ -129,7 +111,6 @@
 
     autoBoot: function () {
       if (this.auto_launch) {
-        this.has_launched = true;
         this.launch();
       }
     },
@@ -154,20 +135,21 @@
     //If false, you must manually invoke it
     launch: function () {
 
-      //I've been launched already, set has_launched to true and return
-      if (this.has_launched == false || this.launch_completed) {
-        this.has_launched = true;
+      //Make sure it can't be launched more than once
+      if (this.has_launched) {
         return;
       }
+      this.has_launched = true;
 
       var that = this;
 
+      //get all the main divs into variables
+      this.ui_kit_container = jq(this.ui_kit_container_id);
+      this.footer = jq(this.footer_id).get(0);
+      this.content_string = jq(this.content_id).get(0);
+      this.header = jq(this.header_id).get(0);
+      this.menu = jq(this.side_menu_id).get(0);
 
-      this.ui_kit_container = jq("#ui_kit");
-      this.navbar = jq(this.footer_id).get(0);
-      this.content_string = jq("#content").get(0);
-      this.header = jq("#header").get(0);
-      this.menu = jq("#menu").get(0);
 
       //add a click listener to the #ui_kit div
       this.ui_kit_container[0].addEventListener('click', function (e) {
@@ -175,80 +157,7 @@
       }, false);
 
 
-      //enter-edit scroll paddings fix
-      //focus scroll adjust fix
-      var enterEditEl = null;
-      //on enter-edit keep a reference of the actioned element
-      $.bind($.touch_layer, 'enter-edit', function (element) {
-        enterEditEl = element;
-      });
-      //enter-edit-reshape panel padding and scroll adjust
-      $.bind($.touch_layer, 'enter-edit-reshape', function () {
-        //onReshape UI fixes
-        //check if focused element is within active panel
-        var jQel = $(enterEditEl);
-        var jQactive = jQel.closest(that.active_div);
-        if (jQactive && jQactive.size() > 0) {
-          if ($.os.ios || $.os.chrome) {
-            var paddingTop, paddingBottom;
-            if (document.body.scrollTop) {
-              paddingTop = document.body.scrollTop - jQactive.offset().top;
-            } else {
-              paddingTop = 0;
-            }
-            //not exact, can be a little above the actual value
-            //but we haven't found an accurate way to measure it and this is the best so far
-            paddingBottom = jQactive.offset().bottom - jQel.offset().bottom;
-            that.scrolling_divs[that.active_div.id].setPaddings(paddingTop, paddingBottom);
-
-          } else if ($.os.android || $.os.blackberry) {
-            var elPos = jQel.offset();
-            var containerPos = jQactive.offset();
-            if (elPos.bottom > containerPos.bottom && elPos.height < containerPos.height) {
-              //apply fix
-              that.scrolling_divs[that.active_div.id].scrollToItem(jQel, 'bottom');
-            }
-          }
-        }
-      });
-
-
-
-      if ($.os.ios) {
-        $.bind($.touch_layer, 'exit-edit-reshape', function () {
-          that.scrolling_divs[that.active_div.id].setPaddings(0, 0);
-        });
-      }
-
-
-
-
-      //If there is no menu, make one
-      if (!this.menu) {
-        this.menu = document.createElement("div");
-        this.menu.id = "menu";
-        this.menu.innerHTML = '<div id="menu_scroller"></div>';
-        this.ui_kit_container.append(this.menu);
-        this.menu.style.overflow = "hidden";
-        this.scrolling_divs["menu_scroller"] = jq("#menu_scroller").scroller({
-          scrollBars: true,
-          verticalScroll: true,
-          vScrollCSS: "jqmScrollbar",
-          useJsScroll: !$.feat.nativeTouchScroll,
-          noParent: $.feat.nativeTouchScroll
-        });
-        if ($.feat.nativeTouchScroll)
-          $("#menu_scroller").css("height", "100%");
-      }
-
-
-      if (!this.content_string) {
-        this.content_string = document.createElement("div");
-        this.content_string.id = "content";
-        this.ui_kit_container.append(this.content_string);
-      }
-
-
+      this.os_specific_fixes();
       //=======================================================================================
       //setting up the header and back button
 
@@ -257,6 +166,7 @@
       this.left_button = jq(this.left_button_id).get(0);
 
       jq(document).on("click", ".back_button", function () {
+        console.log('clicked back');
         that.go_back();
       });
 
@@ -337,8 +247,8 @@
         var load_first_div = function () {
 
 
-          if (jq("#navbar a").length > 0) {
-            jq("#navbar a").data("ignore-pressed", "true").data("resetHistory", "true");
+          if (jq("#footer a").length > 0) {
+            jq("#footer a").data("ignore-pressed", "true").data("resetHistory", "true");
             that.default_footer = jq(this.footer_id).children().clone();
             that.set_footer(that.default_footer);
           }
@@ -352,7 +262,7 @@
           that.default_header = jq("#header").children().clone();
           //
           jq(this.footer_id).on("click", "a", function (e) {
-            jq("#navbar a").not(this).removeClass("selected");
+            jq("#footer a").not(this).removeClass("selected");
             $(e.target).addClass("selected");
           });
 
@@ -468,7 +378,50 @@
     set_right_button: function(div_id){ this.set_element(this.left_button_id, div_id); },
 
 
+    os_specific_fixes: function(){
+      //enter-edit scroll padding fix
+      //focus scroll adjust fix
+      var enterEditEl = null;
+      //on enter-edit keep a reference of the actioned element
+      $.bind($.touch_layer, 'enter-edit', function (element) {
+        enterEditEl = element;
+      });
+      //enter-edit-reshape panel padding and scroll adjust
+      $.bind($.touch_layer, 'enter-edit-reshape', function () {
+        //onReshape UI fixes
+        //check if focused element is within active panel
+        var jQel = $(enterEditEl);
+        var jQactive = jQel.closest(that.active_div);
+        if (jQactive && jQactive.size() > 0) {
+          if ($.os.ios || $.os.chrome) {
+            var paddingTop, paddingBottom;
+            if (document.body.scrollTop) {
+              paddingTop = document.body.scrollTop - jQactive.offset().top;
+            } else {
+              paddingTop = 0;
+            }
+            //not exact, can be a little above the actual value
+            //but we haven't found an accurate way to measure it and this is the best so far
+            paddingBottom = jQactive.offset().bottom - jQel.offset().bottom;
+            that.scrolling_divs[that.active_div.id].setPaddings(paddingTop, paddingBottom);
 
+          } else if ($.os.android || $.os.blackberry) {
+            var elPos = jQel.offset();
+            var containerPos = jQactive.offset();
+            if (elPos.bottom > containerPos.bottom && elPos.height < containerPos.height) {
+              //apply fix
+              that.scrolling_divs[that.active_div.id].scrollToItem(jQel, 'bottom');
+            }
+          }
+        }
+      });
+
+      if ($.os.ios) {
+        $.bind($.touch_layer, 'exit-edit-reshape', function () {
+          that.scrolling_divs[that.active_div.id].setPaddings(0, 0);
+        });
+      }
+    },
 
     css3animate: function (element, options) {
       element = jq(element);
@@ -530,9 +483,9 @@
         jq("#content").css("top", "0px");
         jq("#header").hide();
       } else if (force === undefined || (force !== undefined && force === true)) {
-        jq("#header").show();
-        var val = numOnly(jq("#header").css("height"));
-        jq("#content").css("top", val + 'px');
+        jq(this.header_id).show();
+        var val = numOnly(jq(this.header_id).css("height"));
+        jq(this.content_id).css("top", val + 'px');
       }
     },
 
@@ -543,7 +496,7 @@
 
       var that = this;
       var menu = jq("#menu");
-      var elements = jq("#content, #menu, #header, #navbar");
+      var elements = jq("#content, #menu, #header, #footer");
 
       if (!(menu.hasClass("on") || menu.hasClass("to-on")) && ((force !== undefined && force !== false) || force === undefined)) {
 
@@ -601,7 +554,7 @@
     },
 
     disableSideMenu: function () {
-      var elements = jq("#content, #menu, #header, #navbar");
+      var elements = jq("#content, #menu, #header, #footer");
       if (this.isSideMenuOn()) {
         this.toggle_side_menu(false, function (canceled) {
           if (!canceled)
@@ -612,7 +565,7 @@
     },
 
     enableSideMenu: function () {
-      var elements = jq("#content, #menu, #header, #navbar");
+      var elements = jq("#content, #menu, #header, #footer");
       elements.addClass("hasMenu");
     },
 

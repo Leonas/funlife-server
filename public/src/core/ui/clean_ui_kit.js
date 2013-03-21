@@ -28,5 +28,23 @@
 //  });
 //  this.modal_window = modalDiv;
 
+//  //If there is no menu, make one
+//  if (!this.menu) {
+//    this.menu = document.createElement("div");
+//    this.menu.id = "menu";
+//    this.menu.innerHTML = '<div id="menu_scroller"></div>';
+//    this.ui_kit_container.append(this.menu);
+//    this.menu.style.overflow = "hidden";
+//    this.scrolling_divs["menu_scroller"] = jq("#menu_scroller").scroller({
+//      scrollBars: true,
+//      verticalScroll: true,
+//      vScrollCSS: "jqmScrollbar",
+//      useJsScroll: !$.feat.nativeTouchScroll,
+//      noParent: $.feat.nativeTouchScroll
+//    });
+//    if ($.feat.nativeTouchScroll)
+//      $("#menu_scroller").css("height", "100%");
+//  }
+
 
 })(jq);

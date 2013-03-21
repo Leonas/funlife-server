@@ -260,34 +260,7 @@
         that.go_back();
       });
 
-
       this.add_content_div("first_div_here", "this is the first panel to load");
-
-
-      //Make the loading mask Div in the background
-      var maskDiv = document.createElement("div");
-      maskDiv.id = "jQui_mask";
-      maskDiv.className = "ui-loader";
-      maskDiv.innerHTML = "<span class='ui-icon ui-icon-loading spin'></span><h1>Loading Content</h1>";
-      maskDiv.style.zIndex = 20000;
-      maskDiv.style.display = "none";
-      document.body.appendChild(maskDiv);
-
-
-
-      //Setup the modalDiv in the background
-      var modalDiv = document.createElement("div");
-      modalDiv.id = "modal_ui";
-      this.ui_kit_container.prepend(modalDiv);
-      modalDiv.appendChild(jq("<div id='modalContainer'></div>").get());
-      this.scrolling_divs['modal_container'] = jq("#modalContainer").scroller({
-        scrollBars: true,
-        vertical: true,
-        vScrollCSS: "jqmScrollbar",
-        noParent: true
-      });
-      this.modal_window = modalDiv;
-
 
       //THIS IS THE PLACE WHERE PANELS GET SELECTED
 
@@ -300,28 +273,19 @@
         var id;
         var prevSibling = element.previousSibling;
         if (element.parentNode && element.parentNode.id != "content") {
-
           element.parentNode.removeChild(element);
           id = element.id;
-//          if (tmp.getAttribute("selected"))
-//            this.firstDiv = jq("#" + id).get(0);
           this.addDivAndScroll(tmp);
           jq("#" + id).insertAfter(prevSibling);
         } else if (!element.parsedContent) {
           element.parsedContent = 1;
           element.parentNode.removeChild(element);
           id = element.id;
-//          if (tmp.getAttribute("selected"))
-//            this.firstDiv = jq("#" + id).get(0);
           this.addDivAndScroll(tmp);
           jq("#" + id).insertAfter(prevSibling);
         }
-//        if (element.getAttribute("data-defer")) {
-//          defer[id] = element.getAttribute("data-defer");
-//        }
         if (!this.firstDiv)
           this.firstDiv = $("#" + id).get(0);
-
         element = null;
       }
       contentDivs = null;
@@ -495,9 +459,13 @@
     }
   },
 
-  set_header: function(div_id){ this.set_element(this.header_id, div_id); },
-  set_left_button: function(div_id){ this.set_element(this.left_button_id, div_id); },
-  set_right_button: function(div_id){ this.set_element(this.left_button_id, div_id); },
+
+    set_header: function(div_id){ this.set_element(this.header_id, div_id); },
+
+
+    set_left_button: function(div_id){ this.set_element(this.left_button_id, div_id); },
+
+    set_right_button: function(div_id){ this.set_element(this.left_button_id, div_id); },
 
 
 
@@ -526,63 +494,23 @@
         }, false);
     },
 
+    //have this call the show_page instead of loadcontent
     go_back: function () {
       if (this.history.length > 0) {
-        var previous_page = this.history.pop();
+        var previous_page = this.history.pop();    //get the previous page
+        this.history.pop();                        //remove previous page from history too, as it gets added by show_page
         this.load_content(previous_page.target + "", false, true, previous_page.transition);
-        this.transition_effect = previous_page.transition;
-        this.update_url_hash(previous_page.target);
       }
     },
 
     clear_history: function () {
       this.history = [];
-      this.set_left_button(false)
-    },
-
-    pushHistory: function (previous_page, new_page, transition, hash_extras) {
-      //push into local history
-      this.history.push({
-        target: previous_page,
-        transition: transition
-      });
-      //push into the browser history
-      try {
-        window.history.pushState(new_page, new_page, start_path + '#' + new_page + hash_extras);
-        $(window).trigger('hashchange', {
-          newUrl: start_path + '#' + new_page + hash_extras,
-          oldURL: start_path + previous_page
-        });
-      }
-      catch (e) {
-      }
-    },
-
-    update_url_hash: function (new_hash) {
-
-      //force having the # in the beginning as a standard
-      new_hash = new_hash.indexOf('#') == -1 ? '#' + new_hash : new_hash;
-
-      previous_target = new_hash;
-
-      var previous_hash = window.location.hash;
-      var panelName = this.get_panel_id_from_hash(new_hash).substring(1); //remove the #
-      try {
-        alert('panelName is not an object & convert this to url format');
-        window.history.replaceState(panelName, panelName, start_path + new_hash);
-        $(window).trigger('hashchange', {
-          newUrl: start_path + new_hash,
-          oldUrl: start_path + previous_hash
-        });
-      } catch (e) {
-      }
     },
 
     get_panel_id_from_hash: function (hash) {
       var firstSlash = hash.indexOf('/');
       return firstSlash == -1 ? hash : hash.substring(0, firstSlash);
     },
-
 
     toggle_footer_menu: function (force) {
       if (!this.show_footer_menu)
@@ -922,99 +850,6 @@
     },
 
 
-    //This is used when a transition fires to do helper events.
-    // We check to see if we need to change the nav menus, footer, and fire
-    //the load/onload functions for panels
-//    parsePanelFunctions: function (what, old_div) {
-      //check for custom footer
-//      var that = this;
-//      var hasFooter = what.getAttribute("data-footer");
-//      var hasHeader = what.getAttribute("data-header");
-//
-//      //$asap removed since animations are fixed in css3animate
-////      if (hasFooter && hasFooter.toLowerCase() == "none") {
-////        that.toggle_footer_menu(false);
-////      } else {
-//        that.toggle_footer_menu(true);
-////      }
-//      if (hasFooter && that.custom_footer != hasFooter) {
-//        that.custom_footer = hasFooter;
-//        that.set_footer(jq("#" + hasFooter).children());
-//      } else if (hasFooter != that.custom_footer) {
-//        if (that.custom_footer)
-//          that.set_footer(that.default_footer);
-//        that.custom_footer = false;
-//      }
-//      if (hasHeader && hasHeader.toLowerCase() == "none") {
-//        that.toggle_header_menu(false);
-//      } else {
-//        that.toggle_header_menu(true);
-//      }
-//
-//      if (hasHeader && that.customHeader != hasHeader) {
-//        that.customHeader = hasHeader;
-//        that.update_header_elements(jq("#" + hasHeader).children());
-//      } else if (hasHeader != that.customHeader) {
-//        if (that.customHeader) {
-//          that.update_header_elements(that.default_header);
-//          that.set_title(that.active_div.title);
-//        }
-//        that.customHeader = false;
-//      }
-//      if (what.getAttribute("data-tab")) { //Allow the dev to force the footer menu
-//        jq("#navbar a").removeClass("selected");
-//        jq("#" + what.getAttribute("data-tab")).addClass("selected");
-//      }
-
-      //Load inline footers
-//      var inlineFooters = $(what).find("footer");
-//      if (inlineFooters.length > 0) {
-//        that.custom_footer = what.id;
-//        that.set_footer(inlineFooters.children());
-//      }
-//      //load inline headers
-//      var inlineHeader = $(what).find("header");
-//
-//
-//      if (inlineHeader.length > 0) {
-//        that.customHeader = what.id;
-//        that.update_header_elements(inlineHeader.children());
-//      }
-      //check if the panel has a footer
-//      if (what.getAttribute("data-tab")) { //Allow the dev to force the footer menu
-//        jq("#navbar a").removeClass("selected");
-//        jq("#navbar #" + what.getAttribute("data-tab")).addClass("selected");
-//      }
-
-//      var hasMenu = what.getAttribute("data-nav");
-//      if (hasMenu && this.custom_menu != hasMenu) {
-//        this.custom_menu = hasMenu;
-//        this.update_side_menu(jq("#" + hasMenu).children());
-//      } else if (hasMenu != this.custom_menu) {
-//        if (this.custom_menu) {
-//          this.update_side_menu(this.default_menu);
-//        }
-//        this.custom_menu = false;
-//      }
-
-
-//      if (old_div) {
-//        fnc = old_div.getAttribute("data-unload");
-//        if (typeof fnc == "string" && window[fnc]) {
-//          window[fnc](old_div);
-//        }
-//        $(old_div).trigger("unloadpanel");
-//      }
-//      var fnc = what.getAttribute("data-load");
-//      if (typeof fnc == "string" && window[fnc]) {
-//        window[fnc](what);
-//      }
-//      $(what).trigger("loadpanel");
-//      if (this.isSideMenuOn()) {
-//        this.toggle_side_menu(false);
-//      }
-//    },
-
     //Helper function that parses a contents html for any script tags and either adds them or executes the code
     parseScriptTags: function (div) {
       if (!div)
@@ -1062,24 +897,15 @@
       this.transition_effect = transition;
       var current_panel = this.active_div;
 
-//      if (new_panel_id.getAttribute("data-modal") == "true" || new_panel_id.getAttribute("modal") == "true") {
-//        var fnc = new_panel_id.getAttribute("data-load");
-//        if (typeof fnc == "string" && window[fnc]) {
-//          window[fnc](new_panel_id);
-//        }
-//        $(new_panel_id).trigger("loadpanel");
-//        return this.show_modal(new_panel_id.id);
-//      }
-
 
       if (current_panel == new_panel) //prevent it from going to itself
         return;
       if (clear_history) {
         this.clear_history();
-        this.pushHistory("#" + this.firstDiv.id, new_panel.id, transition, hashLink);
+        //this.pushHistory("#" + this.firstDiv.id, new_panel.id, transition, hashLink);
       } 
       else if (!back) {
-        this.pushHistory(previous_target, new_panel.id, transition, hashLink);
+        //this.pushHistory(previous_target, new_panel.id, transition, hashLink);
       }
 
       this.doing_transition = true;
@@ -1114,25 +940,6 @@
       if (this.scrolling_divs[this.active_div.id]) {
         this.scrolling_divs[this.active_div.id].enable(this.reset_scrollers);
       }
-//      if (back) {
-//        if (this.history.length > 0) {
-//          var val = this.history[this.history.length - 1];
-//          var slashIndex = val.target.indexOf('/');
-//          if (slashIndex != -1) {
-//            var prevId = val.target.substr(0, slashIndex);
-//          } else
-//            var prevId = val.target;
-//          var element = jq(prevId).get(0);
-          //make sure panel is there
-//          if (element)
-//            this.set_left_button_text(element.title);
-//          else
-//            this.set_left_button_text("Back");
-//        }
-//      } else if (this.active_div.title)
-//        this.set_left_button_text(this.active_div.title)
-//      else
-//        this.set_left_button_text("Back");
 
     },
 
@@ -1258,9 +1065,7 @@
 
       //internal links
       e.preventDefault();
-//      var mytransition = theTarget.getAttribute("data-transition");
-//      var resetHistory = theTarget.getAttribute("data-resetHistory");
-//      resetHistory = resetHistory && resetHistory.toLowerCase() == "true" ? true : false;
+
       href = theTarget.hash.length > 0 ? theTarget.hash : theTarget.href;
       jq.ui.load_content(href, false, 0, 'none', theTarget);
 

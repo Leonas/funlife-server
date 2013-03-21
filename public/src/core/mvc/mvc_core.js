@@ -164,6 +164,9 @@
             evt && evt.preventDefault();                                        //What is this for? It doesn't seem to do anything
             $.mvc.controller[route][axt].apply($.mvc.controller[route], url);
             if ($.mvc._app._useHistory && noHistory !== true) {
+                $.ui.history.push(origUrl);
+              console.log('History1: '+$.ui.history);
+                console.log('origUrl'+origUrl);
                 window.history.pushState(origUrl, origUrl, origUrl);
             }
             return true;

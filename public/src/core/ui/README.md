@@ -83,4 +83,7 @@ end
 
 ```
 
-class .back_button will make you go back if clicked
+If you want to make something a back button, set the href and class like so:
+```
+<a href='javascript:' class='back_button>Anything</a>
+```

@@ -449,10 +449,13 @@
 
     //have this call the show_page instead of loadcontent
     go_back: function () {
+      console.log('History2: '+this.history);
       if (this.history.length > 0) {
+        this.history.pop();
         var previous_page = this.history.pop();    //get the previous page
-        this.history.pop();                        //remove previous page from history too, as it gets added by show_page
-        this.load_content(previous_page.target + "", false, true, previous_page.transition);
+                                //remove previous page from history too, as it gets added by show_page
+        console.log('previous page ' + previous_page);
+        $.mvc.route(previous_page);
       }
     },
 

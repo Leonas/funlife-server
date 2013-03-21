@@ -4,7 +4,7 @@
 
  /*
   $.ui.show_page({
-  id: 'user_index_view',                               done
+  div_id: 'user_index_view',                               done
   title: 'FunLife',                                    done
   template: 'views/users/user_index_view.js',          done
 

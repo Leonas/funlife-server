@@ -2,13 +2,7 @@
 #footer {
     display: none;
 }
-
-
-#wrong_password {
-    display: none;
-}
-
-#email_exists {
+.alert {
     display: none;
 }
 

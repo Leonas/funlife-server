@@ -38,7 +38,7 @@
  * options.beforeSend - function to execute before sending the request
  * options.success - success callback
  * options.error(context, xhr, 'error', e) - error callback
- * options.complete - complete callback - callled with a success or error
+ * options.complete - complete callback - called with a success or error
  * options.timeout - timeout to wait for the request
  * options.url - URL to make request against
  * options.contentType - HTTP Request Content Type

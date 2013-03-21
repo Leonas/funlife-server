@@ -3,8 +3,7 @@
     <br><br>
     <h1>FunLife</h1>
     <br>
-    <div id="wrong_password" class="alert alert-error">Wrong Password</div>
-    <div id="email_exists" class="alert">An account with that email already exists. Login instead?</div>
+    <div id="login_error" class="alert"></div>
     <br><br>
     <div id="login_holder">
       <form id="login_form">

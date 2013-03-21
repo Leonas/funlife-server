@@ -259,6 +259,14 @@
       this.set_active_footer_button(active_button);
     },
 
+    set_footer: function (div_id) {
+      if (div_id && div_id !== this.header_id) {
+        $(this.footer_id).html($(div_id).children());
+      }
+      else {
+        this.toggle_footer_menu(false);
+      }
+    },
 
     dispose: function (element_id) {
       //replace all images with src='tiny.png'
@@ -269,7 +277,8 @@
     //elements children replace the children of the original element
     set_element: function set_element(old_div, new_div) {
       if (new_div && new_div !== old_div) {
-        $(old_div).html(new_div.children());
+        $(old_div).html($(new_div).children());
+        debugger;
       }
       else {
         $(old_div).hide();
@@ -406,14 +415,7 @@
     },
 
 
-    set_footer: function (div_id) {
-      if (div_id && div_id !== this.header_id) {
-        $(this.footer_id).html(div_id.children());
-      }
-      else {
-        this.toggle_footer_menu(false);
-      }
-    },
+
 
 
     update_content_div: function (id, content_string) {

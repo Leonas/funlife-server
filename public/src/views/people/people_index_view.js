@@ -10,7 +10,7 @@
    </div>
 
 <br><br><br><br><br>
-People index view
+<a href='http://www.google.com'>People index view</a>
 <br><br><br><br><br>
 People index view
 <br><br><br><br><br>

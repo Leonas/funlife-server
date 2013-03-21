@@ -139,6 +139,7 @@
 
     $.mvc.route = function (url, evt, noHistory) {
 
+        //Redo this. Error appears when nodeName doesnt exist
         if (typeof (url) !== "string" && url.nodeName && url.nodeName.toLowerCase() === "a") {
             url = url.href;
         }

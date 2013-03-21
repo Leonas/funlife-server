@@ -69,8 +69,7 @@ $.mvc.controller.create('users_controller', {
       $.post_with_token({
         api_url: '/users/register1/',
         data: $('#login_form').serialize(),
-        success: function (response, b, c, d, e) {
-          debugger;
+        success: function (response, success, xhr) {
           current_user.token = $.parseJSON(response).token;
           current_user.save();
           $.mvc.route('/users_controller/register2');

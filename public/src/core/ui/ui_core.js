@@ -1041,66 +1041,59 @@
     },
 
     //This is called internally by load_content.  Here we are loading a div instead of an Ajax link
-    loadDiv: function (target, clear_history, back, transition) {
+    loadDiv: function (new_panel_id, clear_history, back, transition) {
       // load a div
 
       //replace any # to prevent browser issues
-      var target_id = target.replace("#", "");
-      debugger;
-      var slashIndex = target_id.indexOf('/');
+      new_panel_id = new_panel_id.replace("#", "");
+      var slashIndex = new_panel_id.indexOf('/');
       var hashLink = "";
       if (slashIndex != -1) {
         // Ignore everything after the slash for loading
-        hashLink = target_id.substr(slashIndex);
-        target_id = target_id.substr(0, slashIndex);
+        hashLink = new_panel_id.substr(slashIndex);
+        new_panel_id = new_panel_id.substr(0, slashIndex);
       }
 
-      var target_panel = jq('#'+target_id).get(0);
+      var new_panel = jq('#'+new_panel_id).get(0);
 
-      if (!target_panel){
-        return console.log("Target panel: " + target + " was not found");
+      if (!new_panel){
+        return console.log("Target panel: " + new_panel_id + " was not found");
       }
       this.transition_effect = transition;
       var current_panel = this.active_div;
 
-//      if (target_id.getAttribute("data-modal") == "true" || target_id.getAttribute("modal") == "true") {
-//        var fnc = target_id.getAttribute("data-load");
+//      if (new_panel_id.getAttribute("data-modal") == "true" || new_panel_id.getAttribute("modal") == "true") {
+//        var fnc = new_panel_id.getAttribute("data-load");
 //        if (typeof fnc == "string" && window[fnc]) {
-//          window[fnc](target_id);
+//          window[fnc](new_panel_id);
 //        }
-//        $(target_id).trigger("loadpanel");
-//        return this.show_modal(target_id.id);
+//        $(new_panel_id).trigger("loadpanel");
+//        return this.show_modal(new_panel_id.id);
 //      }
 
 
-      if (current_panel == target_panel) //prevent it from going to itself
+      if (current_panel == new_panel) //prevent it from going to itself
         return;
-
       if (clear_history) {
         this.clear_history();
-        this.pushHistory("#" + this.firstDiv.id, target_panel.id, transition, hashLink);
+        this.pushHistory("#" + this.firstDiv.id, new_panel.id, transition, hashLink);
       } 
       else if (!back) {
-        this.pushHistory(previous_target, target_panel.id, transition, hashLink);
+        this.pushHistory(previous_target, new_panel.id, transition, hashLink);
       }
-
-
-      previous_target = '#' + target_panel.id + hashLink;
-
 
       this.doing_transition = true;
 
       current_panel.style.display = "block";
-      target_panel.style.display = "block";
+      new_panel.style.display = "block";
 
-      this.runTransition(transition, current_panel, target_panel, back);
+      this.runTransition(transition, current_panel, new_panel, back);
 
-       debugger;
       //Let's check if it has a function to run to update the data
       //this.parsePanelFunctions(what, current_panel);
 
       //Need to call after parsePanelFunctions, since new headers can override
-      this.loadContentData(target_id, clear_history, back);
+      this.loadContentData(new_panel, clear_history, back);
       var that = this;
       setTimeout(function () {
         if (that.scrolling_divs[current_panel.id]) {
@@ -1112,7 +1105,15 @@
 
     //This is called internally by loadDiv.  This sets up the back button
     // in the header and scroller for the panel
-    loadContentData: function (target_id, clear_history, back) {
+    loadContentData: function (new_panel, clear_history, back) {
+      if (new_panel.title) {
+        jq(this.title_id).html(new_panel.title);
+      }
+
+      this.active_div = new_panel;
+      if (this.scrolling_divs[this.active_div.id]) {
+        this.scrolling_divs[this.active_div.id].enable(this.reset_scrollers);
+      }
 //      if (back) {
 //        if (this.history.length > 0) {
 //          var val = this.history[this.history.length - 1];
@@ -1132,15 +1133,7 @@
 //        this.set_left_button_text(this.active_div.title)
 //      else
 //        this.set_left_button_text("Back");
-      if (target_id.title) {
-        jq(this.title_id).html(target_id.title);
-      }
 
-
-      this.active_div = what;
-      if (this.scrolling_divs[this.active_div.id]) {
-        this.scrolling_divs[this.active_div.id].enable(this.reset_scrollers);
-      }
     },
 
     runTransition: function (transition, current_panel, new_panel, back) {

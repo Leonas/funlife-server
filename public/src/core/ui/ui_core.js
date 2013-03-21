@@ -1,7 +1,5 @@
 (function ($) {
 
-  var has_launched = false;
-  var start_path = window.location.pathname;
   var default_hash = window.location.hash;
   var previous_target = default_hash;
   var ui = function () {
@@ -24,7 +22,6 @@
     else {
       document.addEventListener("DOMContentLoaded", function () {
         this_ui.autoBoot();
-        console.log(arguments.callee);
         this.removeEventListener("DOMContentLoaded", arguments.callee);
       }, false);
     }
@@ -52,6 +49,7 @@
     active_footer_class: '.active_footer_button',
     title_id: '#title',
     ui_kit_container_id: '#ui_kit',
+    starting_panel_id:   '#starting_panel',
 
 
     //These get grabbed right away so if you swap a header for a new one,
@@ -153,80 +151,24 @@
       //=======================================================================================
       //setting up the header and back button
 
-      this.header.innerHTML = header.innerHTML;
+      this.header.innerHTML = this.header_id.innerHTML;
 
       this.left_button = $(this.left_button_id).get(0);
 
       $(document).on("click", ".back_button", function () {
-        console.log('clicked back');
         that.go_back();
       });
 
-      this.add_content_div("first_div_here", "this is the first panel to load");
 
-      //THIS IS THE PLACE WHERE PANELS GET SELECTED
+        var starting_panel = $(this.starting_panel_id)[0];
+        var tmp = starting_panel;
+        var prevSibling = starting_panel.previousSibling;
+        starting_panel.parentNode.removeChild(starting_panel);
+        this.addDivAndScroll(tmp);
+        $(this.starting_panel_id).insertAfter(prevSibling);
+        this.firstDiv = $(this.starting_panel_id).get(0);
 
-      //get first div, defer
-      var defer = {};
-      var contentDivs = this.ui_kit_container.get().querySelectorAll(".panel");
-      for (var i = 0; i < contentDivs.length; i++) {
-        var element = contentDivs[i];
-        var tmp = element;
-        var id;
-        var prevSibling = element.previousSibling;
-        if (element.parentNode && element.parentNode.id !== "content") {
-          element.parentNode.removeChild(element);
-          id = element.id;
-          this.addDivAndScroll(tmp);
-          $("#" + id).insertAfter(prevSibling);
-        } else if (!element.parsedContent) {
-          element.parsedContent = 1;
-          element.parentNode.removeChild(element);
-          id = element.id;
-          this.addDivAndScroll(tmp);
-          $("#" + id).insertAfter(prevSibling);
-        }
-        if (!this.firstDiv){
-          this.firstDiv = $("#" + id).get(0);
-        }
-        element = null;
-      }
-      contentDivs = null;
-      var loadingDefer = false;
-      var toLoad = Object.keys(defer).length;
-      if (toLoad > 0) {
-        loadingDefer = true;
-        var loaded = 0;
-        for (var j in defer) {
-          (function (j) {
-            $.ajax({
-              url: server + defer[j],
-              success: function (data) {
-                if (data.length === 0){
-                  return;
-                }
-                $.ui.update_content_div(j, data);
-                //that.parseScriptTags($(j).get());
-                loaded++;
-                if (loaded >= toLoad) {
-                  $(document).trigger("defer:loaded");
-                  loadingDefer = false;
-
-                }
-              },
-              error: function (msg) {
-                //still trigger the file as being loaded to not block $.ui.ready
-                console.log("Error with deferred load " + server + defer[j])
-                loaded++;
-                if (loaded >= toLoad) {
-                  $(document).trigger("defer:loaded");
-                  loadingDefer = false;
-                }
-              }
-            });
-          })(j);
-        }
-      }
+      starting_panel = null;
 
 
       if (this.firstDiv) {
@@ -236,25 +178,17 @@
         if (this.scrolling_divs[this.active_div.id]) {
           this.scrolling_divs[this.active_div.id].enable();
         }
+
         var load_first_div = function () {
-          if ($("#footer a").length > 0) {
-            $("#footer a").data("ignore-pressed", "true").data("resetHistory", "true");
-            that.default_footer = $(this.footer_id).children().clone();
-            that.set_footer(that.default_footer);
-          }
           //setup initial menu
           var firstMenu = $("nav").get();
           if (firstMenu) {
             that.default_menu = $(firstMenu).children().clone();
             that.update_side_menu(that.default_menu);
           }
-          //get default header
+
+          //get default header in case we need it later if you swap headers
           that.default_header = $("#header").children().clone();
-          //
-          $(this.footer_id).on("click", "a", function (e) {
-            $("#footer a").not(this).removeClass("selected");
-            $(e.target).addClass("selected");
-          });
 
 
           //go to active_div
@@ -265,35 +199,20 @@
           } else {
             previous_target = "#" + that.firstDiv.id;
             that.loadContentData(that.firstDiv); //load the info off the first panel
-            //that.parsePanelFunctions(that.firstDiv);
 
             that.firstDiv.style.display = "block";
             $("#header #left_button").css("visibility", "hidden");
-//            if (that.firstDiv.getAttribute("data-modal") == "true" || that.firstDiv.getAttribute("modal") == "true") {
-//              that.show_modal(that.firstDiv.id);
-//            }
           }
 
           that.launch_completed = true;
 
-//          if ($("nav").length > 0) {
-//            $(this.header_id).addClass("hasMenu off");
-//            $(this.content_id).addClass("hasMenu off");
-//            $(this.footer_id).addClass("hasMenu off");
-//          }
           //trigger ui ready
           $(document).trigger("$.ui.ready");
           //remove splash screen
-
-          // Run after the first div animation has been triggered - avoids flashing
-          $("#splashscreen").remove();
         };
-        if (loadingDefer) {
-          $(document).one("defer:loaded", load_first_div);
-        }
-        else{
+
           load_first_div();
-        }
+
       }
       that = this;
       $.bind(that, "content-loaded", function () {
@@ -498,7 +417,6 @@
 
 
     update_content_div: function (id, content_string) {
-      console.log('update_content_div');
       id = "#" + id.replace("#", "");
       var element = $(id).get(0);
       if (!element){
@@ -528,7 +446,6 @@
 
     //Dynamically create a new panel on the fly.  It wires events, creates the scroller, applies Android fixes, etc.
     add_content_div: function (element, content_string, title, refresh) {
-      console.log('add_content_div');
       element = typeof (element) !== "string" ? element : element.indexOf("#") === -1 ? "#" + element : element;
       var myEl = $(element).get(0);
       var newDiv, newId;
@@ -610,7 +527,7 @@
       //this.parsePanelFunctions(what, current_panel);
 
       //Need to call after parsePanelFunctions, since new headers can override
-      this.loadContentData(new_panel, clear_history, back);
+      this.loadContentData(new_panel);
       var that = this;
       setTimeout(function () {
         if (that.scrolling_divs[current_panel.id]) {
@@ -622,7 +539,7 @@
 
     //This is called internally by loadDiv.  This sets up the back button
     // in the header and scroller for the panel
-    loadContentData: function (new_panel, clear_history, back) {
+    loadContentData: function (new_panel) {
       if (new_panel.title) {
         $(this.title_id).html(new_panel.title);
       }
@@ -725,7 +642,7 @@
     },
 
     //This is the default transition.  It simply shows the new panel and hides the old
-    noTransition: function (current_panel, new_panel, back) {
+    noTransition: function (current_panel, new_panel) {
       new_panel.style.display = "block";
       current_panel.style.display = "block";
       var that = this;
@@ -763,7 +680,6 @@
 
   //lookup for a clicked anchor recursively and fire UI own actions when applicable
   var checkAnchorClick = function (e, theTarget) {
-    console.log('checkAnchorClick is called');
     if (theTarget === (this.ui_kit_container_id)) {
       return;
     }

@@ -1,4 +1,4 @@
-<div class="navbar navbar-fixed-top panel" scrolling='no'>
+<div class="navbar navbar-fixed-top">
    <div class='navbar-inner text-center lead'>
       Photos
    </div>

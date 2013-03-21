@@ -56,7 +56,6 @@
             $(document.body).append($("<script type='" + $.mvc._app._templateType + "' id='" + name + "'>" + data + "</script>"));
             viewsLoaded[controller]++;
             if ((viewsLoaded[controller] === viewsTotal[controller])) {
-              console.log('fuuuuck!!!');
                 $(document).trigger(controller + ":ready", {
                     name: controller
                 });

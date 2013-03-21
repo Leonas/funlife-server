@@ -65,7 +65,7 @@
     pages_created: 0,
     pages_in_dom: 0,
     delete_queue: {},
-
+    on_unload: null,
     //queue is like delete_queue['17'] = [div_id, other_div_id]
     //when pages_created reaches 17, it will execute delete_queue['17']
 

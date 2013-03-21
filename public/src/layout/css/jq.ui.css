@@ -503,7 +503,7 @@ input.jq-ui-forms[type=checkbox]:focus:checked + label { background-position:0 -
 /* Styles for "hover/focus." */
 input.jq-ui-forms[type=checkbox]:hover + label,
 input.jq-ui-forms[type=checkbox]:focus + label,
-input.jq-ui-forms[type=checkbox] + label:hover { background-position:0 -0x; }
+input.jq-ui-forms[type=checkbox] + label:hover { background-position:0 0x; }
 
 input.jq-ui-forms[type=radio]:hover + label,
 input.jq-ui-forms[type=radio]:focus + label,

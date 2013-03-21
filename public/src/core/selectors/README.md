@@ -92,7 +92,7 @@ $.removeAttr('attribute')                 //removes the attribute from the eleme
 $.remove()                                //remove an element from the Dom
 $.addClass('className')                   //adds the css class name to the selected elements
 $.removeClass('className')                //removes a css class from the selected elements
-$.hasClass('className', [_element])        //checks to see if an element has a class
+$.hasClass('className', [element])        //checks to see if an element has a class
 $.append(element, [insert])                //appends an element to the selected elements
 $.prepend(element)                        //prepends an element to the selected elements
 $.insertBefore(target)                    //inserts a collection before the target (adjacent)

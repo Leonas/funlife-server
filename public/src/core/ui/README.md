@@ -33,7 +33,7 @@ For Repairs
     //it resets even when set to false
 
 
-    .set_back_button_text(optional_text)        //Sets the back button text (default is back)
+    .set_left_button_text(optional_text)        //Sets the back button text (default is back)
     //only repair this if this is needed as a helper, otherwise delete
 end
 
@@ -49,9 +49,9 @@ end
 //Functions
 .launch()                              //Manually invoke the launch of jqUi. If auto_launch is true, gets called
                                        //on DOMContentLoaded
-.set_back_button_visibility(force)     //force back button visibility to true or false
+.show_left_button(force)               //force back button visibility to true or false
 .ready(function)                       //Takes in a function and executes it when launch() has completed
-.set_back_button_style(class)          //sets new class for the back button
+.set_left_button_style(class)          //sets new class for the back button
 .go_back()                             //goes to the previous page in history
 .clear_history()                       //clears the history stack & removes back button
 .toggle_header_menu(optional_boolean)  //hide or show the header menu
@@ -78,8 +78,9 @@ end
 //Not inspected yet
 .slideTransition(prevPanel, currPanel, go_back)     //initiate a sliding transition
 .finishTransition(oldDiv)                         //called at end of each transition to hide the old div and reset
-.update_footer_elements(elements)                 //update the elements in the footer
+.set_footer(div_id)                           //grab a div and make that the footer
 .update_side_menu(elements)                       //update the elements in the side menu                                                            //the doingTransition variable
 
 ```
 
+class .back_button will make you go back if clicked

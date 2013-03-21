@@ -11,11 +11,11 @@ $.mvc.controller.create('users_controller', {
   },
 
   default: function () {
-    $('#bottom_nav_home').removeClass('ui-btn-active');
-    $('#bottom_nav_photos').removeClass('ui-btn-active');
-    $('#bottom_nav_places').removeClass('ui-btn-active');
-    $('#bottom_nav_people').removeClass('ui-btn-active');
-    $('#bottom_nav_home').addClass('ui-btn-active');
+    $('#bottom_nav_home').removeClass('active_footer_button');
+    $('#bottom_nav_photos').removeClass('active_footer_button');
+    $('#bottom_nav_places').removeClass('active_footer_button');
+    $('#bottom_nav_people').removeClass('active_footer_button');
+    $('#bottom_nav_home').addClass('active_footer_button');
 
     console.log('at home');
     this.home_page();

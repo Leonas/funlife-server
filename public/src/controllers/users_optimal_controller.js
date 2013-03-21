@@ -17,7 +17,7 @@ $.mvc.controller.create('users_controller', {
        active_nav: '#bottom_nav_home',
        div_id: 'user_index_view',
        template: 'views/users/user_index_view.js',
-       back_button: true,
+       left_button: true,
        api_url: '/users/',
        data: false
     });
@@ -36,7 +36,7 @@ $.mvc.controller.create('users_controller', {
         active_nav: false,
         div_id: 'user_login_register_view',
         template: 'views/users/user_login_register_view.js',
-        back_button: false,
+        left_button: false,
         api_url: false,
         data: false
       });
@@ -95,7 +95,7 @@ $.mvc.controller.create('users_controller', {
           active_nav: false,
           div_id: 'user_register2_view',
           template: 'views/users/user_register2_view.js',
-          back_button: false,
+          left_button: false,
           api_url: false,
           data: false
         });

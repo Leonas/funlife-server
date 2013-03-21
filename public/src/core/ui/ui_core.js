@@ -61,11 +61,40 @@
 
 
   ui.prototype = {
+    //custom ui_kit stuff
+
+    //stock element id's and class names
+    header_id:                '#header',
+    page_title_id:            '#IDUNNO',
+    footer_id:                '#navbar',
+    content_id:               '#content',
+    panel_id:                 '#panel',
+    side_menu_id:             '#side_menu',   //wrong
+    left_button_id:           '#left_button',
+    right_button_id:          '#right_button',
+    active_footer_button_id:  '',
+    active_footer_class:      '.active_footer_button',
+    title_id:                 '#title',
+
+
+
+    last_click: '',
+    cached_pages: [],
+
+    pages_created: 0,
+    pages_in_dom: 0,
+    delete_queue: {},
+
+    //queue is like delete_queue['17'] = [div_id, other_div_id]
+    //when pages_created reaches 17, it will execute delete_queue['17']
+
+    //end
+
     load_content_queue: [],
     navbar: "",
     header: "",
-    viewport_container: "",
-    backButton: "",
+    ui_kit_container: "",
+    left_button: "",
     history: [],
     homeDiv: "",
     screen_width: "",
@@ -86,14 +115,14 @@
     firstDiv: "",
     has_launched: false,
     launch_completed: false,
-    active_div: "",
+    active_div: '',
     custom_click_handler: "",
     menu_animation: null,
     side_menu_displayed: false,
     show_footer_menu: true,
     auto_launch: true,
     showBackbutton: true,
-    back_button_text: "Back",
+    left_button_text: "Back",
     reset_scrollers: true,
     load_default_hash: true,
     useAjaxCacheBuster: false,    //add "&cache=_rand_" to any ajax loaded link
@@ -134,15 +163,14 @@
       var that = this;
 
 
-      this.viewport_container = jq("#ui_kit");
-      this.navbar = jq("#navbar").get(0);
+      this.ui_kit_container = jq("#ui_kit");
+      this.navbar = jq(this.footer_id).get(0);
       this.content_string = jq("#content").get(0);
       this.header = jq("#header").get(0);
       this.menu = jq("#menu").get(0);
 
-//      set anchor click handler for UI
-      this.viewport_container[0].addEventListener('click', function (e) {
-      //  var theTarget = e.target;
+      //add a click listener to the #ui_kit div
+      this.ui_kit_container[0].addEventListener('click', function (e) {
         checkAnchorClick(e, e.target);
       }, false);
 
@@ -194,29 +222,13 @@
 
 
 
-      //If there is no navbar, make one
-      if (!this.navbar) {
-        this.navbar = document.createElement("div");
-        this.navbar.id = "navbar";
-        this.navbar.style.cssText = "display:none";
-        this.viewport_container.append(this.navbar);
-      }
-
-
-      //If there is no header, make one
-      if (!this.header) {
-        this.header = document.createElement("div");
-        this.header.id = "header";
-        this.viewport_container.prepend(this.header);
-      }
-
 
       //If there is no menu, make one
       if (!this.menu) {
         this.menu = document.createElement("div");
         this.menu.id = "menu";
         this.menu.innerHTML = '<div id="menu_scroller"></div>';
-        this.viewport_container.append(this.menu);
+        this.ui_kit_container.append(this.menu);
         this.menu.style.overflow = "hidden";
         this.scrolling_divs["menu_scroller"] = jq("#menu_scroller").scroller({
           scrollBars: true,
@@ -233,7 +245,7 @@
       if (!this.content_string) {
         this.content_string = document.createElement("div");
         this.content_string.id = "content";
-        this.viewport_container.append(this.content_string);
+        this.ui_kit_container.append(this.content_string);
       }
 
 
@@ -242,9 +254,9 @@
 
       this.header.innerHTML = header.innerHTML;
 
-      this.backButton = $("#header #backButton").get(0);
+      this.left_button = jq(this.left_button_id).get(0);
 
-      jq(document).on("click", "#header #backButton", function () {
+      jq(document).on("click", ".back_button", function () {
         that.go_back();
       });
 
@@ -266,7 +278,7 @@
       //Setup the modalDiv in the background
       var modalDiv = document.createElement("div");
       modalDiv.id = "modal_ui";
-      this.viewport_container.prepend(modalDiv);
+      this.ui_kit_container.prepend(modalDiv);
       modalDiv.appendChild(jq("<div id='modalContainer'></div>").get());
       this.scrolling_divs['modal_container'] = jq("#modalContainer").scroller({
         scrollBars: true,
@@ -277,10 +289,11 @@
       this.modal_window = modalDiv;
 
 
+      //THIS IS THE PLACE WHERE PANELS GET SELECTED
 
       //get first div, defer
       var defer = {};
-      var contentDivs = this.viewport_container.get().querySelectorAll(".panel");
+      var contentDivs = this.ui_kit_container.get().querySelectorAll(".panel");
       for (var i = 0; i < contentDivs.length; i++) {
         var element = contentDivs[i];
         var tmp = element;
@@ -362,8 +375,8 @@
 
           if (jq("#navbar a").length > 0) {
             jq("#navbar a").data("ignore-pressed", "true").data("resetHistory", "true");
-            that.default_footer = jq("#navbar").children().clone();
-            that.update_footer_elements(that.default_footer);
+            that.default_footer = jq(this.footer_id).children().clone();
+            that.set_footer(that.default_footer);
           }
           //setup initial menu
           var firstMenu = jq("nav").get();
@@ -374,7 +387,7 @@
           //get default header
           that.default_header = jq("#header").children().clone();
           //
-          jq("#navbar").on("click", "a", function (e) {
+          jq(this.footer_id).on("click", "a", function (e) {
             jq("#navbar a").not(this).removeClass("selected");
             $(e.target).addClass("selected");
           });
@@ -384,14 +397,14 @@
           var firstPanelId = that.get_panel_id_from_hash(default_hash);
           //that.history=[{target:'#'+that.firstDiv.id}];   //set the first id as origin of path
           if (firstPanelId.length > 0 && that.load_default_hash && firstPanelId != ("#" + that.firstDiv.id) && $(firstPanelId).length > 0) {
-            that.load_content(default_hash, true, false, 'none'); //load the active page as a newTab with no transition
+            that.load_content(default_hash, true, false, 'none'); //load the active page as a clear_history with no transition
           } else {
             previous_target = "#" + that.firstDiv.id;
             that.loadContentData(that.firstDiv); //load the info off the first panel
             //that.parsePanelFunctions(that.firstDiv);
 
             that.firstDiv.style.display = "block";
-            $("#header #backButton").css("visibility", "hidden");
+            $("#header #left_button").css("visibility", "hidden");
 //            if (that.firstDiv.getAttribute("data-modal") == "true" || that.firstDiv.getAttribute("modal") == "true") {
 //              that.show_modal(that.firstDiv.id);
 //            }
@@ -399,9 +412,9 @@
 
           that.launch_completed = true;
           if (jq("nav").length > 0) {
-            jq("#ui_kit #header").addClass("hasMenu off");
-            jq("#ui_kit #content").addClass("hasMenu off");
-            jq("#ui_kit #navbar").addClass("hasMenu off");
+            jq(this.header_id).addClass("hasMenu off");
+            jq(this.content_id).addClass("hasMenu off");
+            jq(this.footer_id).addClass("hasMenu off");
           }
           //trigger ui ready
           jq(document).trigger("jq.ui.ready");
@@ -446,7 +459,45 @@
     //=============================================================
 
 
+    toggle_visibility: function(element_id, visible){
+    if      (visible == true)  { $(element_id).show(); return; }
+    else if (visible == false) { $(element_id).hide(); return; }
+    jq(element_id).toggle();
+    },
 
+  set_active_footer_button: function(div_id){
+    //this has to be a search by id for best speed
+    jq(this.current_footer_button_id).removeClass(this.active_footer_class);
+    jq(div_id).addClass(this.active_footer_class);
+    this.current_footer_button_id = div_id;
+  },
+
+  set_footer_options: function(footer_id, visible, active_button){
+    this.set_footer(footer_id);
+    this.toggle_visibility(footer_id, visible);
+    this.set_active_footer_button(active_button);
+  },
+
+
+  dispose: function(element_id){
+    //replace all images with src='tiny.png'
+    //removeChild
+  },
+
+  //The ID of the original element never changes as the new
+  //elements children replace the children of the original element
+  set_element: function set_element(old_div, new_div){
+    if(new_div && new_div != old_div){
+      $(old_div).html(new_div.children());
+    }
+    else{
+      $(old_div).hide();
+    }
+  },
+
+  set_header: function(div_id){ this.set_element(this.header_id, div_id); },
+  set_left_button: function(div_id){ this.set_element(this.left_button_id, div_id); },
+  set_right_button: function(div_id){ this.set_element(this.left_button_id, div_id); },
 
 
 
@@ -475,10 +526,6 @@
         }, false);
     },
 
-    set_back_button_style: function (className) {
-      jq("#backButton").get(0).className = className;
-    },
-
     go_back: function () {
       if (this.history.length > 0) {
         var previous_page = this.history.pop();
@@ -490,7 +537,7 @@
 
     clear_history: function () {
       this.history = [];
-      this.set_back_button_visibility(false)
+      this.set_left_button(false)
     },
 
     pushHistory: function (previous_page, new_page, transition, hash_extras) {
@@ -540,12 +587,12 @@
     toggle_footer_menu: function (force) {
       if (!this.show_footer_menu)
         return;
-      if (jq("#navbar").css("display") != "none" && ((force !== undefined && force !== true) || force === undefined)) {
+      if (jq(this.footer_id).css("display") != "none" && ((force !== undefined && force !== true) || force === undefined)) {
         jq("#content").css("bottom", "0px");
-        jq("#navbar").hide();
+        jq(this.footer_id).hide();
       } else if (force === undefined || (force !== undefined && force === true)) {
-        jq("#navbar").show();
-        jq("#content").css("bottom", jq("#navbar").css("height"));
+        jq(this.footer_id).show();
+        jq("#content").css("bottom", jq(this.footer_id).css("height"));
 
       }
     },
@@ -650,21 +697,13 @@
       return this.isSideMenuEnabled() && (menu.hasClass("on") || menu.hasClass("to-on"));
     },
 
-    //this needs to be thoroughly checked out so it can work for me
-    update_footer_elements: function (elements) {
-      var footer_nav = jq("#navbar");
-      if (elements === undefined || elements == null)
-        return;
-      if (typeof (elements) == "string")
-        return footer_nav.html(elements, true), null;
-      footer_nav.html("");
-      for (var i = 0; i < elements.length; i++) {
-        var node = elements[i].cloneNode(true);
-        footer_nav.append(node);
+    set_footer: function (div_id) {
+      if (div_id && div_id != this.header_id){
+        $(this.footer_id).html(div_id.children());
       }
-      var tmpAnchors = jq("#navbar a");
-      if (tmpAnchors.length > 0)
-        tmpAnchors.data("ignore-pressed", "true").data("resetHistory", "true");
+      else {
+        this.toggle_footer_menu(false);
+      }
     },
 
 
@@ -701,23 +740,6 @@
       this.scrolling_divs['menu_scroller'].scrollToTop();
     },
 
-    set_title: function (val) {
-      jq("#header #pageTitle").html(val);
-    },
-
-    set_back_button_text: function (text) {
-      if (this.back_button_text.length > 0)
-        jq("#header #backButton").html(this.back_button_text);
-      else
-        jq("#header #backButton").html(text);
-    },
-
-    set_back_button_visibility: function (show) {
-      if (!show)
-        jq("#header #backButton").css("visibility", "hidden");
-      else
-        jq("#header #backButton").css("visibility", "visible");
-    },
 
     show_modal: function (id) {
       var that = this;
@@ -917,10 +939,10 @@
 ////      }
 //      if (hasFooter && that.custom_footer != hasFooter) {
 //        that.custom_footer = hasFooter;
-//        that.update_footer_elements(jq("#" + hasFooter).children());
+//        that.set_footer(jq("#" + hasFooter).children());
 //      } else if (hasFooter != that.custom_footer) {
 //        if (that.custom_footer)
-//          that.update_footer_elements(that.default_footer);
+//          that.set_footer(that.default_footer);
 //        that.custom_footer = false;
 //      }
 //      if (hasHeader && hasHeader.toLowerCase() == "none") {
@@ -948,7 +970,7 @@
 //      var inlineFooters = $(what).find("footer");
 //      if (inlineFooters.length > 0) {
 //        that.custom_footer = what.id;
-//        that.update_footer_elements(inlineFooters.children());
+//        that.set_footer(inlineFooters.children());
 //      }
 //      //load inline headers
 //      var inlineHeader = $(what).find("header");
@@ -1003,89 +1025,86 @@
 
     //This is called to initiate a transition
     //We can pass in a hash+id or URL and then we parse the panel for additional functions
-    //newTab = true = resetHistory, back = true = back click
-    load_content: function (target, newTab, back, transition, anchor) {
+    //clear_history = true = resetHistory, back = true = back click
+    load_content: function (target, clear_history, back, transition, anchor) {
 
       if (this.doing_transition) {
-        this.load_content_queue.push([target, newTab, back, transition, anchor]);
-        return;
+        this.load_content_queue.push([target, clear_history, back, transition, anchor]);
+
       }
       else if (target.length === 0) {
-        return;
+
       }
       else {
-        this.loadDiv(target, newTab, back, transition);
+        this.loadDiv(target, clear_history, back, transition);
       }
     },
 
     //This is called internally by load_content.  Here we are loading a div instead of an Ajax link
-    loadDiv: function (target, newTab, back, transition) {
+    loadDiv: function (target, clear_history, back, transition) {
       // load a div
-      var what = target.replace("#", "");
 
-      var slashIndex = what.indexOf('/');
+      //replace any # to prevent browser issues
+      var target_id = target.replace("#", "");
+      debugger;
+      var slashIndex = target_id.indexOf('/');
       var hashLink = "";
       if (slashIndex != -1) {
         // Ignore everything after the slash for loading
-        hashLink = what.substr(slashIndex);
-        what = what.substr(0, slashIndex);
+        hashLink = target_id.substr(slashIndex);
+        target_id = target_id.substr(0, slashIndex);
       }
 
-      what = jq("#" + what).get(0);
+      var target_panel = jq('#'+target_id).get(0);
 
-      if (!what)
-        return console.log("Target: " + target + " was not found");
-      if (what == this.active_div && !back) {
-        //toggle the menu if applicable
-        if (this.isSideMenuOn())
-          this.toggle_side_menu(false);
-        return;
+      if (!target_panel){
+        return console.log("Target panel: " + target + " was not found");
       }
       this.transition_effect = transition;
-      var old_div = this.active_div;
-      var currWhat = what;
+      var current_panel = this.active_div;
 
-//      if (what.getAttribute("data-modal") == "true" || what.getAttribute("modal") == "true") {
-//        var fnc = what.getAttribute("data-load");
+//      if (target_id.getAttribute("data-modal") == "true" || target_id.getAttribute("modal") == "true") {
+//        var fnc = target_id.getAttribute("data-load");
 //        if (typeof fnc == "string" && window[fnc]) {
-//          window[fnc](what);
+//          window[fnc](target_id);
 //        }
-//        $(what).trigger("loadpanel");
-//        return this.show_modal(what.id);
+//        $(target_id).trigger("loadpanel");
+//        return this.show_modal(target_id.id);
 //      }
 
 
-      if (old_div == currWhat) //prevent it from going to itself
+      if (current_panel == target_panel) //prevent it from going to itself
         return;
 
-      if (newTab) {
+      if (clear_history) {
         this.clear_history();
-        this.pushHistory("#" + this.firstDiv.id, what.id, transition, hashLink);
-      } else if (!back) {
-        this.pushHistory(previous_target, what.id, transition, hashLink);
+        this.pushHistory("#" + this.firstDiv.id, target_panel.id, transition, hashLink);
+      } 
+      else if (!back) {
+        this.pushHistory(previous_target, target_panel.id, transition, hashLink);
       }
 
 
-      previous_target = '#' + what.id + hashLink;
+      previous_target = '#' + target_panel.id + hashLink;
 
 
       this.doing_transition = true;
 
-      old_div.style.display = "block";
-      currWhat.style.display = "block";
+      current_panel.style.display = "block";
+      target_panel.style.display = "block";
 
-      this.runTransition(transition, old_div, currWhat, back);
+      this.runTransition(transition, current_panel, target_panel, back);
 
-
+       debugger;
       //Let's check if it has a function to run to update the data
-      //this.parsePanelFunctions(what, old_div);
+      //this.parsePanelFunctions(what, current_panel);
 
       //Need to call after parsePanelFunctions, since new headers can override
-      this.loadContentData(what, newTab, back);
+      this.loadContentData(target_id, clear_history, back);
       var that = this;
       setTimeout(function () {
-        if (that.scrolling_divs[old_div.id]) {
-          that.scrolling_divs[old_div.id].disable();
+        if (that.scrolling_divs[current_panel.id]) {
+          that.scrolling_divs[current_panel.id].disable();
         }
       }, 200);
 
@@ -1093,48 +1112,41 @@
 
     //This is called internally by loadDiv.  This sets up the back button
     // in the header and scroller for the panel
-    loadContentData: function (what, newTab, back) {
-      if (back) {
-        if (this.history.length > 0) {
-          var val = this.history[this.history.length - 1];
-          var slashIndex = val.target.indexOf('/');
-          if (slashIndex != -1) {
-            var prevId = val.target.substr(0, slashIndex);
-          } else
-            var prevId = val.target;
-          var element = jq(prevId).get(0);
+    loadContentData: function (target_id, clear_history, back) {
+//      if (back) {
+//        if (this.history.length > 0) {
+//          var val = this.history[this.history.length - 1];
+//          var slashIndex = val.target.indexOf('/');
+//          if (slashIndex != -1) {
+//            var prevId = val.target.substr(0, slashIndex);
+//          } else
+//            var prevId = val.target;
+//          var element = jq(prevId).get(0);
           //make sure panel is there
-          if (element)
-            this.set_back_button_text(element.title);
-          else
-            this.set_back_button_text("Back");
-        }
-      } else if (this.active_div.title)
-        this.set_back_button_text(this.active_div.title)
-      else
-        this.set_back_button_text("Back");
-      if (what.title) {
-        this.set_title(what.title);
-      }
-      if (newTab) {
-        this.set_back_button_text(this.firstDiv.title)
+//          if (element)
+//            this.set_left_button_text(element.title);
+//          else
+//            this.set_left_button_text("Back");
+//        }
+//      } else if (this.active_div.title)
+//        this.set_left_button_text(this.active_div.title)
+//      else
+//        this.set_left_button_text("Back");
+      if (target_id.title) {
+        jq(this.title_id).html(target_id.title);
       }
 
-      if (this.history.length == 0) {
-        this.set_back_button_visibility(false);
-        this.history = [];
-      } else if (this.showBackbutton)
-        this.set_back_button_visibility(true);
+
       this.active_div = what;
       if (this.scrolling_divs[this.active_div.id]) {
         this.scrolling_divs[this.active_div.id].enable(this.reset_scrollers);
       }
     },
 
-    runTransition: function (transition, old_div, current_div, back) {
+    runTransition: function (transition, current_panel, new_panel, back) {
       if (!this.availableTransitions[transition])
         transition = 'default';
-      this.availableTransitions[transition].call(this, old_div, current_div, back);
+      this.availableTransitions[transition].call(this, current_panel, new_panel, back);
     },
 
 
@@ -1155,38 +1167,38 @@
     },
 
     //This is the default transition.  It simply shows the new panel and hides the old
-    noTransition: function (old_div, current_div, back) {
-      current_div.style.display = "block";
-      old_div.style.display = "block";
+    noTransition: function (current_panel, new_panel, back) {
+      new_panel.style.display = "block";
+      current_panel.style.display = "block";
       var that = this;
-      that.clearAnimations(current_div);
-      that.css3animate(old_div, {
+      that.clearAnimations(new_panel);
+      that.css3animate(current_panel, {
         x: "0%",
         y: 0
       });
-      that.finishTransition(old_div);
-      current_div.style.zIndex = 2;
-      old_div.style.zIndex = 1;
+      that.finishTransition(current_panel);
+      new_panel.style.zIndex = 2;
+      current_panel.style.zIndex = 1;
     },
 
     //This must be called at the end of every transition to hide the old div and
     // reset the doing_transition variable
-    finishTransition: function (old_div, current_div) {
-      console.log('$.ui.finishTransition(old_div, current_div)');
-      console.log('old_div=' + old_div.title);
+    finishTransition: function (current_panel, new_panel) {
+      console.log('$.ui.finishTransition(current_panel, new_panel)');
+      console.log('current_panel=' + current_panel.title);
 
 
       //Its possible to destroy the old div from this point
 
 
-//          console.log(old_div.title);
-//          console.log(current_div.title);
-      old_div.style.display = 'none';
+//          console.log(current_panel.title);
+//          console.log(new_panel.title);
+      current_panel.style.display = 'none';
       this.doing_transition = false;
-      if (current_div)
-        this.clearAnimations(current_div);
-      if (old_div)
-        this.clearAnimations(old_div);
+      if (new_panel)
+        this.clearAnimations(new_panel);
+      if (current_panel)
+        this.clearAnimations(current_panel);
       $.trigger(this, "content-loaded");
     },
 

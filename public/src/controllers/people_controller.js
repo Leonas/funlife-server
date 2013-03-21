@@ -11,11 +11,11 @@ $.mvc.controller.create('people_controller', {
   },
 
   default: function () {
-    $('#bottom_nav_home').removeClass('ui-btn-active');
-    $('#bottom_nav_photos').removeClass('ui-btn-active');
-    $('#bottom_nav_places').removeClass('ui-btn-active');
-    $('#bottom_nav_people').removeClass('ui-btn-active');
-    $('#bottom_nav_people').addClass('ui-btn-active');
+    $('#bottom_nav_home').removeClass('active_footer_button');
+    $('#bottom_nav_photos').removeClass('active_footer_button');
+    $('#bottom_nav_places').removeClass('active_footer_button');
+    $('#bottom_nav_people').removeClass('active_footer_button');
+    $('#bottom_nav_people').addClass('active_footer_button');
 
     //If the view div doesn't exist, make it!
     if ($("#people_index_view").length == 0) {

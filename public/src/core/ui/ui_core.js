@@ -38,7 +38,6 @@
 
     //stock element id's and class names
     header_id: '#header',
-    page_title_id: '#IDUNNO',
     footer_id: '#footer',
     content_id: '#content',
     panel_id: '#panel',
@@ -464,6 +463,7 @@
           newDiv = $(newDiv).children('.panel').get();
         }
         if (!newDiv.title && title){
+          //debugger;
           newDiv.title = title;
         }
         newId = (newDiv.id) ? newDiv.id : element.replace("#", ""); //figure out the new id - either the id from the loaded div.panel or the crc32 hash

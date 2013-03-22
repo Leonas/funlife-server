@@ -279,12 +279,48 @@
     },
 
     set_footer: function (div_id) {
-      this.set_element(this.footer_id, div_id);
+      if(div_id){
+        this.set_element(this.footer_id, div_id);
+        this.toggle_footer_menu(true);
+      }
+      else{
+        this.toggle_footer_menu(false);
+      }
+    },
+
+
+    toggle_footer_menu: function (force) {
+      if ($(this.footer_id).css("display") !== "none" && ((force !== undefined && force !== true) || force === undefined)) {
+        $("#content").css("bottom", "0px");
+        $(this.footer_id).hide();
+      }
+      else if (force === undefined || (force !== undefined && force === true)) {
+        $(this.footer_id).show();
+        $("#content").css("bottom", $(this.footer_id).css("height"));
+      }
     },
 
 
     set_header: function (div_id) {
+    if(div_id){
       this.set_element(this.header_id, div_id);
+      this.toggle_header_menu(true);
+    }
+    else{
+      this.toggle_header_menu(false);
+}
+    },
+
+    toggle_header_menu: function (force) {
+      if ($("#header").css("display") !== "none" && ((force !== undefined && force !== true) || force === undefined)) {
+        $("#content").css("top", "0px");
+        $("#header").hide();
+      }
+      else if (force === undefined || (force !== undefined && force === true)) {
+        $(this.header_id).show();
+        var val = numOnly($(this.header_id).css("height"));
+        $(this.content_id).css("top", val + 'px');
+      }
     },
 
 
@@ -387,31 +423,6 @@
       var firstSlash = hash.indexOf('/');
       return firstSlash === -1 ? hash : hash.substring(0, firstSlash);
     },
-
-    toggle_footer_menu: function (force) {
-      if ($(this.footer_id).css("display") !== "none" && ((force !== undefined && force !== true) || force === undefined)) {
-        $("#content").css("bottom", "0px");
-        $(this.footer_id).hide();
-      }
-      else if (force === undefined || (force !== undefined && force === true)) {
-        $(this.footer_id).show();
-        $("#content").css("bottom", $(this.footer_id).css("height"));
-      }
-    },
-
-    toggle_header_menu: function (force) {
-      if ($("#header").css("display") !== "none" && ((force !== undefined && force !== true) || force === undefined)) {
-        $("#content").css("top", "0px");
-        $("#header").hide();
-      }
-      else if (force === undefined || (force !== undefined && force === true)) {
-        $(this.header_id).show();
-        var val = numOnly($(this.header_id).css("height"));
-        $(this.content_id).css("top", val + 'px');
-      }
-    },
-
-
 
 
 

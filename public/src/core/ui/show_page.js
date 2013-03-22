@@ -44,7 +44,7 @@
 
     this.set_header(options.header);
     this.set_footer(options.footer);
-    this.set_active_footer_button(options.active_nav);
+    this.set_active_footer_button(options.active_footer_button);
     this.set_left_button(options.left_button);
     this.set_right_button(options.right_button);
 

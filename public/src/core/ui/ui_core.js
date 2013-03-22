@@ -42,10 +42,10 @@
     content_id: '#content',
     panel_id: '#panel',
     side_menu_id: '#side_menu',   //wrong
-    left_button_id: '#left_button',
-    right_button_id: '#right_button',
+    left_button_id: '#top_left_button',
+    right_button_id: '#top_right_button',
     active_footer_button_id: '',
-    active_footer_class: '.active_footer_button',
+    active_footer_class: 'active_footer_button',
     title_id: '#title',
     ui_kit_container_id: '#ui_kit',
     starting_panel_id:   '#starting_panel',
@@ -251,6 +251,7 @@
 
     set_active_footer_button: function (div_id) {
       //this has to be a search by id for best speed
+      debugger;
       $(this.current_footer_button_id).removeClass(this.active_footer_class);
       $(div_id).addClass(this.active_footer_class);
       this.current_footer_button_id = div_id;
@@ -259,6 +260,7 @@
     },
 
     set_footer_options: function (footer_id, visible, active_button) {
+      debugger;
       this.set_footer(footer_id);
       this.toggle_visibility(footer_id, visible);
       this.set_active_footer_button(active_button);

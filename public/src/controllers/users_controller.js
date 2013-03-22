@@ -32,7 +32,7 @@ $.mvc.controller.create('users_controller', {
     //remove a 'wrong password' error if shown from previous try
     $('#login_error').hide();
     switch (action) {
-    case !action:
+    case undefined:
 
       $.ui.show_page({
         title: 'Login or Register',
@@ -88,9 +88,9 @@ $.mvc.controller.create('users_controller', {
   },
 
   register2: function (action) {
-
+    console.log(action);
     switch (action) {
-      case !action:
+      case undefined:
         $.ui.show_page({
           title: 'Complete Your Registration',
           active_nav: false,

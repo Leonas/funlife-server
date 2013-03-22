@@ -1,14 +1,15 @@
 
 def log_in(user)
   visit SITE_ROOT
+  page.should_not have_content "Today's Activities"
+  sleep 1
   within('#login_form') do
     fill_in 'user[email]', :with => user.email
     fill_in 'user[password]', :with => user.password
   end
   click_link 'Login'
-  sleep 0.5
-  page.should have_content 'List of Users'
-  page.should have_content user.full_name
+  sleep 1
+  page.should have_content "Today's Activities"
 
 end
 

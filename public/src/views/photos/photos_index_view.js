@@ -1,17 +1,3 @@
-<div class="navbar navbar-fixed-top">
-   <div class='navbar-inner text-center lead'>
-      Photos
-   </div>
-</div>
-   <div class="row-fluid btn-group">
-     <a class="span4 btn" href='/photos_controller/'>Explore</a>
-     <a class="span4 btn" href='/photos_controller/following/'>Following</a>
-     <a class="span4 btn" href='/photos_controller/my_photos/'>My Photos</a>
-   </div>
-
-
-<br>
-
 <div class="row-fluid">
    <ul class="thumbnails">
        <li class="span4">

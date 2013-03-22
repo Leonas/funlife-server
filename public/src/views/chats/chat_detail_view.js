@@ -1,13 +1,4 @@
-<div class="navbar navbar-fixed-top">
-   <div class='navbar-inner row-fluid lead'>
-      <div class='span4 text-left'>
-         <a class="btn btn-small go_back"  href="/chats_controller/">Back</a>
-      </div>
-      <div class='span4 text-center '>Chats</div>
-   </div>
-</div>
-
-   <div class="row-fluid btn-group">
+  <div class="row-fluid btn-group">
      <a class="span6 btn" href='/chats_controller/'>Recieved</a>
      <a class="span6 btn" href='/chats_controller/recieved/'>Sent</a>
    </div>

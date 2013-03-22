@@ -11,26 +11,6 @@ $.mvc.controller.create('users_controller', {
   },
 
   default: function () {
-    /*
-     div_id: 'user_index_view',                               done
-     title: 'FunLife',                                    done
-     template: 'views/users/user_index_view.js',          done
-
-     header: id_of_header or null                         done
-     left_button: id_of_left_button_div or null           done
-     right_button: id_of_right_button_div or null         done
-
-     footer: tab_id or null                               done
-     active_footer_button: '#bottom_nav_home',            done
-
-
-
-
-     api_url: '/users/',                                  done
-     data: 'data_to_be_sent_to_server'                    done
-     on_load: function(){}                                done
-     on_unload: function(){}                              done
-     */
     $.ui.show_page({
        div_id: 'user_index_view',
        title: 'FunLife',

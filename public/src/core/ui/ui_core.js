@@ -143,6 +143,7 @@
 
       //add a click listener to the #ui_kit div
       this.ui_kit_container[0].addEventListener('click', function (e) {
+        console.log('click');
         checkAnchorClick(e, e.target);
       }, false);
 
@@ -154,7 +155,7 @@
 
 
       $(document).on("click", ".back_button", function () {
-        console.log('fuck');
+        console.log('back clicked');
         that.go_back();
       });
 
@@ -258,14 +259,15 @@
     //elements children replace the children of the original element
     set_element: function set_element(old_div, new_div) {
       if (new_div && new_div !== old_div) {
-        $(old_div).html($(new_div).html()).show();
+        old_div = $(old_div);
+        old_div.html($(new_div).html());
+        old_div.children().show();
       }
       else if(new_div === old_div){
-        $(old_div).show();
+        $(old_div).children().show();
       }
       else if(!new_div) {
-        //debugger;
-        $(old_div).hide();
+        $(old_div).children().hide();
       }
     },
 

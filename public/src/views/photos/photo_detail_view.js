@@ -1,14 +1,3 @@
-<div class="navbar navbar-fixed-top">
-   <div class='navbar-inner row-fluid lead'>
-      <div class='span4 text-left'>
-         <a class="btn btn-small"  href="/photos_controller/">Back</a>
-      </div>
-      <div class='span4 text-center'>Chats</div>
-   </div>
-</div>
-
-
-
 <div class='row-fluid'>
   <div class='span2'>
     <img src="/src/photos/7.png">

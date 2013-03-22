@@ -70,9 +70,9 @@
     };
     //iPhone double clicks workaround
     document.addEventListener('click', function(e) {
-      if(e.clientX!==undefined&&that.lastTouchStartX!=null)
+      if(e.clientX !== undefined && that.lastTouchStartX !== null)
       {
-        if(2>Math.abs(that.lastTouchStartX-e.clientX)&&2>Math.abs(that.lastTouchStartY-e.clientY)){
+        if (2 > Math.abs(that.lastTouchStartX-e.clientX) && 2 > Math.abs(that.lastTouchStartY-e.clientY)){
           e.preventDefault();
           e.stopPropagation();
         }
@@ -91,7 +91,7 @@
     });
     //fix layer positioning
     this.launchFixUI(5); //try a lot to set page into place
-  }
+  };
 
   touch_layer.prototype = {
     dX: 0,
@@ -163,8 +163,12 @@
     },
     launchFixUI: function(maxTries) {
       //this.log("launchFixUI");
-      if(!maxTries) maxTries = maxHideTries;
-      if(this.reHideAddressBarTimeout_ == null) return this.testAndFixUI(0, maxTries);
+      if(!maxTries) {
+        maxTries = maxHideTries;
+      }
+      if(this.reHideAddressBarTimeout_ === null){
+        return this.testAndFixUI(0, maxTries);
+      }
     },
     resetFixUI: function() {
       //this.log("resetFixUI");
@@ -344,7 +348,7 @@
     },
     onScroll: function(e) {
       //this.log("document scroll detected "+document.body.scrollTop);
-      if(!this.allowDocumentScroll_ && !this.isPanning_ && e.target==(document)) {
+      if(!this.allowDocumentScroll_ && !this.isPanning_ && e.target === (document)) {
         this.allowDocumentScroll_ = true;
         if(this.wasPanning_) {
           this.wasPanning_ = false;
@@ -370,11 +374,11 @@
       //scrollend check
       if(this.isScrolling) {
         //remove prev timeout
-        if(this.scrollTimeout_ != null) {
+        if(this.scrollTimeout_ !== null) {
           clearTimeout(this.scrollTimeout_);
           this.scrollTimeout_ = null;
           //different element, trigger scrollend anyway
-          if(this.scrollTimeoutEl_ != this.scrollingEl_) this.scrollEnded(false);
+          if(this.scrollTimeoutEl_ !== this.scrollingEl_) this.scrollEnded(false);
           else this.blockPossibleClick_ = true;
           //check if event was already set
         } else if(this.scrollTimeoutEl_) {

@@ -1,8 +1,3 @@
-<div class="navbar navbar-fixed-top">
-   <div class='navbar-inner text-center lead'>
-      People Nearby
-   </div>
-</div>
    <div class="row-fluid btn-group">
      <a class="span4 btn" href='/people_controller/'>Following</a>
      <a class="span4 btn" href='/people_controller/followers/'>Followers</a>

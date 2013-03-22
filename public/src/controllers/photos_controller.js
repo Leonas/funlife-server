@@ -10,18 +10,19 @@ $.mvc.controller.create('photos_controller', {
   },
 
   default: function () {
-    $('#bottom_nav_home').removeClass('active_footer_button');
-    $('#bottom_nav_photos').removeClass('active_footer_button');
-    $('#bottom_nav_places').removeClass('active_footer_button');
-    $('#bottom_nav_people').removeClass('active_footer_button');
-    $('#bottom_nav_photos').addClass('active_footer_button');
 
-    //If the view div doesn't exist, make it!
-    if ($('#photos_index_view').length == 0) {
-      $.ui.add_content_div('photos_index_view', $.template('views/photos/photos_index_view.js'), 'Photos');
-    }
-    //Show the view
-    $.ui.load_content('photos_index_view', false, false, 'none');
+    $.ui.show_page({
+      div_id: 'photos_index_view',
+      title: 'Photos',
+      template: 'views/photos/photos_index_view.js',
+      header: '#header',
+      left_button: false,
+      right_button: false,
+      footer: '#footer',
+      active_footer_button: '#bottom_nav_photos',
+      api_url: false,
+      data: false
+    });
 
   },
 

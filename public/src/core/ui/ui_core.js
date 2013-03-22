@@ -249,6 +249,26 @@
       $(element_id).toggle();
     },
 
+    dispose: function (element_id) {
+      //replace all images with src='tiny.png'
+      //removeChild
+    },
+
+    //The ID of the original element never changes as the new
+    //elements children replace the children of the original element
+    set_element: function set_element(old_div, new_div) {
+      if (new_div && new_div !== old_div) {
+        $(old_div).html($(new_div).html()).show();
+      }
+      else if(new_div === old_div){
+        $(old_div).show();
+      }
+      else if(!new_div) {
+        //debugger;
+        $(old_div).hide();
+      }
+    },
+
     set_active_footer_button: function (div_id) {
       //this has to be a search by id for best speed
       $(this.current_footer_button_id).removeClass(this.active_footer_class);
@@ -258,39 +278,8 @@
 
     },
 
-    set_footer_options: function (footer_id, visible, active_button) {
-      this.set_footer(footer_id);
-      this.toggle_visibility(footer_id, visible);
-      this.set_active_footer_button(active_button);
-    },
-
     set_footer: function (div_id) {
-      if (div_id && div_id !== this.header_id) {
-        $(this.footer_id).html($(div_id).children());
-      }
-      else {
-        this.toggle_footer_menu(false);
-      }
-    },
-
-    dispose: function (element_id) {
-      //replace all images with src='tiny.png'
-      //removeChild
-    },
-
-    //The ID of the original element never changes as the new
-    //elements children replace the children of the original element
-    set_element: function set_element(old_div, new_div) {
-      //debugger;
-      if (new_div && new_div !== old_div) {
-
-        $(old_div).html($(new_div).children()[0]);
-        //debugger;
-      }
-      else if(!new_div) {
-        //debugger;
-        $(old_div).hide();
-      }
+      this.set_element(this.footer_id, div_id);
     },
 
 

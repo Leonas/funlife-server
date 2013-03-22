@@ -1,5 +1,6 @@
 require 'spec_helper'
 
+
 describe 'signup/login screen' do
 
   after :each do
@@ -7,7 +8,9 @@ describe 'signup/login screen' do
   end
 
   it 'loads' do
-    visit @site_root
+    visit SITE_ROOT
+#    binding.pry
+    sleep 2
     page.should have_content 'FunLife'
     page.should have_content 'Email'
   end

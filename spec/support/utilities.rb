@@ -1,6 +1,7 @@
+
 def log_in(user)
-  visit @site_root
-  within('#login_holder') do
+  visit SITE_ROOT
+  within('#login_form') do
     fill_in 'user[email]', :with => user.email
     fill_in 'user[password]', :with => user.password
   end

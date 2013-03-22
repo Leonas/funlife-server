@@ -11,20 +11,20 @@
 
 <div class='row-fluid'>
   <div class='span2'>
-    <img src="/src/layout/img/photos/7.png">
+    <img src="/src/photos/7.png">
   </div>
   <div class='span6'>Larissa Jane</div>
   <div class='span1'>
-    <img src='src/layout/img/icons/comment_bubble.png'>
+    <img src='layout/img/icons/comment_bubble.png'>
   </div>
   <div class='span1'>
-    <img src='src/layout/img/icons/photo_likes.png'>
+    <img src='layout/img/icons/photo_likes.png'>
   </div>
 </div>
 
 <div class='row-fluid'>
   <div class='span10 offset1'>
-    <img src='src/images/photos/7.jpeg'>
+    <img src='/src/photos/7.png'>
   </div>
 </div>
 

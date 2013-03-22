@@ -1,8 +1,6 @@
 require 'rubygems'
 require 'spork'
 
-@site_root = 'http://localhost:8200/src/'
-
 #require 'spork/ext/ruby-debug'
 
 Spork.prefork do
@@ -13,7 +11,6 @@ Spork.prefork do
   require 'rspec/rails'
 
   require 'rspec/autorun'
-
 
 
   require 'database_cleaner'
@@ -29,6 +26,7 @@ Spork.prefork do
   Capybara.run_server = true
 
   Capybara.server_port = 8200
+  SITE_ROOT = 'http://localhost:8200/src/'
 
   #Capybara.ignore_hidden_elements = true           this causes problems
 

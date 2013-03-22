@@ -181,11 +181,15 @@
 
         var load_first_div = function () {
           //setup initial menu
-          var firstMenu = $("nav").get();
-          if (firstMenu) {
-            that.default_menu = $(firstMenu).children().clone();
-            that.update_side_menu(that.default_menu);
-          }
+
+            //TEMPORARY DISABLING. PLEASE FIX, THEN REENABLE
+//          var firstMenu = $("nav").get();
+//          if (firstMenu) {
+//            that.default_menu = $(firstMenu).children().clone();
+//            that.update_side_menu(that.default_menu);
+//          }
+
+
 
           //get default header in case we need it later if you swap headers
           that.default_header = $("#header").children().clone();
@@ -251,6 +255,8 @@
       $(this.current_footer_button_id).removeClass(this.active_footer_class);
       $(div_id).addClass(this.active_footer_class);
       this.current_footer_button_id = div_id;
+      //$(div_id).addClass(this.active_footer_class).siblings().removeClass(this.active_footer_class);
+
     },
 
     set_footer_options: function (footer_id, visible, active_button) {

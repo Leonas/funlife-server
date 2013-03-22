@@ -19,7 +19,7 @@
 <a href='/chats_controller/detail/blah'>
 <div class='row-fluid well well-small'>
    <div class='span2'>
-      <img src="/src/layout/img/photos/7.png">
+      <img src="/src/photos/7.png">
    </div>
    <div class='span7 offset1'>
       <span class='text-info'>Kimberly Rose</span><br>
@@ -45,7 +45,7 @@
 <a href='/chats_controller/detail/blah'>
 <div class='row-fluid well well-small'>
    <div class='span2'>
-      <img src="/src/layout/img/photos/7.png">
+      <img src="/src/photos/7.png">
    </div>
    <div class='span7 offset1'>
       <span class='text-info'>Kimberly Rose</span><br>
@@ -61,7 +61,7 @@
 <a href='/chats_controller/detail/blah'>
 <div class='row-fluid well well-small'>
    <div class='span2'>
-      <img src="/src/layout/img/photos/7.png">
+      <img src="/src/photos/7.png">
    </div>
    <div class='span7 offset1'>
       <span class='text-info'>Kimberly Rose</span><br>
@@ -77,7 +77,7 @@
 <a href='/chats_controller/detail/blah'>
 <div class='row-fluid well well-small'>
    <div class='span2'>
-      <img src="/src/layout/img/photos/7.png">
+      <img src="/src/photos/7.png">
    </div>
    <div class='span7 offset1'>
       <span class='text-info'>Kimberly Rose</span><br>

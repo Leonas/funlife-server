@@ -38,7 +38,7 @@
 
 <div class='row-fluid well well-small'>
    <div class='span2'>
-      <img src="/src/layout/img/photos/7.png">
+      <img src="/src/photos/7.png">
    </div>
    <div class='span10'>
    <small class='muted'>7:10pm</small><br>
@@ -53,7 +53,7 @@
      I'm doing good how are you?
    </div>
    <div class='span2'>
-      <img src="/src/layout/img/photos/5.png">
+      <img src="/src/photos/5.png">
    </div>
 </div>
 

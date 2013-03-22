@@ -54,11 +54,14 @@ $.mvc.controller.create('users_controller', {
     case undefined:
       current_user.token = 'guest';
       $.ui.show_page({
-        title: 'Login or Register',
-        active_nav: false,
         div_id: 'user_login_register_view',
+        title: false,
         template: 'views/users/user_login_register_view.js',
+        header: false,
         left_button: false,
+        right_button: false,
+        footer: false,
+        active_footer_button: false,
         api_url: false,
         data: false
       });
@@ -107,7 +110,6 @@ $.mvc.controller.create('users_controller', {
   },
 
   register2: function (action) {
-    console.log(action);
     switch (action) {
       case undefined:
         $.ui.show_page({

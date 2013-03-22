@@ -131,12 +131,13 @@
       this.has_launched = true;
 
       var that = this;
-
       //get all the main divs into variables
       this.ui_kit_container = $(this.ui_kit_container_id);
       this.footer = $(this.footer_id).get(0);
       this.content_string = $(this.content_id).get(0);
       this.header = $(this.header_id).get(0);
+      this.left_button = $(this.left_button_id).get(0);
+      this.right_button = $(this.right_button_id).get(0);
       this.menu = $(this.side_menu_id).get(0);
 
 
@@ -150,11 +151,10 @@
       //=======================================================================================
       //setting up the header and back button
 
-      this.header.innerHTML = this.header_id.innerHTML;
 
-      this.left_button = $(this.left_button_id).get(0);
 
       $(document).on("click", ".back_button", function () {
+        console.log('fuck');
         that.go_back();
       });
 
@@ -251,7 +251,6 @@
 
     set_active_footer_button: function (div_id) {
       //this has to be a search by id for best speed
-      debugger;
       $(this.current_footer_button_id).removeClass(this.active_footer_class);
       $(div_id).addClass(this.active_footer_class);
       this.current_footer_button_id = div_id;
@@ -260,7 +259,6 @@
     },
 
     set_footer_options: function (footer_id, visible, active_button) {
-      debugger;
       this.set_footer(footer_id);
       this.toggle_visibility(footer_id, visible);
       this.set_active_footer_button(active_button);
@@ -283,11 +281,14 @@
     //The ID of the original element never changes as the new
     //elements children replace the children of the original element
     set_element: function set_element(old_div, new_div) {
+      //debugger;
       if (new_div && new_div !== old_div) {
-        $(old_div).html($(new_div).children());
+
+        $(old_div).html($(new_div).children()[0]);
         //debugger;
       }
-      else {
+      else if(!new_div) {
+        //debugger;
         $(old_div).hide();
       }
     },
@@ -303,7 +304,7 @@
     },
 
     set_right_button: function (div_id) {
-      this.set_element(this.left_button_id, div_id);
+      this.set_element(this.right_button_id, div_id);
     },
 
 

@@ -10,6 +10,7 @@
         popped = ('state' in window.history);
 
     $.mvc = {};
+  $.mvc.first_pop = true;
 
     $.mvc.app = function () {
         $.mvc._app = this;
@@ -32,9 +33,13 @@
         _hasModels: true,
         _useHistory: false,
         _html5Pop: function (e) {                             //wtf is this shit
-            var initialPop = !popped && location.href !== initialUrl; //Chrome pop fix based on pjax
-            popped = true;
-            if (initialPop) { return; }
+            //var initialPop = !popped && location.href !== initialUrl; //Chrome pop fix based on pjax
+            //popped = true;
+            //if (initialPop) { return; }
+            if($.mvc.first_pop){
+              $.mvc.first_pop = false;
+              return;
+            }
             $.mvc.route(document.location.href, e, true);
         },
 

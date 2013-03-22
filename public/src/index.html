@@ -51,7 +51,6 @@
     <script>
         var debug;        //for testing stuff
         var current_user;
-
         var app = new $.mvc.app();
         app.loadModels(['user', 'chat', 'person', 'place', 'photo']);
         app.loadControllers(['users_controller', 'chats_controller', 'people_controller',
@@ -63,13 +62,9 @@
 
 
             if (current_user.token.length > 5) {                       //if the current user's token exists, try to auth
-                $('#footer').show();
                 $.mvc.route('/users_controller/');
             } else {
-                console.log('token not found on localstorage. displaying login');
-                //$.mvc.route('/users_controller/login');
-                $.ui.add_content_div('user_login_register_view', $.template('views/users/user_login_register_view.js'), 'Login or Register');
-                $.ui.load_content('user_login_register_view', false, false, 'fade'); //Show the user_login_view
+                $.mvc.route('/users_controller/login_register')
             }
         });
     </script>
@@ -77,29 +72,20 @@
 
 <body>
 <div id='ui_kit'>
-<div id='header'></div>
-
+<div id='header'>
     <div class="navbar navbar-fixed-top">
         <div class='navbar-inner row-fluid lead'>
-            <div class='span4 offset4 text-center '>FunLife</div>
-
+            <div id='top_left_button' class='span4 text-left'></div>
+            <div id='title' class='span4 text-center'></div>
+            <div id='top_right_button' class='span4 text-right'></div>
         </div>
     </div>
-
-    <div id="default_header">
-        <div class="navbar navbar-fixed-top">
-            <div class='navbar-inner row-fluid lead'>
-                <div id='top_left_button' class='span4 text-left'></div>
-                <div id='title' class='span4 text-center'></div>
-                <div id='top_right_button' class='span4 text-right'></div>
-            </div>
-        </div>
-    </div>
+</div>
 
     <!--Snippets to be used for top buttons-->
 
-    <div id='top_back_button' class='top_left_button'>
-        <a class="btn btn-small go_back"  href="javascript:">Back</a>
+    <div id='top_back_button' class='top_left_button back_button'>
+        <a class="btn btn-small go_back"  href="javascript:;">Back</a>
     </div>
 
     <div id='top_logout_button' class='top_right_button'>

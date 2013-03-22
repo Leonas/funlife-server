@@ -41,7 +41,7 @@
       options.on_load();
     }
 
-
+    debugger;
     this.set_header(options.header);
     this.set_footer(options.footer);
     this.set_active_footer_button(options.active_footer_button);

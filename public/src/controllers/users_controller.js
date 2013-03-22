@@ -33,7 +33,7 @@ $.mvc.controller.create('users_controller', {
     $('#login_error').hide();
     switch (action) {
     case undefined:
-
+      current_user.token = 'guest';
       $.ui.show_page({
         title: 'Login or Register',
         active_nav: false,

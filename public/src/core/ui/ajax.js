@@ -6,7 +6,7 @@
       type: 'GET',
       dataType: 'application/json',
       headers: { TOKEN: current_user.token },
-      url: options.api_url,
+      url: server+options.api_url,
       data: options.data,
       success: options.success,
       error: options.error
@@ -19,7 +19,7 @@
       type: 'POST',
       dataType: 'application/json',
       headers: { TOKEN: current_user.token },
-      url: options.api_url,
+      url: server+options.api_url,
       data: options.data,
       success: options.success,
       error: options.error

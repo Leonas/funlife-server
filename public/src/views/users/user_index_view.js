@@ -1,12 +1,3 @@
-<div class="navbar navbar-fixed-top">
-   <div class='navbar-inner row-fluid lead'>
-      <div class='span4 offset4 text-center '>FunLife</div>
-      <div class='span4 text-right'>
-         <a class="btn btn-small"  href="/users_controller/logout">Logout</a>
-      </div>
-   </div>
-</div>
-
 <ul class="breadcrumb">
   <li>My Activities</li>
 </ul>

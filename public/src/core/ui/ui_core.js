@@ -284,7 +284,7 @@
     set_element: function set_element(old_div, new_div) {
       if (new_div && new_div !== old_div) {
         $(old_div).html($(new_div).children());
-        debugger;
+        //debugger;
       }
       else {
         $(old_div).hide();
@@ -433,7 +433,7 @@
       var newDiv = document.createElement("div");
       newDiv.innerHTML = content_string;
       //$(newDiv).children('.panel') doesnt seem to be right. test it
-      debugger;
+      //debugger;
       if ($(newDiv).children('.panel') && $(newDiv).children('.panel').length > 0){
         newDiv = $(newDiv).children('.panel').get();
       }

@@ -1,4 +1,12 @@
 /*Dont show the footer unless you are logged in*/
+.top_left_button {
+    display: none;
+}
+
+.top_right_button {
+    display: none;
+}
+
 #footer {
     display: none;
 }

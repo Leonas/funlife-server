@@ -73,8 +73,10 @@
             $.ui.add_content_div(options.div_id, $.template(options.template), options.title, data);
             $.ui.load_content(options.div_id, false, false, 'fade');
           },
-          error: function(){
+          error: function(a,b){
             console.log('failed to access api');
+            console.log(a);
+            console.log(b);
           }
         });
       }

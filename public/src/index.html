@@ -79,18 +79,34 @@
 <div id='ui_kit'>
 <div id='header'></div>
 
+    <div class="navbar navbar-fixed-top">
+        <div class='navbar-inner row-fluid lead'>
+            <div class='span4 offset4 text-center '>FunLife</div>
+
+        </div>
+    </div>
 
     <div id="default_header">
         <div class="navbar navbar-fixed-top">
             <div class='navbar-inner row-fluid lead'>
-                <div class='span4 text-left'>
-                    <a id='left_button' class="btn btn-small go_back"  href="javascript:;">Back</a>
-                </div>
-                <div id="pageTitle" class='span4 text-center '>Chats</div>
+                <div id='top_left_button' class='span4 text-left'></div>
+                <div id='pageTitle' class='span4 text-center'></div>
+                <div id='top_right_button' class='span4 text-right'></div>
             </div>
         </div>
-
     </div>
+
+    <!--Snippets to be used for top buttons-->
+
+    <div id='top_back_button' class='top_left_button'>
+        <a class="btn btn-small go_back"  href="javascript:">Back</a>
+    </div>
+
+    <div id='top_logout_button' class='top_right_button'>
+        <a class='btn btn-small'  href='/users_controller/logout'>Logout</a>
+    </div>
+
+    <!--End button snippets-->
 
 
     <div id='content'>

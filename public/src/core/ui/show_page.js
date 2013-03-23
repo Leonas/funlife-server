@@ -19,6 +19,7 @@
   data: 'data_to_be_sent_to_server'                    done
   on_load: function(){}                                done
   on_unload: function(){}                              done
+  preload_urls: [url1, url2]                           NOTDONE
   })
   */
 
@@ -51,13 +52,15 @@
     if(options.api_url){
       //check if we have any cached data, and show that first
       if (this.cached_pages[options.div_id] ) {
+         console.log('we found cache');
          this.add_content_div(options.div_id, $.template(options.template), options.title, this.cached_pages[options.div_id]);
          this.load_content(options.div_id, false, false, 'fade');
          $.get_with_token({
             api_url: options.api_url,
             data: options.data,
-            success: function(){
-               $.ui.update_content_div(options.div_id, $.template(options.template), options.data);
+            success: function(response, statusText, xhr){
+               var data = JSON.parse(response);
+               $.ui.update_content_div(options.div_id, $.template(options.template), data);
             },
             error: function(){
                console.log('failed to update');
@@ -65,11 +68,14 @@
         });
       }
       else {
+        console.log('no local cache found, fetching data');
         $.get_with_token({
           api_url: options.api_url,
           data: options.data,
-          success: function(data){
-            $.ui.add_content_div(options.div_id, $.template(options.template), options.title, data);
+          success: function(response, statusText, xhr){
+            var parsed_data = JSON.parse(response);
+            console.log(parsed_data);
+            $.ui.add_content_div(options.div_id, $.template(options.template), options.title, parsed_data);
             $.ui.load_content(options.div_id, false, false, 'fade');
           },
           error: function(a,b){
@@ -82,6 +88,7 @@
     }
     //no remote data needed
     else {
+      console.log('no remote data needed');
       if ($('#' + options.div_id).length === 0) {
         this.add_content_div(options.div_id, $.template(options.template), options.title, options.data);
       }

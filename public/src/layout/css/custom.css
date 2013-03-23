@@ -51,14 +51,7 @@
   padding: 4px;
   line-height: 10px;
   border: 1px solid #ddd;
-  -webkit-border-radius: 0px;
-  -moz-border-radius: 0px;
   border-radius: 0px;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-  -webkit-transition: none;
-  transition: none;
   margin: 0 0px 0 10px;
 }
 

@@ -27,8 +27,7 @@ $.mvc.controller.create('users_controller', {
   },
 
   login_register: function (action) {
-
-    //remove a 'wrong password' error if shown from previous try
+   //remove a 'wrong password' error if shown from previous try
     $('#login_error').hide();
     switch (action) {
     case undefined:

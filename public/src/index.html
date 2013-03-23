@@ -18,8 +18,16 @@
             var server = 'http://vast-crag-6780.herokuapp.com';
         }
     </script>
+
+    <!--inline javascript files are loaded SYNCHRONOUSLY-->
+
     <script src='core/selectors/jq.mobi.js'></script>
+
+    <!-- These two files must be in order   -->
     <script src='core/ui/ui_core.js'></script>
+    <script src='core/ui/check_anchor_click.js'></script>
+
+    <!-- No order required -->
     <script src='core/ui/ajax.js'></script>
     <script src='core/ui/show_page.js'></script>
     <script src='core/ui/animate.js'></script>
@@ -32,6 +40,11 @@
     <script src='core/ui/zepto_touch.js'></script>
     <script src='core/plugins/fade_transition.js'></script>
     <script src='core/plugins/core_plugins.js'></script>
+    <!--End no order required-->
+
+    <!--Include all UI related scripts above this script-->
+    <script src='core/ui/ui_loader.js'></script>
+    <!--            End UI Kit                          -->
 
     <!--For more jqUI info: https://github.com/html5mgithub/jQ.Mobi/tree/master/ui-->
     <script src='core/mvc/mvc_core.js'></script>
@@ -58,6 +71,7 @@
         app.listenHashChange();
         app.useHTML5History(true);
         app.ready(function () {
+            //When the ui_loader has run, this executes ?
             current_user.get_from_local();                           //Load current user to memory from localstorage
 
 

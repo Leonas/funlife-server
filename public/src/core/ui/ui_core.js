@@ -2,31 +2,8 @@
 
   var default_hash = window.location.hash;
   var previous_target = default_hash;
+
   var ui = function () {
-
-    var this_ui = this;
-
-    //when doc ready, add the touch layer
-    $(document).ready(function () {
-      if ($.os.supportsTouch) {
-        $.touch_layer(document.getElementById("ui_kit"));
-      }
-    });
-
-
-    //If the document is ready, call autoBoot to launch
-    if (document.readyState === 'complete' || document.readyState === "loaded") {
-      this.autoBoot();
-    }
-    //Otherwise add a listener and launch when ready
-    else {
-      document.addEventListener("DOMContentLoaded", function () {
-        this_ui.autoBoot();
-        this.removeEventListener("DOMContentLoaded", arguments.callee);
-      }, false);
-    }
-
-
     //Custom transitions can be added to $.ui.availableTransitions
     this.availableTransitions = {};
     this.availableTransitions['default'] = this.availableTransitions['none'] = this.noTransition;
@@ -144,7 +121,7 @@
       //add a click listener to the #ui_kit div
       this.ui_kit_container[0].addEventListener('click', function (e) {
         console.log('click');
-        checkAnchorClick(e, e.target);
+        $.ui.checkAnchorClick(e, e.target);
       }, false);
 
 
@@ -690,23 +667,6 @@
     }
   };
 
-
-  //lookup for a clicked anchor recursively and fire UI own actions when applicable
-  var checkAnchorClick = function (e, theTarget) {
-    if (theTarget === (this.ui_kit_container_id)) {
-      return;
-    }
-    //if the item clicked is not an <a> then bubble up to see if we find it
-    if (theTarget.tagName && theTarget.tagName.toLowerCase() !== 'a' && theTarget.parentNode) {
-      return checkAnchorClick(e, theTarget.parentNode);
-    }
-    if (theTarget.tagName && theTarget.tagName.toLowerCase() === "a") {
-      if ($.mvc.route(theTarget)) {
-        return e.preventDefault();
-      }
-    }
-    //we didn't catch the link, it must be outbound
-  };
 
   $.ui = new ui();
 })(jq);

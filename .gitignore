@@ -19,6 +19,7 @@
 .DS_Store
 
 /trigger_io/
+/public/node_modules/
 
 sqlite-jdbc-3.7.2.jar
 xerial-sqlite-license.txt

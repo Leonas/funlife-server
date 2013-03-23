@@ -2,6 +2,7 @@
 
   //make these into functions for creating a modal div
   //it shouldnt be in the dom if its not needed
+  //These originally ran in the initializer of ui_kit
 
 //
 //  //Make the loading mask Div in the background
@@ -19,8 +20,8 @@
 //  var modalDiv = document.createElement("div");
 //  modalDiv.id = "modal_ui";
 //  this.ui_kit_container.prepend(modalDiv);
-//  modalDiv.appendChild(jq("<div id='modalContainer'></div>").get());
-//  this.scrolling_divs['modal_container'] = jq("#modalContainer").scroller({
+//  modalDiv.appendChild($("<div id='modalContainer'></div>").get());
+//  this.scrolling_divs['modal_container'] = $("#modalContainer").scroller({
 //    scrollBars: true,
 //    vertical: true,
 //    vScrollCSS: "jqmScrollbar",
@@ -30,28 +31,28 @@
 
 
 
-  show_modal: function (id) {
+  $.ui.show_modal= function (id) {
     var that = this;
     id = "#" + id.replace("#", "");
     try {
-      if (jq(id)) {
-        jq("#modalContainer").html($.feat.nativeTouchScroll ? jq(id).html() : jq(id).get(0).childNodes[0].innerHTML + '', true);
-        jq('#modalContainer').append("<a href='javascript:;' onclick='$.ui.hide_modal();' class='closebutton modalbutton'></a>");
+      if ($(id)) {
+        jq("#modalContainer").html($.feat.nativeTouchScroll ? $(id).html() : $(id).get(0).childNodes[0].innerHTML + '', true);
+        $('#modalContainer').append("<a href='javascript:;' onclick='$.ui.hide_modal();' class='closebutton modalbutton'></a>");
         this.modal_window.style.display = "block";
 
         this.scrolling_divs['modal_container'].enable(that.reset_scrollers);
         this.scrollToTop('modal');
-        jq("#modalContainer").data("panel", id);
+        $("#modalContainer").data("panel", id);
       }
     } catch (e) {
       console.log("Error with modal - " + e, this.modal_window);
     }
-  },
+  };
 
-  hide_modal: function () {
+  $.ui.hide_modal = function () {
     var modal = $("#modalContainer");
     modal.html("", true);
-    jq("#modal_ui").hide();
+    $("#modal_ui").hide();
 
     this.scrolling_divs['modal_container'].disable();
 
@@ -62,7 +63,7 @@
     }
 //      tmp.trigger("unloadpanel");
 
-  },
+  };
 
 
 

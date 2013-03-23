@@ -18,13 +18,7 @@
 /*.DS_Store
 .DS_Store
 
-/public/.template/
-/public/development/
-/public/release/
-/public/debug.keystore
-/public/local_config.json
-/public/.lib
-/public/src/.forgeignore
+/trigger_io/
 
 sqlite-jdbc-3.7.2.jar
 xerial-sqlite-license.txt

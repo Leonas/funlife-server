@@ -28,12 +28,18 @@ $.mvc.controller.create('photos_controller', {
 
   detail: function (photo_id, comment) {
 
-    //If the view div doesn't exist, make it!
-    if ($('#photos_index_view').length == 0) {
-      $.ui.add_content_div('photos_index_view', $.template('views/photos/photos_index_view.js'), 'Photos');
-    }
-    //Show the view
-    $.ui.load_content('photos_index_view', false, false, 'fade');
+    $.ui.show_page({
+      div_id: 'photo_detail_view',
+      title: 'Photo',
+      template: 'views/photos/photo_detail_view.js',
+      header: '#header',
+      left_button: '#top_back_button',
+      right_button: false,
+      footer: '#footer',
+      active_footer_button: '#bottom_nav_photos',
+      api_url: false,
+      data: false
+    });
 
   },
 

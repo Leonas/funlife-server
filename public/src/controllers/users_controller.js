@@ -16,7 +16,7 @@ $.mvc.controller.create('users_controller', {
        title: 'FunLife',
        template: 'views/users/user_index_view.js',
        header: '#header',
-       left_button: '#top_back_button',
+       left_button: false,
        right_button: '#top_logout_button',
        footer: '#footer',
        active_footer_button: '#bottom_nav_home',

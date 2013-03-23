@@ -10,24 +10,25 @@ $.mvc.controller.create('places_controller', {
   },
 
   default: function () {
-    $('#bottom_nav_home').removeClass('active_footer_button');
-    $('#bottom_nav_photos').removeClass('active_footer_button');
-    $('#bottom_nav_places').removeClass('active_footer_button');
-    $('#bottom_nav_people').removeClass('active_footer_button');
-    $('#bottom_nav_places').addClass('active_footer_button');
 
-    //If the view div doesn't exist, make it!
-    if ($('#places_index_view').length == 0) {
-      $.ui.add_content_div('places_index_view', $.template('views/places/places_index_view.js'), 'places');
-      $('#places_index_view').gmaps({
-        center: new google.maps.LatLng(37.76, -122.43),
-        zoom: 10,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-      });
-    }
-    //Show the view
-    $.ui.load_content('places_index_view', false, false, 'fade');
+    $.ui.show_page({
+      div_id: 'places_index_view',
+      title: 'Places',
+      template: 'views/places/places_index_view.js',
+      header: '#header',
+      left_button: false,
+      right_button: false,
+      footer: '#footer',
+      active_footer_button: '#bottom_nav_places',
+      api_url: false,
+      data: false
+    });
 
+    $('#places_index_view').gmaps({
+      center: new google.maps.LatLng(37.76, -122.43),
+      zoom: 10,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
 
   }
 

@@ -2,17 +2,17 @@
    <ul class="thumbnails">
        <li class="span4">
        <a href="/photos_controller/detail/photo_id/" class="thumbnail">
-         <img src="/src/photos/7.png">
+         <img src="/photos/7.png">
        </a>
      </li>
        <li class="span4">
        <a href="/photos_controller/detail/photo_id/" class="thumbnail">
-         <img src="/src/photos/2.png">
+         <img src="/photos/2.png">
        </a>
      </li>
         <li class="span4">
        <a href="/photos_controller/detail/photo_id/" class="thumbnail">
-         <img src="/src/photos/11.png">
+         <img src="/photos/11.png">
        </a>
      </li>
    </ul>
@@ -33,17 +33,17 @@
    <ul class="thumbnails">
        <li class="span4">
        <a href="/photos_controller/detail/photo_id/" class="thumbnail">
-         <img src="/src/photos/7.png">
+         <img src="/photos/7.png">
        </a>
      </li>
        <li class="span4">
        <a href="/photos_controller/detail/photo_id/" class="thumbnail">
-         <img src="/src/photos/2.png">
+         <img src="/photos/2.png">
        </a>
      </li>
         <li class="span4">
        <a href="/photos_controller/detail/photo_id/" class="thumbnail">
-         <img src="/src/photos/11.png">
+         <img src="/photos/11.png">
        </a>
      </li>
    </ul>
@@ -52,17 +52,17 @@
    <ul class="thumbnails">
        <li class="span4">
        <a href="#" class="thumbnail">
-         <img src="/src/photos/7.png">
+         <img src="/photos/7.png">
        </a>
      </li>
        <li class="span4">
        <a href="#" class="thumbnail">
-         <img src="/src/photos/2.png">
+         <img src="/photos/2.png">
        </a>
      </li>
         <li class="span4">
        <a href="#" class="thumbnail">
-         <img src="/src/photos/11.png">
+         <img src="/photos/11.png">
        </a>
      </li>
    </ul>
@@ -71,17 +71,17 @@
    <ul class="thumbnails">
        <li class="span4">
        <a href="#" class="thumbnail">
-         <img src="/src/photos/7.png">
+         <img src="/photos/7.png">
        </a>
      </li>
        <li class="span4">
        <a href="#" class="thumbnail">
-         <img src="/src/photos/2.png">
+         <img src="/photos/2.png">
        </a>
      </li>
         <li class="span4">
        <a href="#" class="thumbnail">
-         <img src="/src/photos/11.png">
+         <img src="/photos/11.png">
        </a>
      </li>
    </ul>
@@ -90,17 +90,17 @@
    <ul class="thumbnails">
        <li class="span4">
        <a href="#" class="thumbnail">
-         <img src="/src/photos/7.png">
+         <img src="/photos/7.png">
        </a>
      </li>
        <li class="span4">
        <a href="#" class="thumbnail">
-         <img src="/src/photos/2.png">
+         <img src="/photos/2.png">
        </a>
      </li>
         <li class="span4">
        <a href="#" class="thumbnail">
-         <img src="/src/photos/11.png">
+         <img src="/photos/11.png">
        </a>
      </li>
    </ul>
@@ -109,17 +109,17 @@
    <ul class="thumbnails">
        <li class="span4">
        <a href="#" class="thumbnail">
-         <img src="/src/photos/7.png">
+         <img src="/photos/7.png">
        </a>
      </li>
        <li class="span4">
        <a href="#" class="thumbnail">
-         <img src="/src/photos/2.png">
+         <img src="/photos/2.png">
        </a>
      </li>
         <li class="span4">
        <a href="#" class="thumbnail">
-         <img src="/src/photos/11.png">
+         <img src="/photos/11.png">
        </a>
      </li>
    </ul>
@@ -128,17 +128,17 @@
    <ul class="thumbnails">
        <li class="span4">
        <a href="#" class="thumbnail">
-         <img src="/src/photos/7.png">
+         <img src="/photos/7.png">
        </a>
      </li>
        <li class="span4">
        <a href="#" class="thumbnail">
-         <img src="/src/photos/2.png">
+         <img src="/photos/2.png">
        </a>
      </li>
         <li class="span4">
        <a href="#" class="thumbnail">
-         <img src="/src/photos/11.png">
+         <img src="/photos/11.png">
        </a>
      </li>
    </ul>
@@ -147,17 +147,17 @@
    <ul class="thumbnails">
        <li class="span4">
        <a href="#" class="thumbnail">
-         <img src="/src/photos/7.png">
+         <img src="/photos/7.png">
        </a>
      </li>
        <li class="span4">
        <a href="#" class="thumbnail">
-         <img src="/src/photos/2.png">
+         <img src="/photos/2.png">
        </a>
      </li>
         <li class="span4">
        <a href="#" class="thumbnail">
-         <img src="/src/photos/11.png">
+         <img src="/photos/11.png">
        </a>
      </li>
    </ul>
@@ -166,17 +166,17 @@
    <ul class="thumbnails">
        <li class="span4">
        <a href="#" class="thumbnail">
-         <img src="/src/photos/7.png">
+         <img src="/photos/7.png">
        </a>
      </li>
        <li class="span4">
        <a href="#" class="thumbnail">
-         <img src="/src/photos/2.png">
+         <img src="/photos/2.png">
        </a>
      </li>
         <li class="span4">
        <a href="#" class="thumbnail">
-         <img src="/src/photos/11.png">
+         <img src="/photos/11.png">
        </a>
      </li>
    </ul>
@@ -185,17 +185,17 @@
    <ul class="thumbnails">
        <li class="span4">
        <a href="#" class="thumbnail">
-         <img src="/src/photos/7.png">
+         <img src="/photos/7.png">
        </a>
      </li>
        <li class="span4">
        <a href="#" class="thumbnail">
-         <img src="/src/photos/2.png">
+         <img src="/photos/2.png">
        </a>
      </li>
         <li class="span4">
        <a href="#" class="thumbnail">
-         <img src="/src/photos/11.png">
+         <img src="/photos/11.png">
        </a>
      </li>
    </ul>
@@ -204,17 +204,17 @@
    <ul class="thumbnails">
        <li class="span4">
        <a href="#" class="thumbnail">
-         <img src="/src/photos/7.png">
+         <img src="/photos/7.png">
        </a>
      </li>
        <li class="span4">
        <a href="#" class="thumbnail">
-         <img src="/src/photos/2.png">
+         <img src="/photos/2.png">
        </a>
      </li>
         <li class="span4">
        <a href="#" class="thumbnail">
-         <img src="/src/photos/11.png">
+         <img src="/photos/11.png">
        </a>
      </li>
    </ul>
@@ -223,17 +223,17 @@
    <ul class="thumbnails">
        <li class="span4">
        <a href="#" class="thumbnail">
-         <img src="/src/photos/7.png">
+         <img src="/photos/7.png">
        </a>
      </li>
        <li class="span4">
        <a href="#" class="thumbnail">
-         <img src="/src/photos/2.png">
+         <img src="/photos/2.png">
        </a>
      </li>
         <li class="span4">
        <a href="#" class="thumbnail">
-         <img src="/src/photos/11.png">
+         <img src="/photos/11.png">
        </a>
      </li>
    </ul>
@@ -242,17 +242,17 @@
    <ul class="thumbnails">
        <li class="span4">
        <a href="#" class="thumbnail">
-         <img src="/src/photos/7.png">
+         <img src="/photos/7.png">
        </a>
      </li>
        <li class="span4">
        <a href="#" class="thumbnail">
-         <img src="/src/photos/2.png">
+         <img src="/photos/2.png">
        </a>
      </li>
         <li class="span4">
        <a href="#" class="thumbnail">
-         <img src="/src/photos/11.png">
+         <img src="/photos/11.png">
        </a>
      </li>
    </ul>

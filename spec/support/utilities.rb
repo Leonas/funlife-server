@@ -1,6 +1,6 @@
 
 def log_in(user)
-  visit SITE_ROOT
+  visit root_path
   page.should_not have_content "Today's Activities"
   sleep 1
   within('#login_form') do

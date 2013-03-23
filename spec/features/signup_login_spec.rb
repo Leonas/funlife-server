@@ -8,7 +8,7 @@ describe 'signup/login screen' do
   end
 
   it 'loads' do
-    visit SITE_ROOT
+    visit root_path
     page.should have_content 'FunLife'
   end
 
@@ -19,7 +19,7 @@ describe 'signup/login screen' do
 
   it 'gives error on wrong login' do
     user = FactoryGirl.build(:user)
-    visit SITE_ROOT
+    visit root_path
     sleep 1
     within('#login_holder') do
       fill_in 'user[email]', :with => user.email
@@ -31,7 +31,7 @@ describe 'signup/login screen' do
 
   it 'lets me register' do
     user = FactoryGirl.build(:user)
-    visit SITE_ROOT
+    visit root_path
     sleep 1
     page.should_not have_content 'Tell us a little'
     within('#login_holder') do
@@ -51,7 +51,7 @@ describe 'signup/login screen' do
 
   it 'gives error if I try to register with used email' do
     user = FactoryGirl.create(:user)
-    visit SITE_ROOT
+    visit root_path
     sleep 1
     within('#login_holder') do
       fill_in 'user[email]', :with => user.email

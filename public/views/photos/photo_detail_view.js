@@ -1,6 +1,6 @@
 <div class='row-fluid'>
   <div class='span2'>
-    <img src="/src/photos/7.png">
+    <img src="/photos/7.png">
   </div>
   <div class='span6'>Larissa Jane</div>
   <div class='span1'>
@@ -13,7 +13,7 @@
 
 <div class='row-fluid'>
   <div class='span10 offset1'>
-    <img src='/src/photos/7.png'>
+    <img src='/photos/7.png'>
   </div>
 </div>
 

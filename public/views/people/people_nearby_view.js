@@ -21,7 +21,7 @@
 
    <li class="span3">
       <a id="chat_{{=value.user_id}}" href="/people_controller/detail/{{=value.user_id}}" class="thumbnail">
-      <img src="/src/layout/img/user_placeholder.jpeg">
+      <img src="/layout/img/user_placeholder.jpeg">
       {{=value.name}}
        </a>
      </li>

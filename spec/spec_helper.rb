@@ -26,7 +26,6 @@ Spork.prefork do
   Capybara.run_server = true
 
   Capybara.server_port = 8200
-  SITE_ROOT = 'http://localhost:8200/src/'
 
   #Capybara.ignore_hidden_elements = true           this causes problems
 

@@ -601,7 +601,7 @@ a:focus {
   *margin-left: 2.074468085106383%;*/
 }
 .row-fluid [class*="span"]:first-child {
-  margin-left: 0;
+  margin-left: 1%;
 }
 .row-fluid .controls-row [class*="span"] + [class*="span"] {
 /*  margin-left: 2.127659574468085%;*/
@@ -639,7 +639,7 @@ a:focus {
   *width: 40.37234042553192%;
 }
 .row-fluid .span4 {
-  width: 33.333%; 
+  width: 32.6666%; 
   *width: 31.861702127659576%;
 }
 .row-fluid .span3 {
@@ -647,7 +647,7 @@ a:focus {
   *width: 23.351063829787233%;
 }
 .row-fluid .span2 {
-  width: 16.666%;
+  width: 16.5%;
   *width: 16.666%;
 }
 .row-fluid .span1 {
@@ -4343,13 +4343,10 @@ legend + .control-group {
   padding: 19px;
   margin-bottom: 20px;
   background-color: #f5f5f5;
-  border: 1px solid #e3e3e3;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  -webkit-box-shadow: inset 0 1px 10px rgba(0, 0, 0, 0.2);
 }
 .well blockquote {
   border-color: #ddd;
@@ -4362,7 +4359,7 @@ legend + .control-group {
   border-radius: 6px;
 }
 .well-small {
-  padding: 9px;
+  padding: 9px 0 9px 0;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;

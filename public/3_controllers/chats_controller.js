@@ -46,35 +46,36 @@ $.mvc.controller.create('chats_controller', {
   default: function () {                                                                                                          //get the local chat data
     chat_room.room_list = JSON.parse(window.localStorage.getItem('chat_room_list'));
 
-    //If view doesn't exist, make one
-    if ($('#chat_index_view').length == 0) {
-      $.ui.add_content_div('chat_index_view',
-          $.template('views/chats/chat_index_view.js'), 'chats index View');
+    $.ui.show_page({
+      div_id: 'chat_index_view',
+      title: 'Chats',
+      template: 'views/chats/chat_index_view.js',
+      header: '#header',
+      left_button: '#top_back_button',
+      right_button: '#top_new_chat_button',
+      footer: '#footer',
+      active_footer_button: '#bottom_nav_home',
+      api_url: '/chats/',
+      data: chat_room.room_list
+    });
 
-    }
-    //otherwise, update the content inside
-    else {
-      //$.ui.update_content_div('chat_index_view', $.template('views/chat/chat_index_view.js'));
-    }
-    //show the chat_index view
-    $.ui.load_content('chat_index_view', false, false, 'fade');
   },
 
   detail: function (chat_id, action, user_id) {
-    //Need to use that unload ability to show the footer once out of here
-    $('#footer').hide();
-    //If view doesn't exist, make one
-    if ($('#chat_detail_view').length == 0) {
-      $.ui.add_content_div('chat_detail_view',
-          $.template('views/chats/chat_detail_view.js', chat_log), 'chats detail View');
 
-    }
-    //otherwise, update the content inside
-    else {
-      //$.ui.update_content_div('chat_detail_view', $.template('views/chat/chat_detail_view.js'));
-    }
-    //show the chat_detail view
-    $.ui.load_content('chat_detail_view', false, false, 'fade');
+
+    $.ui.show_page({
+      div_id: 'chat_detail_view',
+      title: 'Chat Detail',
+      template: 'views/chats/chat_detail_view.js',
+      header: '#header',
+      left_button: '#top_back_button',
+      right_button: false,
+      footer: false,
+      active_footer_button: false,
+      api_url: '/chats/',
+      data: chat_id                   //probably not right
+    });
 
     $('#chat_submit').bind('click', function () {
       chat_id.send_message();
@@ -106,37 +107,36 @@ $.mvc.controller.create('chats_controller', {
   },
 
   sent: function () {
-    //If view doesn't exist, make one
-    if ($('#chat_sent_view').length == 0) {
-      $.ui.add_content_div('chat_sent_view',
-          $.template('views/chats/chat_sent_view.js'), 'chats sent View');
 
-    }
-    //otherwise, update the content inside
-    else {
-      //$.ui.update_content_div('chat_sent_view', $.template('views/chat/chat_sent_view.js'));
-    }
-    //show the chat_detail view
-    $.ui.load_content('chat_sent_view', false, false, 'fade');
-
+    $.ui.show_page({
+      div_id: 'chat_sent_view',
+      title: 'Chats',
+      template: 'views/chats/chat_sent_view.js',
+      header: '#header',
+      left_button: '#top_back_button',
+      right_button: '#top_new_chat_button',
+      footer: '#footer',
+      active_footer_button: '#bottom_nav_home',
+      api_url: '/chats/sent',
+      data: false
+    });
 
   },
 
   new: function () {
-    //If view doesn't exist, make one
-    if ($('#chat_new_view').length == 0) {
-      $.ui.add_content_div('chat_new_view',
-          $.template('views/chats/chat_new_view.js'), 'chat new View');
 
-    }
-    //otherwise, update the content inside
-    else {
-      //$.ui.update_content_div('chat_new_view', $.template('views/chat/chat_new_view.js'));
-    }
-    //show the chat_detail view
-    $.ui.load_content('chat_new_view', false, false, 'fade');
-
-
+    $.ui.show_page({
+      div_id: 'chat_new_view',
+      title: 'New Chat',
+      template: 'views/chats/chat_new_view.js',
+      header: '#header',
+      left_button: '#top_back_button',
+      right_button: false,
+      footer: '#footer',
+      active_footer_button: '#bottom_nav_home',
+      api_url: false,
+      data: false
+    });
   }
 });
 

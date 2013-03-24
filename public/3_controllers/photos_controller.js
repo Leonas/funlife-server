@@ -44,7 +44,13 @@ $.mvc.controller.create('photos_controller', {
   },
 
   take_photo: function() {
-    forge.file.getImage();
+    if(typeof forge === 'undefined'){
+      alert('Only works on phones');
+    }
+    else {
+      forge.file.getImage();
+    }
+
   }
 });
 

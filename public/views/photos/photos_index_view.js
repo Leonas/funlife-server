@@ -1,3 +1,10 @@
+<div class="row-fluid btn-group">
+     <a class="span4 btn text-info" href='/photos_controller/'>Following</a>
+     <a class="span4 btn" href='/photos_controller/explore/'>Explore</a>
+     <a class="span4 btn" href='/photos_controller/my_photos/'>My Photos</a>
+</div>
+
+
 <div class="row-fluid">
    <ul class="thumbnails">
        <li class="span4">

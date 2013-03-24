@@ -1,6 +1,6 @@
    <div class="row-fluid btn-group">
      <a class="span6 btn" href='/chats_controller/'>Recieved</a>
-     <a class="span6 btn" href='/chats_controller/sent/'>Sent</a>
+     <a class="span6 btn text-info" href='/chats_controller/sent/'>Sent</a>
    </div>
 
 <a href='/chats_controller/detail/blah'>

@@ -43,20 +43,21 @@ $.mvc.controller.create('people_controller', {
   },
 
   nearby: function () {
-//
-//    $.ui.show_page({
-//      div_id: 'people_nearby_view',
-//      title: 'People Nearby',
-//      template: 'views/people/people_nearby_view.js',
-//      header: '#header',
-//      left_button: false,
-//      right_button: false,
-//      footer: '#footer',
-//      active_footer_button: '#bottom_nav_people',
-//      api_url: /users/,
-//      data: false
-//    });
 
+    $.ui.show_page({
+      div_id: 'people_nearby_view',
+      title: 'People Nearby',
+      template: 'views/people/people_nearby_view.js',
+      header: '#header',
+      left_button: false,
+      right_button: false,
+      footer: '#footer',
+      active_footer_button: '#bottom_nav_people',
+      api_url: /users/,
+      data: false
+    });
+
+/*
     $.ajax({
       type: 'GET',
       url: server + '/users/',
@@ -84,6 +85,8 @@ $.mvc.controller.create('people_controller', {
 
       }
     });
+    
+    */
   },
 
   detail: function (user_id) {

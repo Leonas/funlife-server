@@ -6,26 +6,36 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
 
     uglify: {
-        dist: {
-          src:'core/*/*.js',
+        trigger_io: {
+          src:'1_core/*/*.js',
           dest: '../trigger_io/src/core.js'
-        }
-    },
-
-    concat: {
-      options: {
-        separator: '\n'
-      },
-      dist: {
-        src: ['src/intro.js', 'src/project.js', 'src/outro.js'],
-        dest: 'dist/built.js'
+        },
+        local: {
+        src:['1_core/*/*.js', '2_models/*.js', '3_controllers/*/*.js'],
+        dest: 'core.js'
       }
     }
+//    ,
+
+//    concat: {
+//      options: {
+//        separator: '\n'
+//      },
+//      dist: {
+//        src: ['core/*/*.js'],
+//        dest: 'dist/built.js'
+//      }
+//    },
+//
+//    cssmin: {
+//
+//    }
+
 
   });
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
-  grunt.registerTask('default', ['uglify', 'concat', 'cssmin']);
+  grunt.registerTask('default', ['uglify']);
 
 };

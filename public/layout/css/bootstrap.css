@@ -538,7 +538,6 @@ a {
 a:hover,
 a:focus {
   color: #005580;
-  text-decoration: underline;
 }
 .img-rounded {
   -webkit-border-radius: 6px;
@@ -848,6 +847,7 @@ a.text-success:focus {
 }
 .text-right {
   text-align: right;
+  vertical-align: middle;
 }
 .text-center {
   text-align: center;
@@ -4027,12 +4027,7 @@ legend + .control-group {
   line-height: 10px;
   border: 1px solid #ddd;
 }
-a.thumbnail:hover,
-a.thumbnail:focus {
-  border-color: #0088cc;
-  -webkit-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
-  box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
-}
+
 .thumbnail > img {
   display: block;
   max-width: 100%;

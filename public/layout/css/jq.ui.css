@@ -92,11 +92,12 @@ width:100%;
     left:0px;right:0px;
 } /* This is masthead bar that appears at the top of the UI */
 
+/*
 #header > * {
 position:relative;
 z-index:2;
 }
-
+*/
 
 
 /**********************************************************
@@ -153,9 +154,10 @@ background:#333;
 	z-index:180;
 	display:block;
 	position:absolute;
-	top:48px;
-	bottom:62px;
-	left:0px;right:0px;
+	top: 30px;
+	left:0px;
+	right:0px;
+	bottom:  0px;
 	overflow:hidden;
 } /* Accounts for positioning of the content area, which is everything below the header and above the navbar. */
 

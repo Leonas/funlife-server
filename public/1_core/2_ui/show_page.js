@@ -59,8 +59,9 @@
             api_url: options.api_url,
             data: options.data,
             success: function(response, statusText, xhr){
+               var parsed_data = JSON.parse(response);
                var data = JSON.parse(response);
-               $.ui.update_content_div(options.div_id, $.template(options.template), data);
+               $.ui.update_content_div(options.div_id, $.template(options.template, parsed_data));
             },
             error: function(){
                console.log('failed to update');
@@ -75,7 +76,7 @@
           success: function(response, statusText, xhr){
             var parsed_data = JSON.parse(response);
             console.log(parsed_data);
-            $.ui.add_content_div(options.div_id, $.template(options.template), options.title, parsed_data);
+            $.ui.add_content_div(options.div_id, $.template(options.template, parsed_data), options.title);
             $.ui.load_content(options.div_id, false, false, 'fade');
           },
           error: function(a,b){
@@ -90,10 +91,10 @@
     else {
       console.log('no remote data needed');
       if ($('#' + options.div_id).length === 0) {
-        this.add_content_div(options.div_id, $.template(options.template), options.title, options.data);
+        this.add_content_div(options.div_id, $.template(options.template, options.data), options.title);
       }
       else {
-        this.update_content_div(options.div_id, $.template(options.template), options.data);
+        this.update_content_div(options.div_id, $.template(options.template, options.data));
       }
       this.load_content(options.div_id, false, false, 'fade');
     }

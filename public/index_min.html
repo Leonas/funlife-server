@@ -6,43 +6,10 @@
     <meta name='viewport' content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name='apple-mobile-web-app-capable' content='yes'/>
     <META CONTENT='no-cache'>
-    <!--Turn on the script below for remote debugging.-->
-    <!--<script src='https://trigger.io/catalyst/target/target-script-min.js#165B5ECF-E15E-4F3F-BA08-6D20334B185E'></script>-->
-    <script>
-
-        if (typeof forge === 'undefined' && typeof device === 'undefined') {
-            //if not running on a mobile device use local server
-            var server = 'http://' + document.location.host;
-        } else {
-            //connect to heroku if running on phone
-            var server = 'http://vast-crag-6780.herokuapp.com';
-        }
-    </script>
-
-    <!--inline javascript files are loaded SYNCHRONOUSLY-->
 
 
     <script src='core.js'></script>
-    <script>
-        var current_user;
-        var app = new $.mvc.app();
-        app.loadModels(['user', 'chat', 'person', 'place', 'photo']);
-        app.loadControllers(['users_controller', 'chats_controller', 'people_controller',
-            'places_controller', 'photos_controller']);
-        app.listenHashChange();
-        app.useHTML5History(true);
-        app.ready(function () {
-            //When the ui_loader has run, this executes ?
-            current_user.get_from_local();                           //Load current user to memory from localstorage
 
-
-            if (current_user.token.length > 5) {                       //if the current user's token exists, try to auth
-                $.mvc.route('/users_controller/');
-            } else {
-                $.mvc.route('/users_controller/login_register');
-            }
-        });
-    </script>
 
     <link rel='stylesheet' type='text/css' href='layout/css/jq.ui.css'/>
     <link rel='stylesheet' type='text/css' href='layout/css/jquerymobile_theme.css'/>

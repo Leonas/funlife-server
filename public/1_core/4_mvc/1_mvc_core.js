@@ -27,8 +27,8 @@
         _loadedListeners: [],
         _modelsLoaded: 0,
         _totalModels: 0,
-        _controllersDir: "controllers/",                      //set the controllers directory
-        _modelsDir: "models/",                                //set the model directory
+        _controllersDir: "3_controllers/",                      //set the controllers directory
+        _modelsDir: "2_models/",                                //set the model directory
         _templateType: "text/x-dot-template",
         _hasModels: true,
         _useHistory: false,

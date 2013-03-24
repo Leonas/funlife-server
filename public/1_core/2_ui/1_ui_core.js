@@ -292,13 +292,13 @@
 
     toggle_header_menu: function (force) {
       if ($("#header").css("display") !== "none" && ((force !== undefined && force !== true) || force === undefined)) {
-        $("#content").css("top", "0px");
+//        $("#content").css("top", "0px");
         $("#header").hide();
       }
       else if (force === undefined || (force !== undefined && force === true)) {
         $(this.header_id).show();
-        var val = numOnly($(this.header_id).css("height"));
-        $(this.content_id).css("top", val + 'px');
+//        var val = numOnly($(this.header_id).css("height"));
+//        $(this.content_id).css("top", val + 'px');
       }
     },
 

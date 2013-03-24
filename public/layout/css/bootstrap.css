@@ -496,10 +496,10 @@ a:focus {
   width: 91.48936170212765%;
 }
 .row-fluid .span10 {
-  width: 83.3333%;
+  width: 79%;
 }
 .row-fluid .span9 {
-  width: 74.46808510638297%;
+  width: 73%;
 }
 .row-fluid .span8 {
   width: 65.95744680851064%;
@@ -508,7 +508,7 @@ a:focus {
   width: 57.44680851063829%;
 }
 .row-fluid .span6 {
-  width: 50%%;
+  width: 49%;
 }
 .row-fluid .span5 {
   width: 40.42553191489362%;
@@ -520,7 +520,7 @@ a:focus {
   width: 23.404255319148934%;
 }
 .row-fluid .span2 {
-  width: 16.5%;
+  width: 16.3%;
 }
 .row-fluid .span1 {
   width: 6.382978723404255%;
@@ -633,7 +633,7 @@ a:focus {
   clear: both;
 }
 p {
-  margin: 0 0 10px;
+  margin: 0 0 0 0;
 }
 .lead {
   margin-bottom: 20px;
@@ -1803,7 +1803,6 @@ select:focus:invalid:focus {
 .input-append,
 .input-prepend {
   display: inline-block;
-  margin-bottom: 10px;
   vertical-align: middle;
   font-size: 0;
   white-space: nowrap;
@@ -2805,8 +2804,8 @@ legend + .control-group {
 }
 .nav-tabs > li > a,
 .nav-pills > li > a {
-  padding-right: 12px;
-  padding-left: 12px;
+  padding-right: 10px;
+  padding-left: 10px;
   margin-right: 2px;
   line-height: 14px;
 }
@@ -3064,8 +3063,6 @@ legend + .control-group {
 }
 .navbar-inner {
   min-height: 40px;
-  padding-left: 20px;
-  padding-right: 20px;
   background-color: #fafafa;
   background-image: -moz-linear-gradient(top, #ffffff, #f2f2f2);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f2f2f2));
@@ -4100,10 +4097,11 @@ legend + .control-group {
   border-radius: 6px;
 }
 .well-small {
-  padding: 9px 0 9px 0;
+  padding: 9px 5px 9px 5px;
+  margin: 1%;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
-  border-radius: 3px;
+  border-radius: 4px;
 }
 .close {
   float: right;

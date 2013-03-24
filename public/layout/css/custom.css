@@ -1,4 +1,21 @@
 /*Dont show the footer unless you are logged in*/
+
+#chat_footer {
+  display: none;
+}
+
+.no_margin {
+  margin: 0 0 0 0 !important;
+}
+
+.no_padding {
+  padding: 0 0 0 0 !important;
+}
+
+.width21 {
+  width: 21% !important;
+}
+
 .top_left_button {
     display: none;
 }
@@ -70,7 +87,6 @@ min-height: 0px;
 }*/
 
 .navbar-fixed-bottom {
-bottom: 28px;
 }
 
 .lead {

@@ -256,10 +256,12 @@
       //$(div_id).addClass(this.active_footer_class).siblings().removeClass(this.active_footer_class);
 
     },
-
+/*
     set_footer: function (div_id) {
+        console.log('div_id %s', div_id);
       if(div_id){
         this.set_element(this.footer_id, div_id);
+        this.footer_id = div_id;
         this.toggle_footer_menu(true);
       }
       else{
@@ -267,7 +269,21 @@
       }
     },
 
+*/
 
+    set_footer: function (div_id) {
+        if(div_id){
+            $(this.footer_id).hide();
+            this.footer_id = div_id;
+            $(div_id).show();
+        }
+        else {
+            $(this.footer_id).hide();
+        }
+    },
+    
+    
+    
     toggle_footer_menu: function (force) {
       if ($(this.footer_id).css("display") !== "none" && ((force !== undefined && force !== true) || force === undefined)) {
         $("#content").css("bottom", "0px");

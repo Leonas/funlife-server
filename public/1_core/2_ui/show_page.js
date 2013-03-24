@@ -40,7 +40,7 @@
     if(options.on_load){
       options.on_load();
     }
-
+console.log("footer =  %s", options.footer);
 
     this.set_header(options.header);
     this.set_footer(options.footer);

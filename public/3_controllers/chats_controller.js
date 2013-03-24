@@ -71,7 +71,7 @@ $.mvc.controller.create('chats_controller', {
       header: '#header',
       left_button: '#top_back_button',
       right_button: false,
-      footer: false,
+      footer: '#chat_footer',
       active_footer_button: false,
       api_url: '/chats/',
       data: chat_id                   //probably not right

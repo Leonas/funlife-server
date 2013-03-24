@@ -6,7 +6,7 @@
 <br>
 <div class='row-fluid'>
      <div class='span3'>
-          <img src="/layout/img/user_placeholder.jpeg">
+          <img class='img-polaroid' src="/layout/img/user_placeholder.jpeg">
      </div>
      <div class='span8 offset1'>
         <div class='row-fluid lead'>
@@ -15,10 +15,10 @@
           <div class='row-fluid text-center'>
             <ul class="nav nav-pills">
               <li class="active">
-                <a href="#">34324<br>Followers</a>
+                <a>344<br><small>Followers</small></a>
               </li>
-              <li class="active"><a href="#">423442<br>Following</a></li>
-              <li class="active"><a href="#">status<br>&nbsp</a></li>
+              <li class="active"><a>423<br><small>Following</small></a></li>
+              <li class="active"><a>&nbsp<br><small>Status</small></a></li>
             </ul>
         </div>
      </div>

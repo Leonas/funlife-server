@@ -7,7 +7,7 @@ module.exports = function(grunt) {
 
     uglify: {
         trigger_io: {
-          src:'1_core/*/*.js',
+          src:['1_core/*/*.js', '2_models/*.js', '3_controllers/*/*.js'],
           dest: '../trigger_io/src/core.js'
         },
         local: {

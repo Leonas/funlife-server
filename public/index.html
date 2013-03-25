@@ -6,6 +6,16 @@
     <meta name='viewport' content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name='apple-mobile-web-app-capable' content='yes'/>
     <META CONTENT='no-cache'>
+
+    <link rel='stylesheet' type='text/css' href='layout/css/jq.ui.css'/>
+    <link rel='stylesheet' type='text/css' href='layout/css/jquerymobile_theme.css'/>
+    <link rel='stylesheet' type='text/css' href='layout/css/bottom_nav.css'/>
+    <link rel='stylesheet' type='text/css' href='layout/css/icons.css'/>
+    <link rel='stylesheet' type='text/css' href='layout/css/bootstrap.css'/>
+    <link rel='stylesheet' type='text/css' href='layout/css/custom.css'/>
+
+
+
     <!--Turn on the script below for remote debugging.-->
     <!--<script src='https://trigger.io/catalyst/target/target-script-min.js#165B5ECF-E15E-4F3F-BA08-6D20334B185E'></script>-->
     <script>
@@ -22,12 +32,9 @@
     <!--inline javascript files are loaded SYNCHRONOUSLY-->
 
     <script src='1_core/1_selectors/jq.mobi.js'></script>
-
-    <!-- These two files must be in order   -->
+    <script src='1_core/1_selectors/base64.js'></script>
     <script src='1_core/2_ui/1_ui_core.js'></script>
     <script src='1_core/2_ui/2_check_anchor_click.js'></script>
-
-    <!-- No order required -->
     <script src='1_core/2_ui/ajax.js'></script>
     <script src='1_core/2_ui/show_page.js'></script>
     <script src='1_core/2_ui/animate.js'></script>
@@ -41,27 +48,15 @@
     <script src='1_core/3_plugins/fade_transition.js'></script>
     <script src='1_core/3_plugins/core_plugins.js'></script>
     <script src='1_core/3_plugins/jq.maps.js'></script>
-    <!--End no order required-->
-
-    <!--Include all UI related scripts above this script-->
     <script src='1_core/2_ui/zz_ui_loader.js'></script>
-    <!--            End UI Kit                          -->
-
-    <!--For more jqUI info: https://github.com/html5mgithub/jQ.Mobi/tree/master/ui-->
     <script src='1_core/4_mvc/1_mvc_core.js'></script>
     <script src='1_core/4_mvc/2_views.js'></script>
     <script src='1_core/4_mvc/3_models.js'></script>
     <script src='1_core/4_mvc/4_controllers.js'></script>
-
-
-    <link rel='stylesheet' type='text/css' href='layout/css/jq.ui.css'/>
-    <link rel='stylesheet' type='text/css' href='layout/css/jquerymobile_theme.css'/>
-    <link rel='stylesheet' type='text/css' href='layout/css/bottom_nav.css'/>
-    <link rel='stylesheet' type='text/css' href='layout/css/icons.css'/>
-    <link rel='stylesheet' type='text/css' href='layout/css/bootstrap.css'/>
-    <link rel='stylesheet' type='text/css' href='layout/css/custom.css'/>
-
     <script src='1_core/5_launch/1_launch.js'></script>
+
+    <script src='dist/templates.js'></script>
+
 
 </head>
 

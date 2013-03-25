@@ -76,7 +76,13 @@ console.log("footer =  %s", options.footer);
           success: function(response, statusText, xhr){
             var parsed_data = JSON.parse(response);
             console.log(parsed_data);
-            $.ui.add_content_div(options.div_id, $.template(options.template, parsed_data), options.title);
+            if(options.precompiled_template){
+              $.ui.add_content_div(options.div_id, options.precompiled_template(parsed_data), options.title);
+            }
+            else {
+              $.ui.add_content_div(options.div_id, $.template(options.template, parsed_data), options.title);
+            }
+
             $.ui.load_content(options.div_id, false, false, 'fade');
           },
           error: function(a,b){
@@ -91,7 +97,12 @@ console.log("footer =  %s", options.footer);
     else {
       console.log('no remote data needed');
       if ($('#' + options.div_id).length === 0) {
-        this.add_content_div(options.div_id, $.template(options.template, options.data), options.title);
+        if(options.precompiled_template){
+          $.ui.add_content_div(options.div_id, options.precompiled_template(options.data), options.title);
+        }
+        else {
+          this.add_content_div(options.div_id, $.template(options.template, options.data), options.title);
+        }
       }
       else {
         this.update_content_div(options.div_id, $.template(options.template, options.data));

@@ -2,13 +2,14 @@
 
 $.mvc.controller.create('users_controller', {
   //All views needed by controller must be listed here.
-  views: ['views/users/user_login_register_view.js', 'views/users/user_register2_view.js',
+  views: ['views/users/user_register2_view.js',
      'views/users/user_index_view.js'],
 
   init: function () {
 
 
   },
+
 
   default: function () {
     $.ui.show_page({
@@ -27,15 +28,23 @@ $.mvc.controller.create('users_controller', {
   },
 
   login_register: function (action) {
+
+    var basic_auth = function(){
+      var hash = Base64.encode($('##login_form_email_field').val() + ':' + $('##login_form_password_field').val());
+      return 'Basic ' + hash;
+    };
+
    //remove a 'wrong password' error if shown from previous try
     $('#login_error').hide();
+
+
     switch (action) {
     case undefined:
       current_user.token = 'guest';
       $.ui.show_page({
         div_id: 'user_login_register_view',
         title: false,
-        template: 'views/users/user_login_register_view.js',
+        precompiled_template: tmpl['user_login_register_view'],
         header: false,
         left_button: false,
         right_button: false,
@@ -47,16 +56,20 @@ $.mvc.controller.create('users_controller', {
       break;
 
     case 'login':
-      $.post_with_token({
-        api_url: '/users/login/',
-        data: $('#login_form').serialize(),
+
+
+      $.ajax({
+        type: 'POST',
+        dataType: 'application/json',
+        headers: {'Authorization': basic_auth()},
+        url: server+'/users/login/',
         success: function (response, statusText, xhr) {
           current_user.token = JSON.parse(response).token;
           current_user.save();
           $.mvc.route('/users_controller/');
         },
         error: function (xhr, error ){
-            if (xhr.status === 401) {
+          if (xhr.status === 401) {
             $('#login_error').html('Wrong Password').show();
           }
           else {
@@ -67,9 +80,13 @@ $.mvc.controller.create('users_controller', {
       break;
 
     case 'register':
-      $.post_with_token({
-        api_url: '/users/register1/',
-        data: $('#login_form').serialize(),
+
+      $.ajax({
+        type: 'POST',
+        dataType: 'application/json',
+        headers: {'Authorization': basic_auth()},
+        url: server+'/users/register1/',
+        data: 'user[email]=' + $('##login_form_email_field').val(),   //this causes all data to be cleared except this
         success: function (response, success, xhr) {
           current_user.token = $.parseJSON(response).token;
           current_user.save();

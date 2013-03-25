@@ -1,15 +1,20 @@
 class User < ActiveRecord::Base
   include ActiveModel::SecurePassword
-  attr_accessible :email, :first_name, :full_name, :last_name
-  attr_protected :token, :password_digest
   has_secure_password
 
-  validates_presence_of :email
-  validates_uniqueness_of :email
+  # - Mass Assignment Security
+  attr_accessible :email, :first_name, :full_name, :last_name
+
+  attr_protected :token, :password_digest
+
+  # - Validations
+  validates :email, presence: true, uniqueness: true
+
+  # - Callbacks
   before_save :ensure_authentication_token!
 
   def ensure_authentication_token!
-    self.token ||= SecureRandom.urlsafe_base64
+    self.token ||= SecureRandom.urlsafe_base64(15)
   end
 
   def reset_authentication_token!

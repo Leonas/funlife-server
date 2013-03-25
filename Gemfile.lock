@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/rails-api/active_model_serializers.git
+  revision: 049cff57c2823aa0e20021253d6e9d8630ea6183
+  specs:
+    active_model_serializers (0.7.0)
+      activemodel (>= 3.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -202,6 +209,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_model_serializers!
   bcrypt-ruby (~> 3.0.0)
   capybara
   capybara-json

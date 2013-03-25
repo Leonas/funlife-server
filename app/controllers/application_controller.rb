@@ -1,22 +1,30 @@
-class ApplicationController < ActionController::API
+class ApplicationController < ActionController::Base
   include ActionController::MimeResponds
-  before_filter :cors_preflight_check
-  #after_filter :cors_set_access_control_headers
-  after_filter :allow_cross_domain
-  private
 
-  def current_user
-    @current_user ||= User.find_by_token(request.env['HTTP_TOKEN']) if request.env['HTTP_TOKEN']
+    # - Callbacks
+  before_filter :authenticate_user_token
+  before_filter :cors_preflight_check
+  after_filter :allow_cross_domain
+
+  attr_reader :current_user
+
+  serialization_scope :controller
+
+  def controller
+    self
   end
 
-  def authorize
-    if current_user.nil?
-      head :not_found
-    else
-      true
+  protected
+
+  def authenticate_user_token
+    authenticate_or_request_with_http_basic do |authentication_token, _|
+      @current_user = User.find_by_token(authentication_token)
     end
   end
 
+
+
+  private
 
   def allow_cross_domain
     headers["Access-Control-Allow-Origin"] = '*'

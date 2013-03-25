@@ -8,6 +8,9 @@ gem 'bcrypt-ruby', '~> 3.0.0'  # Adds has_secure_password
 
 gem 'newrelic_rpm'
 
+# Use yajl for JSON encode/decode
+gem 'yajl-ruby', require: 'yajl'
+
 group :production do
   gem 'pg'
 

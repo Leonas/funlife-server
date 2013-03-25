@@ -8,6 +8,9 @@ gem 'bcrypt-ruby', '~> 3.0.0'  # Adds has_secure_password
 
 gem 'newrelic_rpm'
 
+# Use yajl for JSON encode/decode
+gem 'yajl-ruby', require: 'yajl'
+
 group :production do
   gem 'pg'
 
@@ -18,6 +21,12 @@ group :production do
 end
 
 
+group :test do
+  gem 'capybara'
+  gem 'database_cleaner'
+  gem "simplecov", "~> 0.6.4"
+  gem 'shoulda-matchers'
+end
 
 
 group :development, :test do
@@ -35,14 +44,11 @@ group :development, :test do
 
   gem 'guard-spork'
   gem 'spork-rails'
-  gem 'capybara'
   gem 'capybara-json'
   gem 'poltergeist'
-  gem 'factory_girl_rails'
-  gem 'database_cleaner'
-  gem 'faker'
-  gem 'shoulda'
 
+  gem 'factory_girl_rails'
+  gem 'faker'
 end
 
 

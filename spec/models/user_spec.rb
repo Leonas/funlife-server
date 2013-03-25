@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe User do
 
+  let(:user) { create(:user) }
+
   xit { should validate_presence_of(:first_name) }
   xit { should validate_presence_of(:last_name) }
 
@@ -15,5 +17,15 @@ describe User do
   it { should_not allow_mass_assignment_of(:password_digest) }
 
   xit { should ensure_inclusion_of(:age).in_range(13..120) }
+
+  it "ensure_authentication_token assign token before save" do
+    user.token.should_not be_empty
+  end
+
+  it "should reset authentication token" do
+    user.reset_authentication_token!
+    user.token.should be_empty
+    user.ensure_authentication_token!
+  end
 
 end

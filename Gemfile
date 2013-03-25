@@ -11,6 +11,8 @@ gem 'newrelic_rpm'
 # Use yajl for JSON encode/decode
 gem 'yajl-ruby', require: 'yajl'
 
+gem "active_model_serializers", :git => "git://github.com/rails-api/active_model_serializers.git"
+
 group :production do
   gem 'pg'
 

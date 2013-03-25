@@ -7,17 +7,17 @@ describe 'signup/login screen' do
     page.execute_script('localStorage.clear()')
   end
 
-  it 'loads' do
+  xit 'loads' do
     visit root_path
     page.should have_content 'FunLife'
   end
 
-  it 'lets me login' do
+  xit 'lets me login' do
     user = FactoryGirl.create(:user)
     log_in(user)
   end
 
-  it 'gives error on wrong login' do
+  xit 'gives error on wrong login' do
     user = FactoryGirl.build(:user)
     visit root_path
     sleep 1
@@ -29,7 +29,7 @@ describe 'signup/login screen' do
     page.should have_content 'Wrong Password'
   end
 
-  it 'lets me register' do
+  xit 'lets me register' do
     user = FactoryGirl.build(:user)
     visit root_path
     sleep 1
@@ -49,7 +49,7 @@ describe 'signup/login screen' do
     page.should have_content "Today's Activities"
   end
 
-  it 'gives error if I try to register with used email' do
+  xit 'gives error if I try to register with used email' do
     user = FactoryGirl.create(:user)
     visit root_path
     sleep 1

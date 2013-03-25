@@ -23,9 +23,12 @@ describe User do
   end
 
   it "should reset authentication token" do
-    user.reset_authentication_token!
-    user.token.should be_empty
-    user.ensure_authentication_token!
+    user.reset_authentication_token
+    user.token_changed?.should be true
+  end
+
+  it "should return tru reset_authentication_token!" do
+    user.reset_authentication_token!.should be true
   end
 
 end

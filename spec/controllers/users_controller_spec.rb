@@ -10,9 +10,25 @@ describe UsersController do
     it { should respond_with(:success) }
   end
 
+  it "should render unauthorized status" do
+    put :update, id: "1", user: { email: ""}
+    should respond_with(401)
+  end
+
   describe "actions with authentication required" do
     before do
       login_user
+    end
+
+    describe "GET to #show" do
+      before do
+        get :show, id: @current_user.id
+      end
+
+      it{ should respond_with(:success) }
+      it "response should containts the user token" do
+        response.body.should include @current_user.token
+      end
     end
 
     describe "POST to #create" do
@@ -32,8 +48,6 @@ describe UsersController do
         post :create, user: {}
         should respond_with(:unprocessable_entity)
       end
-
-
     end
 
     describe "PUT to #update" do
@@ -46,6 +60,7 @@ describe UsersController do
         put :update, id: @current_user.id, user: { email: ""}
         should respond_with(:unprocessable_entity)
       end
+
     end
   end
 end

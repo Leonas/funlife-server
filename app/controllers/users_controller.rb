@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_filter :set_user, only: [:show, :edit, :update, :destroy]
-  skip_before_filter :authenticate_user_token, only: [:index, :show, :create]
+  skip_before_filter :authenticate_user_token, only: [:index, :create]
 
   # GET /users
   def index

@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   include ActionController::MimeResponds
 
-    # - Callbacks
+  # - Callbacks
   before_filter :authenticate_user_token
   before_filter :cors_preflight_check
   after_filter :allow_cross_domain

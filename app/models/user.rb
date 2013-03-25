@@ -11,14 +11,19 @@ class User < ActiveRecord::Base
   validates :email, presence: true, uniqueness: true
 
   # - Callbacks
-  before_save :ensure_authentication_token!
+  before_create :ensure_authentication_token!
 
   def ensure_authentication_token!
     self.token ||= SecureRandom.urlsafe_base64(15)
   end
 
+  def reset_authentication_token
+    self.token = SecureRandom.urlsafe_base64(15)
+  end
+
   def reset_authentication_token!
-    self.token = ''
+    self.reset_authentication_token
+    self.save
   end
 
 

@@ -60,6 +60,8 @@
                     name: controller
                 });
 
+                console.log('all templates loaded');
+
                 controllerReady[controller] && controllerReady[controller].init.apply(controllerReady[controller]);
             }
         });

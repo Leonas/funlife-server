@@ -1,5 +1,8 @@
 require 'rubygems'
 require 'spork'
+require 'simplecov'
+ENV["RAILS_ENV"] ||= 'test'
+SimpleCov.start 'rails'
 
 #require 'spork/ext/ruby-debug'
 

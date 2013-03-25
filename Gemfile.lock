@@ -164,13 +164,13 @@ GEM
       multi_json (~> 1.0)
       rubyzip
       websocket (~> 1.0.4)
-    shoulda (3.3.2)
-      shoulda-context (~> 1.0.1)
-      shoulda-matchers (~> 1.4.1)
-    shoulda-context (1.0.2)
     shoulda-matchers (1.4.2)
       activesupport (>= 3.0.0)
       bourne (~> 1.1.2)
+    simplecov (0.6.4)
+      multi_json (~> 1.0)
+      simplecov-html (~> 0.5.3)
+    simplecov-html (0.5.3)
     slop (3.4.3)
     spork (1.0.0rc3)
     spork-rails (3.2.1)
@@ -220,7 +220,8 @@ DEPENDENCIES
   rb-inotify
   rspec-rails
   sass
-  shoulda
+  shoulda-matchers
+  simplecov (~> 0.6.4)
   spork-rails
   sqlite3
   unicorn

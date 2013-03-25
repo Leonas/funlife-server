@@ -2,7 +2,7 @@
 
 $.mvc.controller.create('users_controller', {
   //All views needed by controller must be listed here.
-  views: ['views/users/user_login_register_view.js', 'views/users/user_register2_view.js',
+  views: ['views/users/user_register2_view.js',
      'views/users/user_index_view.js'],
 
   init: function () {
@@ -36,13 +36,15 @@ $.mvc.controller.create('users_controller', {
 
    //remove a 'wrong password' error if shown from previous try
     $('#login_error').hide();
+
+
     switch (action) {
     case undefined:
       current_user.token = 'guest';
       $.ui.show_page({
         div_id: 'user_login_register_view',
         title: false,
-        template: 'views/users/user_login_register_view.js',
+        precompiled_template: tmpl['user_login_register_view'],
         header: false,
         left_button: false,
         right_button: false,

@@ -94,6 +94,18 @@ module.exports = function(grunt) {
         dest: 'dist/<%= pkg.name %>.min.css'
       }
     },
+    dot: {
+      dist: {
+        options: {
+          variable : 'tmpl',
+          root     : '/',
+          requirejs: false,
+          node     : false
+        },
+        src  : ['views/**/*.dot'],
+        dest : 'dist/templates.js'
+      }
+    },
 //    qunit: {
 //      files: ['test/*.html']
 //    },
@@ -112,7 +124,8 @@ module.exports = function(grunt) {
 
   // Default task.
   grunt.loadNpmTasks('grunt-contrib');
+  grunt.loadNpmTasks('grunt-dot-compiler');
 
-  grunt.registerTask('default', [ 'concat', 'uglify', 'cssmin']);
+  grunt.registerTask('default', [ 'concat', 'uglify', 'cssmin', 'dot']);
 
 };

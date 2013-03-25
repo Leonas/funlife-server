@@ -6,6 +6,11 @@ Some folders and js files are numbered as their load order is important.
 It was determined that its faster to determine load order in this simple way rather than use
 require.js loading.
 
+1) Install nodejs
+2) npm install (while in this folder)
+3) grunt
+4) done
+
 ## Todo
 
 ### Package for Trigger.io or PhoneGap

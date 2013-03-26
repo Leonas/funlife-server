@@ -33,9 +33,6 @@ var chat_log = {
 };
 
 $.mvc.controller.create('chats_controller', {
-  //All views needed by controller must be listed here.
-  views: ['views/chats/chat_index_view.js', 'views/chats/chat_sent_view.js',
-    'views/chats/chat_detail_view.js', 'views/chats/chat_new_view.js'],
 
   init: function () {
 
@@ -49,7 +46,6 @@ $.mvc.controller.create('chats_controller', {
     $.ui.show_page({
       div_id: 'chat_index_view',
       title: 'Chats',
-      template: 'views/chats/chat_index_view.js',
       header: '#header',
       left_button: '#top_back_button',
       right_button: '#top_new_chat_button',
@@ -67,7 +63,6 @@ $.mvc.controller.create('chats_controller', {
     $.ui.show_page({
       div_id: 'chat_detail_view',
       title: 'Chat Detail',
-      template: 'views/chats/chat_detail_view.js',
       header: '#header',
       left_button: '#top_back_button',
       right_button: false,
@@ -83,14 +78,14 @@ $.mvc.controller.create('chats_controller', {
 
     //Need to do something better than this here. Everything below this line is bad
     //-------------------------------
-
-    if (JSON.parse(window.localStorage.getItem('chat_' + user_id))) {                                                       //see if we have saved chatroom data
-      chat_room[user_id] = JSON.parse(window.localStorage.getItem('chat_' + user_id));
-      console.log('a chatroom was found');
-    } else {                                                  //if not, lets make a new chatroom
-      chat_room[user_id] = new Chat();
-      console.log("just made a new chat cause an old one wasn't found");
-    }
+//
+//    if (JSON.parse(window.localStorage.getItem('chat_' + user_id))) {                                                       //see if we have saved chatroom data
+//      chat_room[user_id] = JSON.parse(window.localStorage.getItem('chat_' + user_id));
+//      console.log('a chatroom was found');
+//    } else {                                                  //if not, lets make a new chatroom
+//      chat_room[user_id] = new Chat();
+//      console.log("just made a new chat cause an old one wasn't found");
+//    }
 
     //chat_room[user_id].refresh();       //this needs to be implemented
 
@@ -100,9 +95,9 @@ $.mvc.controller.create('chats_controller', {
 
 
     //If the person clicked to send a message...
-    if (action === 'send') {
-
-    }
+//    if (action === 'send') {
+//
+//    }
 
   },
 
@@ -111,7 +106,6 @@ $.mvc.controller.create('chats_controller', {
     $.ui.show_page({
       div_id: 'chat_sent_view',
       title: 'Chats',
-      template: 'views/chats/chat_sent_view.js',
       header: '#header',
       left_button: '#top_back_button',
       right_button: '#top_new_chat_button',
@@ -128,7 +122,6 @@ $.mvc.controller.create('chats_controller', {
     $.ui.show_page({
       div_id: 'chat_new_view',
       title: 'New Chat',
-      template: 'views/chats/chat_new_view.js',
       header: '#header',
       left_button: '#top_back_button',
       right_button: false,

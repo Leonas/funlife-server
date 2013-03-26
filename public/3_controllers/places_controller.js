@@ -1,8 +1,6 @@
 /*global alert: false, confirm: false, console: false, $: false */
 
 $.mvc.controller.create('places_controller', {
-  //All views needed by controller must be listed here.
-  views: ['views/places/places_index_view.js'],
 
   init: function () {
 
@@ -14,7 +12,6 @@ $.mvc.controller.create('places_controller', {
     $.ui.show_page({
       div_id: 'places_index_view',
       title: 'Places',
-      template: 'views/places/places_index_view.js',
       header: '#header',
       left_button: false,
       right_button: false,

@@ -2,8 +2,8 @@
 
 $.mvc.controller.create('users_controller', {
   //All views needed by controller must be listed here.
-  views: ['views/users/user_register2_view.js',
-     'views/users/user_index_view.js'],
+//  views: ['4_views/users/user_register2_view.js', '4_views/users/user_login_register_view',
+//     '4_views/users/user_index_view.js'],
 
   init: function () {
 
@@ -15,7 +15,7 @@ $.mvc.controller.create('users_controller', {
     $.ui.show_page({
        div_id: 'user_index_view',
        title: 'FunLife',
-       template: 'views/users/user_index_view.js',
+       template: '4_views/users/user_index_view.js',
        header: '#header',
        left_button: false,
        right_button: '#top_logout_button',
@@ -44,7 +44,8 @@ $.mvc.controller.create('users_controller', {
       $.ui.show_page({
         div_id: 'user_login_register_view',
         title: false,
-        precompiled_template: tmpl['user_login_register_view'],
+        //template: '4_views/users/user_login_register_view.js',
+        template: tmpl['user_login_register_view'],
         header: false,
         left_button: false,
         right_button: false,

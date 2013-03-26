@@ -2,7 +2,7 @@
 
 $.mvc.controller.create('photos_controller', {
   //All views needed by controller must be listed here.
-  views: ['views/photos/photos_index_view.js', 'views/photos/photo_detail_view.js'],
+//  views: ['views/photos/photos_index_view.js', 'views/photos/photo_detail_view.js'],
 
   init: function () {
 

@@ -21,16 +21,16 @@
 
 
     $.mvc.app.prototype = {
-        _loadTimer: null,                                     //what is this for?
-        _modelsReady: false,
-        _controllersReady: false,
-        _loadedListeners: [],
-        _modelsLoaded: 0,
-        _totalModels: 0,
-        _controllersDir: "3_controllers/",                      //set the controllers directory
-        _modelsDir: "2_models/",                                //set the model directory
-        _templateType: "text/x-dot-template",
-        _hasModels: true,
+//        _loadTimer: null,                                     //what is this for?
+//        _modelsReady: false,
+//        _controllersReady: false,
+//        _loadedListeners: [],
+//        _modelsLoaded: 0,
+//        _totalModels: 0,
+//        _controllersDir: "3_controllers/",                      //set the controllers directory
+//        _modelsDir: "2_models/",                                //set the model directory
+//        _templateType: "text/x-dot-template",
+//        _hasModels: true,
         _useHistory: false,
         _html5Pop: function (e) {                             //wtf is this shit
             //var initialPop = !popped && location.href !== initialUrl; //Chrome pop fix based on pjax
@@ -58,87 +58,89 @@
                 var url = document.location.hash.replace("#", "/");
                 $.mvc.route(url, e, true);
             });
-        },
-
-        ready: function (fnc) {
-            if (!this.loaded) {
-                $(document).one("jqmvc:loaded", fnc);
-            } else {
-                fnc();
-            }
-        },
-
-        loadControllers: function (urls) {
-            var that = this, i;
-            $(document).ready(function () {
-
-                var file;
-
-                if (typeof (urls) === "string") {
-                    urls = [urls];
-                }
-                for (i = 0; i < urls.length; i++) {
-                    file = document.createElement("script");
-                    file.src = that._controllersDir + urls[i] + ".js";
-                    file.onerror = function (e) {
-                        console.log("error ", e);
-                    };
-                    $("head").append(file);
-                    that._loadedListeners[urls[i]] = 1;
-                    that._loadedListeners.length++;
-                    $(document).one(urls[i] + ":ready", function (e) {
-                        delete that._loadedListeners[e.data.name];
-                        that._loadedListeners.length--;
-                        if (that._loadedListeners.length === 0) {
-                            that._controllersReady = true;
-                            if (that._modelsReady || !that._hasModels) {
-                                $(document).trigger("jqmvc:loaded");
-                            } else {
-                                that._loadTimer = setTimeout(function () {
-                                    that._modelsReady = true;
-                                    if (that._controllersReady) { $(document).trigger("jqmvc:loaded"); }
-                                }, 1500); //Used if no models are loaded
-                            }
-                        }
-                    });
-                    file = null;
-                }
-            });
-
-        },
-
-
-        loadModels: function (urls) {
-            var that = this, i;
-
-            clearTimeout(this._loadTimer);
-            $(document).ready(function () {
-
-                var file;
-
-                if (typeof (urls) === "string") {
-                    urls = [urls];
-                }
-                that._totalModels = urls.length;
-
-                for (i = 0; i < urls.length; i++) {
-                    file = document.createElement("script");
-                    file.src = that._modelsDir + urls[i] + ".js";
-                    file.onload = function () {
-                        that._modelsLoaded++;
-                        if (that._modelsLoaded >= that._totalModels) {
-                            that._modelsReady = true;
-                            if (that._controllersReady) { $(document).trigger("jqmvc:loaded"); }
-                        }
-                    };
-                    file.onerror = function (e) {
-                        console.log("error ", e);
-                    };
-                    $("head").append(file);
-                    file = null;
-                }
-            });
         }
+
+//        ready: function (fnc) {
+//            if (!this.loaded) {
+//                $(document).one("jqmvc:loaded", fnc);
+//            } else {
+//                fnc();
+//            }
+//        },
+
+      //make em load synchronously
+//        loadControllers: function (urls) {
+//            var that = this, i;
+//            $(document).ready(function () {
+//
+//                var file;
+//
+//                if (typeof (urls) === "string") {
+//                    urls = [urls];
+//                }
+//                for (i = 0; i < urls.length; i++) {
+//                    file = document.createElement("script");
+//                    file.src = that._controllersDir + urls[i] + ".js";
+//                    file.onerror = function (e) {
+//                        console.log("error ", e);
+//                    };
+//                    $("head").append(file);
+//                    that._loadedListeners[urls[i]] = 1;
+//                    that._loadedListeners.length++;
+//                    $(document).one(urls[i] + ":ready", function (e) {
+//                        delete that._loadedListeners[e.data.name];
+//                        that._loadedListeners.length--;
+//                        if (that._loadedListeners.length === 0) {
+//                            that._controllersReady = true;
+//                            if (that._modelsReady || !that._hasModels) {
+//                                $(document).trigger("jqmvc:loaded");
+//                            } else {
+//                                that._loadTimer = setTimeout(function () {
+//                                    that._modelsReady = true;
+//                                    if (that._controllersReady) { $(document).trigger("jqmvc:loaded"); }
+//                                }, 1500); //Used if no models are loaded
+//                            }
+//                        }
+//                    });
+//                    file = null;
+//                }
+//            });
+//
+//        },
+
+      //This is not needed at all
+
+//        loadModels: function (urls) {
+//            var that = this, i;
+//
+//            clearTimeout(this._loadTimer);
+//            $(document).ready(function () {
+//
+//                var file;
+//
+//                if (typeof (urls) === "string") {
+//                    urls = [urls];
+//                }
+//                that._totalModels = urls.length;
+//
+//                for (i = 0; i < urls.length; i++) {
+//                    file = document.createElement("script");
+//                    file.src = that._modelsDir + urls[i] + ".js";
+//                    file.onload = function () {
+//                        that._modelsLoaded++;
+//                        if (that._modelsLoaded >= that._totalModels) {
+//                            that._modelsReady = true;
+//                            if (that._controllersReady) { $(document).trigger("jqmvc:loaded"); }
+//                        }
+//                    };
+//                    file.onerror = function (e) {
+//                        console.log("error ", e);
+//                    };
+//                    $("head").append(file);
+//                    file = null;
+//                }
+//            });
+//        }
     };
 
 
@@ -167,7 +169,7 @@
             axt = "default";
         }
         if ($.mvc.controller[route] && $.mvc.controller[route].hasOwnProperty(axt)) {
-            evt && evt.preventDefault();                                        //What is this for? It doesn't seem to do anything
+            evt && evt.preventDefault();
             $.mvc.controller[route][axt].apply($.mvc.controller[route], url);
             if ($.mvc._app._useHistory && noHistory !== true) {
                 $.ui.history.push(origUrl);

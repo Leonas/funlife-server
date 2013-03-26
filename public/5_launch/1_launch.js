@@ -10,12 +10,12 @@ if (typeof forge === 'undefined' && typeof device === 'undefined') {
 var debug;        //for testing stuff
 var current_user;
 var app = new $.mvc.app();
-app.loadModels(['user', 'chat', 'person', 'place', 'photo']);
-app.loadControllers(['users_controller', 'chats_controller', 'people_controller',
-  'places_controller', 'photos_controller']);
+//app.loadModels(['user', 'chat', 'person', 'place', 'photo']);
+//app.loadControllers(['users_controller', 'chats_controller', 'people_controller',
+//  'places_controller', 'photos_controller']);
 app.listenHashChange();
 app.useHTML5History(true);
-app.ready(function () {
+$.ui.ready(function () {
   //When the ui_loader has run, this executes ?
   current_user.get_from_local();                           //Load current user to memory from localstorage
 

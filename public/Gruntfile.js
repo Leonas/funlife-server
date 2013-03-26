@@ -102,7 +102,7 @@ module.exports = function(grunt) {
           requirejs: false,
           node     : false
         },
-        src  : ['views/**/*.dot'],
+        src  : ['4_views/**/*.js'],
         dest : 'dist/templates.js'
       }
     },

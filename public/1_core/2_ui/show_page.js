@@ -53,7 +53,7 @@ console.log("footer =  %s", options.footer);
       //check if we have any cached data, and show that first
       if (this.cached_pages[options.div_id] ) {
          console.log('we found cache');
-         this.add_content_div(options.div_id, $.template(options.template), options.title, this.cached_pages[options.div_id]);
+        $.ui.add_content_div(options.div_id, tmpl[options.div_id](parsed_data), options.title, this.cached_pages[options.div_id]);
          this.load_content(options.div_id, false, false, 'fade');
          $.get_with_token({
             api_url: options.api_url,
@@ -61,7 +61,7 @@ console.log("footer =  %s", options.footer);
             success: function(response, statusText, xhr){
                var parsed_data = JSON.parse(response);
                var data = JSON.parse(response);
-               $.ui.update_content_div(options.div_id, $.template(options.template, parsed_data));
+               $.ui.update_content_div(options.div_id,  tmpl[options.div_id](parsed_data));
             },
             error: function(){
                console.log('failed to update');
@@ -76,13 +76,7 @@ console.log("footer =  %s", options.footer);
           success: function(response, statusText, xhr){
             var parsed_data = JSON.parse(response);
             console.log(parsed_data);
-            if(options.precompiled_template){
-              $.ui.add_content_div(options.div_id, options.precompiled_template(parsed_data), options.title);
-            }
-            else {
-              $.ui.add_content_div(options.div_id, $.template(options.template, parsed_data), options.title);
-            }
-
+            $.ui.add_content_div(options.div_id, tmpl[options.div_id](parsed_data), options.title);
             $.ui.load_content(options.div_id, false, false, 'fade');
           },
           error: function(a,b){
@@ -97,15 +91,10 @@ console.log("footer =  %s", options.footer);
     else {
       console.log('no remote data needed');
       if ($('#' + options.div_id).length === 0) {
-        if(options.precompiled_template){
-          $.ui.add_content_div(options.div_id, options.precompiled_template(options.data), options.title);
-        }
-        else {
-          this.add_content_div(options.div_id, $.template(options.template, options.data), options.title);
-        }
+        $.ui.add_content_div(options.div_id, tmpl[options.div_id](options.data), options.title);
       }
       else {
-        this.update_content_div(options.div_id, $.template(options.template, options.data));
+        this.update_content_div(options.div_id,  tmpl[options.div_id](options.data));
       }
       this.load_content(options.div_id, false, false, 'fade');
     }

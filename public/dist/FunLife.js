@@ -5898,7 +5898,7 @@ console.log("footer =  %s", options.footer);
       //check if we have any cached data, and show that first
       if (this.cached_pages[options.div_id] ) {
          console.log('we found cache');
-         this.add_content_div(options.div_id, $.template(options.template), options.title, this.cached_pages[options.div_id]);
+        $.ui.add_content_div(options.div_id, tmpl[options.div_id](parsed_data), options.title, this.cached_pages[options.div_id]);
          this.load_content(options.div_id, false, false, 'fade');
          $.get_with_token({
             api_url: options.api_url,
@@ -5906,7 +5906,7 @@ console.log("footer =  %s", options.footer);
             success: function(response, statusText, xhr){
                var parsed_data = JSON.parse(response);
                var data = JSON.parse(response);
-               $.ui.update_content_div(options.div_id, $.template(options.template, parsed_data));
+               $.ui.update_content_div(options.div_id,  tmpl[options.div_id](parsed_data));
             },
             error: function(){
                console.log('failed to update');
@@ -5921,13 +5921,7 @@ console.log("footer =  %s", options.footer);
           success: function(response, statusText, xhr){
             var parsed_data = JSON.parse(response);
             console.log(parsed_data);
-            if(options.precompiled_template){
-              $.ui.add_content_div(options.div_id, options.precompiled_template(parsed_data), options.title);
-            }
-            else {
-              $.ui.add_content_div(options.div_id, $.template(options.template, parsed_data), options.title);
-            }
-
+            $.ui.add_content_div(options.div_id, tmpl[options.div_id](parsed_data), options.title);
             $.ui.load_content(options.div_id, false, false, 'fade');
           },
           error: function(a,b){
@@ -5942,15 +5936,10 @@ console.log("footer =  %s", options.footer);
     else {
       console.log('no remote data needed');
       if ($('#' + options.div_id).length === 0) {
-        if(options.precompiled_template){
-          $.ui.add_content_div(options.div_id, options.precompiled_template(options.data), options.title);
-        }
-        else {
-          this.add_content_div(options.div_id, $.template(options.template, options.data), options.title);
-        }
+        $.ui.add_content_div(options.div_id, tmpl[options.div_id](options.data), options.title);
       }
       else {
-        this.update_content_div(options.div_id, $.template(options.template, options.data));
+        this.update_content_div(options.div_id,  tmpl[options.div_id](options.data));
       }
       this.load_content(options.div_id, false, false, 'fade');
     }
@@ -7100,11 +7089,8 @@ console.log("footer =  %s", options.footer);
 /*global alert: false, confirm: false, console: false */
 
 (function ($) {
-   // "use strict";
 
-                                                                  //lets set the baseUrl to http: // root of host
 	var baseUrl = document.location.protocol + "//" + document.location.host,
-                                                            //initialUrl will be set to url of the current page
         initialUrl = location.href,
         popped = ('state' in window.history);
 
@@ -7120,16 +7106,7 @@ console.log("footer =  %s", options.footer);
 
 
     $.mvc.app.prototype = {
-//        _loadTimer: null,                                     //what is this for?
-//        _modelsReady: false,
-//        _controllersReady: false,
-//        _loadedListeners: [],
-//        _modelsLoaded: 0,
-//        _totalModels: 0,
-//        _controllersDir: "3_controllers/",                      //set the controllers directory
-//        _modelsDir: "2_models/",                                //set the model directory
-//        _templateType: "text/x-dot-template",
-//        _hasModels: true,
+
         _useHistory: false,
         _html5Pop: function (e) {                             //wtf is this shit
             //var initialPop = !popped && location.href !== initialUrl; //Chrome pop fix based on pjax
@@ -7158,88 +7135,6 @@ console.log("footer =  %s", options.footer);
                 $.mvc.route(url, e, true);
             });
         }
-
-//        ready: function (fnc) {
-//            if (!this.loaded) {
-//                $(document).one("jqmvc:loaded", fnc);
-//            } else {
-//                fnc();
-//            }
-//        },
-
-      //make em load synchronously
-//        loadControllers: function (urls) {
-//            var that = this, i;
-//            $(document).ready(function () {
-//
-//                var file;
-//
-//                if (typeof (urls) === "string") {
-//                    urls = [urls];
-//                }
-//                for (i = 0; i < urls.length; i++) {
-//                    file = document.createElement("script");
-//                    file.src = that._controllersDir + urls[i] + ".js";
-//                    file.onerror = function (e) {
-//                        console.log("error ", e);
-//                    };
-//                    $("head").append(file);
-//                    that._loadedListeners[urls[i]] = 1;
-//                    that._loadedListeners.length++;
-//                    $(document).one(urls[i] + ":ready", function (e) {
-//                        delete that._loadedListeners[e.data.name];
-//                        that._loadedListeners.length--;
-//                        if (that._loadedListeners.length === 0) {
-//                            that._controllersReady = true;
-//                            if (that._modelsReady || !that._hasModels) {
-//                                $(document).trigger("jqmvc:loaded");
-//                            } else {
-//                                that._loadTimer = setTimeout(function () {
-//                                    that._modelsReady = true;
-//                                    if (that._controllersReady) { $(document).trigger("jqmvc:loaded"); }
-//                                }, 1500); //Used if no models are loaded
-//                            }
-//                        }
-//                    });
-//                    file = null;
-//                }
-//            });
-//
-//        },
-
-      //This is not needed at all
-
-//        loadModels: function (urls) {
-//            var that = this, i;
-//
-//            clearTimeout(this._loadTimer);
-//            $(document).ready(function () {
-//
-//                var file;
-//
-//                if (typeof (urls) === "string") {
-//                    urls = [urls];
-//                }
-//                that._totalModels = urls.length;
-//
-//                for (i = 0; i < urls.length; i++) {
-//                    file = document.createElement("script");
-//                    file.src = that._modelsDir + urls[i] + ".js";
-//                    file.onload = function () {
-//                        that._modelsLoaded++;
-//                        if (that._modelsLoaded >= that._totalModels) {
-//                            that._modelsReady = true;
-//                            if (that._controllersReady) { $(document).trigger("jqmvc:loaded"); }
-//                        }
-//                    };
-//                    file.onerror = function (e) {
-//                        console.log("error ", e);
-//                    };
-//                    $("head").append(file);
-//                    file = null;
-//                }
-//            });
-//        }
     };
 
 
@@ -7316,149 +7211,6 @@ console.log("footer =  %s", options.footer);
 })(jq);
 
 
-
-// doT.js
-// 2011, Laura Doktorova, https://github.com/olado/doT
-//
-// doT.js is an open source component of http://bebedo.com
-// Licensed under the MIT license.
-
-// Modified by Ian Maffett to add support for $().tmpl and $().template()
-//
-(function ($) {
-    //"use strict";
-
-    var doT = {
-        version: '0.2.0',
-        templateSettings: {
-            evaluate:    /\{\{([\s\S]+?)\}\}/g,
-            interpolate: /\{\{=([\s\S]+?)\}\}/g,
-            encode:      /\{\{!([\s\S]+?)\}\}/g,
-            use:         /\{\{#([\s\S]+?)\}\}/g,
-            define:      /\{\{##\s*([\w\.$]+)\s*(\:|=)([\s\S]+?)#\}\}/g,
-            conditional: /\{\{\?(\?)?\s*([\s\S]*?)\s*\}\}/g,
-            iterate:     /\{\{~\s*(?:\}\}|([\s\S]+?)\s*\:\s*([\w$]+)\s*(?:\:\s*([\w$]+))?\s*\}\})/g,
-            varname: 'it',
-            strip: true,
-            append: true,
-            selfcontained: false
-        },
-        template: undefined, //fn, compile template
-        compile:  undefined  //fn, for express
-    };
-
-    var global = (function(){ return this || (0, eval)('this'); }());
-
-    if (typeof module !== 'undefined' && module.exports) {
-        module.exports = doT;
-    } else if (typeof define === 'function' && define.amd) {
-        define(function (){return doT;});
-    } else {
-        global.doT = doT;
-    }
-
-    function encodeHTMLSource() {
-        var encodeHTMLRules = { "&": "&#38;", "<": "&#60;", ">": "&#62;", '"': '&#34;', "'": '&#39;', "/": '&#47;' },
-            matchHTML = /&(?!#?\w+;)|<|>|"|'|\//g;
-        return function (code) {
-            return code ? code.toString().replace(matchHTML, function (m) {return encodeHTMLRules[m] || m;}) : code;
-        };
-    }
-    global.encodeHTML = encodeHTMLSource();
-
-    var startend = {
-        append: { start: "'+(",      end: ")+'",      startencode: "'+encodeHTML(" },
-        split:  { start: "';out+=(", end: ");out+='", startencode: "';out+=encodeHTML("}
-    }, skip = /$^/;
-
-    function resolveDefs(c, block, def) {
-        return ((typeof block === 'string') ? block : block.toString())
-            .replace(c.define || skip, function (m, code, assign, value) {
-                if (code.indexOf('def.') === 0) {
-                    code = code.substring(4);
-                }
-                if (!(code in def)) {
-                    if (assign === ':') {
-                        def[code] = value;
-                    } else {
-                        eval("def['"+code+"'] =" + value);
-                    }
-                }
-                return '';
-            })
-            .replace(c.use || skip, function (m, code) {
-                var v = eval(code);
-                return v ? resolveDefs(c, v, def) : v;
-            });
-    }
-
-    function unescape(code) {
-        return code.replace(/\\('|\\)/g, "$1").replace(/[\r\t\n]/g, ' ');
-    }
-
-    doT.template = function (tmpl, c, def) {
-        c = c || doT.templateSettings;
-        var cse = c.append ? startend.append : startend.split, str, needhtmlencode, sid=0, indv;
-
-        if (c.use || c.define) {
-            var olddef = global.def; global.def = def || {}; // workaround minifiers
-            str = resolveDefs(c, tmpl, global.def);
-            global.def = olddef;
-        } else str = tmpl;
-
-        str = ("var out='" + (c.strip ? str.replace(/(^|\r|\n)\t* +| +\t*(\r|\n|$)/g,' ')
-            .replace(/\r|\n|\t|\/\*[\s\S]*?\*\//g,''): str)
-            .replace(/'|\\/g, '\\$&')
-            .replace(c.interpolate || skip, function (m, code) {
-                return cse.start + unescape(code) + cse.end;
-            })
-            .replace(c.encode || skip, function (m, code) {
-                needhtmlencode = true;
-                return cse.startencode + unescape(code) + cse.end;
-            })
-            .replace(c.conditional || skip, function (m, elsecase, code) {
-                return elsecase ?
-                    (code ? "';}else if (" + unescape(code) + "){out+='" : "';}else{out+='") :
-                    (code ? "';if (" + unescape(code) + "){out+='" : "';}out+='");
-            })
-            .replace(c.iterate || skip, function (m, iterate, vname, iname) {
-                if (!iterate) return "';} } out+='";
-                sid+=1; indv=iname || "i"+sid; iterate=unescape(iterate);
-                return "';var arr"+sid+"="+iterate+";if (arr"+sid+"){var "+vname+","+indv+"=-1,l"+sid+"=arr"+sid+".length-1;while("+indv+"<l"+sid+"){"
-                    +vname+"=arr"+sid+"["+indv+"+=1];out+='";
-            })
-            .replace(c.evaluate || skip, function (m, code) {
-                return "';" + unescape(code) + "out+='";
-            })
-            + "';return out;")
-            .replace(/\n/g, '\\n').replace(/\t/g, '\\t').replace(/\r/g, '\\r')
-            .replace(/(\s|;|}|^|{)out\+='';/g, '$1').replace(/\+''/g, '')
-            .replace(/(\s|;|}|^|{)out\+=''\+/g,'$1out+=');
-
-        if (needhtmlencode && c.selfcontained) {
-            str = "var encodeHTML=(" + encodeHTMLSource.toString() + "());" + str;
-        }
-        try {
-            return new Function(c.varname, str);
-        } catch (e) {
-            if (typeof console !== 'undefined') console.log("Could not create a template function: " + str);
-            throw e;
-        }
-    };
-
-    doT.compile = function (tmpl, def) {
-        return doT.template(tmpl, null, def);
-    };
-
-    var cache={};
-    $["template"] = function (tmpl, data,defs) {
-        var fn=cache[tmpl] =cache[tmpl]||doT.template(document.getElementById(tmpl).text,undefined,defs);
-        return fn(data);
-    };
-    $["tmpl"] = function (tmpl, data,defs) {
-        return $(template(tmpl, data,defs));
-    };
-}(jq));
 
 //models.js
 
@@ -7537,48 +7289,10 @@ console.log("footer =  %s", options.footer);
         modelsTotal[name] = 0;
         if (controller.hasOwnProperty("init")) { controllerReady[name] = controller; }
 
-        //if the controller has its own views
-        if (controller.hasOwnProperty("views") && (controller.views.length > 0 || controller.keys(controller.views).length) > 0) {
-            loaded = false;
-
-            //total views taken by length of array or by key.
-            viewsTotal[name] = controller.views.length || controller.keys(controller.views).length;
-            for (i in controller.views) {
-                shortName = $.isArray(controller.views) ? controller.views[i] : i;                           //replace this
-                if (!viewsCache[shortName] && jq("#" + shortName).length === 0) {
-                    $.mvc.controller.addView(controller.views[i], name, shortName);
-                    viewsCache[shortName] = 1;
-                }
-            }
-
-        }
-
-        if (loaded) {
-            $(document).trigger(name + ":ready", {
-                'name': name
-            });
-            controllerReady[name] && controllerReady[name].init.apply(controllerReady[name]);
-        }
         return $.mvc.controller[name];
 
     };
 
-    //
-    $.mvc.controller.addView = function (path, controller, name) {
-        $.get(path, function (data) {
-            $(document.body).append($("<script type='" + $.mvc._app._templateType + "' id='" + name + "'>" + data + "</script>"));
-            viewsLoaded[controller]++;
-            if ((viewsLoaded[controller] === viewsTotal[controller])) {
-                $(document).trigger(controller + ":ready", {
-                    name: controller
-                });
-
-                console.log('all templates loaded');
-
-                controllerReady[controller] && controllerReady[controller].init.apply(controllerReady[controller]);
-            }
-        });
-    };
 })(jq);
 
 

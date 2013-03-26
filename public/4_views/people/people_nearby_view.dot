@@ -5,7 +5,7 @@
    </div>
 
 
-   {{~it.users_list :value:index}}
+   {{~it.users :value:index}}
 
    {{? index != 0 && index % 4 === 0 }}
       </ul>

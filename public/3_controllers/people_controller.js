@@ -1,9 +1,6 @@
 /*global alert: false, confirm: false, console: false, $: false */
 
 $.mvc.controller.create('people_controller', {
-  //All views needed by controller must be listed here.
-  views: ['views/people/people_index_view.js', 'views/people/people_followers_view.js',
-    'views/people/people_nearby_view.js', 'views/people/people_detail_view.js'],
 
   init: function () {
 
@@ -14,7 +11,6 @@ $.mvc.controller.create('people_controller', {
     $.ui.show_page({
       div_id: 'people_index_view',
       title: 'Following',
-      template: 'views/people/people_index_view.js',
       header: '#header',
       left_button: false,
       right_button: false,
@@ -30,7 +26,6 @@ $.mvc.controller.create('people_controller', {
     $.ui.show_page({
       div_id: 'people_followers_view',
       title: 'Followers',
-      template: 'views/people/people_followers_view.js',
       header: '#header',
       left_button: false,
       right_button: false,
@@ -47,7 +42,6 @@ $.mvc.controller.create('people_controller', {
     $.ui.show_page({
       div_id: 'people_nearby_view',
       title: 'People Nearby',
-      template: 'views/people/people_nearby_view.js',
       header: '#header',
       left_button: false,
       right_button: false,
@@ -94,7 +88,6 @@ $.mvc.controller.create('people_controller', {
     $.ui.show_page({
       div_id: 'people_detail_view',
       title: 'People',
-      template: 'views/people/people_detail_view.js',
       header: '#header',
       left_button: '#top_back_button',
       right_button: false,

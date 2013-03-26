@@ -11,7 +11,6 @@ $.mvc.controller.create('photos_controller', {
     $.ui.show_page({
       div_id: 'photos_index_view',
       title: 'Photos',
-      template: 'views/photos/photos_index_view.js',
       header: '#header',
       left_button: false,
       right_button: false,
@@ -28,7 +27,6 @@ $.mvc.controller.create('photos_controller', {
     $.ui.show_page({
       div_id: 'photo_detail_view',
       title: 'Photo',
-      template: 'views/photos/photo_detail_view.js',
       header: '#header',
       left_button: '#top_back_button',
       right_button: false,

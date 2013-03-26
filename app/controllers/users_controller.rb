@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :set_user, only: [:show, :edit, :update, :destroy]
+  before_filter :set_user, only: [:show, :edit, :destroy]
   skip_before_filter :authenticate_user_token, only: [:index, :create]
 
   # GET /users
@@ -31,10 +31,10 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
-    if @user.update_attributes(params[:user])
+    if @current_user.update_attributes(params[:user])
       head :no_content
     else
-      render json: {errors: @user.errors}, status: :unprocessable_entity
+      render json: {errors: @current_user.errors}, status: :unprocessable_entity
     end
   end
 

@@ -52,13 +52,18 @@ describe UsersController do
 
     describe "PUT to #update" do
       it "should update the user" do
-        put :update, id: @current_user.id, user: { email: "roberto@firebase.co"}
+        put :update, user: { email: "roberto@firebase.co"}
         should respond_with(:no_content)
       end
 
       it "shoudl no update the user with invalid params" do
         put :update, id: @current_user.id, user: { email: ""}
         should respond_with(:unprocessable_entity)
+      end
+
+      it "should update the current_user" do
+        put :update, user: { email: "roberto@firebase.co"}
+        @current_user.reload.email.should == "roberto@firebase.co"
       end
 
     end

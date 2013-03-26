@@ -5,7 +5,11 @@ Funlife::Application.routes.draw do
   # first created -> highest priority.
 
   scope defaults: { format: "json" } do
-    resources :users
+    resources :users, except: [:update] do
+      collection do
+        put :update
+      end
+    end
     resources :sessions, only: [:create] do
       collection do
         delete :destroy

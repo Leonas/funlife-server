@@ -5,7 +5,9 @@ Funlife::Application.routes.draw do
 
   scope defaults: { format: "json" } do
 
-    resources :chats, except: [:edit, :update]
+    resources :chats, except: [:edit, :update] do
+      resources :chat_messages, only: [:index, :create]
+    end
 
     resources :users, except: [:update] do
       collection do

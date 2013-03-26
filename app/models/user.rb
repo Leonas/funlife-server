@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
   # Associations
   has_many :user_chats, dependent: :destroy
   has_many :chats, through: :user_chats
+  has_many :chat_messages, dependent: :destroy
 
   def ensure_authentication_token!
     self.token ||= SecureRandom.urlsafe_base64(15)

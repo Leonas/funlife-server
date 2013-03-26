@@ -66,14 +66,27 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     banner: '/* <%= pkg.title || pkg.name %> */\n',
     // Task configuration.
+    dot: {
+      compile: {
+        options: {
+          variable : 'tmpl',
+          root     : '/',
+          requirejs: false,
+          simple   : true,
+          node     : true
+        },
+        src  : ['4_views/**/*.dot'],
+        dest : 'layout/templates.js'
+      }
+    },
     concat: {
       js: {
-        src: ['1_core/*/*.js', '2_models/*.js', '3_controllers/*/*.js'],
-        dest: 'dist/<%= pkg.name %>.js'
+        src: ['1_core/*/*.js', '2_models/*.js', '3_controllers/*/*.js', '<%= dot.compile.dest %>', '5_launch/*.js'],
+        dest: 'compiled/<%= pkg.name %>.js'
       },
       css: {
         src: ['layout/css/*.css'],
-        dest: 'dist/<%= pkg.name %>.css'
+        dest: 'compiled/<%= pkg.name %>.css'
       }
     },
     uglify: {
@@ -82,7 +95,7 @@ module.exports = function(grunt) {
       },
       dist: {
         src: '<%= concat.js.dest %>',
-        dest: 'dist/<%= pkg.name %>.min.js'
+        dest: 'compiled/<%= pkg.name %>.min.js'
       }
     },
     cssmin: {
@@ -91,28 +104,21 @@ module.exports = function(grunt) {
       },
       css: {
         src: '<%= concat.css.dest %>',
-        dest: 'dist/<%= pkg.name %>.min.css'
+        dest: 'compiled/<%= pkg.name %>.min.css'
       }
     },
-    dot: {
-      dist: {
-        options: {
-          variable : 'tmpl',
-          root     : '/',
-          requirejs: false,
-          node     : false
-        },
-        src  : ['4_views/**/*.dot'],
-        dest : 'dist/templates.js'
-      }
-    },
+
 //    qunit: {
 //      files: ['test/*.html']
 //    },
     watch: {
-      gruntfile: {
-        files: '<%= concat.dist.src %>',
+      js_files: {
+        files: '<%= concat.js.src %>',
         tasks: ['default']
+      },
+      templates: {
+        files: '<%= dot.compile.src %>',
+        tasks: ['dot']
       }
 //      ,
 //      lib_test: {
@@ -126,6 +132,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib');
   grunt.loadNpmTasks('grunt-dot-compiler');
 
-  grunt.registerTask('default', [ 'concat', 'uglify', 'cssmin', 'dot']);
+  grunt.registerTask('default', [ 'concat', 'uglify', 'cssmin', 'dot', 'watch']);
 
 };

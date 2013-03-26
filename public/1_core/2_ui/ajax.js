@@ -5,7 +5,7 @@
     $.ajax({
       type: 'GET',
       dataType: 'application/json',
-      headers: { TOKEN: current_user.token },
+      headers: { 'Authorization': current_user.token },
       url: server+options.api_url,
       data: options.data,
       success: options.success,
@@ -18,7 +18,19 @@
     $.ajax({
       type: 'POST',
       dataType: 'application/json',
-      headers: { TOKEN: current_user.token },
+      headers: { 'Authorization': current_user.token },
+      url: server+options.api_url,
+      data: options.data,
+      success: options.success,
+      error: options.error
+    });
+  };
+  
+  $.put_with_token = function(options){
+    $.ajax({
+      type: 'PUT',
+      dataType: 'application/json',
+      headers: { 'Authorization': current_user.token },
       url: server+options.api_url,
       data: options.data,
       success: options.success,

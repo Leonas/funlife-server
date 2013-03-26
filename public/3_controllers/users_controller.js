@@ -24,11 +24,6 @@ $.mvc.controller.create('users_controller', {
 
   login_register: function (action) {
 
-    var basic_auth = function(){
-      var hash = Base64.encode($('##login_form_email_field').val() + ':' + $('##login_form_password_field').val());
-      return 'Basic ' + hash;
-    };
-
    //remove a 'wrong password' error if shown from previous try
     $('#login_error').hide();
 
@@ -55,10 +50,10 @@ $.mvc.controller.create('users_controller', {
       $.ajax({
         type: 'POST',
         dataType: 'application/json',
-        headers: {'Authorization': basic_auth()},
-        url: server+'/users/login/',
+        url: server+'/sessions/',
+        data: $('#login_form').serialize(),
         success: function (response, statusText, xhr) {
-          current_user.token = JSON.parse(response).token;
+          current_user.token = 'Basic ' + Base64.encode(JSON.parse(response).user.token);
           current_user.save();
           $.mvc.route('/users_controller/');
         },
@@ -78,16 +73,15 @@ $.mvc.controller.create('users_controller', {
       $.ajax({
         type: 'POST',
         dataType: 'application/json',
-        headers: {'Authorization': basic_auth()},
-        url: server+'/users/register1/',
-        data: 'user[email]=' + $('##login_form_email_field').val(),   //this causes all data to be cleared except this
+        data: $('#login_form').serialize(),
+        url: server+'/users/',
         success: function (response, success, xhr) {
-          current_user.token = $.parseJSON(response).token;
+          current_user.token = 'Basic ' + Base64.encode(JSON.parse(response).user.token);
           current_user.save();
           $.mvc.route('/users_controller/register2');
         },
         error: function(xhr, error ){
-          if (xhr.status === 409) {
+          if (xhr.status === 422) {
             $('#login_error').html('An account with that email already exists. Login instead?').show();
           }
           else {
@@ -113,8 +107,8 @@ $.mvc.controller.create('users_controller', {
         break;
 
       case 'complete':
-        $.post_with_token({
-          api_url: '/users/register2/',
+        $.put_with_token({
+          api_url: '/users/',
           data: $('#registration_details_form').serialize(),
           success: function () {
             $.mvc.route('/users_controller/');

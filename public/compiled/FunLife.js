@@ -3477,7 +3477,7 @@ if (!window.jq || typeof (jq) !== "function") {
     $.ajax({
       type: 'GET',
       dataType: 'application/json',
-      headers: { TOKEN: current_user.token },
+      headers: { 'Authorization': current_user.token },
       url: server+options.api_url,
       data: options.data,
       success: options.success,
@@ -3490,7 +3490,19 @@ if (!window.jq || typeof (jq) !== "function") {
     $.ajax({
       type: 'POST',
       dataType: 'application/json',
-      headers: { TOKEN: current_user.token },
+      headers: { 'Authorization': current_user.token },
+      url: server+options.api_url,
+      data: options.data,
+      success: options.success,
+      error: options.error
+    });
+  };
+  
+  $.put_with_token = function(options){
+    $.ajax({
+      type: 'PUT',
+      dataType: 'application/json',
+      headers: { 'Authorization': current_user.token },
       url: server+options.api_url,
       data: options.data,
       success: options.success,
@@ -7635,6 +7647,7 @@ var out='<div><div class="row-fluid text-center"><br><br><h1>FunLife</h1><br><di
  tmpl.user_register2_view=function anonymous(it) {
 var out='<div class="container-fluid"><div class="row-fluid text-center"><br><br><h3>Tell us a little about yourself:</h3><br><div id="registration_details"><form id="registration_details_form"><input type="text" name="user[first_name]"  placeholder="first name"><input type="text" name="user[last_name]" placeholder="last name"></form><a href="/users_controller/register2/complete" class="btn btn-success">Complete Registration</a></div></div></div>';return out;
 };
+
 if (typeof forge === 'undefined' && typeof device === 'undefined') {
   //if not running on a mobile device use local server
   var server = 'http://' + document.location.host;

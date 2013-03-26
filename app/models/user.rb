@@ -13,6 +13,10 @@ class User < ActiveRecord::Base
   # - Callbacks
   before_create :ensure_authentication_token!
 
+  # Associations
+  has_many :user_chats, dependent: :destroy
+  has_many :chats, through: :user_chats
+
   def ensure_authentication_token!
     self.token ||= SecureRandom.urlsafe_base64(15)
   end

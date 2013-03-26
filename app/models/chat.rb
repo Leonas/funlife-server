@@ -1,6 +1,9 @@
+# Chat Rooms
 class Chat < ActiveRecord::Base
-  # attr_accessible :title, :body
-
-  has_and_belongs_to_many :users
+  # Associations
+  has_many :user_chats, dependent: :destroy
+  has_many :users, through: :user_chats
   has_many :chat_messages
+
+  attr_accessible :user_ids
 end

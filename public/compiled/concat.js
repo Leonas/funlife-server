@@ -12852,7 +12852,8 @@ var out='<div class="container-fluid"><div class="row-fluid text-center"><br><br
 
 if (typeof forge === 'undefined' && typeof device === 'undefined') {
   //if not running on a mobile device use local server
-  var server = 'http://' + document.location.host;
+  //var server = 'http://' + document.location.host;
+  var server = 'http://vast-crag-6780.herokuapp.com';
 } else {
   //connect to heroku if running on phone
   var server = 'http://vast-crag-6780.herokuapp.com';

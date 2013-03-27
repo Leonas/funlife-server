@@ -73,9 +73,14 @@ module.exports = function(grunt) {
       }
     },
     copy: {
-      main: {
+      compressed: {
         files: [
-          {expand: true, flatten: true, src: ['compiled/index.html', 'compiled/all.min.js','compiled/all.min.css'], dest: '../trigger_io/src/', filter: 'isFile'} // includes files in path
+          {expand: true, flatten: true, src: ['compiled/index.html', 'compiled/all.min.js','compiled/all.min.css'], dest: '../trigger_io/compressed/src/', filter: 'isFile'} // includes files in path
+        ]
+      },
+      uncompressed: {
+        files: [
+          {src: ['<%= concat.js.src %>', 'layout/css/*.css','index.html'], dest: '../trigger_io/uncompressed/src/', filter: 'isFile'} // includes files in path
         ]
       }
     },

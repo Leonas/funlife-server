@@ -30,7 +30,7 @@ class ApplicationController < ActionController::Base
     headers["Access-Control-Allow-Origin"] = '*'
     headers["Access-Control-Request-Method"] = "*"
     headers["Access-Control-Allow-Methods"] = "PUT, OPTIONS, GET, DELETE, POST"
-    headers['Access-Control-Allow-Headers'] = '*, x-requested-with, Content-Type, TOKEN'
+    headers['Access-Control-Allow-Headers'] = '*, x-requested-with, Content-Type, Authorization'
     headers["Access-Control-Max-Age"] = '1728000'
   end
   #
@@ -55,7 +55,7 @@ class ApplicationController < ActionController::Base
     if request.method == 'OPTIONS' || request.request_method == 'OPTIONS'
       headers['Access-Control-Allow-Origin'] = '*'
       headers['Access-Control-Allow-Methods'] = 'POST, GET, PUT, DELETE, OPTIONS'
-      headers['Access-Control-Allow-Headers'] = '*, x-requested-with, Content-Type, TOKEN'
+      headers['Access-Control-Allow-Headers'] = '*, x-requested-with, Content-Type, Authorization'
       headers["Access-Control-Max-Age"] = '1728000'
       #head(:ok)
       render :text => '', :content_type => 'text/plain'

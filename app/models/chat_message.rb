@@ -8,7 +8,12 @@ class ChatMessage < ActiveRecord::Base
   belongs_to :chat
 
   # - Validations
-  validate :message, presence: true
-  validate :user, presence: true
-  validate :chat, presence: true
+  validates :message, presence: true
+  validates :user, presence: true
+  validates :chat, presence: true
+
+  def self.lasted_messages(timestamp = nil)
+    cm = ChatMessage.arel_table
+    timestamp ? where(cm[:created_at].gteq(timestamp)) : all
+  end
 end

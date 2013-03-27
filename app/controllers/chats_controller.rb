@@ -13,19 +13,10 @@ class ChatsController < ApplicationController
     render json: @chat
   end
 
-  # GET /chats/new
-  # GET /chats/new.json
-  def new
-    @chat = @current_user.chats.new
-
-    render json: @chat
-  end
-
   # POST /chats
   # POST /chats.json
   def create
     @chat = @current_user.chats.build(params[:chat])
-
     if @chat.save
       #FIXME save should assign the current_user
       @chat.users << @current_user
@@ -39,7 +30,6 @@ class ChatsController < ApplicationController
   # DELETE /chats/1.json
   def destroy
     @chat.destroy
-
     head :no_content
   end
 

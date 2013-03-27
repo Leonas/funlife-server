@@ -28,5 +28,10 @@ describe ChatMessagesController do
       post :create, chat_id: @chat.id, chat_message: attributes_for(:chat_message)
       should respond_with(:created)
     end
+
+    it "should respond error with invalid attrs" do
+      post :create, chat_id: @chat.id, chat_message: {}
+      should respond_with(:unprocessable_entity)
+    end
   end
 end

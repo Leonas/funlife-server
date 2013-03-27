@@ -14,6 +14,7 @@ class User < ActiveRecord::Base
   before_create :ensure_authentication_token!
 
   # Associations
+  has_many :activities
   has_many :user_chats, dependent: :destroy
   has_many :chats, through: :user_chats
   has_many :chat_messages, dependent: :destroy

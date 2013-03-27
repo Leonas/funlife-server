@@ -1,0 +1,9 @@
+machine:
+  ruby:
+    version: 1.9.3-p392
+
+deployment:
+  staging:
+    branch: master
+    heroku:
+      appname: vast-crag-6780

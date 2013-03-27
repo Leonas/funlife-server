@@ -16,4 +16,13 @@ class Activity < ActiveRecord::Base
   validates :start_time, presence: true
   validates :end_time, presence: true
   validates :waitlist, inclusion: { in: WAITLIST }
+
+  # - Class Methods
+  class << self
+    def by_pick_date(date = nil)
+      date ? where(pick_date: date) : all
+    end
+  end
+
+
 end

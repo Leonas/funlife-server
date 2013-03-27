@@ -3,7 +3,7 @@ class ActivitiesController < ApplicationController
   # GET /activities
   # GET /activities.json
   def index
-    @activities = @current_user.activities
+    @activities = @current_user.activities.by_pick_date(params[:date])
     render json: @activities
   end
 

@@ -6,7 +6,6 @@ if (typeof forge === 'undefined' && typeof device === 'undefined') {
   var server = 'http://vast-crag-6780.herokuapp.com';
 }
 
-
 var debug;        //for testing stuff
 var current_user;
 var app = new $.mvc.app();
@@ -15,14 +14,17 @@ var app = new $.mvc.app();
 //  'places_controller', 'photos_controller']);
 app.listenHashChange();
 app.useHTML5History(true);
+//return $(document).trigger("$.ui.ready");
 $.ui.ready(function () {
-  //When the ui_loader has run, this executes ?
-  current_user.get_from_local();                           //Load current user to memory from localstorage
+  console.log('ui launch detected...');
+  current_user.load_local_data();
 
 
-  if (current_user.token.length > 5) {                       //if the current user's token exists, try to auth
+  if (current_user.token.length > 5) {
+    console.log('token found, routing to home');
     $.mvc.route('/users_controller/');
   } else {
+    console.log('no token found, routing to login');
     $.mvc.route('/users_controller/login_register');
   }
 });

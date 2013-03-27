@@ -4,6 +4,7 @@
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-contrib": "~0.5",
-    "grunt-dot-compiler": "~0.3.10"
+    "grunt-dot-compiler": "~0.3.10",
+    "grunt-strip": "*"
   }
 }

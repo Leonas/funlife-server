@@ -1,58 +1,3 @@
-///*global module:false*/
-//module.exports = function(grunt) {
-//
-//  // Project configuration.
-//  grunt.initConfig({
-//    pkg: grunt.file.readJSON('package.json'),
-//
-//    uglify: {
-//        trigger_io: {
-//          src:['1_core/*/*.js', '2_models/*.js', '3_controllers/*/*.js'],
-//          dest: '../trigger_io/src/core.js'
-//        },
-//        local: {
-//        src:['1_core/*/*.js', '2_models/*.js', '3_controllers/*/*.js'],
-//        dest: 'core.js'
-//      }
-//    }
-////    ,
-//
-////    concat: {
-////      options: {
-////        separator: '\n'
-////      },
-////      dist: {
-////        src: ['core/*/*.js'],
-////        dest: 'dist/built.js'
-////      }
-////    },
-////
-//    cssmin: {
-//      compress: {
-//        files: {
-//          'path/to/output.css': ['path/to/input_one.css', 'path/to/input_two.css']
-//        }
-//      },
-//      with_banner: {
-//        options: {
-//          banner: '/* My minified css file */'
-//        },
-//        files: {
-//          'path/to/output.css': ['path/to/**/*.css']
-//        }
-//      }
-//    }
-//
-//
-//  });
-//  grunt.loadNpmTasks('grunt-contrib-uglify');
-//  grunt.loadNpmTasks('grunt-contrib-concat');
-//  grunt.loadNpmTasks('grunt-contrib-cssmin');
-//  grunt.registerTask('default', ['uglify']);
-//
-//};
-//
-
 /*global module:false*/
 module.exports = function(grunt) {
 
@@ -81,12 +26,21 @@ module.exports = function(grunt) {
     },
     concat: {
       js: {
-        src: ['1_core/*/*.js', '2_models/*.js', '3_controllers/*/*.js', '<%= dot.compile.dest %>', '5_launch/*.js'],
-        dest: 'compiled/<%= pkg.name %>.js'
+        src: ['1_core/**/*.js', '2_models/*.js', '3_controllers/**/*.js', '<%= dot.compile.dest %>', '5_launch/*.js'],
+        dest: 'compiled/concat.js'
       },
       css: {
         src: ['layout/css/*.css'],
-        dest: 'compiled/<%= pkg.name %>.css'
+        dest: 'compiled/all.css'
+      }
+    },
+    strip : {
+      main : {
+        src : '<%= concat.js.dest %>',
+        dest : 'compiled/stripped.js',
+        options : {
+          nodes : ['console.log', 'debug']
+        }
       }
     },
     uglify: {
@@ -94,8 +48,8 @@ module.exports = function(grunt) {
         banner: '<%= banner %>'
       },
       dist: {
-        src: '<%= concat.js.dest %>',
-        dest: 'compiled/<%= pkg.name %>.min.js'
+        src: '<%= strip.main.dest %>',
+        dest: 'compiled/all.min.js'
       }
     },
     cssmin: {
@@ -104,26 +58,36 @@ module.exports = function(grunt) {
       },
       css: {
         src: '<%= concat.css.dest %>',
-        dest: 'compiled/<%= pkg.name %>.min.css'
+        dest: 'compiled/all.min.css'
       }
     },
-
-//    qunit: {
-//      files: ['test/*.html']
-//    },
+    htmlmin: {                                     // Task
+      dist: {                                      // Target
+        options: {                                 // Target options
+          removeComments: true,
+          collapseWhitespace: true
+        },
+        files: {                                   // Dictionary of files
+          'compiled/index.html': 'index.min.html'     // 'destination': 'source'
+        }
+      }
+    },
+    copy: {
+      main: {
+        files: [
+          {expand: true, flatten: true, src: ['compiled/index.html', 'compiled/all.min.js','compiled/all.min.css'], dest: '../trigger_io/src/', filter: 'isFile'} // includes files in path
+        ]
+      }
+    },
     watch: {
       js_files: {
         files: '<%= concat.js.src %>',
         tasks: ['default']
-      },
-      templates: {
-        files: '<%= dot.compile.src %>',
-        tasks: ['dot']
       }
 //      ,
-//      lib_test: {
-//        files: '<%= jshint.lib_test.src %>',
-//        tasks: ['jshint:lib_test', 'qunit']
+//      templates: {
+//        files: '<%= dot.compile.src %>',
+//        tasks: ['dot']
 //      }
     }
   });
@@ -131,7 +95,8 @@ module.exports = function(grunt) {
   // Default task.
   grunt.loadNpmTasks('grunt-contrib');
   grunt.loadNpmTasks('grunt-dot-compiler');
+  grunt.loadNpmTasks('grunt-strip');
 
-  grunt.registerTask('default', [ 'concat', 'uglify', 'cssmin', 'dot', 'watch']);
+  grunt.registerTask('default', [ 'dot', 'concat', 'strip', 'uglify', 'cssmin', 'htmlmin', 'copy',  'watch']);
 
 };

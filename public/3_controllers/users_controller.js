@@ -1,13 +1,14 @@
 /*global alert: false, confirm: false, console: false, $: false */
-
+console.log('at the top of users_controller.js');
 $.mvc.controller.create('users_controller', {
   init: function () {
-
+  console.log('init of users_controller');
 
   },
 
 
   default: function () {
+    console.log('default_user_controller page');
     $.ui.show_page({
        div_id: 'user_index_view',
        title: 'FunLife',

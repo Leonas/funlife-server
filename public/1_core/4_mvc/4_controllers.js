@@ -10,6 +10,7 @@
 
     //We will add each controller given to the $mvc.controller object
     $.mvc.controller.create = function (name, controller) {
+      console.log("creating %s with properties: %o", name, controller);
         var loaded = true, i, shortName;
 
         //make it easily accessible

@@ -18,16 +18,6 @@
 
     <!--Turn on the script below for remote debugging.-->
     <!--<script src='https://trigger.io/catalyst/target/target-script-min.js#165B5ECF-E15E-4F3F-BA08-6D20334B185E'></script>-->
-    <script>
-
-        if (typeof forge === 'undefined' && typeof device === 'undefined') {
-            //if not running on a mobile device use local server
-            var server = 'http://' + document.location.host;
-        } else {
-            //connect to heroku if running on phone
-            var server = 'http://vast-crag-6780.herokuapp.com';
-        }
-    </script>
 
     <!--inline javascript files are loaded SYNCHRONOUSLY-->
 

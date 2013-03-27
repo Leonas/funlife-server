@@ -189,6 +189,7 @@
 
           //trigger ui ready
           $(document).trigger("$.ui.ready");
+          //trigger moved to after current_user is loaded
           //remove splash screen
         };
 
@@ -391,6 +392,7 @@
     // function to fire when jqUi is ready and completed launch
     ready: function (param) {
       if (this.launch_completed){
+
         param();
       }
       else{

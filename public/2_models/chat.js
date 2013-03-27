@@ -1,4 +1,4 @@
-chat_log = {
+var chat_log = {
   "chat_info": {
     "chat_id": "23213123",
     "my_photo": "photo_url_on_phone",
@@ -33,7 +33,7 @@ chat_log = {
     }
   ]
 };
-Chat = new $.mvc.model.Extend("chat", {
+var Chat = new $.mvc.model.Extend("chat", {
   chat_id: '',
   current_chat: this,                                        //might be wrong
   my_photo: function () {

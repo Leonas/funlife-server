@@ -52,29 +52,39 @@
 
     $.mvc.route = function (url, evt, noHistory) {
 
+      console.log('inside $.mvc.route');
+
         //Redo this. Error appears when nodeName doesnt exist
         if (typeof (url) !== "string" && url.nodeName && url.nodeName.toLowerCase() === "a") {
+            console.log('inside $.mvc.route if1');
             url = url.href;
         }
         if (typeof (url) !== "string") {
-          console.log(url);
+          console.log('inside $.mvc.route if2');
             throw "Invalid route parameter.  String or <a> expected";
         }
-        var route, axt,
-            origUrl = url;
+        var route, axt;
+
+        var origUrl = url;
         if (url.indexOf(baseUrl) === 0) { url = url.substring(baseUrl.length, url.length); }
         if (url[0] === "/") { url = url.substr(1); }
         if (url[url.length - 1] === "/") { url = url.slice(0, -1); }
         url = url.split("/");
 
         if (url.length > 1) {
+          console.log('inside $.mvc.route 3');
             route = url.splice(0, 1);
             axt = url.splice(0, 1);
         } else {
+          console.log('inside $.mvc.route 2');
             route = url[0];
             axt = "default";
         }
+        console.log('route = ' + route);
+        console.log('current routes of controller = %O', $.mvc.controller[route]);
         if ($.mvc.controller[route] && $.mvc.controller[route].hasOwnProperty(axt)) {
+
+          console.log('inside $.mvc.route 4');
             evt && evt.preventDefault();
             $.mvc.controller[route][axt].apply($.mvc.controller[route], url);
             if ($.mvc._app._useHistory && noHistory !== true) {
@@ -88,6 +98,9 @@
 
 
     $.mvc.addRoute = function (url, fnc) {
+        console.log('add route called');
+        console.log('is this ever even used?');
+      debugger;
         var route, axt;
 
         if (url.indexOf(baseUrl) === 0) {

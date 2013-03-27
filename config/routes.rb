@@ -1,15 +1,20 @@
 Funlife::Application.routes.draw do
-  resources :chats, except: :edit
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
   scope defaults: { format: "json" } do
+
+    resources :chats, except: [:edit, :update] do
+      resources :chat_messages, only: [:index, :create]
+    end
+
     resources :users, except: [:update] do
       collection do
         put :update
       end
     end
+
     resources :sessions, only: [:create] do
       collection do
         delete :destroy

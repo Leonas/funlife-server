@@ -1,58 +1,30 @@
 class ChatMessagesController < ApplicationController
-  # GET /chat_messages
-  # GET /chat_messages.json
-  def index
-    @chat_messages = ChatMessage.all
+  before_filter :set_chat
 
+  # GET /chats/:chat_id/chat_messages
+  # GET /chats/:chat_id/chat_messages.json
+  def index
+    @chat_messages = @chat.chat_messages.lasted_messages(params[:latest_timestamp])
     render json: @chat_messages
   end
 
-  # GET /chat_messages/1
-  # GET /chat_messages/1.json
-  def show
-    @chat_message = ChatMessage.find(params[:id])
-
-    render json: @chat_message
-  end
-
-  # GET /chat_messages/new
-  # GET /chat_messages/new.json
-  def new
-    @chat_message = ChatMessage.new
-
-    render json: @chat_message
-  end
-
-  # POST /chat_messages
-  # POST /chat_messages.json
+  # POST /chats/:chat_id/chat_messages
   def create
-    @chat_message = ChatMessage.new(params[:chat_message])
-
+    @chat_message = @chat.chat_messages.build(chat_params)
     if @chat_message.save
-      render json: @chat_message, status: :created, location: @chat_message
+      render json: @chat_message, status: :created
     else
       render json: @chat_message.errors, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /chat_messages/1
-  # PATCH/PUT /chat_messages/1.json
-  def update
-    @chat_message = ChatMessage.find(params[:id])
+  private
 
-    if @chat_message.update_attributes(params[:chat_message])
-      head :no_content
-    else
-      render json: @chat_message.errors, status: :unprocessable_entity
-    end
+  def set_chat
+    @chat = @current_user.chats.find(params[:chat_id])
   end
 
-  # DELETE /chat_messages/1
-  # DELETE /chat_messages/1.json
-  def destroy
-    @chat_message = ChatMessage.find(params[:id])
-    @chat_message.destroy
-
-    head :no_content
+  def chat_params
+    params[:chat_message].merge({user_id: @current_user.id})
   end
 end

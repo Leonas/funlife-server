@@ -19,6 +19,12 @@ class User < ActiveRecord::Base
   has_many :chats, through: :user_chats
   has_many :chat_messages, dependent: :destroy
 
+  has_many :my_friends, :dependent => :destroy, :foreign_key => "follower_id", :class_name => "Friendship"
+  has_many :friends, :through => :my_friends
+
+  has_many :my_followers, :dependent => :destroy, :foreign_key => "friend_id", :class_name => "Friendship"
+  has_many :followers, :through => :my_followers
+
   def ensure_authentication_token!
     self.token ||= SecureRandom.urlsafe_base64(15)
   end

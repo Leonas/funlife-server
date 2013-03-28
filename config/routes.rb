@@ -1,9 +1,4 @@
 Funlife::Application.routes.draw do
-
-
-  # The priority is based upon order of creation:
-  # first created -> highest priority.
-
   scope defaults: { format: "json" } do
 
     resources :activities, except: [:edit, :new]
@@ -12,6 +7,7 @@ Funlife::Application.routes.draw do
     end
 
     resources :friendships, only: [:create, :destroy]
+    resources :photos, except: [:edit, :update, :new]
 
     resources :users, except: [:update] do
       collection do

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130328161215) do
+ActiveRecord::Schema.define(:version => 20130328174119) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -63,6 +63,25 @@ ActiveRecord::Schema.define(:version => 20130328161215) do
 
   add_index "friendships", ["follower_id"], :name => "index_friendships_on_follower_id"
   add_index "friendships", ["friend_id"], :name => "index_friendships_on_friend_id"
+
+  create_table "photos", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "public_id"
+    t.string   "version"
+    t.string   "signature"
+    t.string   "width"
+    t.string   "height"
+    t.string   "format"
+    t.string   "resource_type"
+    t.string   "bytes"
+    t.string   "type"
+    t.string   "url"
+    t.string   "secure_url"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  add_index "photos", ["user_id"], :name => "index_photos_on_user_id"
 
   create_table "user_chats", :force => true do |t|
     t.integer  "chat_id"

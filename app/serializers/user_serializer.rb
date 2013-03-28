@@ -1,5 +1,6 @@
 class UserSerializer < ActiveModel::Serializer
   attributes :id, :name, :email, :token
+  has_one :profile_photo, embed: :id
 
   def name
     object.full_name

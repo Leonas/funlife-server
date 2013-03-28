@@ -43,6 +43,12 @@ describe PhotosController do
         }.to change(Photo, :count).by(1)
       end
 
+      it "should create a new profile photo" do
+        expect{
+          post :create, photo: photo_attrs.merge({ type: "ProfilePhoto" })
+        }.to change(Photo, :count).by(1)
+      end
+
       it "should create a new photo" do
         post :create, photo: photo_attrs
         should respond_with(:created)

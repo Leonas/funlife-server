@@ -14,5 +14,9 @@ FactoryGirl.define do
     type ""
     url "MyString"
     secure_url "MyString"
+
+    factory :profile_photo do
+      type "ProfilePhoto"
+    end
   end
 end

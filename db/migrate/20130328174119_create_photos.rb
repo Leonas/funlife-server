@@ -13,6 +13,7 @@ class CreatePhotos < ActiveRecord::Migration
       t.string :type
       t.string :url
       t.string :secure_url
+      t.string :type
 
       t.timestamps
     end

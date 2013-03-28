@@ -19,6 +19,7 @@ class User < ActiveRecord::Base
   has_many :chats, through: :user_chats
   has_many :chat_messages, dependent: :destroy
   has_many :photos, dependent: :destroy
+  has_one  :profile_photo
 
   has_many :friendships, dependent: :destroy, foreign_key: "follower_id", class_name: "Friendship"
   has_many :friends, through: :friendships

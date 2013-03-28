@@ -11,6 +11,8 @@ Funlife::Application.routes.draw do
       resources :chat_messages, only: [:index, :create]
     end
 
+    resources :friendships, only: [:create, :destroy]
+
     resources :users, except: [:update] do
       collection do
         put :update

@@ -86,11 +86,11 @@ module.exports = function(grunt) {
     },
     watch: {
       slow: {
-        files: '<%= concat.js.src %>',
+        files: ['<%= concat.js.src %>', '<%= concat.css.src %>', '<%= dot.compile.src %>', 'index.html'],
         tasks: ['default']
       },
       quick: {
-        files: '<%= concat.js.src %>',
+        files: ['<%= concat.js.src %>', '<%= dot.compile.src %>', 'index.html'],
         tasks: ['quick']
       }
 //      ,

@@ -60,7 +60,12 @@ module Funlife
     config.assets.version = '1.0'
 
     config.generators do |g|
+      g.assets          false
+      g.helper          false
       g.fixture_replacement :factory_girl
+      g.orm             :active_record
+      g.stylesheets     false
+      g.template_engine nil
     end
   end
 end

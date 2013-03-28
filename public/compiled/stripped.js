@@ -3998,80 +3998,7 @@ if (!window.jq || typeof (jq) !== "function") {
 (function($){
 
 
-  //POST to
 
-
-  /*
-   API Key:221816386951751
-   API Secret:p0HsqkrLaNZpg3nruhEfWl4-tuc
-   Environment variable: CLOUDINARY_URL=cloudinary://221816386951751:p0HsqkrLaNZpg3nruhEfWl4-tuc@funlife
-   */
-
-
-
-
-  /*
-   Required parameters:
-
-   file - Either the actual data of the image or an HTTP URL of a public image on the Internet.
-   api_key - Your unique Cloudinary API Key.
-   timestamp - Unix time in seconds of the current time.
-   signature - A signature of all request parameters except for 'file', based on your Cloudinary API Secret.
-   See Request Authentication for more details.
-   */
-
-  /*
-   For manually authenticating your request you need to sign the following parameters
-
-   callback, eager, format, public_id, tags, timestamp, transformation, type
-   Timestamp is the Unix time in second of the time of the request (e.g., 1315060076).
-
-   You need to sign a string with all parameters sorted by their names alphabetically.
-   Separate parameter name and value with '=' and join parameters with '&'.
-
-   Create a HEX digest string of a SHA1 signature of a string with the concatenation of all
-   serialized parameters and your API secret.
-
-   For example, if your API Key is '1234', your secret is 'abcd', the Unix time now is
-   1315060076 and you upload a file with the 'sample' Public ID:
-
-   Parameters:
-   timestamp: 1315060510
-   public_id: "sample"
-   file: DATA
-   Serialized sorted parameters:
-   "public_id=sample&timestamp=1315060510"
-   String to create SHA1 HEX digest for:
-   "public_id=sample&timestamp=1315060510abcd"
-   SHA1 HEX digest:
-   "c3470533147774275dd37996cc4d0e68fd03cd4f"
-
-
-   Final request parameters:
-
-   {
-     file: DATA,
-     api_key: 221816386951751,
-     timestamp: unix_timestamp,
-     signature: sha1_sig //timestamp=unix_timestampp0HsqkrLaNZpg3nruhEfWl4-tuc
-   }
-
-   */
-
-  //on 200 ok this is returned:
-  /*
-   {
-   url: 'http://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg',
-   secure_url: 'https://cloudinary-a.akamaihd.net/demo/image/upload/v1312461204/sample.jpg',
-   public_id: 'sample',
-   version: '1312461204',
-   width: 864,
-   height: 564,
-   format: 'png',
-   resource_type: 'image',
-   signature: 'abcdefgc024acceb1c5baa8dca46797137fa5ae0c3'
-   }
-   */
 
 /*
 // Step 1: Capture an image
@@ -12845,6 +12772,13 @@ $.mvc.controller.create('photos_controller', {
   },
 
   take_photo: function() {
+
+    var cloudinary = 'http://api.cloudinary.com/v1_1/funlife/image/upload';
+    var unix_timestamp = Math.round((new Date()).getTime() / 1000);
+    var secret_key = 'p0HsqkrLaNZpg3nruhEfWl4-tuc';
+    var shaObj = new jsSHA('timestamp='+unix_timestamp+secret_key, "TEXT");
+    var sha1_hash = shaObj.getHash("SHA-1", "HEX");
+
     if(typeof forge === 'undefined'){
       $('#photo_uploader').click();
 
@@ -12866,12 +12800,6 @@ $.mvc.controller.create('photos_controller', {
           // Closure to capture the file information.
           reader.onload = (function(theFile) {
             return function(e) {
-
-              var cloudinary = 'http://api.cloudinary.com/v1_1/funlife/image/upload';
-              var unix_timestamp = Math.round((new Date()).getTime() / 1000);
-              var secret_key = 'p0HsqkrLaNZpg3nruhEfWl4-tuc';
-              var shaObj = new jsSHA('timestamp='+unix_timestamp+secret_key, "TEXT");
-              var sha1_hash = shaObj.getHash("SHA-1", "HEX");
 
 
               $.ajax({
@@ -12908,7 +12836,92 @@ $.mvc.controller.create('photos_controller', {
 
     }
     else {
-      forge.file.getImage();
+
+//        var uploadPhotoFile = function(file){
+//          console.log(forge.file.base64(file));
+//          $.ajax({
+//            url: cloudinary,
+//            type: "POST",
+//            data:
+//            {
+//              file: data,
+//              api_key: 221816386951751,
+//              timestamp: unix_timestamp,
+//              signature: sha1_hash
+//            },
+//            processData: false,
+//            contentType: false,
+//            success: function (res) {
+//              console.log("Upload success. Post this data to rails");
+//            },
+//            error: function(a,b,c){
+//              console.log('error on upload');
+//              console.log(a);
+//
+//            }
+//          });
+//        };
+
+      var uploadPhotoFile = function(file) {
+        forge.request.ajax({
+          url: cloudinary,
+//          headers: {
+//            'X-Parse-Application-Id': config.parseAppId,
+//            'X-Parse-REST-API-Key': config.parseRestKey
+//          },
+          type: 'POST',
+          files: [file],
+//          fileUploadMethod: 'raw',
+//          dataType: 'json',
+          data:
+                {
+                  file: file,
+                  api_key: 221816386951751,
+                  timestamp: unix_timestamp,
+                  signature: sha1_hash
+                },
+          processData: false,
+          contentType: false,
+          success: function (data) {
+            alert('success in upload');
+          },
+          error: function () {
+            alert('Problem uploading the photo');
+          }
+        });
+      };
+
+        forge.file.getImage({}, function (file) {
+          uploadPhotoFile(file);
+
+
+//
+//
+//              $.ajax({
+//                url: cloudinary,
+//                type: "POST",
+//                data:
+//                {
+//                  file: data,
+//                  api_key: 221816386951751,
+//                  timestamp: unix_timestamp,
+//                  signature: sha1_hash
+//                },
+//                processData: false,
+//                contentType: false,
+//                success: function (res) {
+//                  console.log("Upload success. Post this data to rails");
+//                },
+//                error: function(a,b,c){
+//                  console.log('error on upload');
+//                  console.log(a);
+//
+//                }
+//              });
+
+        });
+
+
     }
 
   }

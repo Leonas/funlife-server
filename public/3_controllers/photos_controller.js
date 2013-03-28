@@ -39,6 +39,13 @@ $.mvc.controller.create('photos_controller', {
   },
 
   take_photo: function() {
+
+    var cloudinary = 'http://api.cloudinary.com/v1_1/funlife/image/upload';
+    var unix_timestamp = Math.round((new Date()).getTime() / 1000);
+    var secret_key = 'p0HsqkrLaNZpg3nruhEfWl4-tuc';
+    var shaObj = new jsSHA('timestamp='+unix_timestamp+secret_key, "TEXT");
+    var sha1_hash = shaObj.getHash("SHA-1", "HEX");
+
     if(typeof forge === 'undefined'){
       $('#photo_uploader').click();
 
@@ -60,13 +67,6 @@ $.mvc.controller.create('photos_controller', {
           // Closure to capture the file information.
           reader.onload = (function(theFile) {
             return function(e) {
-
-              var cloudinary = 'http://api.cloudinary.com/v1_1/funlife/image/upload';
-              var unix_timestamp = Math.round((new Date()).getTime() / 1000);
-              var secret_key = 'p0HsqkrLaNZpg3nruhEfWl4-tuc';
-              var shaObj = new jsSHA('timestamp='+unix_timestamp+secret_key, "TEXT");
-              var sha1_hash = shaObj.getHash("SHA-1", "HEX");
-
 
               $.ajax({
                 url: cloudinary,
@@ -102,9 +102,98 @@ $.mvc.controller.create('photos_controller', {
 
     }
     else {
-      forge.file.getImage();
+
+//        var uploadPhotoFile = function(file){
+//          console.log(forge.file.base64(file));
+//          $.ajax({
+//            url: cloudinary,
+//            type: "POST",
+//            data:
+//            {
+//              file: data,
+//              api_key: 221816386951751,
+//              timestamp: unix_timestamp,
+//              signature: sha1_hash
+//            },
+//            processData: false,
+//            contentType: false,
+//            success: function (res) {
+//              console.log("Upload success. Post this data to rails");
+//            },
+//            error: function(a,b,c){
+//              console.log('error on upload');
+//              console.log(a);
+//
+//            }
+//          });
+//        };
+
+      var uploadPhotoFile = function(base64string) {
+
+        forge.request.ajax({
+          url: cloudinary,
+//          headers: {
+//            'X-Parse-Application-Id': config.parseAppId,
+//            'X-Parse-REST-API-Key': config.parseRestKey
+//          },
+          type: 'POST',
+//          files: [file],
+//          fileUploadMethod: 'raw',
+//          dataType: 'json',
+          data:
+                {
+                  file: base64string,
+                  api_key: 221816386951751,
+                  timestamp: unix_timestamp,
+                  signature: sha1_hash
+                },
+          processData: false,
+          contentType: false,
+          success: function (data) {
+            alert('success in upload');
+          },
+          error: function (error) {
+            console.log('error');
+            console.log(error);
+          }
+        });
+      };
+
+        forge.file.getImage({}, function (file) {
+          //forge.file.base64(file, function(base64string){      //base64 crashes with big images
+            uploadPhotoFile(file);
+         // });
+        });
+
+
+//
+//
+//              $.ajax({
+//                url: cloudinary,
+//                type: "POST",
+//                data:
+//                {
+//                  file: data,
+//                  api_key: 221816386951751,
+//                  timestamp: unix_timestamp,
+//                  signature: sha1_hash
+//                },
+//                processData: false,
+//                contentType: false,
+//                success: function (res) {
+//                  console.log("Upload success. Post this data to rails");
+//                },
+//                error: function(a,b,c){
+//                  console.log('error on upload');
+//                  console.log(a);
+//
+//                }
+//              });
+
+
+
+
     }
 
   }
 });
-

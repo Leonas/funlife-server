@@ -85,9 +85,13 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      js_files: {
+      slow: {
         files: '<%= concat.js.src %>',
         tasks: ['default']
+      },
+      quick: {
+        files: '<%= concat.js.src %>',
+        tasks: ['quick']
       }
 //      ,
 //      templates: {
@@ -102,6 +106,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-dot-compiler');
   grunt.loadNpmTasks('grunt-strip');
 
-  grunt.registerTask('default', [ 'dot', 'concat', 'strip', 'uglify', 'cssmin', 'htmlmin', 'copy',  'watch']);
-
+  grunt.registerTask('default', [ 'dot', 'concat', 'strip', 'uglify', 'cssmin', 'htmlmin', 'copy',  'watch.slow']);
+  grunt.registerTask('quick', [ 'dot', 'copy',  'watch']);
 };

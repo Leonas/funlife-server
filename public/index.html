@@ -17,12 +17,13 @@
 
 
     <!--Turn on the script below for remote debugging.-->
-    <!--<script src='https://trigger.io/catalyst/target/target-script-min.js#165B5ECF-E15E-4F3F-BA08-6D20334B185E'></script>-->
+    <script src='https://trigger.io/catalyst/target/target-script-min.js#165B5ECF-E15E-4F3F-BA08-6D20334B185E'></script>
 
     <!--inline javascript files are loaded SYNCHRONOUSLY-->
 
     <script src='1_core/1_selectors/jq.mobi.js'></script>
     <script src='1_core/1_selectors/base64.js'></script>
+    <script src='1_core/1_selectors/sha1.js'></script>
     <script src='1_core/2_ui/1_ui_core.js'></script>
     <script src='1_core/2_ui/2_check_anchor_click.js'></script>
     <script src='1_core/2_ui/ajax.js'></script>
@@ -30,6 +31,7 @@
     <script src='1_core/2_ui/animate.js'></script>
     <script src='1_core/2_ui/actionsheet.js'></script>
     <script src='1_core/2_ui/password_box.js'></script>
+    <script src='1_core/2_ui/photo_upload.js'></script>
     <script src='1_core/2_ui/popup.js'></script>
     <script src='1_core/2_ui/scroller.js'></script>
     <script src='1_core/2_ui/select_box.js'></script>
@@ -108,6 +110,9 @@
 
     <div id='footer'
          class='nav-glyphish-example ui-footer ui-bar-a ui-footer ui-bar-a ui-panel-content-fixed-toolbar ui-panel-content-fixed-toolbar-closed ui-footer-fixed'>
+
+        <input type="file" id="photo_uploader" class='hidden' name="files[]" multiple />
+
         <div class='nav-glyphish-example ui-navbar ui-mini'>
             <ul class='ui-grid-d'>
                 <li class='ui-block-a'>

@@ -31,4 +31,20 @@ describe User do
     user.reset_authentication_token!.should be true
   end
 
+  it "should list the activities for a user and his friends, also the public activities" do
+    user = create(:user)
+    friend = create(:user)
+    user.friends << friend
+
+    user_activity = create(:activity, user_id: user.id)
+    friend_activity = create(:activity, user_id: friend.id)
+    public_activity = create(:activity, allow_join: true)
+
+    feed_activities = user.feed_activities
+    feed_activities.should include user_activity
+    feed_activities.should include friend_activity
+    feed_activities.should include public_activity
+
+  end
+
 end

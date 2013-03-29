@@ -39,4 +39,19 @@ class User < ActiveRecord::Base
     self.reset_authentication_token
     self.save
   end
+
+  # user.feed_activities
+  # => "SELECT 'activities'.* FROM 'activities'  WHERE (('activities'.'user_id' IN (friends_ids, self.id) OR 'activities'.'allow_join' = 't'))"
+  def feed_activities
+    act = Activity.arel_table
+
+    # Includes the current_user's Activities
+    user_ids = self.friend_ids.push(self.id)
+
+    Activity.where(
+      act[:user_id].in(user_ids).or(
+        act[:allow_join].eq(true)
+      )
+    )
+  end
 end

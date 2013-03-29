@@ -3504,7 +3504,7 @@ if (!window.jq || typeof (jq) !== "function") {
       type: 'GET',
       dataType: 'application/json',
       headers: { 'Authorization': current_user.token },
-      url: server+options.api_url,
+      url: server+options.url,
       data: options.data,
       success: options.success,
       error: options.error
@@ -3517,7 +3517,7 @@ if (!window.jq || typeof (jq) !== "function") {
       type: 'POST',
       dataType: 'application/json',
       headers: { 'Authorization': current_user.token },
-      url: server+options.api_url,
+      url: server+options.url,
       data: options.data,
       success: options.success,
       error: options.error
@@ -3529,7 +3529,7 @@ if (!window.jq || typeof (jq) !== "function") {
       type: 'PUT',
       dataType: 'application/json',
       headers: { 'Authorization': current_user.token },
-      url: server+options.api_url,
+      url: server+options.url,
       data: options.data,
       success: options.success,
       error: options.error
@@ -3541,7 +3541,7 @@ if (!window.jq || typeof (jq) !== "function") {
       type: 'DELETE',
       dataType: 'application/json',
       headers: { 'Authorization': current_user.token },
-      url: server+options.api_url,
+      url: server+options.url,
       data: options.data,
       success: options.success,
       error: options.error
@@ -3549,7 +3549,7 @@ if (!window.jq || typeof (jq) !== "function") {
   };
 /*
   $.get_with_token({
-    api_url: options.api_url,
+    url: options.url,
     data: options.data,
     success: function(response, statusText, xhr){},
     error: function(data){}
@@ -4110,7 +4110,7 @@ if (!window.jq || typeof (jq) !== "function") {
       type: 'GET',
       dataType: 'application/json',
       headers: { 'Authorization': current_user.token },
-      url: server+options.api_url,
+      url: server+options.url,
       data: options.data,
       success: options.success,
       error: options.error
@@ -4123,7 +4123,7 @@ if (!window.jq || typeof (jq) !== "function") {
       type: 'POST',
       dataType: 'application/json',
       headers: { 'Authorization': current_user.token },
-      url: server+options.api_url,
+      url: server+options.url,
       data: options.data,
       success: options.success,
       error: options.error
@@ -4135,7 +4135,7 @@ if (!window.jq || typeof (jq) !== "function") {
       type: 'PUT',
       dataType: 'application/json',
       headers: { 'Authorization': current_user.token },
-      url: server+options.api_url,
+      url: server+options.url,
       data: options.data,
       success: options.success,
       error: options.error
@@ -4143,7 +4143,7 @@ if (!window.jq || typeof (jq) !== "function") {
   };
   /*
    $.get_with_token({
-   api_url: options.api_url,
+   url: options.url,
    data: options.data,
    success: function(response, statusText, xhr){},
    error: function(data){}
@@ -6069,7 +6069,7 @@ if (!window.jq || typeof (jq) !== "function") {
   footer: tab_id or null                               done
   active_footer_button: '#bottom_nav_home',            done
 
-  api_url: '/users/',                                  done
+  url: '/users/',                                  done
   data: 'data_to_be_sent_to_server'                    done
   on_load: function(){}                                BAD
   on_unload: function(){}                              done
@@ -6108,15 +6108,15 @@ if (!window.jq || typeof (jq) !== "function") {
     this.set_right_button(options.right_button);
 
     //if we need to access remote data
-    if(options.api_url){
+    if(options.url){
       //check if we have any cached data, and show that first
-      if ( options.cache && this.cached_pages[options.api_url] !== undefined ) {
+      if ( options.cache && this.cached_pages[options.url] !== undefined ) {
          console.log('we found cache');
-        var parsed_data = JSON.parse(this.cached_pages[options.api_url]);
+        var parsed_data = JSON.parse(this.cached_pages[options.url]);
          $.ui.add_content_div(options.div_id, tmpl[options.div_id](parsed_data), options.title, this.cached_pages[options.div_id]);
          this.load_content(options.div_id, false, false, 'fade');
          $.get_with_token({
-            api_url: options.api_url,
+            url: options.url,
             data: options.data,
             success: function(response, statusText, xhr){
               console.log('got new content...updating');
@@ -6124,7 +6124,7 @@ if (!window.jq || typeof (jq) !== "function") {
                var data = JSON.parse(response);
                $.ui.update_content_div(options.div_id,  tmpl[options.div_id](parsed_data));
                if(options.cache){
-                 $.ui.cached_pages[options.api_url] = response;
+                 $.ui.cached_pages[options.url] = response;
                  $.ui.cached_pages.save();
                }
             },
@@ -6136,7 +6136,7 @@ if (!window.jq || typeof (jq) !== "function") {
       else {
         console.log('no local cache found or cache disabled');
         $.get_with_token({
-          api_url: options.api_url,
+          url: options.url,
           data: options.data,
           success: function(response, statusText, xhr){
             var parsed_data = JSON.parse(response);
@@ -6145,7 +6145,7 @@ if (!window.jq || typeof (jq) !== "function") {
             $.ui.load_content(options.div_id, false, false, 'fade');
             if(options.cache){
               console.log('setting first cache for this page');
-              $.ui.cached_pages[options.api_url] = response;
+              $.ui.cached_pages[options.url] = response;
               $.ui.cached_pages.save();
             }
           },
@@ -7157,7 +7157,7 @@ a(".dwwb",o).attr("data-role","button").attr("data-theme",s.jqmClickPick);a(".dw
 //    }
 //
 //    //if there's a remote url we need to get go here
-//    if(options.api_url){
+//    if(options.url){
 //      //if we have a local cache of the page, use it first
 //      if ( global.cached_pages[options.div_id] ) {
 //        load page with it
@@ -7167,7 +7167,7 @@ a(".dwwb",o).attr("data-role","button").attr("data-theme",s.jqmClickPick);a(".dw
 //        //load spinner while we get the data
 //        //TODO loadspinner
 //        $.get_with_token({
-//          api_url: options.api_url,
+//          url: options.url,
 //          data: options.data,
 //          success: function(){
 //
@@ -7207,7 +7207,7 @@ a(".dwwb",o).attr("data-role","button").attr("data-theme",s.jqmClickPick);a(".dw
 //        div_id: 'user_index_view',
 //        template: 'views/users/user_index_view.js',
 //        left_button: true,
-//        api_url: '/users/',
+//        url: '/users/',
 //        data: {}
 //
 //
@@ -12597,7 +12597,7 @@ var User = new $.mvc.model.Extend('user', {                                 //In
   logout: function () {
     
     $.delete_with_token({
-        api_url: '/sessions',
+        url: '/sessions',
         success: function(){
             alert('logged out');
         },
@@ -12635,7 +12635,7 @@ $.mvc.controller.create('activities_controller', {
       right_button: '#top_next_button',
       footer: '#footer',
       active_footer_button: false,
-      api_url: false,
+      url: false,
       data: false
     });
 
@@ -12670,7 +12670,7 @@ $.mvc.controller.create('activities_controller', {
       right_button: '#top_next_button',
       footer: '#footer',
       active_footer_button: false,
-      api_url: false,
+      url: false,
       data: false
     });
 
@@ -12687,7 +12687,7 @@ $.mvc.controller.create('activities_controller', {
       right_button: false,
       footer: '#footer',
       active_footer_button: false,
-      api_url: false,
+      url: false,
       data: false
     });
 
@@ -12703,7 +12703,7 @@ $.mvc.controller.create('activities_controller', {
       right_button: false,
       footer: '#footer',
       active_footer_button: false,
-      api_url: false,
+      url: false,
       data: false
     });
 
@@ -12719,7 +12719,7 @@ $.mvc.controller.create('activities_controller', {
       right_button: false,
       footer: '#footer',
       active_footer_button: false,
-      api_url: false,
+      url: false,
       data: false
     });
   },
@@ -12736,7 +12736,7 @@ $.mvc.controller.create('activities_controller', {
       right_button: false,
       footer: '#footer',
       active_footer_button: false,
-      api_url: false,
+      url: false,
       data: false
     });
 
@@ -12797,7 +12797,7 @@ $.mvc.controller.create('chats_controller', {
       right_button: '#top_new_chat_button',
       footer: '#footer',
       active_footer_button: '#bottom_nav_home',
-      api_url: '/chats/'
+      url: '/chats/'
     });
 
   },
@@ -12812,7 +12812,7 @@ $.mvc.controller.create('chats_controller', {
       right_button: false,
       footer: '#chat_footer',
       active_footer_button: false,
-      api_url: '/chats/'+chat_id+'/chat_messages'
+      url: '/chats/'+chat_id+'/chat_messages'
     });
 
 //    $('#chat_submit').bind('click', function () {
@@ -12854,7 +12854,7 @@ $.mvc.controller.create('chats_controller', {
       right_button: '#top_new_chat_button',
       footer: '#footer',
       active_footer_button: '#bottom_nav_home',
-      api_url: '/chats/sent',
+      url: '/chats/sent',
       data: false
     });
 
@@ -12871,14 +12871,14 @@ $.mvc.controller.create('chats_controller', {
           right_button: false,
           footer: '#footer',
           active_footer_button: '#bottom_nav_home',
-          api_url: false,
+          url: false,
           data: false
         });
     }
 
     if(action === 'start'){
       $.post_with_token({
-        api_url: '/chats/',
+        url: '/chats/',
         data: $('#chat_with_id').serialize(),
         success: function(response){
          //debugger;  
@@ -12918,7 +12918,7 @@ $.mvc.controller.create('people_controller', {
       right_button: false,
       footer: '#footer',
       active_footer_button: '#bottom_nav_people',
-      api_url: false,
+      url: false,
       data: false
     });
 
@@ -12933,7 +12933,7 @@ $.mvc.controller.create('people_controller', {
       right_button: false,
       footer: '#footer',
       active_footer_button: '#bottom_nav_people',
-      api_url: false,
+      url: false,
       data: false
     });
 
@@ -12949,7 +12949,7 @@ $.mvc.controller.create('people_controller', {
       right_button: false,
       footer: '#footer',
       active_footer_button: '#bottom_nav_people',
-      api_url: /users/,
+      url: /users/,
       data: false,
       cache: true
     });
@@ -12965,7 +12965,7 @@ $.mvc.controller.create('people_controller', {
       right_button: false,
       footer: '#footer',
       active_footer_button: '#bottom_nav_people',
-      api_url: false,
+      url: false,
       data: false
     });
 
@@ -12991,7 +12991,7 @@ $.mvc.controller.create('photos_controller', {
       right_button: false,
       footer: '#footer',
       active_footer_button: '#bottom_nav_photos',
-      api_url: false,
+      url: false,
       data: false
     });
 
@@ -13007,7 +13007,7 @@ $.mvc.controller.create('photos_controller', {
       right_button: false,
       footer: '#footer',
       active_footer_button: '#bottom_nav_photos',
-      api_url: false,
+      url: false,
       data: false
     });
 
@@ -13192,7 +13192,7 @@ $.mvc.controller.create('places_controller', {
       right_button: false,
       footer: '#footer',
       active_footer_button: '#bottom_nav_places',
-      api_url: false,
+      url: false,
       data: false
     });
 
@@ -13227,7 +13227,7 @@ $.mvc.controller.create('users_controller', {
        right_button: '#top_logout_button',
        footer: '#footer',
        active_footer_button: '#bottom_nav_home',
-       api_url: false,
+       url: false,
        data: false
     });
 
@@ -13250,7 +13250,7 @@ $.mvc.controller.create('users_controller', {
         right_button: false,
         footer: false,
         active_footer_button: false,
-        api_url: false,
+        url: false,
         data: false
       });
       break;
@@ -13312,14 +13312,14 @@ $.mvc.controller.create('users_controller', {
           active_nav: false,
           div_id: 'user_register2_view',
           left_button: false,
-          api_url: false,
+          url: false,
           data: false
         });
         break;
 
       case 'complete':
         $.put_with_token({
-          api_url: '/users/',
+          url: '/users/',
           data: $('#registration_details_form').serialize(),
           success: function () {
             $.mvc.route('/users_controller/');

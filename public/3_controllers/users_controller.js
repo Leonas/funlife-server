@@ -17,7 +17,7 @@ $.mvc.controller.create('users_controller', {
        right_button: '#top_logout_button',
        footer: '#footer',
        active_footer_button: '#bottom_nav_home',
-       api_url: false,
+       url: false,
        data: false
     });
 
@@ -40,7 +40,7 @@ $.mvc.controller.create('users_controller', {
         right_button: false,
         footer: false,
         active_footer_button: false,
-        api_url: false,
+        url: false,
         data: false
       });
       break;
@@ -102,14 +102,14 @@ $.mvc.controller.create('users_controller', {
           active_nav: false,
           div_id: 'user_register2_view',
           left_button: false,
-          api_url: false,
+          url: false,
           data: false
         });
         break;
 
       case 'complete':
         $.put_with_token({
-          api_url: '/users/',
+          url: '/users/',
           data: $('#registration_details_form').serialize(),
           success: function () {
             $.mvc.route('/users_controller/');

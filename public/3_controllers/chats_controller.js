@@ -51,27 +51,43 @@ $.mvc.controller.create('chats_controller', {
       right_button: '#top_new_chat_button',
       footer: '#footer',
       active_footer_button: '#bottom_nav_home',
-      api_url: '/chats/'
+      url: '/chats/'
     });
 
   },
 
   detail: function (chat_id, action, user_id) {
 
-    $.ui.show_page({
-      div_id: 'chat_detail_view',
-      title: 'Chat Detail',
-      header: '#header',
-      left_button: '#top_back_button',
-      right_button: false,
-      footer: '#chat_footer',
-      active_footer_button: false,
-      api_url: '/chats/'+chat_id+'/chat_messages'
-    });
+    if(!action){
+      console.log('showing detail page');
+        $.ui.show_page({
+          div_id: 'chat_detail_view',
+          title: 'Chat Detail',
+          header: '#header',
+          left_button: '#top_back_button',
+          right_button: false,
+          footer: '#chat_footer',
+          active_footer_button: false,
+          url: '/chats/'+chat_id+'/chat_messages'
+        });
+        $('#chat_send_button').attr('href', '/chats_controller/detail/'+chat_id+'/send');
+    }
+    
+        //If the person clicked to send a message...
+    if (action === 'send') {
+      console.log('sending data');
+        $.post_with_token({
+            url: '/chats/'+chat_id+'/chat_messages',
+            data: $('#chat_footer_form').serialize(),
+            success: function(){
+                alert('yay');    
+            },
+            error: function(){
+                alert('nrow');
+            }   
+        });
+    }
 
-//    $('#chat_submit').bind('click', function () {
-//      chat_id.send_message();
-//    });
 
     //Need to do something better than this here. Everything below this line is bad
     //-------------------------------
@@ -91,10 +107,7 @@ $.mvc.controller.create('chats_controller', {
     //It will return only the newest messages which should be appended to the older.
 
 
-    //If the person clicked to send a message...
-//    if (action === 'send') {
-//
-//    }
+
 
   },
 
@@ -108,7 +121,7 @@ $.mvc.controller.create('chats_controller', {
       right_button: '#top_new_chat_button',
       footer: '#footer',
       active_footer_button: '#bottom_nav_home',
-      api_url: '/chats/sent',
+      url: '/chats/sent',
       data: false
     });
 
@@ -125,14 +138,14 @@ $.mvc.controller.create('chats_controller', {
           right_button: false,
           footer: '#footer',
           active_footer_button: '#bottom_nav_home',
-          api_url: false,
+          url: false,
           data: false
         });
     }
 
     if(action === 'start'){
       $.post_with_token({
-        api_url: '/chats/',
+        url: '/chats/',
         data: $('#chat_with_id').serialize(),
         success: function(response){
          //debugger;  

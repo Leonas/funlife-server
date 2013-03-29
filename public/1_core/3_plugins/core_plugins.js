@@ -24,7 +24,7 @@
 //    }
 //
 //    //if there's a remote url we need to get go here
-//    if(options.api_url){
+//    if(options.url){
 //      //if we have a local cache of the page, use it first
 //      if ( global.cached_pages[options.div_id] ) {
 //        load page with it
@@ -34,7 +34,7 @@
 //        //load spinner while we get the data
 //        //TODO loadspinner
 //        $.get_with_token({
-//          api_url: options.api_url,
+//          url: options.url,
 //          data: options.data,
 //          success: function(){
 //
@@ -74,7 +74,7 @@
 //        div_id: 'user_index_view',
 //        template: 'views/users/user_index_view.js',
 //        left_button: true,
-//        api_url: '/users/',
+//        url: '/users/',
 //        data: {}
 //
 //

@@ -16,7 +16,7 @@ $.mvc.controller.create('photos_controller', {
       right_button: false,
       footer: '#footer',
       active_footer_button: '#bottom_nav_photos',
-      api_url: false,
+      url: false,
       data: false
     });
 
@@ -32,7 +32,7 @@ $.mvc.controller.create('photos_controller', {
       right_button: false,
       footer: '#footer',
       active_footer_button: '#bottom_nav_photos',
-      api_url: false,
+      url: false,
       data: false
     });
 

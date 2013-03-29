@@ -20,7 +20,7 @@ $.mvc.controller.create('activities_controller', {
       right_button: '#top_next_button',
       footer: '#footer',
       active_footer_button: false,
-      api_url: false,
+      url: false,
       data: false
     });
 
@@ -55,7 +55,7 @@ $.mvc.controller.create('activities_controller', {
       right_button: '#top_next_button',
       footer: '#footer',
       active_footer_button: false,
-      api_url: false,
+      url: false,
       data: false
     });
 
@@ -72,7 +72,7 @@ $.mvc.controller.create('activities_controller', {
       right_button: false,
       footer: '#footer',
       active_footer_button: false,
-      api_url: false,
+      url: false,
       data: false
     });
 
@@ -88,7 +88,7 @@ $.mvc.controller.create('activities_controller', {
       right_button: false,
       footer: '#footer',
       active_footer_button: false,
-      api_url: false,
+      url: false,
       data: false
     });
 
@@ -104,7 +104,7 @@ $.mvc.controller.create('activities_controller', {
       right_button: false,
       footer: '#footer',
       active_footer_button: false,
-      api_url: false,
+      url: false,
       data: false
     });
   },
@@ -121,7 +121,7 @@ $.mvc.controller.create('activities_controller', {
       right_button: false,
       footer: '#footer',
       active_footer_button: false,
-      api_url: false,
+      url: false,
       data: false
     });
 

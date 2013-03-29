@@ -82,7 +82,7 @@
       type: 'GET',
       dataType: 'application/json',
       headers: { 'Authorization': current_user.token },
-      url: server+options.api_url,
+      url: server+options.url,
       data: options.data,
       success: options.success,
       error: options.error
@@ -95,7 +95,7 @@
       type: 'POST',
       dataType: 'application/json',
       headers: { 'Authorization': current_user.token },
-      url: server+options.api_url,
+      url: server+options.url,
       data: options.data,
       success: options.success,
       error: options.error
@@ -107,7 +107,7 @@
       type: 'PUT',
       dataType: 'application/json',
       headers: { 'Authorization': current_user.token },
-      url: server+options.api_url,
+      url: server+options.url,
       data: options.data,
       success: options.success,
       error: options.error
@@ -115,7 +115,7 @@
   };
   /*
    $.get_with_token({
-   api_url: options.api_url,
+   url: options.url,
    data: options.data,
    success: function(response, statusText, xhr){},
    error: function(data){}

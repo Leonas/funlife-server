@@ -15,7 +15,7 @@
   footer: tab_id or null                               done
   active_footer_button: '#bottom_nav_home',            done
 
-  api_url: '/users/',                                  done
+  url: '/users/',                                  done
   data: 'data_to_be_sent_to_server'                    done
   on_load: function(){}                                BAD
   on_unload: function(){}                              done
@@ -54,15 +54,15 @@
     this.set_right_button(options.right_button);
 
     //if we need to access remote data
-    if(options.api_url){
+    if(options.url){
       //check if we have any cached data, and show that first
-      if ( options.cache && this.cached_pages[options.api_url] !== undefined ) {
+      if ( options.cache && this.cached_pages[options.url] !== undefined ) {
          console.log('we found cache');
-        var parsed_data = JSON.parse(this.cached_pages[options.api_url]);
+        var parsed_data = JSON.parse(this.cached_pages[options.url]);
          $.ui.add_content_div(options.div_id, tmpl[options.div_id](parsed_data), options.title, this.cached_pages[options.div_id]);
          this.load_content(options.div_id, false, false, 'fade');
          $.get_with_token({
-            api_url: options.api_url,
+            url: options.url,
             data: options.data,
             success: function(response, statusText, xhr){
               console.log('got new content...updating');
@@ -70,7 +70,7 @@
                var data = JSON.parse(response);
                $.ui.update_content_div(options.div_id,  tmpl[options.div_id](parsed_data));
                if(options.cache){
-                 $.ui.cached_pages[options.api_url] = response;
+                 $.ui.cached_pages[options.url] = response;
                  $.ui.cached_pages.save();
                }
             },
@@ -82,7 +82,7 @@
       else {
         console.log('no local cache found or cache disabled');
         $.get_with_token({
-          api_url: options.api_url,
+          url: options.url,
           data: options.data,
           success: function(response, statusText, xhr){
             var parsed_data = JSON.parse(response);
@@ -91,7 +91,7 @@
             $.ui.load_content(options.div_id, false, false, 'fade');
             if(options.cache){
               console.log('setting first cache for this page');
-              $.ui.cached_pages[options.api_url] = response;
+              $.ui.cached_pages[options.url] = response;
               $.ui.cached_pages.save();
             }
           },

@@ -16,7 +16,7 @@ $.mvc.controller.create('people_controller', {
       right_button: false,
       footer: '#footer',
       active_footer_button: '#bottom_nav_people',
-      api_url: false,
+      url: false,
       data: false
     });
 
@@ -31,7 +31,7 @@ $.mvc.controller.create('people_controller', {
       right_button: false,
       footer: '#footer',
       active_footer_button: '#bottom_nav_people',
-      api_url: false,
+      url: false,
       data: false
     });
 
@@ -47,7 +47,7 @@ $.mvc.controller.create('people_controller', {
       right_button: false,
       footer: '#footer',
       active_footer_button: '#bottom_nav_people',
-      api_url: /users/,
+      url: /users/,
       data: false,
       cache: true
     });
@@ -63,7 +63,7 @@ $.mvc.controller.create('people_controller', {
       right_button: false,
       footer: '#footer',
       active_footer_button: '#bottom_nav_people',
-      api_url: false,
+      url: false,
       data: false
     });
 

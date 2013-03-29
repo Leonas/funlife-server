@@ -17,7 +17,7 @@ $.mvc.controller.create('places_controller', {
       right_button: false,
       footer: '#footer',
       active_footer_button: '#bottom_nav_places',
-      api_url: false,
+      url: false,
       data: false
     });
 

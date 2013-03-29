@@ -170,10 +170,12 @@
   <div id='chat_footer' class="navbar navbar-inverse navbar-fixed-bottom">
    <div class='navbar-inner row-fluid input-append '>
         <div class='span10 no_margin'>
-           <input class='span12 no_margin' type="text">
+           <form id="chat_footer_form">
+               <input class='span12 no_margin' type="text" name="chat[message]">
+           </form>
         </div>
         <div class='span2 text-center no_margin width21'>
-            <a class="btn btn-info btn-block">Send</a>
+            <a id="chat_send_button" href='#' class="btn btn-info btn-block">Send</a>
         </div>
     </div>
   </div>

@@ -25,7 +25,7 @@ var User = new $.mvc.model.Extend('user', {                                 //In
   logout: function () {
     
     $.delete_with_token({
-        api_url: '/sessions'
+        url: '/sessions'
     });
     window.localStorage.clear();
   }

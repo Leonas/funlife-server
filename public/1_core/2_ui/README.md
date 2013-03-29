@@ -12,7 +12,7 @@ title: 'FunLife',
 active_nav: '#bottom_nav_home',
 div_id: 'user_index_view',
 template: 'views/users/user_index_view.js',
-api_url: '/users/',
+url: '/users/',
 data: false
 on_load: function(){}
 on_unload: function(){} , presets of 'instant_disposal', 'no_disposal', 'default_disposal'

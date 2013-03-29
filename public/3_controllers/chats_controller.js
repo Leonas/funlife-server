@@ -51,14 +51,7 @@ $.mvc.controller.create('chats_controller', {
       right_button: '#top_new_chat_button',
       footer: '#footer',
       active_footer_button: '#bottom_nav_home',
-      api_url: '/chats/',
-      success: function(){
-        console.log('doodoo');
-      },
-      error: function(){
-        console.log('doodoo2');
-      }
-      //data: chat_room.room_list
+      api_url: '/chats/'
     });
 
   },

@@ -4,15 +4,21 @@
      <a class="span6 btn" href='/chats_controller/sent/'>Sent</a>
    </div>
 
+{{~it.chats :value:index}}
 
-<a href='/chats_controller/detail/blah'>
+<a href='/chats_controller/detail/{{=value.id}}'>
 <div class='row-fluid well well-small'>
    <div class='span2'>
-      <img src="/photos/7.png">
+      <img src="{{=value.photo}}">
    </div>
    <div class='span7 offset1'>
       <span class='text-info'>Kimberly Rose</span><br>
-      <small>Dec 17, 11:20pm</small>
+      <small>{{=value.date}}</small>
+       {{? value.unread === true }}
+            Unread
+       {{??}}
+            Read
+       {{?}}
    </div>
    
       <div class='span2'>
@@ -22,60 +28,4 @@
 </div>
 </a>
 
-
-
-
-
-
-
-
-
-
-<a href='/chats_controller/detail/blah'>
-<div class='row-fluid well well-small'>
-   <div class='span2'>
-      <img src="/photos/7.png">
-   </div>
-   <div class='span7 offset1'>
-      <span class='text-info'>Kimberly Rose</span><br>
-      <small>Dec 17, 11:20pm</small>
-   </div>
-   
-      <div class='span2'>
-         <i class="icon-forward"></i>
-      </div>
-   
-</div>
-</a>
-<a href='/chats_controller/detail/blah'>
-<div class='row-fluid well well-small'>
-   <div class='span2'>
-      <img src="/photos/7.png">
-   </div>
-   <div class='span7 offset1'>
-      <span class='text-info'>Kimberly Rose</span><br>
-      <small>Dec 17, 11:20pm</small>
-   </div>
-   
-      <div class='span2'>
-         <i class="icon-forward"></i>
-      </div>
-   
-</div>
-</a>
-<a href='/chats_controller/detail/blah'>
-<div class='row-fluid well well-small'>
-   <div class='span2'>
-      <img src="/photos/7.png">
-   </div>
-   <div class='span7 offset1'>
-      <span class='text-info'>Kimberly Rose</span><br>
-      <small>Dec 17, 11:20pm</small>
-   </div>
-   
-      <div class='span2'>
-         <i class="icon-forward"></i>
-      </div>
-   
-</div>
-</a>
+{{~}}

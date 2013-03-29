@@ -41,7 +41,7 @@ $.mvc.controller.create('chats_controller', {
 
   //display all previous chats
   default: function () {                                                                                                          //get the local chat data
-    chat_room.room_list = JSON.parse(window.localStorage.getItem('chat_room_list'));
+    //chat_room.room_list = JSON.parse(window.localStorage.getItem('chat_room_list'));
 
     $.ui.show_page({
       div_id: 'chat_index_view',
@@ -52,7 +52,13 @@ $.mvc.controller.create('chats_controller', {
       footer: '#footer',
       active_footer_button: '#bottom_nav_home',
       api_url: '/chats/',
-      data: chat_room.room_list
+      success: function(){
+        console.log('doodoo');
+      },
+      error: function(){
+        console.log('doodoo2');
+      }
+      //data: chat_room.room_list
     });
 
   },

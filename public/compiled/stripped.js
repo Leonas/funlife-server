@@ -7019,171 +7019,6 @@ if (!window.jq || typeof (jq) !== "function") {
 })(jq);
 
 
-/**
- * Lawnchair!
- * ---
- * clientside json store
- *
- */
-var Lawnchair = function (options, callback) {
-  // ensure Lawnchair was called as a constructor
-  if (!(this instanceof Lawnchair)) return new Lawnchair(options, callback);
-
-  // lawnchair requires json
-  if (!JSON) throw 'JSON unavailable! Include http://www.json.org/json2.js to fix.'
-  // options are optional; callback is not
-  if (arguments.length <= 2 && arguments.length > 0) {
-    callback = (typeof arguments[0] === 'function') ? arguments[0] : arguments[1];
-    options  = (typeof arguments[0] === 'function') ? {} : arguments[0];
-  } else {
-    throw 'Incorrect # of ctor args!'
-  }
-  // TODO perhaps allow for pub/sub instead?
-  if (typeof callback !== 'function') throw 'No callback was provided';
-
-  // default configuration
-  this.record = options.record || 'record'  // default for records
-  this.name   = options.name   || 'records' // default name for underlying store
-
-  // mixin first valid  adapter
-  var adapter
-  // if the adapter is passed in we try to load that only
-  if (options.adapter) {
-
-    // the argument passed should be an array of prefered adapters
-    // if it is not, we convert it
-    if(typeof(options.adapter) === 'string'){
-      options.adapter = [options.adapter];
-    }
-
-    // iterates over the array of passed adapters
-    for(var j = 0, k = options.adapter.length; j < k; j++){
-
-      // itirates over the array of available adapters
-      for (var i = Lawnchair.adapters.length-1; i >= 0; i--) {
-        if (Lawnchair.adapters[i].adapter === options.adapter[j]) {
-          adapter = Lawnchair.adapters[i].valid() ? Lawnchair.adapters[i] : undefined;
-          if (adapter) break
-        }
-      }
-      if (adapter) break
-    }
-
-    // otherwise find the first valid adapter for this env
-  }
-  else {
-    for (var i = 0, l = Lawnchair.adapters.length; i < l; i++) {
-      adapter = Lawnchair.adapters[i].valid() ? Lawnchair.adapters[i] : undefined
-      if (adapter) break
-    }
-  }
-
-  // we have failed
-  if (!adapter) throw 'No valid adapter.'
-
-  // yay! mixin the adapter
-  for (var j in adapter)
-    this[j] = adapter[j]
-
-  // call init for each mixed in plugin
-  for (var i = 0, l = Lawnchair.plugins.length; i < l; i++)
-    Lawnchair.plugins[i].call(this)
-
-  // init the adapter
-  this.init(options, callback)
-}
-
-Lawnchair.adapters = []
-
-/**
- * queues an adapter for mixin
- * ===
- * - ensures an adapter conforms to a specific interface
- *
- */
-Lawnchair.adapter = function (id, obj) {
-  // add the adapter id to the adapter obj
-  // ugly here for a  cleaner dsl for implementing adapters
-  obj['adapter'] = id
-  // methods required to implement a lawnchair adapter
-  var implementing = 'adapter valid init keys save batch get exists all remove nuke'.split(' ')
-      ,   indexOf = this.prototype.indexOf
-  // mix in the adapter
-  for (var i in obj) {
-    if (indexOf(implementing, i) === -1) throw 'Invalid adapter! Nonstandard method: ' + i
-  }
-  // if we made it this far the adapter interface is valid
-  // insert the new adapter as the preferred adapter
-  Lawnchair.adapters.splice(0,0,obj)
-}
-
-Lawnchair.plugins = []
-
-/**
- * generic shallow extension for plugins
- * ===
- * - if an init method is found it registers it to be called when the lawnchair is inited
- * - yes we could use hasOwnProp but nobody here is an asshole
- */
-Lawnchair.plugin = function (obj) {
-  for (var i in obj)
-    i === 'init' ? Lawnchair.plugins.push(obj[i]) : this.prototype[i] = obj[i]
-}
-
-/**
- * helpers
- *
- */
-Lawnchair.prototype = {
-
-  isArray: Array.isArray || function(o) { return Object.prototype.toString.call(o) === '[object Array]' },
-
-  /**
-   * this code exists for ie8... for more background see:
-   * http://www.flickr.com/photos/westcoastlogic/5955365742/in/photostream
-   */
-  indexOf: function(ary, item, i, l) {
-    if (ary.indexOf) return ary.indexOf(item)
-    for (i = 0, l = ary.length; i < l; i++) if (ary[i] === item) return i
-    return -1
-  },
-
-  // awesome shorthand callbacks as strings. this is shameless theft from dojo.
-  lambda: function (callback) {
-    return this.fn(this.record, callback)
-  },
-
-  // first stab at named parameters for terse callbacks; dojo: first != best // ;D
-  fn: function (name, callback) {
-    return typeof callback == 'string' ? new Function(name, callback) : callback
-  },
-
-  // returns a unique identifier (by way of Backbone.localStorage.js)
-  // TODO investigate smaller UUIDs to cut on storage cost
-  uuid: function () {
-    var S4 = function () {
-      return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
-    }
-    return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
-  },
-
-  // a classic iterator
-  each: function (callback) {
-    var cb = this.lambda(callback)
-    // iterate from chain
-    if (this.__results) {
-      for (var i = 0, l = this.__results.length; i < l; i++) cb.call(this, this.__results[i], i)
-    }
-    // otherwise iterate the entire collection
-    else {
-      this.all(function(r) {
-        for (var i = 0, l = r.length; i < l; i++) cb.call(this, r[i], i)
-      })
-    }
-    return this
-  }
-// --
-};
 /* Mobiscroll License Key:85c855f7-3793-4272-9682-8f66dcfe9665 */
 if(!window.jQuery){var jQuery=jq;(function(a){var o=window.document,f=/^\.([\w-]+)$/,s=/^#([\w-]+)$/,A=/^[\w-]+$/,K=o.createElement("div"),j=[],D=j.slice;["width","height"].forEach(function(e){a.fn[e]=function(c){var f,g=e.replace(/./,function(a){return a[0].toUpperCase()});return void 0===c?this[0]==window?window["inner"+g]:this[0]==o?o.documentElement["offset"+g]:(f=this.offset())&&f[e]:this.each(function(){a(this).css(e,c)})}});["width","height"].forEach(function(e){var c=e.replace(/./,function(a){return a[0].toUpperCase()});
 a.fn["outer"+c]=function(a){var g=this;if(g){var b=g[0]["offset"+c];({width:["left","right"],height:["top","bottom"]})[e].forEach(function(c){a&&(b+=parseInt(g.css("margin-"+c),10))});return b}return null}});["Left","Top"].forEach(function(e,c){function f(a){return a&&"object"===typeof a&&"setInterval"in a?a:9===a.nodeType?a.defaultView||a.parentWindow:!1}var g="scroll"+e;a.fn[g]=function(b){var e,j;if(void 0===b)return e=this[0],!e?null:(j=f(e))?"pageXOffset"in j?j[c?"pageYOffset":"pageXOffset"]:
@@ -12741,14 +12576,16 @@ $.mvc.controller.create('activities_controller', {
       title: 'New Activity',
       header: '#header',
       left_button: '#top_back_button',
-      right_button: false,
+      right_button: '#top_next_button',
       footer: '#footer',
       active_footer_button: false,
       api_url: false,
       data: false
     });
 
-      $('#calendar_button').mobiscroll().calendar({
+    $('#top_next_button_a').attr('href', '/activities_controller/new_step_2');
+
+    $('#calendar_button').mobiscroll().calendar({
         theme: 'default',
         display: 'modal',
         mode: 'scroller',
@@ -12774,12 +12611,14 @@ $.mvc.controller.create('activities_controller', {
       title: 'Invite Friends',
       header: '#header',
       left_button: '#top_back_button',
-      right_button: false,
+      right_button: '#top_next_button',
       footer: '#footer',
       active_footer_button: false,
       api_url: /users/,
       data: false
     });
+
+    $('#top_next_button_a').attr('href', '/activities_controller/new_step_3');
   },
 
   new_step_3: function () {
@@ -12892,7 +12731,7 @@ $.mvc.controller.create('chats_controller', {
 
   //display all previous chats
   default: function () {                                                                                                          //get the local chat data
-    chat_room.room_list = JSON.parse(window.localStorage.getItem('chat_room_list'));
+    //chat_room.room_list = JSON.parse(window.localStorage.getItem('chat_room_list'));
 
     $.ui.show_page({
       div_id: 'chat_index_view',
@@ -12903,7 +12742,13 @@ $.mvc.controller.create('chats_controller', {
       footer: '#footer',
       active_footer_button: '#bottom_nav_home',
       api_url: '/chats/',
-      data: chat_room.room_list
+      success: function(){
+        0;
+      },
+      error: function(){
+        0;
+      }
+      //data: chat_room.room_list
     });
 
   },
@@ -13440,10 +13285,10 @@ var out='';return out;
 var out='';return out;
 };
  tmpl.activity_new1_view=function anonymous(it) {
-var out='<ul class="breadcrumb"><li>BasketBall<br>Address1<br>Address2</li></ul><form><fieldset><label>Headline</label><input type="text" placeholder=""><label>Details - Optional</label><textarea rows="3"></textarea></fieldset><div class=\'row-fluid\'><div class=\'span3 offset1\'>Pick Day</div><div id=\'calendar_button\' class=\'span4 offset3 btn btn-small\'>Use Calendar</div></div><br><div class="row-fluid btn-group"><div class=\'span1\'></div><a class="span2 btn btn-small" href=\'#\'>Mon</a><a class="span2 btn text-info btn-small" href=\'#\'>Tues</a><a class="span2 btn btn-small" href=\'#\'>Wed</a><a class="span2 btn btn-small" href=\'#\'>Thurs</a><a class="span2 btn btn-small" href=\'#\'>Fri</a></div><br><div class=\'row-fluid\'><div class=\'span3 offset1\'>Pick Time</div><div class=\'span4 offset3\'>Duration</div></div><div class=\'row-fluid\'><div class=\'span6\'><div class=\'row-fluid\'><div class=\'span2\'></div><div class=\'span2 btn\'>^</div><div class=\'span1\'></div><div class=\'span2 btn\'>^</div><div class=\'span1\'></div><div class=\'span2 btn\'>^</div><div class=\'span2\'></div></div><div class=\'row-fluid\'><div class=\'span2\'></div><div class=\'span2 btn btn-primary disabled\'>09</div><div class=\'span1\'></div><div class=\'span2 btn btn-primary disabled\'>30</div><div class=\'span1\'></div><div class=\'span2\'><span class=\'text-info\'>am</span><br>pm</div><div class=\'span2\'></div></div><div class=\'row-fluid\'><div class=\'span2\'></div><div class=\'span2 btn\'>^</div><div class=\'span1\'></div><div class=\'span2 btn\'>^</div><div class=\'span1\'></div><div class=\'span2 btn\'>^</div><div class=\'span2\'></div></div></div><div class=\'span6\'><div class=\'row-fluid\'><div class=\'span1\'></div><div class=\'span2 btn\'>&lt</div><div class=\'span6  btn btn-primary disabled btn-block\'>1 hour 30 min</div><div class=\'span2  btn\'>&gt</div><div class=\'span1\'></div></div><div class=\'row-fluid\'><div class=\'span1\'></div><div class=\'span2 btn\'>&lt</div><div class=\'span6 btn btn-primary disabled btn-block\'>11:00am</div><div class=\'span2 btn\'>&gt</div><div class=\'span1\'></div></div></div></div><br><br><a href=\'/activities_controller/new_step_2\' class=\'btn success\'>Next</a></form>';return out;
+var out='<ul class="breadcrumb"><li>BasketBall<br>Address1<br>Address2</li></ul><form><fieldset><label>Headline</label><input type="text" placeholder=""><label>Details - Optional</label><textarea rows="3"></textarea></fieldset><div class=\'row-fluid\'><div class=\'span3 offset1\'>Pick Day</div><div id=\'calendar_button\' class=\'span4 offset3 btn btn-small\'>Use Calendar</div></div><br><div class="row-fluid btn-group"><div class=\'span1\'></div><a class="span2 btn btn-small" href=\'#\'>Mon</a><a class="span2 btn text-info btn-small" href=\'#\'>Tues</a><a class="span2 btn btn-small" href=\'#\'>Wed</a><a class="span2 btn btn-small" href=\'#\'>Thurs</a><a class="span2 btn btn-small" href=\'#\'>Fri</a></div><br><div class=\'row-fluid\'><div class=\'span3 offset1\'>Pick Time</div><div class=\'span4 offset3\'>Duration</div></div><div class=\'row-fluid\'><div class=\'span6\'><div class=\'row-fluid\'><div class=\'span2\'></div><div class=\'span2 btn\'>^</div><div class=\'span1\'></div><div class=\'span2 btn\'>^</div><div class=\'span1\'></div><div class=\'span2 btn\'>^</div><div class=\'span2\'></div></div><div class=\'row-fluid\'><div class=\'span2\'></div><div class=\'span2 btn btn-primary disabled\'>09</div><div class=\'span1\'></div><div class=\'span2 btn btn-primary disabled\'>30</div><div class=\'span1\'></div><div class=\'span2\'><span class=\'text-info\'>am</span><br>pm</div><div class=\'span2\'></div></div><div class=\'row-fluid\'><div class=\'span2\'></div><div class=\'span2 btn\'>^</div><div class=\'span1\'></div><div class=\'span2 btn\'>^</div><div class=\'span1\'></div><div class=\'span2 btn\'>^</div><div class=\'span2\'></div></div></div><div class=\'span6\'><div class=\'row-fluid\'><div class=\'span1\'></div><div class=\'span2 btn\'>&lt</div><div class=\'span6  btn btn-primary disabled btn-block\'>1 hour 30 min</div><div class=\'span2 btn\'>&gt</div><div class=\'span1\'></div></div><div class=\'row-fluid\'><div class=\'span1\'></div><div class=\'span2 btn\'>&lt</div><div class=\'span6 btn btn-primary disabled btn-block\'>11:00am</div><div class=\'span2 btn\'>&gt</div><div class=\'span1\'></div></div></div></div></form>';return out;
 };
  tmpl.activity_new2_view=function anonymous(it) {
-var out='<a href=\'/activities_controller/new_step_3\'>step3</a>';return out;
+var out='<div class="row-fluid"><div class=\'span1 btn\'>F</div><div class=\'span1 btn\'>T</div><div class=\'span1 btn\'>4</div><div class=\'span1\'></div><div class=\'span8\'><input type="text" placeholder="Search..."></div></div><div class="row-fluid"><ul class="thumbnails"><li class="span3 text-center"><a href="#" class="thumbnail no_borders"><img src="/photos/2.png"><small>First Last</small></a></li><li class="span3 text-center"><a href="#" class="thumbnail no_borders"><img src="/photos/3.png"><small>First Last</small></a></li><li class="span3 text-center"><a href="#" class="thumbnail no_borders"><img src="/photos/4.png"><small>First Last</small></a></li><li class="span3 text-center"><a href="#" class="thumbnail no_borders"><img src="/photos/5.png"><small>First Last</small></a></li></ul></div><div class="row-fluid"><ul class="thumbnails"><li class="span3 text-center"><a href="#" class="thumbnail no_borders"><img src="/photos/1.png"><small>First Last</small></a></li><li class="span3 text-center"><a href="#" class="thumbnail no_borders"><img src="/photos/6.png"><small>First Last</small></a></li><li class="span3 text-center"><a href="#" class="thumbnail no_borders"><img src="/photos/7.png"><small>First Last</small></a></li><li class="span3 text-center"><a href="#" class="thumbnail no_borders"><img src="/photos/8.png"><small>First Last</small></a></li></ul></div>';return out;
 };
  tmpl.activity_new3_view=function anonymous(it) {
 var out='';return out;
@@ -13499,8 +13344,8 @@ var out='<div class="container-fluid"><div class="row-fluid text-center"><br><br
 
 if (typeof forge === 'undefined' && typeof device === 'undefined') {
   //if not running on a mobile device use local server
-  //var server = 'http://' + document.location.host;
-  var server = 'http://vast-crag-6780.herokuapp.com';
+  var server = 'http://' + document.location.host;
+//  var server = 'http://vast-crag-6780.herokuapp.com';
 } else {
   //connect to heroku if running on phone
   var server = 'http://vast-crag-6780.herokuapp.com';

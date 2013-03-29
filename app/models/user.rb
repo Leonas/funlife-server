@@ -42,6 +42,7 @@ class User < ActiveRecord::Base
 
   # user.feed_activities
   # => "SELECT 'activities'.* FROM 'activities'  WHERE (('activities'.'user_id' IN (friends_ids, self.id) OR 'activities'.'allow_join' = 't'))"
+  # TODO add attending activities
   def feed_activities
     act = Activity.arel_table
 

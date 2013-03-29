@@ -40,6 +40,9 @@ class User < ActiveRecord::Base
     self.save
   end
 
+
+  # Query Methods
+
   # user.feed_activities
   # => "SELECT 'activities'.* FROM 'activities'  WHERE (('activities'.'user_id' IN (friends_ids, self.id) OR 'activities'.'allow_join' = 't'))"
   # TODO add attending activities
@@ -54,5 +57,10 @@ class User < ActiveRecord::Base
         act[:allow_join].eq(true)
       )
     )
+  end
+
+  def friend_photos
+    # ActiveRecord::Relation
+    Photo.where(user_id: self.friends.select("friend_id"))
   end
 end

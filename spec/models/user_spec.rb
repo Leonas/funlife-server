@@ -44,7 +44,16 @@ describe User do
     feed_activities.should include user_activity
     feed_activities.should include friend_activity
     feed_activities.should include public_activity
+  end
 
+  it "should list the friends photos" do
+    user = create(:user)
+    friend = create(:user)
+    user.friends << friend
+
+    photo = create(:photo, user_id: friend.id)
+
+    user.friend_photos.should include photo
   end
 
 end

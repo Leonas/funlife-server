@@ -6,12 +6,18 @@ Funlife::Application.routes.draw do
         get :feed
       end
     end
+
     resources :chats, except: [:edit, :update, :new] do
       resources :chat_messages, only: [:index, :create]
     end
 
     resources :friendships, only: [:create, :destroy]
-    resources :photos, except: [:edit, :update, :new]
+
+    resources :photos, except: [:edit, :update, :new] do
+      collection do
+        get :friends
+      end
+    end
 
     resources :users, except: [:update] do
       collection do

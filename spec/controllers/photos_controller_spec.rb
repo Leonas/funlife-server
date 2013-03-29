@@ -23,6 +23,15 @@ describe PhotosController do
     it { should respond_with(:success) }
   end
 
+  describe "GET to #explore" do
+    before do
+      get :explore
+    end
+
+    it { should assign_to(:photos) }
+    it { should respond_with(:success) }
+  end
+
   describe "with a existing photo" do
     before do
       @photo = create(:photo, :user_id => @current_user.id)

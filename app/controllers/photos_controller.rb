@@ -14,6 +14,13 @@ class PhotosController < ApplicationController
     render json: @photos
   end
 
+  # GET /photos/friends
+  # GET /photos/friends.json
+  def explore
+    @photos = Photo.all
+    render json: @photos
+  end
+
   # GET /photos/1
   # GET /photos/1.json
   def show

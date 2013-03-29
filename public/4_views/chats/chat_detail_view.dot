@@ -14,7 +14,7 @@
          <div class='userimg' style='background-image: url({{=value.photo}})'></div>
          <div class='usercomment'>
            <span class='commentTime'>{{=value.time}}</span>
-           <p class='commentContent'>{{=value.comment}}</p>
+           <p class='commentContent'>{{=value.message}}</p>
          </div>
        </div>
   {{?}}

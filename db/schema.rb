@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130328174119) do
+ActiveRecord::Schema.define(:version => 20130329164807) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -54,6 +54,19 @@ ActiveRecord::Schema.define(:version => 20130328174119) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "comments", :force => true do |t|
+    t.integer  "user_id",                       :null => false
+    t.integer  "photo_id",                      :null => false
+    t.text     "body",                          :null => false
+    t.integer  "parent_id"
+    t.integer  "children_count", :default => 0
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+  end
+
+  add_index "comments", ["photo_id"], :name => "index_comments_on_photo_id"
+  add_index "comments", ["user_id"], :name => "index_comments_on_user_id"
+
   create_table "friendships", :force => true do |t|
     t.integer  "friend_id"
     t.integer  "follower_id"
@@ -77,8 +90,9 @@ ActiveRecord::Schema.define(:version => 20130328174119) do
     t.string   "type"
     t.string   "url"
     t.string   "secure_url"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+    t.integer  "comments_count", :default => 0
   end
 
   add_index "photos", ["user_id"], :name => "index_photos_on_user_id"

@@ -27,6 +27,8 @@ class User < ActiveRecord::Base
   has_many :my_followers, dependent: :destroy, foreign_key: "friend_id", class_name: "Friendship"
   has_many :followers, through: :my_followers
 
+  has_many :comments, dependent: :destroy
+
   def ensure_authentication_token!
     self.token ||= SecureRandom.urlsafe_base64(15)
   end

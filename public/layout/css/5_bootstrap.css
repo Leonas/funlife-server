@@ -1331,7 +1331,7 @@ input[type="color"],
 input,
 textarea,
 .uneditable-input {
-  width: 206px;
+  width: 94%;
 }
 textarea {
   height: auto;
@@ -1522,7 +1522,7 @@ textarea[class*="span"],
 input,
 textarea,
 .uneditable-input {
-  margin-left: 0;
+    margin: 0 1% 1% 1%;
 }
 .controls-row [class*="span"] + [class*="span"] {
  /* margin-left: 20px;*/

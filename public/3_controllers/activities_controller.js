@@ -24,6 +24,23 @@ $.mvc.controller.create('activities_controller', {
       data: false
     });
 
+      $('#calendar_button').mobiscroll().calendar({
+        theme: 'default',
+        display: 'modal',
+        mode: 'scroller',
+        controls: ['calendar']
+      });
+      $('#calendar_button').click(function(){
+        $('#calendar_button').mobiscroll('show');
+        return false;
+      });
+      $('#clear').click(function () {
+        $('#demo').val('');
+        return false;
+      });
+
+
+
   },
 
   new_step_2: function () {

@@ -106,6 +106,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-dot-compiler');
   grunt.loadNpmTasks('grunt-strip');
 
-  grunt.registerTask('default', [ 'dot', 'concat', 'strip', 'uglify', 'cssmin', 'htmlmin', 'copy',  'watch.slow']);
+  grunt.registerTask('default', [ 'dot', 'concat', 'strip', 'uglify', 'cssmin', 'htmlmin', 'copy',  'watch']);
   grunt.registerTask('quick', [ 'dot', 'copy',  'watch']);
 };

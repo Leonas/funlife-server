@@ -441,18 +441,17 @@ input.jq-ui-forms {
 
 
 #ui_kit label {
-	position: relative;
-overflow: visible;
-white-space: nowrap;
-display: block;
-font-family: Arial, Helvetica, sans-serif;
-margin-bottom: 6px;
-color: white;
-font-weight: normal;
--webkit-box-sizing: border-box !important;
-box-sizing: border-box !important;
-display:block;
-float:none;
+
+
+
+
+
+
+
+
+
+
+
 }
 
 

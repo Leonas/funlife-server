@@ -1,5 +1,5 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :name, :email, :token
+  attributes :id, :name, :email, :token, :friends_count, :followers_count
   has_one :profile_photo, embed: :id
 
   def name

@@ -17,9 +17,10 @@
 
   api_url: '/users/',                                  done
   data: 'data_to_be_sent_to_server'                    done
-  on_load: function(){}                                done
+  on_load: function(){}                                BAD
   on_unload: function(){}                              done
   preload_urls: [url1, url2]                           NOTDONE
+  cache: boolean                                       not done //default true
   })
   */
 
@@ -31,16 +32,20 @@
       this.on_unload = null;
     }
 
+    if(options.cache === undefined){
+      options.cache = true;
+    }
+
     //set the unload function to this panel's on_unload
     if(options.on_unload){
       this.unload = options.on_unload;
     }
 
+    //TODO This needs to be moved into the area after the screen created, but before shown
     //execute the onload function
     if(options.on_load){
       options.on_load();
     }
-console.log("footer =  %s", options.footer);
 
     this.set_header(options.header);
     this.set_footer(options.footer);
@@ -51,17 +56,23 @@ console.log("footer =  %s", options.footer);
     //if we need to access remote data
     if(options.api_url){
       //check if we have any cached data, and show that first
-      if (this.cached_pages[options.div_id] ) {
+      debugger;
+      if ( options.cache && this.cached_pages[options.api_url] !== undefined ) {
          console.log('we found cache');
-        $.ui.add_content_div(options.div_id, tmpl[options.div_id](parsed_data), options.title, this.cached_pages[options.div_id]);
+        var parsed_data = JSON.parse(this.cached_pages[options.api_url]);
+         $.ui.add_content_div(options.div_id, tmpl[options.div_id](parsed_data), options.title, this.cached_pages[options.div_id]);
          this.load_content(options.div_id, false, false, 'fade');
          $.get_with_token({
             api_url: options.api_url,
             data: options.data,
             success: function(response, statusText, xhr){
+              console.log('got new content...updating');
                var parsed_data = JSON.parse(response);
                var data = JSON.parse(response);
                $.ui.update_content_div(options.div_id,  tmpl[options.div_id](parsed_data));
+               if(options.cache){
+                 $.ui.cached_pages[options.api_url] = response;
+               }
             },
             error: function(){
                console.log('failed to update');
@@ -69,7 +80,7 @@ console.log("footer =  %s", options.footer);
         });
       }
       else {
-        console.log('no local cache found, fetching data');
+        console.log('no local cache found or cache disabled');
         $.get_with_token({
           api_url: options.api_url,
           data: options.data,
@@ -78,6 +89,11 @@ console.log("footer =  %s", options.footer);
             console.log(parsed_data);
             $.ui.add_content_div(options.div_id, tmpl[options.div_id](parsed_data), options.title);
             $.ui.load_content(options.div_id, false, false, 'fade');
+            if(options.cache){
+              debugger;
+              console.log('setting first cache for this page');
+              $.ui.cached_pages[options.api_url] = response;
+            }
           },
           error: function(a,b){
             console.log('failed to access api');

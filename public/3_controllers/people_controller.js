@@ -48,7 +48,8 @@ $.mvc.controller.create('people_controller', {
       footer: '#footer',
       active_footer_button: '#bottom_nav_people',
       api_url: /users/,
-      data: false
+      data: false,
+      cache: true
     });
   },
 

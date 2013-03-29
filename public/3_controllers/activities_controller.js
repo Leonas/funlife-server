@@ -55,7 +55,7 @@ $.mvc.controller.create('activities_controller', {
       right_button: '#top_next_button',
       footer: '#footer',
       active_footer_button: false,
-      api_url: /users/,
+      api_url: false,
       data: false
     });
 

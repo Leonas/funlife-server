@@ -17,7 +17,7 @@ $.mvc.controller.create('users_controller', {
        right_button: '#top_logout_button',
        footer: '#footer',
        active_footer_button: '#bottom_nav_home',
-       api_url: '/users/',
+       api_url: false,
        data: false
     });
 

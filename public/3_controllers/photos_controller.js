@@ -53,10 +53,8 @@ $.mvc.controller.create('photos_controller', {
 
       function handleFileSelect(evt) {
         var files = evt.target.files; // FileList object
-
         // Loop through the FileList and render image files as thumbnails.
         for (var i = 0, current_file; current_file = files[i]; i++) {
-
           // Only process image files.
           if (!current_file.type.match('image.*')) {
             continue;
@@ -80,8 +78,14 @@ $.mvc.controller.create('photos_controller', {
                 },
                 processData: false,
                 contentType: false,
-                success: function (res) {
-                  console.log("Upload success. Post this data to rails");
+                success: function (response) {
+                  var photo = {'photo': JSON.parse(response)};
+                  photo.photo.processed_at = photo.photo.created_at;
+                  delete photo.photo.created_at;
+                  $.post_with_token({
+                      url: '/photos/',
+                      data: photo
+                  });
                 }
               });
 

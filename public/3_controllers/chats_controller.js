@@ -80,34 +80,15 @@ $.mvc.controller.create('chats_controller', {
             url: '/chats/'+chat_id+'/chat_messages',
             data: $('#chat_footer_form').serialize(),
             success: function(){
-                alert('yay');    
+                //append using a template snippet?
             },
             error: function(){
                 alert('nrow');
+                //append with with 'sending...'
+              //add to upload queue
             }   
         });
     }
-
-
-    //Need to do something better than this here. Everything below this line is bad
-    //-------------------------------
-//
-//    if (JSON.parse(window.localStorage.getItem('chat_' + user_id))) {                                                       //see if we have saved chatroom data
-//      chat_room[user_id] = JSON.parse(window.localStorage.getItem('chat_' + user_id));
-//      console.log('a chatroom was found');
-//    } else {                                                  //if not, lets make a new chatroom
-//      chat_room[user_id] = new Chat();
-//      console.log("just made a new chat cause an old one wasn't found");
-//    }
-
-    //chat_room[user_id].refresh();       //this needs to be implemented
-
-    //todo
-    //send the latest message_id (#embeds_many message) to the server via getJSON
-    //It will return only the newest messages which should be appended to the older.
-
-
-
 
   },
 

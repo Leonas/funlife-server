@@ -136,7 +136,7 @@ $.mvc.controller.create('chats_controller', {
         data: $('#chat_with_id').serialize(),
         success: function(response){
          //debugger;  
-         var chat_id = JSON.parse(response).chat.id 
+         var chat_id = JSON.parse(response).chat.id;
           $.mvc.route('/chats_controller/detail/'+chat_id);
           //it should save to cache so that it doesnt need to do request from other controller area
           //$.ui.cached_pages['/chats/'+chat_id+'/chat_messages'] = response;

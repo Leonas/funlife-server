@@ -3535,6 +3535,18 @@ if (!window.jq || typeof (jq) !== "function") {
       error: options.error
     });
   };
+  
+  $.delete_with_token = function(options){
+    $.ajax({
+      type: 'DELETE',
+      dataType: 'application/json',
+      headers: { 'Authorization': current_user.token },
+      url: server+options.api_url,
+      data: options.data,
+      success: options.success,
+      error: options.error
+    });
+  };
 /*
   $.get_with_token({
     api_url: options.api_url,
@@ -3871,6 +3883,25 @@ if (!window.jq || typeof (jq) !== "function") {
     }
   };
 })(jq);
+(function($){
+  /*
+  Calculate the time difference of having a save function for each page vs one for the
+  entire object like here because I dont know how slow or fast stringify is. Actually, its prolly
+  faster than saving each individual one.
+  */
+
+  if(window.localStorage.getItem('cached_pages') !== (null || undefined) ) {
+    $.ui.cached_pages = $.ui.cached_pages || JSON.parse(window.localStorage.getItem('cached_pages'));
+  }
+  else{
+    $.ui.cached_pages = {};
+  }
+  $.ui.cached_pages.save = function(){
+    window.localStorage.setItem('cached_pages', JSON.stringify($.ui.cached_pages));
+  };
+
+})(jq);
+
 (function($){
 
   //make these into functions for creating a modal div
@@ -6040,9 +6071,10 @@ if (!window.jq || typeof (jq) !== "function") {
 
   api_url: '/users/',                                  done
   data: 'data_to_be_sent_to_server'                    done
-  on_load: function(){}                                done
+  on_load: function(){}                                BAD
   on_unload: function(){}                              done
   preload_urls: [url1, url2]                           NOTDONE
+  cache: boolean                                       not done //default true
   })
   */
 
@@ -6054,16 +6086,20 @@ if (!window.jq || typeof (jq) !== "function") {
       this.on_unload = null;
     }
 
+    if(options.cache === undefined){
+      options.cache = true;
+    }
+
     //set the unload function to this panel's on_unload
     if(options.on_unload){
       this.unload = options.on_unload;
     }
 
+    //TODO This needs to be moved into the area after the screen created, but before shown
     //execute the onload function
     if(options.on_load){
       options.on_load();
     }
-0;
 
     this.set_header(options.header);
     this.set_footer(options.footer);
@@ -6074,17 +6110,23 @@ if (!window.jq || typeof (jq) !== "function") {
     //if we need to access remote data
     if(options.api_url){
       //check if we have any cached data, and show that first
-      if (this.cached_pages[options.div_id] ) {
+      if ( options.cache && this.cached_pages[options.api_url] !== undefined ) {
          0;
-        $.ui.add_content_div(options.div_id, tmpl[options.div_id](parsed_data), options.title, this.cached_pages[options.div_id]);
+        var parsed_data = JSON.parse(this.cached_pages[options.api_url]);
+         $.ui.add_content_div(options.div_id, tmpl[options.div_id](parsed_data), options.title, this.cached_pages[options.div_id]);
          this.load_content(options.div_id, false, false, 'fade');
          $.get_with_token({
             api_url: options.api_url,
             data: options.data,
             success: function(response, statusText, xhr){
+              0;
                var parsed_data = JSON.parse(response);
                var data = JSON.parse(response);
                $.ui.update_content_div(options.div_id,  tmpl[options.div_id](parsed_data));
+               if(options.cache){
+                 $.ui.cached_pages[options.api_url] = response;
+                 $.ui.cached_pages.save();
+               }
             },
             error: function(){
                0;
@@ -6101,6 +6143,11 @@ if (!window.jq || typeof (jq) !== "function") {
             0;
             $.ui.add_content_div(options.div_id, tmpl[options.div_id](parsed_data), options.title);
             $.ui.load_content(options.div_id, false, false, 'fade');
+            if(options.cache){
+              0;
+              $.ui.cached_pages[options.api_url] = response;
+              $.ui.cached_pages.save();
+            }
           },
           error: function(a,b){
             0;
@@ -12548,7 +12595,16 @@ var User = new $.mvc.model.Extend('user', {                                 //In
     }
   },
   logout: function () {
-    //TODO post to server to clear token
+    
+    $.delete_with_token({
+        api_url: '/sessions',
+        success: function(){
+            alert('logged out');
+        },
+        error: function(){
+            alert('error');
+        }
+    });
     window.localStorage.clear();
   }
 });
@@ -12614,7 +12670,7 @@ $.mvc.controller.create('activities_controller', {
       right_button: '#top_next_button',
       footer: '#footer',
       active_footer_button: false,
-      api_url: /users/,
+      api_url: false,
       data: false
     });
 
@@ -12741,20 +12797,12 @@ $.mvc.controller.create('chats_controller', {
       right_button: '#top_new_chat_button',
       footer: '#footer',
       active_footer_button: '#bottom_nav_home',
-      api_url: '/chats/',
-      success: function(){
-        0;
-      },
-      error: function(){
-        0;
-      }
-      //data: chat_room.room_list
+      api_url: '/chats/'
     });
 
   },
 
   detail: function (chat_id, action, user_id) {
-
 
     $.ui.show_page({
       div_id: 'chat_detail_view',
@@ -12764,13 +12812,12 @@ $.mvc.controller.create('chats_controller', {
       right_button: false,
       footer: '#chat_footer',
       active_footer_button: false,
-      api_url: '/chats/',
-      data: chat_id                   //probably not right
+      api_url: '/chats/'+chat_id+'/chat_messages'
     });
 
-    $('#chat_submit').bind('click', function () {
-      chat_id.send_message();
-    });
+//    $('#chat_submit').bind('click', function () {
+//      chat_id.send_message();
+//    });
 
     //Need to do something better than this here. Everything below this line is bad
     //-------------------------------
@@ -12813,19 +12860,42 @@ $.mvc.controller.create('chats_controller', {
 
   },
 
-  new: function () {
+  new: function (action) {
 
-    $.ui.show_page({
-      div_id: 'chat_new_view',
-      title: 'New Chat',
-      header: '#header',
-      left_button: '#top_back_button',
-      right_button: false,
-      footer: '#footer',
-      active_footer_button: '#bottom_nav_home',
-      api_url: false,
-      data: false
-    });
+    if(!action){
+        $.ui.show_page({
+          div_id: 'chat_new_view',
+          title: 'New Chat',
+          header: '#header',
+          left_button: '#top_back_button',
+          right_button: false,
+          footer: '#footer',
+          active_footer_button: '#bottom_nav_home',
+          api_url: false,
+          data: false
+        });
+    }
+
+    if(action === 'start'){
+      $.post_with_token({
+        api_url: '/chats/',
+        data: $('#chat_with_id').serialize(),
+        success: function(response){
+         //debugger;  
+         var chat_id = JSON.parse(response).chat.id;
+          $.mvc.route('/chats_controller/detail/'+chat_id);
+          //it should save to cache so that it doesnt need to do request from other controller area
+          //$.ui.cached_pages['/chats/'+chat_id+'/chat_messages'] = response;
+          //$.ui.cached_pages.save();
+        },
+        error: function(response){
+          alert('error');
+        }
+      });
+
+    }
+
+
   }
 });
 
@@ -12880,7 +12950,8 @@ $.mvc.controller.create('people_controller', {
       footer: '#footer',
       active_footer_button: '#bottom_nav_people',
       api_url: /users/,
-      data: false
+      data: false,
+      cache: true
     });
   },
 
@@ -13156,7 +13227,7 @@ $.mvc.controller.create('users_controller', {
        right_button: '#top_logout_button',
        footer: '#footer',
        active_footer_button: '#bottom_nav_home',
-       api_url: '/users/',
+       api_url: false,
        data: false
     });
 
@@ -13294,16 +13365,16 @@ var out='<div class="row-fluid"><div class=\'span1 btn\'>F</div><div class=\'spa
 var out='';return out;
 };
  tmpl.chat_detail_view=function anonymous(it) {
-var out='<br><!--';var arr1=it.chat_log;if(arr1){var value,index=-1,l1=arr1.length-1;while(index<l1){value=arr1[index+=1];out+='Chatting with '+(value.chat_info.person2);if(value.messages.name === current_user.name){out+='<div class=\'chat_message_left\'><div class=\'userimg\' style=\'background-image:url('+(value.userimg)+');\'></div><div class=\'usercomment\'><span class=\'username\'>'+(value.name)+'</span><span class=\'commentTime\'>'+(value.time)+'</span><p class=\'commentContent\'>'+(value.comment)+'</p></div></div>';}else if(value.level != true){out+='<div class=\'chat_message_right\'><div class=\'userimg\' style=\'background-image: url('+(value.userimg)+')\'></div><div class=\'usercomment\'><span class=\'username\'>'+(value.name)+'</span><span class=\'commentTime\'>'+(value.time)+'</span><p class=\'commentContent\'>'+(value.comment)+'</p></div></div>';}} } out+='--><div class="row-fluid"><div class="span2"><img class="img-polaroid" src="/photos/7.png"></div><div class="span9 offset1 well well-small"><small class="muted">7:10pm</small><p> Hello Bob! How are you doing? </p></div></div><div class="row-fluid"><div class="span9 well well-small"><small class="muted">7:12pm</small><p>I\'m doing good how are you?</p></div><div class="span2"><img class="img-polaroid" src="/photos/5.png"></div></div>';return out;
+var out='<br>';var arr1=it.chat_messages;if(arr1){var value,index=-1,l1=arr1.length-1;while(index<l1){value=arr1[index+=1];if(value.user_id === current_user.user_id){out+='<div class=\'chat_message_left\'><div class=\'userimg\' style=\'background-image:url('+(value.photo)+');\'></div><div class=\'usercomment\'><span class=\'commentTime\'>'+(value.time)+'</span><p class=\'commentContent\'>'+(value.message)+'</p></div></div>';}else{out+='<div class=\'chat_message_right\'><div class=\'userimg\' style=\'background-image: url('+(value.photo)+')\'></div><div class=\'usercomment\'><span class=\'commentTime\'>'+(value.time)+'</span><p class=\'commentContent\'>'+(value.comment)+'</p></div></div>';}} } return out;
 };
  tmpl.chat_index_view=function anonymous(it) {
-var out='<div class="row-fluid btn-group"><a class="span6 btn text-info" href=\'/chats_controller/\'>Recieved</a><a class="span6 btn" href=\'/chats_controller/sent/\'>Sent</a></div><a href=\'/chats_controller/detail/blah\'><div class=\'row-fluid well well-small\'><div class=\'span2\'><img src="/photos/7.png"></div><div class=\'span7 offset1\'><span class=\'text-info\'>Kimberly Rose</span><br><small>Dec 17, 11:20pm</small></div><div class=\'span2\'><i class="icon-forward"></i></div></div></a><a href=\'/chats_controller/detail/blah\'><div class=\'row-fluid well well-small\'><div class=\'span2\'><img src="/photos/7.png"></div><div class=\'span7 offset1\'><span class=\'text-info\'>Kimberly Rose</span><br><small>Dec 17, 11:20pm</small></div><div class=\'span2\'><i class="icon-forward"></i></div></div></a><a href=\'/chats_controller/detail/blah\'><div class=\'row-fluid well well-small\'><div class=\'span2\'><img src="/photos/7.png"></div><div class=\'span7 offset1\'><span class=\'text-info\'>Kimberly Rose</span><br><small>Dec 17, 11:20pm</small></div><div class=\'span2\'><i class="icon-forward"></i></div></div></a><a href=\'/chats_controller/detail/blah\'><div class=\'row-fluid well well-small\'><div class=\'span2\'><img src="/photos/7.png"></div><div class=\'span7 offset1\'><span class=\'text-info\'>Kimberly Rose</span><br><small>Dec 17, 11:20pm</small></div><div class=\'span2\'><i class="icon-forward"></i></div></div></a>';return out;
+var out='<div class="row-fluid btn-group"><a class="span6 btn text-info" href=\'/chats_controller/\'>Recieved</a><a class="span6 btn" href=\'/chats_controller/sent/\'>Sent</a></div>';var arr1=it.chats;if(arr1){var value,index=-1,l1=arr1.length-1;while(index<l1){value=arr1[index+=1];out+='<a href=\'/chats_controller/detail/'+(value.id)+'\'><div class=\'row-fluid well well-small\'><div class=\'span2\'><img src="'+(value.photo)+'"></div><div class=\'span7 offset1\'><span class=\'text-info\'>'+(value.name)+'</span><br><small>'+(value.date)+'</small>';if(value.unread === true){out+='Unread';}else{out+='Read';}out+='</div><div class=\'span2\'><i class="icon-forward"></i></div></div></a>';} } return out;
 };
  tmpl.chat_list_view=function anonymous(it) {
 var out='All your chats:<table><tr><td>Email</td><td>Name</td><td>Chat</td><tr>';var arr1=it.chat_list;if(arr1){var value,index=-1,l1=arr1.length-1;while(index<l1){value=arr1[index+=1];out+='<tr><td>'+(value.email)+'</td><td>'+(value.name)+'</td><td><a href="/chats_controller/chat/'+(value.user_id)+'">View</a></td></tr>';} } out+='</table>';return out;
 };
  tmpl.chat_new_view=function anonymous(it) {
-var out='chats_new_view';return out;
+var out='This should be a popup that asks for a following\'s name<br>It uses autocomplete to find the user and passes the user\'s id as a post_with_token<br><br>For now, enter a user\'s id of who to chat with:<form id="chat_with_id"><input type="text" name="chat[user_ids]" placeholder="user_id"></form><a class=\'btn btn-success\' href=\'/chats_controller/new/start\'>Go!</b>';return out;
 };
  tmpl.chat_sent_view=function anonymous(it) {
 var out='<div class="row-fluid btn-group"><a class="span6 btn" href=\'/chats_controller/\'>Recieved</a><a class="span6 btn text-info" href=\'/chats_controller/sent/\'>Sent</a></div><a href=\'/chats_controller/detail/blah\'><div class=\'row-fluid well well-small\'><div class=\'span2\'><img src="/photos/3.png"></div><div class=\'span7 offset1\'><span class=\'text-info\'>Billy Bob</span><br><small>Dec 17, 11:20pm</small></div><div class=\'span2\'><i class="icon-forward"></i></div></div></a>';return out;
@@ -13336,7 +13407,7 @@ var out='';return out;
 var out='<ul class="breadcrumb"><li>My Activities</li></ul><div class="row-fluid"><ul class="thumbnails"><li class="span3 text-center"><a href="/activities_controller/new_step_1" class="thumbnail no_borders"><img src="/layout/img/create_activity.png"></a></li><li class="span3 text-center"><a href="/chats_controller/" class="thumbnail no_borders"><img src="/layout/img/chats.png"></a></li><li class="span3 text-center"><a href="#" class="thumbnail no_borders"><img src="/layout/img/soccer.png"><small>Today<br>4:30pm</small></a></li><li class="span3 text-center"><a href="#" class="thumbnail no_borders"><img src="/layout/img/cards.png"><small>Wednesday 11/24<br>9:30pm</small></a></li></ul></div><ul class="breadcrumb"><li>Today\'s Activities</li></ul><div class="row-fluid"><ul class="thumbnails"><li class="span3 text-center"><a href="#" class="thumbnail no_borders"><img src="/layout/img/pool.png"><small>2.1 mi<br>7:30pm</small></a></li><li class="span3 text-center"><a href="#" class="thumbnail no_borders"><img src="/layout/img/basketball.png"><small>3.7 mi<br>8:30pm</small></a></li></ul></div><ul class="breadcrumb"><li>Tomorrow\'s Activities</li></ul>';return out;
 };
  tmpl.user_login_register_view=function anonymous(it) {
-var out='<div><div class="row-fluid text-center"><br><br><h1>FunLife</h1><br><div id="login_error" class="alert"></div><br><br><div id="login_holder"><form id="login_form"><input id=\'#login_form_email_field\' type="text" name="user[email]" placeholder="email"><br><input id=\'#login_form_password_field\' type="text" name="user[password]" placeholder="password"></form><ul class="pager"><li><a href="/users_controller/login_register/register">Register</a></li><li><a href="/users_controller/login_register/login">Login</a></li></ul></div></div></div>';return out;
+var out='<div><div class="row-fluid text-center"><br><br><h1>FunLife</h1><br><div id="login_error" class="alert"></div><br><br><div id="login_holder"><form id="login_form"><input id=\'login_form_email_field\' type="text" name="user[email]" placeholder="email"><br><input id=\'login_form_password_field\' type="text" name="user[password]" placeholder="password"></form><ul class="pager"><li><a href="/users_controller/login_register/register">Register</a></li><li><a href="/users_controller/login_register/login">Login</a></li></ul></div></div></div>';return out;
 };
  tmpl.user_register2_view=function anonymous(it) {
 var out='<div class="container-fluid"><div class="row-fluid text-center"><br><br><h3>Tell us a little about yourself:</h3><br><div id="registration_details"><form id="registration_details_form"><input type="text" name="user[first_name]"  placeholder="first name"><input type="text" name="user[last_name]" placeholder="last name"></form><a href="/users_controller/register2/complete" class="btn btn-success">Complete Registration</a></div></div></div>';return out;

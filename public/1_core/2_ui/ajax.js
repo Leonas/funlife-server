@@ -37,6 +37,18 @@
       error: options.error
     });
   };
+  
+  $.delete_with_token = function(options){
+    $.ajax({
+      type: 'DELETE',
+      dataType: 'application/json',
+      headers: { 'Authorization': current_user.token },
+      url: server+options.api_url,
+      data: options.data,
+      success: options.success,
+      error: options.error
+    });
+  };
 /*
   $.get_with_token({
     api_url: options.api_url,

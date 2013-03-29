@@ -23,7 +23,10 @@ var User = new $.mvc.model.Extend('user', {                                 //In
     }
   },
   logout: function () {
-    //TODO post to server to clear token
+    
+    $.delete_with_token({
+        api_url: '/sessions'
+    });
     window.localStorage.clear();
   }
 });

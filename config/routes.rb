@@ -17,7 +17,7 @@ Funlife::Application.routes.draw do
     resources :photos, except: [:edit, :update, :new] do
       resources :comments, except: [:edit, :new]
       collection do
-        get :friends
+        get :following
         get :explore
       end
     end

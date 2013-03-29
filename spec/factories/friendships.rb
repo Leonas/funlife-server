@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :friendship do
-    friend_id {create(:user).id}
+    following_id {create(:user).id}
     follower_id {create(:user).id}
   end
 end

@@ -34,7 +34,7 @@ describe User do
   it "should list the activities for a user and his friends, also the public activities" do
     user = create(:user)
     friend = create(:user)
-    user.friends << friend
+    user.followings << friend
 
     user_activity = create(:activity, user_id: user.id)
     friend_activity = create(:activity, user_id: friend.id)
@@ -46,14 +46,14 @@ describe User do
     feed_activities.should include public_activity
   end
 
-  it "should list the friends photos" do
+  it "should list the following photos" do
     user = create(:user)
     friend = create(:user)
-    user.friends << friend
+    user.followings << friend
 
     photo = create(:photo, user_id: friend.id)
 
-    user.friend_photos.should include photo
+    user.following_photos.should include photo
   end
 
 end

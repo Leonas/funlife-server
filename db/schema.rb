@@ -68,14 +68,14 @@ ActiveRecord::Schema.define(:version => 20130329225315) do
   add_index "comments", ["user_id"], :name => "index_comments_on_user_id"
 
   create_table "friendships", :force => true do |t|
-    t.integer  "friend_id"
+    t.integer  "following_id"
     t.integer  "follower_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
   add_index "friendships", ["follower_id"], :name => "index_friendships_on_follower_id"
-  add_index "friendships", ["friend_id"], :name => "index_friendships_on_friend_id"
+  add_index "friendships", ["following_id"], :name => "index_friendships_on_friend_id"
 
   create_table "photos", :force => true do |t|
     t.integer  "user_id"
@@ -117,7 +117,7 @@ ActiveRecord::Schema.define(:version => 20130329225315) do
     t.string   "token"
     t.datetime "created_at",                     :null => false
     t.datetime "updated_at",                     :null => false
-    t.integer  "friends_count",   :default => 0
+    t.integer  "following_count", :default => 0
     t.integer  "followers_count", :default => 0
   end
 

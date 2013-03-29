@@ -14,9 +14,9 @@ describe PhotosController do
     it { should respond_with(:success) }
   end
 
-  describe "GET to #friends" do
+  describe "GET to #following" do
     before do
-      get :friends
+      get :following
     end
 
     it { should assign_to(:photos) }

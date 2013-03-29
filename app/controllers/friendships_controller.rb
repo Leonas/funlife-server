@@ -1,7 +1,7 @@
 class FriendshipsController < ApplicationController
   # POST /friendships
   def create
-    @friendship = @current_user.friendships.build(friend_id: params[:friend_id])
+    @friendship = @current_user.friendships.build(following_id: params[:following_id])
     if @friendship.save
       render json: @friendship, status: :created, location: @friendship
     else

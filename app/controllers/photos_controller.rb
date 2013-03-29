@@ -9,8 +9,8 @@ class PhotosController < ApplicationController
 
   # GET /photos/friends
   # GET /photos/friends.json
-  def friends
-    @photos = @current_user.friend_photos
+  def following
+    @photos = @current_user.following_photos
     render json: @photos
   end
 

@@ -22,9 +22,9 @@ class User < ActiveRecord::Base
   has_one  :profile_photo
 
   has_many :friendships, dependent: :destroy, foreign_key: "follower_id", class_name: "Friendship"
-  has_many :friends, through: :friendships
+  has_many :followings, through: :friendships
 
-  has_many :my_followers, dependent: :destroy, foreign_key: "friend_id", class_name: "Friendship"
+  has_many :my_followers, dependent: :destroy, foreign_key: "following_id", class_name: "Friendship"
   has_many :followers, through: :my_followers
 
   has_many :comments, dependent: :destroy
@@ -52,7 +52,7 @@ class User < ActiveRecord::Base
     act = Activity.arel_table
 
     # Includes the current_user's Activities
-    user_ids = self.friend_ids.push(self.id)
+    user_ids = self.following_ids.push(self.id)
 
     Activity.where(
       act[:user_id].in(user_ids).or(
@@ -61,8 +61,9 @@ class User < ActiveRecord::Base
     )
   end
 
-  def friend_photos
+  def following_photos
     # ActiveRecord::Relation
-    Photo.where(user_id: self.friends.select("friend_id"))
+    Photo.where(user_id: self.followings.select("following_id"))
+
   end
 end

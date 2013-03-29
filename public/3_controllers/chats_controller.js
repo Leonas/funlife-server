@@ -67,13 +67,12 @@ $.mvc.controller.create('chats_controller', {
       right_button: false,
       footer: '#chat_footer',
       active_footer_button: false,
-      api_url: '/chats/',
-      data: chat_id                   //probably not right
+      api_url: '/chats/'+chat_id+'/chat_messages'
     });
 
-    $('#chat_submit').bind('click', function () {
-      chat_id.send_message();
-    });
+//    $('#chat_submit').bind('click', function () {
+//      chat_id.send_message();
+//    });
 
     //Need to do something better than this here. Everything below this line is bad
     //-------------------------------

@@ -6,7 +6,7 @@ class Comment < ActiveRecord::Base
   has_many :children, class_name: 'Comment', foreign_key: :parent_id
 
   # - Mass Assignment Security
-  attr_accessible :body, :parent_id
+  attr_accessible :body, :parent_id, :user_id
 
   # - Validations
   validates :user, presence: true

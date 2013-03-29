@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :photo do
-    user nil
+    user
     public_id "MyString"
     version "MyString"
     signature "MyString"

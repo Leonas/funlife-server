@@ -1,4 +1,5 @@
 Funlife::Application.routes.draw do
+
   scope defaults: { format: "json" } do
 
     resources :activities, except: [:edit, :new] do
@@ -14,6 +15,7 @@ Funlife::Application.routes.draw do
     resources :friendships, only: [:create, :destroy]
 
     resources :photos, except: [:edit, :update, :new] do
+      resources :comments, except: [:edit, :new]
       collection do
         get :friends
         get :explore

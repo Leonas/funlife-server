@@ -58,7 +58,6 @@ $.mvc.controller.create('chats_controller', {
 
   detail: function (chat_id, action, user_id) {
 
-
     $.ui.show_page({
       div_id: 'chat_detail_view',
       title: 'Chat Detail',
@@ -115,19 +114,42 @@ $.mvc.controller.create('chats_controller', {
 
   },
 
-  new: function () {
+  new: function (action) {
 
-    $.ui.show_page({
-      div_id: 'chat_new_view',
-      title: 'New Chat',
-      header: '#header',
-      left_button: '#top_back_button',
-      right_button: false,
-      footer: '#footer',
-      active_footer_button: '#bottom_nav_home',
-      api_url: false,
-      data: false
-    });
+    if(!action){
+        $.ui.show_page({
+          div_id: 'chat_new_view',
+          title: 'New Chat',
+          header: '#header',
+          left_button: '#top_back_button',
+          right_button: false,
+          footer: '#footer',
+          active_footer_button: '#bottom_nav_home',
+          api_url: false,
+          data: false
+        });
+    }
+
+    if(action === 'start'){
+      $.post_with_token({
+        api_url: '/chats/',
+        data: $('#chat_with_id').serialize(),
+        success: function(response){
+         //debugger;  
+         var chat_id = JSON.parse(response).chat.id 
+          $.mvc.route('/chats_controller/detail/'+chat_id);
+          //it should save to cache so that it doesnt need to do request from other controller area
+          //$.ui.cached_pages['/chats/'+chat_id+'/chat_messages'] = response;
+          //$.ui.cached_pages.save();
+        },
+        error: function(response){
+          alert('error');
+        }
+      });
+
+    }
+
+
   }
 });
 

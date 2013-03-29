@@ -7,9 +7,9 @@
     <br><br>
     <div id="login_holder">
       <form id="login_form">
-        <input id='#login_form_email_field' type="text" name="user[email]" placeholder="email">
+        <input id='login_form_email_field' type="text" name="user[email]" placeholder="email">
         <br>
-        <input id='#login_form_password_field' type="text" name="user[password]" placeholder="password">
+        <input id='login_form_password_field' type="text" name="user[password]" placeholder="password">
       </form>
       <ul class="pager">
           <li><a href="/users_controller/login_register/register">Register</a></li>

@@ -56,7 +56,6 @@
     //if we need to access remote data
     if(options.api_url){
       //check if we have any cached data, and show that first
-      debugger;
       if ( options.cache && this.cached_pages[options.api_url] !== undefined ) {
          console.log('we found cache');
         var parsed_data = JSON.parse(this.cached_pages[options.api_url]);
@@ -72,6 +71,7 @@
                $.ui.update_content_div(options.div_id,  tmpl[options.div_id](parsed_data));
                if(options.cache){
                  $.ui.cached_pages[options.api_url] = response;
+                 $.ui.cached_pages.save();
                }
             },
             error: function(){
@@ -90,9 +90,9 @@
             $.ui.add_content_div(options.div_id, tmpl[options.div_id](parsed_data), options.title);
             $.ui.load_content(options.div_id, false, false, 'fade');
             if(options.cache){
-              debugger;
               console.log('setting first cache for this page');
               $.ui.cached_pages[options.api_url] = response;
+              $.ui.cached_pages.save();
             }
           },
           error: function(a,b){

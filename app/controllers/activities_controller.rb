@@ -2,8 +2,16 @@ class ActivitiesController < ApplicationController
   before_filter :set_activity, only: [:show, :destroy, :update]
   # GET /activities
   # GET /activities.json
+  # Current User's Activities
   def index
     @activities = @current_user.activities.by_pick_date(params[:date])
+    render json: @activities
+  end
+
+  # GET /feed
+  # GET /feed.json
+  def feed
+    @activities = @current_user.feed_activities.by_pick_date(params[:date])
     render json: @activities
   end
 

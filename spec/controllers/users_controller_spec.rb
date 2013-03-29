@@ -10,6 +10,14 @@ describe UsersController do
     it { should respond_with(:success) }
   end
 
+  describe "GET to #feed" do
+    before do
+      get :index
+    end
+    it { should assign_to(:users) }
+    it { should respond_with(:success) }
+  end
+
   it "should render unauthorized status" do
     put :update, id: "1", user: { email: ""}
     should respond_with(401)

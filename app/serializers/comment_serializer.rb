@@ -1,5 +1,8 @@
 class CommentSerializer < ActiveModel::Serializer
-  attributes :id, :body, :parent_id
-  has_one :user
-  has_one :photo
+  attributes :id, :body, :user_name
+  has_many :children
+
+  def user_name
+    object.user.full_name
+  end
 end

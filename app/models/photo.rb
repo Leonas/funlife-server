@@ -4,7 +4,7 @@ class Photo < ActiveRecord::Base
   has_many :comments, dependent: :destroy
 
   # - Mass Assignment Security
-  attr_accessible :bytes, :format, :height, :public_id, :resource_type, :secure_url, :signature, :type, :url, :version, :width, :type
+  attr_accessible :bytes, :format, :height, :public_id, :resource_type, :secure_url, :signature, :type, :url, :version, :width, :type, :processed_at
 end
 
 class ProfilePhoto < Photo

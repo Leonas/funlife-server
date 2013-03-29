@@ -1,5 +1,5 @@
 class PhotosController < ApplicationController
-  before_filter :set_photo, only: [:show, :destroy, :update]
+  before_filter :set_photo, only: [:destroy, :update]
   # GET /photos
   # GET /photos.json
   def index
@@ -10,6 +10,7 @@ class PhotosController < ApplicationController
   # GET /photos/1
   # GET /photos/1.json
   def show
+    @photo = Photo.find(params[:id])
     render json: @photo
   end
 
@@ -18,7 +19,7 @@ class PhotosController < ApplicationController
   def create
     @photo = @current_user.photos.build(params[:photo])
     if @photo.save
-      render json: @photo, status: :created, location: @photo
+      render json: @photo, status: :created
     else
       render json: @photo.errors, status: :unprocessable_entity
     end

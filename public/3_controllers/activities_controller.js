@@ -17,14 +17,16 @@ $.mvc.controller.create('activities_controller', {
       title: 'New Activity',
       header: '#header',
       left_button: '#top_back_button',
-      right_button: false,
+      right_button: '#top_next_button',
       footer: '#footer',
       active_footer_button: false,
       api_url: false,
       data: false
     });
 
-      $('#calendar_button').mobiscroll().calendar({
+    $('#top_next_button_a').attr('href', '/activities_controller/new_step_2');
+
+    $('#calendar_button').mobiscroll().calendar({
         theme: 'default',
         display: 'modal',
         mode: 'scroller',
@@ -50,12 +52,14 @@ $.mvc.controller.create('activities_controller', {
       title: 'Invite Friends',
       header: '#header',
       left_button: '#top_back_button',
-      right_button: false,
+      right_button: '#top_next_button',
       footer: '#footer',
       active_footer_button: false,
       api_url: /users/,
       data: false
     });
+
+    $('#top_next_button_a').attr('href', '/activities_controller/new_step_3');
   },
 
   new_step_3: function () {

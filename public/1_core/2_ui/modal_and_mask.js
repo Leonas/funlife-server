@@ -1,4 +1,4 @@
-(function($){
+(function ($) {
 
   //make these into functions for creating a modal div
   //it shouldnt be in the dom if its not needed
@@ -30,12 +30,11 @@
 //  this.modal_window = modalDiv;
 
 
-
-  $.ui.show_modal= function (id) {
+  $.ui.show_modal = function (id) {
     var that = this;
     id = "#" + id.replace("#", "");
     try {
-      if ($(id)) {
+      if($(id)) {
         jq("#modalContainer").html($.feat.nativeTouchScroll ? $(id).html() : $(id).get(0).childNodes[0].innerHTML + '', true);
         $('#modalContainer').append("<a href='javascript:;' onclick='$.ui.hide_modal();' class='closebutton modalbutton'></a>");
         this.modal_window.style.display = "block";
@@ -58,13 +57,12 @@
 
     var tmp = $(modal.data("panel"));
     var fnc = tmp.data("unload");
-    if (typeof fnc == "string" && window[fnc]) {
+    if(typeof fnc == "string" && window[fnc]) {
       window[fnc](tmp.get(0));
     }
 //      tmp.trigger("unloadpanel");
 
   };
-
 
 
 })(jq);

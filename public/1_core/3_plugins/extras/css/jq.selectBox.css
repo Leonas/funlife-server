@@ -7,26 +7,25 @@
 }
 
 /* Button (radio) for the found item in the list */
-.jqmobiSelectRowButtonFound{
+.jqmobiSelectRowButtonFound {
 }
 
-
 /* Row for items in the list */
-.jqmobiSelectRow{
+.jqmobiSelectRow {
 
 }
 
 /* button for the items in the list */
-.jqmobiSelectRowButton{
+.jqmobiSelectRowButton {
 
 }
 
 /* class for the item text displayed */
-.jqmobiSelectRowText{
+.jqmobiSelectRowText {
 }
 
 /* Header for select box */
-#jqmobiSelectBoxHeader{
+#jqmobiSelectBoxHeader {
 }
 
 /* div that holds the options listed*/

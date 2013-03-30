@@ -1,10 +1,10 @@
 var User = new $.mvc.model.Extend('user', {                                 //Instances defined at the bottom
-  name: '',
-  email: '',
-  token: '',
+  name       : '',
+  email      : '',
+  token      : '',
   profile_pic: '',
 
-  save: function () {
+  save           : function () {
     window.localStorage.setItem('current_user', JSON.stringify(this));
     //TODO post to server as well?
   },
@@ -13,7 +13,7 @@ var User = new $.mvc.model.Extend('user', {                                 //In
   load_local_data: function () {
     try {
       var saved_user = JSON.parse(window.localStorage.getItem('current_user'));
-      if (saved_user.token.length > 5) {
+      if(saved_user.token.length > 5) {
         current_user.name = saved_user.name;
         current_user.email = saved_user.email;
         current_user.token = saved_user.token;
@@ -22,10 +22,10 @@ var User = new $.mvc.model.Extend('user', {                                 //In
       current_user.token = 'guest';
     }
   },
-  logout: function () {
-    
+  logout         : function () {
+
     $.delete_with_token({
-        url: '/sessions'
+      url: '/sessions'
     });
     window.localStorage.clear();
   }

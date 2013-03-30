@@ -1,88 +1,104 @@
 //Touch events are from zepto/touch.js
-(function($) {
+(function ($) {
   var touch = {}, touchTimeout;
 
-  function parentIfText(node) {
+  function parentIfText (node) {
     return 'tagName' in node ? node : node.parentNode;
   }
 
-  function swipeDirection(x1, x2, y1, y2) {
+  function swipeDirection (x1, x2, y1, y2) {
     var xDelta = Math.abs(x1 - x2), yDelta = Math.abs(y1 - y2);
-    if (xDelta >= yDelta) {
+    if(xDelta >= yDelta) {
       return (x1 - x2 > 0 ? 'Left' : 'Right');
-    } else {
+    }
+    else {
       return (y1 - y2 > 0 ? 'Up' : 'Down');
     }
   }
 
   var longTapDelay = 750;
-  function longTap() {
-    if (touch.last && (Date.now() - touch.last >= longTapDelay)) {
+
+  function longTap () {
+    if(touch.last && (Date.now() - touch.last >= longTapDelay)) {
       touch.element.trigger('longTap');
       touch = {};
     }
   }
+
   var longTapTimer;
-  $(document).ready(function() {
+  $(document).ready(function () {
     var prevEl;
-    $(document.body).bind('touchstart', function(e) {
-      if(!e.touches||e.touches.length==0) return;
+    $(document.body).bind('touchstart',function (e) {
+      if(!e.touches || e.touches.length == 0) {
+        return;
+      }
       var now = Date.now(), delta = now - (touch.last || now);
-      if(!e.touches||e.touches.length==0) return;
+      if(!e.touches || e.touches.length == 0) {
+        return;
+      }
       touch.element = $(parentIfText(e.touches[0].target));
       touchTimeout && clearTimeout(touchTimeout);
-      touch.x1 =  e.touches[0].pageX;
+      touch.x1 = e.touches[0].pageX;
       touch.y1 = e.touches[0].pageY;
-      touch.x2=touch.y2=0;
-      if (delta > 0 && delta <= 250)
+      touch.x2 = touch.y2 = 0;
+      if(delta > 0 && delta <= 250) {
         touch.isDoubleTap = true;
+      }
       touch.last = now;
-      longTapTimer=setTimeout(longTap, longTapDelay);
-      if (!touch.element.data("ignore-pressed"))
+      longTapTimer = setTimeout(longTap, longTapDelay);
+      if(!touch.element.data("ignore-pressed")) {
         touch.element.addClass("selected");
-      if(prevEl&&!prevEl.data("ignore-pressed"))
+      }
+      if(prevEl && !prevEl.data("ignore-pressed")) {
         prevEl.removeClass("selected");
-      prevEl=touch.element;
-    }).bind('touchmove', function(e) {
+      }
+      prevEl = touch.element;
+    }).bind('touchmove',function (e) {
           touch.x2 = e.touches[0].pageX;
           touch.y2 = e.touches[0].pageY;
           clearTimeout(longTapTimer);
-        }).bind('touchend', function(e) {
+        }).bind('touchend',function (e) {
 
-          if (!touch.element)
+          if(!touch.element) {
             return;
-          if (!touch.element.data("ignore-pressed"))
+          }
+          if(!touch.element.data("ignore-pressed")) {
             touch.element.removeClass("selected");
-          if (touch.isDoubleTap) {
+          }
+          if(touch.isDoubleTap) {
             touch.element.trigger('doubleTap');
             touch = {};
-          } else if (touch.x2 > 0 || touch.y2 > 0) {
+          }
+          else if(touch.x2 > 0 || touch.y2 > 0) {
             (Math.abs(touch.x1 - touch.x2) > 30 || Math.abs(touch.y1 - touch.y2) > 30) &&
                 touch.element.trigger('swipe') &&
             touch.element.trigger('swipe' + (swipeDirection(touch.x1, touch.x2, touch.y1, touch.y2)));
             touch.x1 = touch.x2 = touch.y1 = touch.y2 = touch.last = 0;
-          } else if ('last' in touch) {
+          }
+          else if('last' in touch) {
             touch.element.trigger('tap');
 
 
-            touchTimeout = setTimeout(function() {
+            touchTimeout = setTimeout(function () {
               touchTimeout = null;
-              if (touch.element)
+              if(touch.element) {
                 touch.element.trigger('singleTap');
+              }
               touch = {};
             }, 250);
           }
-        }).bind('touchcancel', function() {
-          if(touch.element&& !touch.element.data("ignore-pressed"))
+        }).bind('touchcancel', function () {
+          if(touch.element && !touch.element.data("ignore-pressed")) {
             touch.element.removeClass("selected");
+          }
           touch = {};
           clearTimeout(longTapTimer);
 
         });
   });
 
-  ['swipe', 'swipeLeft', 'swipeRight', 'swipeUp', 'swipeDown', 'doubleTap', 'tap', 'singleTap', 'longTap'].forEach(function(m) {
-    $.fn[m] = function(callback) {
+  ['swipe', 'swipeLeft', 'swipeRight', 'swipeUp', 'swipeDown', 'doubleTap', 'tap', 'singleTap', 'longTap'].forEach(function (m) {
+    $.fn[m] = function (callback) {
       return this.bind(m, callback)
     }
   });

@@ -1,16 +1,16 @@
-(function($){
+(function ($) {
 
   //lookup for a clicked anchor recursively and fire UI own actions when applicable
   $.ui.checkAnchorClick = function (e, theTarget) {
-    if (theTarget === ($.ui.ui_kit_container_id)) {
+    if(theTarget === ($.ui.ui_kit_container_id)) {
       return;
     }
     //if the item clicked is not an <a> then bubble up to see if we find it
-    if (theTarget.tagName && theTarget.tagName.toLowerCase() !== 'a' && theTarget.parentNode) {
+    if(theTarget.tagName && theTarget.tagName.toLowerCase() !== 'a' && theTarget.parentNode) {
       return $.ui.checkAnchorClick(e, theTarget.parentNode);
     }
-    if (theTarget.tagName && theTarget.tagName.toLowerCase() === "a") {
-      if ($.mvc.route(theTarget)) {
+    if(theTarget.tagName && theTarget.tagName.toLowerCase() === "a") {
+      if($.mvc.route(theTarget)) {
         return e.preventDefault();
       }
     }

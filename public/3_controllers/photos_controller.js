@@ -9,15 +9,15 @@ $.mvc.controller.create('photos_controller', {
   default: function () {
 
     $.ui.show_page({
-      div_id: 'photos_index_view',
-      title: 'Photos',
-      header: '#header',
-      left_button: false,
-      right_button: false,
-      footer: '#footer',
+      div_id              : 'photos_index_view',
+      title               : 'Photos',
+      header              : '#header',
+      left_button         : false,
+      right_button        : false,
+      footer              : '#footer',
       active_footer_button: '#bottom_nav_photos',
-      url: false,
-      data: false
+      url                 : false,
+      data                : false
     });
 
   },
@@ -25,66 +25,65 @@ $.mvc.controller.create('photos_controller', {
   detail: function (photo_id, comment) {
 
     $.ui.show_page({
-      div_id: 'photo_detail_view',
-      title: 'Photo',
-      header: '#header',
-      left_button: '#top_back_button',
-      right_button: false,
-      footer: '#footer',
+      div_id              : 'photo_detail_view',
+      title               : 'Photo',
+      header              : '#header',
+      left_button         : '#top_back_button',
+      right_button        : false,
+      footer              : '#footer',
       active_footer_button: '#bottom_nav_photos',
-      url: false,
-      data: false
+      url                 : false,
+      data                : false
     });
 
   },
 
-  take_photo: function() {
+  take_photo: function () {
 
     var cloudinary = 'http://api.cloudinary.com/v1_1/funlife/image/upload';
     var unix_timestamp = Math.round((new Date()).getTime() / 1000);
     var secret_key = 'p0HsqkrLaNZpg3nruhEfWl4-tuc';
-    var shaObj = new jsSHA('timestamp='+unix_timestamp+secret_key, "TEXT");
+    var shaObj = new jsSHA('timestamp=' + unix_timestamp + secret_key, "TEXT");
     var sha1_hash = shaObj.getHash("SHA-1", "HEX");
 
-    if(typeof forge === 'undefined'){
+    if(typeof forge === 'undefined') {
       $('#photo_uploader').click();
 
       document.getElementById('photo_uploader').addEventListener('change', handleFileSelect, false);
 
-      function handleFileSelect(evt) {
+      function handleFileSelect (evt) {
         var files = evt.target.files; // FileList object
         // Loop through the FileList and render image files as thumbnails.
-        for (var i = 0, current_file; current_file = files[i]; i++) {
+        for(var i = 0, current_file; current_file = files[i]; i++) {
           // Only process image files.
-          if (!current_file.type.match('image.*')) {
+          if(!current_file.type.match('image.*')) {
             continue;
           }
 
           var reader = new FileReader();
 
           // Closure to capture the file information.
-          reader.onload = (function(theFile) {
-            return function(e) {
+          reader.onload = (function (theFile) {
+            return function (e) {
 
               $.ajax({
-                url: cloudinary,
-                type: "POST",
-                data:
-                {
-                  file: e.target.result,
-                  api_key: 221816386951751,
+                url        : cloudinary,
+                type       : "POST",
+                data       : {
+                  file     : e.target.result,
+                  api_key  : 221816386951751,
                   timestamp: unix_timestamp,
                   signature: sha1_hash
                 },
                 processData: false,
                 contentType: false,
-                success: function (response) {
+                success    : function (response) {
                   var photo = {'photo': JSON.parse(response)};
                   photo.photo.processed_at = photo.photo.created_at;
                   delete photo.photo.created_at;
                   $.post_with_token({
-                      url: '/photos/',
-                      data: photo
+                    url : '/photos/',
+                    data: photo
                   });
                 }
               });
@@ -99,9 +98,6 @@ $.mvc.controller.create('photos_controller', {
 
         }
       }
-
-
-
 
 
     }
@@ -132,42 +128,41 @@ $.mvc.controller.create('photos_controller', {
 //          });
 //        };
 
-      var uploadPhotoFile = function(base64string) {
+      var uploadPhotoFile = function (base64string) {
 
         forge.request.ajax({
-          url: cloudinary,
+          url        : cloudinary,
 //          headers: {
 //            'X-Parse-Application-Id': config.parseAppId,
 //            'X-Parse-REST-API-Key': config.parseRestKey
 //          },
-          type: 'POST',
+          type       : 'POST',
 //          files: [file],
 //          fileUploadMethod: 'raw',
 //          dataType: 'json',
-          data:
-                {
-                  file: base64string,
-                  api_key: 221816386951751,
-                  timestamp: unix_timestamp,
-                  signature: sha1_hash
-                },
+          data       : {
+            file     : base64string,
+            api_key  : 221816386951751,
+            timestamp: unix_timestamp,
+            signature: sha1_hash
+          },
           processData: false,
           contentType: false,
-          success: function (data) {
+          success    : function (data) {
             alert('success in upload');
           },
-          error: function (error) {
+          error      : function (error) {
             console.log('error');
             console.log(error);
           }
         });
       };
 
-        forge.file.getImage({}, function (file) {
-          //forge.file.base64(file, function(base64string){      //base64 crashes with big images
-            uploadPhotoFile(file);
-         // });
-        });
+      forge.file.getImage({}, function (file) {
+        //forge.file.base64(file, function(base64string){      //base64 crashes with big images
+        uploadPhotoFile(file);
+        // });
+      });
 
 
 //
@@ -193,8 +188,6 @@ $.mvc.controller.create('photos_controller', {
 //
 //                }
 //              });
-
-
 
 
     }

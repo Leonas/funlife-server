@@ -1,8 +1,9 @@
-if (typeof forge === 'undefined' && typeof device === 'undefined') {
+if(typeof forge === 'undefined' && typeof device === 'undefined') {
   //if not running on a mobile device use local server
   var server = 'http://' + document.location.host;
 //  var server = 'http://vast-crag-6780.herokuapp.com';
-} else {
+}
+else {
   //connect to heroku if running on phone
   var server = 'http://vast-crag-6780.herokuapp.com';
 }
@@ -21,10 +22,11 @@ $.ui.ready(function () {
   current_user.load_local_data();
 
 
-  if (current_user.token.length > 5) {
+  if(current_user.token.length > 5) {
     console.log('token found, routing to home');
     $.mvc.route('/users_controller/');
-  } else {
+  }
+  else {
     console.log('no token found, routing to login');
     $.mvc.route('/users_controller/login_register');
   }

@@ -13,20 +13,22 @@
   };
   password_box.prototype = {
     showPasswordPlainText: false,
-    getOldPasswords: function (element_id) {
+    getOldPasswords      : function (element_id) {
       //   if ($.os.android == false) return; -  iOS users seem to want this too, so we'll let everyone join the party
       var container = element_id && document.getElementById(element_id) ? document.getElementById(element_id) : document;
-      if (!container) {
+      if(!container) {
         alert("Could not find container element for password_box " + element_id);
         return;
       }
       var sels = container.getElementsByTagName("input");
 
       var that = this;
-      for (var i = 0; i < sels.length; i++) {
-        if (sels[i].type != "password") continue;
+      for(var i = 0; i < sels.length; i++) {
+        if(sels[i].type != "password") {
+          continue;
+        }
 
-        if($.os.webkit){
+        if($.os.webkit) {
           sels[i].type = "text";
           sels[i].style['-webkit-text-security'] = "disc";
         }
@@ -37,16 +39,19 @@
       what = parseInt(what);
       var theEl = document.getElementById(id);
 
-      if (what == 1) { //show
-        theEl.style[$.cssPrefix+'text-security'] = "none";
-      } else {
-        theEl.style[$.cssPrefix+'text-security'] = "disc";
+      if(what == 1) { //show
+        theEl.style[$.cssPrefix + 'text-security'] = "none";
+      }
+      else {
+        theEl.style[$.cssPrefix + 'text-security'] = "disc";
       }
       if(!$.os.webkit) {
-        if(what==1)
-          theEl.type="text"
-        else
-          theEl.type="password";
+        if(what == 1) {
+          theEl.type = "text"
+        }
+        else {
+          theEl.type = "password";
+        }
       }
       theEl = null;
     }

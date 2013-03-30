@@ -18,17 +18,17 @@
 //Other
 //orientationchange-reshape - resize event due to an orientationchange action
 //reshape - window.resize/window.scroll event (ignores onfocus "shaking") - general reshape notice
-(function() {
+(function () {
 
   //singleton
-  $.touch_layer = function(element) {
+  $.touch_layer = function (element) {
     //	if(jq.os.desktop||!jq.os.webkit) return;
     $.touch_layer = new touch_layer(element);
     return $.touch_layer;
   };
   //configuration stuff
   var inputElements = ['input', 'select', 'textarea'];
-  var autoBlurInputTypes = ['button', 'radio', 'checkbox', 'range','date'];
+  var autoBlurInputTypes = ['button', 'radio', 'checkbox', 'range', 'date'];
   var requiresJSFocus = $.os.ios; //devices which require .focus() on dynamic click events
   var verySensitiveTouch = $.os.blackberry; //devices which have a very sensitive touch and touchmove is easily fired even on simple taps
   var inputElementRequiresNativeTap = $.os.blackberry || ($.os.android && !$.os.chrome); //devices which require the touchstart event to bleed through in order to actually fire the click on select elements
@@ -38,19 +38,20 @@
   var requirePanning = $.os.ios; //devices which require panning feature
   var addressBarError = 0.97; //max 3% error in position
   var maxHideTries = 2; //HideAdressBar does not retry more than 2 times (3 overall)
-  var skipTouchEnd=false; //Fix iOS bug with alerts/confirms
-  function getTime(){
+  var skipTouchEnd = false; //Fix iOS bug with alerts/confirms
+  function getTime () {
     var d = new Date();
     var n = d.getTime();
     return n;
   }
-  var touch_layer = function(element) {
+
+  var touch_layer = function (element) {
     this.clearTouchVars();
     element.addEventListener('touchstart', this, false);
     element.addEventListener('touchmove', this, false);
     element.addEventListener('touchend', this, false);
     element.addEventListener('click', this, false);
-    element.addEventListener("focusin",this,false);
+    element.addEventListener("focusin", this, false);
     document.addEventListener('scroll', this, false);
     window.addEventListener("resize", this, false);
     window.addEventListener("orientationchange", this, false);
@@ -60,32 +61,33 @@
     this.exitEditProxy_ = $.proxy(this.exitExit, this, []);
     this.launchFixUIProxy_ = $.proxy(this.launchFixUI, this);
     var that = this;
-    this.scrollTimeoutExpireProxy_ = function() {
+    this.scrollTimeoutExpireProxy_ = function () {
       that.scrollTimeout_ = null;
       that.scrollTimeoutEl_.addEventListener('scroll', that.scrollEndedProxy_, false);
     };
-    this.retestAndFixUIProxy_ = function() {
-      if(jq.os.android) that.layer.style.height = '100%';
+    this.retestAndFixUIProxy_ = function () {
+      if(jq.os.android) {
+        that.layer.style.height = '100%';
+      }
       $.asap(that.testAndFixUI, that, arguments);
     };
     //iPhone double clicks workaround
-    document.addEventListener('click', function(e) {
-      if(e.clientX !== undefined && that.lastTouchStartX !== null)
-      {
-        if (2 > Math.abs(that.lastTouchStartX-e.clientX) && 2 > Math.abs(that.lastTouchStartY-e.clientY)){
+    document.addEventListener('click', function (e) {
+      if(e.clientX !== undefined && that.lastTouchStartX !== null) {
+        if(2 > Math.abs(that.lastTouchStartX - e.clientX) && 2 > Math.abs(that.lastTouchStartY - e.clientY)) {
           e.preventDefault();
           e.stopPropagation();
         }
       }
     }, true);
     //js scrollers self binding
-    $.bind(this, 'scrollstart', function(element) {
-      that.isScrolling=true;
-      that.scrollingEl_=element;
+    $.bind(this, 'scrollstart', function (element) {
+      that.isScrolling = true;
+      that.scrollingEl_ = element;
       that.fireEvent('UIEvents', 'scrollstart', element, false, false);
     });
-    $.bind(this, 'scrollend', function(element) {
-      that.isScrolling=false;
+    $.bind(this, 'scrollend', function (element) {
+      that.isScrolling = false;
 
       that.fireEvent('UIEvents', 'scrollend', element, false, false);
     });
@@ -94,44 +96,44 @@
   };
 
   touch_layer.prototype = {
-    dX: 0,
-    dY: 0,
-    cX: 0,
-    cY: 0,
-    touchStartX:null,
-    touchStartY:null,
+    dX                      : 0,
+    dY                      : 0,
+    cX                      : 0,
+    cY                      : 0,
+    touchStartX             : null,
+    touchStartY             : null,
     //elements
-    layer: null,
-    scrollingEl_: null,
-    scrollTimeoutEl_: null,
+    layer                   : null,
+    scrollingEl_            : null,
+    scrollTimeoutEl_        : null,
     //handles / proxies
-    scrollTimeout_: null,
-    reshapeTimeout_: null,
-    scrollEndedProxy_: null,
-    exitEditProxy_: null,
-    launchFixUIProxy_: null,
+    scrollTimeout_          : null,
+    reshapeTimeout_         : null,
+    scrollEndedProxy_       : null,
+    exitEditProxy_          : null,
+    launchFixUIProxy_       : null,
     reHideAddressBarTimeout_: null,
-    retestAndFixUIProxy_: null,
+    retestAndFixUIProxy_    : null,
     //options
-    panElementId: "header",
+    panElementId            : "header",
     //public locks
-    blockClicks: false,
+    blockClicks             : false,
     //private locks
-    allowDocumentScroll_: false,
-    ignoreNextResize_: false,
-    blockPossibleClick_: false,
+    allowDocumentScroll_    : false,
+    ignoreNextResize_       : false,
+    blockPossibleClick_     : false,
     //status vars
-    isScrolling: false,
-    isScrollingVertical_: false,
-    wasPanning_: false,
-    isPanning_: false,
-    isFocused_: false,
-    justBlurred_: false,
-    requiresNativeTap: false,
-    holdingReshapeType_: null,
+    isScrolling             : false,
+    isScrollingVertical_    : false,
+    wasPanning_             : false,
+    isPanning_              : false,
+    isFocused_              : false,
+    justBlurred_            : false,
+    requiresNativeTap       : false,
+    holdingReshapeType_     : null,
 
-    handleEvent: function(e) {
-      switch(e.type) {
+    handleEvent        : function (e) {
+      switch (e.type) {
         case 'touchstart':
           this.onTouchStart(e);
           break;
@@ -161,21 +163,23 @@
           break;
       }
     },
-    launchFixUI: function(maxTries) {
+    launchFixUI        : function (maxTries) {
       //this.log("launchFixUI");
       if(!maxTries) {
         maxTries = maxHideTries;
       }
-      if(this.reHideAddressBarTimeout_ === null){
+      if(this.reHideAddressBarTimeout_ === null) {
         return this.testAndFixUI(0, maxTries);
       }
     },
-    resetFixUI: function() {
+    resetFixUI         : function () {
       //this.log("resetFixUI");
-      if(this.reHideAddressBarTimeout_) clearTimeout(this.reHideAddressBarTimeout_);
+      if(this.reHideAddressBarTimeout_) {
+        clearTimeout(this.reHideAddressBarTimeout_);
+      }
       this.reHideAddressBarTimeout_ = null;
     },
-    testAndFixUI: function(retry, maxTries) {
+    testAndFixUI       : function (retry, maxTries) {
       //this.log("testAndFixUI");
       //for ios or if the heights are incompatible (and not close)
       var refH = this.getReferenceHeight();
@@ -185,10 +189,12 @@
         this.hideAddressBar(retry, maxTries);
         return true;
       }
-      if(jq.os.android) this.resetFixUI();
+      if(jq.os.android) {
+        this.resetFixUI();
+      }
       return false;
     },
-    hideAddressBar: function(retry, maxTries) {
+    hideAddressBar     : function (retry, maxTries) {
       if(retry >= maxTries) {
         this.resetFixUI();
         return; //avoid a possible loop
@@ -197,7 +203,8 @@
       //this.log("hiding address bar");
       if(jq.os.desktop || jq.os.chrome) {
         this.layer.style.height = "100%";
-      } else if(jq.os.android) {
+      }
+      else if(jq.os.android) {
         //on some phones its immediate
         window.scrollTo(1, 1);
         this.layer.style.height = this.isFocused_ ? (window.innerHeight) + "px" : (window.outerHeight / window.devicePixelRatio) + 'px';
@@ -206,33 +213,43 @@
         //re-test in a bit (some androids (SII, Nexus S, etc) fail to resize on first try)
         var nextTry = retry + 1;
         this.reHideAddressBarTimeout_ = setTimeout(this.retestAndFixUIProxy_, 250 * nextTry, [nextTry, maxTries]); //each fix is progressibily longer (slower phones fix)
-      } else if(!this.isFocused_) {
+      }
+      else if(!this.isFocused_) {
         document.documentElement.style.height = "5000px";
         window.scrollTo(0, 0);
         document.documentElement.style.height = window.innerHeight + "px";
         this.layer.style.height = window.innerHeight + "px";
       }
     },
-    getReferenceHeight: function() {
+    getReferenceHeight : function () {
       //the height the page should be at
       if(jq.os.android) {
         return Math.ceil(window.outerHeight / window.devicePixelRatio);
-      } else return window.innerHeight;
+      }
+      else {
+        return window.innerHeight;
+      }
     },
-    getCurrentHeight: function() {
+    getCurrentHeight   : function () {
       //the height the page really is at
       if(jq.os.android) {
         return window.innerHeight;
-      } else return numOnly(document.documentElement.style.height); //TODO: works well on iPhone, test BB
+      }
+      else {
+        return numOnly(document.documentElement.style.height);
+      } //TODO: works well on iPhone, test BB
     },
-    onOrientationChange: function(e) {
+    onOrientationChange: function (e) {
       //this.log("orientationchange");
       //if a resize already happened, fire the orientationchange
       if(!this.holdingReshapeType_ && this.reshapeTimeout_) {
         this.fireReshapeEvent('orientationchange');
-      } else this.previewReshapeEvent('orientationchange');
+      }
+      else {
+        this.previewReshapeEvent('orientationchange');
+      }
     },
-    onResize: function(e) {
+    onResize           : function (e) {
       //avoid infinite loop on iPhone
       if(this.ignoreNextResize_) {
         //this.log('ignored resize');
@@ -244,12 +261,12 @@
         this.reshapeAction();
       }
     },
-    onClick: function(e) {
+    onClick            : function (e) {
       //handle forms
       var tag = e.target && e.target.tagName != undefined ? e.target.tagName.toLowerCase() : '';
 
       //this.log("click on "+tag);
-      if(inputElements.indexOf(tag) !== -1 && (!this.isFocused_ || !e.target==(this.focusedElement))) {
+      if(inputElements.indexOf(tag) !== -1 && (!this.isFocused_ || !e.target == (this.focusedElement))) {
         var type = e.target && e.target.type != undefined ? e.target.type.toLowerCase() : '';
         var autoBlur = autoBlurInputTypes.indexOf(type) !== -1;
 
@@ -268,13 +285,17 @@
             //fire / preview reshape event
             if($.os.ios) {
               var that = this;
-              setTimeout(function() {
+              setTimeout(function () {
                 that.fireReshapeEvent('enter-edit');
               }, 300); //TODO: get accurate reading from window scrolling motion and get rid of timeout
-            } else this.previewReshapeEvent('enter-edit');
+            }
+            else {
+              this.previewReshapeEvent('enter-edit');
+            }
           }
           this.isFocused_ = true;
-        } else {
+        }
+        else {
           this.isFocused_ = false;
         }
         this.justBlurred_ = false;
@@ -286,51 +307,60 @@
         }
 
         //BB10 needs to be preventDefault on touchstart and thus need manual blur on click
-      } else if($.os.blackberry10 && this.isFocused_) {
+      }
+      else if($.os.blackberry10 && this.isFocused_) {
         //this.log("forcing blur on bb10 ");
         this.focusedElement.blur();
       }
     },
-    previewReshapeEvent: function(ev) {
+    previewReshapeEvent: function (ev) {
       //a reshape event of this type should fire within the next 750 ms, otherwise fire it yourself
       that = this;
-      this.reshapeTimeout_ = setTimeout(function() {
+      this.reshapeTimeout_ = setTimeout(function () {
         that.fireReshapeEvent(ev);
         that.reshapeTimeout_ = null;
         that.holdingReshapeType_ = null;
       }, 750);
       this.holdingReshapeType_ = ev;
     },
-    fireReshapeEvent: function(ev) {
+    fireReshapeEvent   : function (ev) {
       //this.log(ev?ev+'-reshape':'unknown-reshape');
       $.trigger(this, 'reshape'); //trigger a general reshape notice
       $.trigger(this, ev ? ev + '-reshape' : 'unknown-reshape'); //trigger the specific reshape
     },
-    reshapeAction: function() {
+    reshapeAction      : function () {
       if(this.reshapeTimeout_) {
         //we have a specific reshape event waiting for a reshapeAction, fire it now
         clearTimeout(this.reshapeTimeout_);
         this.fireReshapeEvent(this.holdingReshapeType_);
         this.holdingReshapeType_ = null;
         this.reshapeTimeout_ = null;
-      } else this.previewReshapeEvent();
+      }
+      else {
+        this.previewReshapeEvent();
+      }
     },
-    onFocusIn:function(e){
-      if(!this.isFocused_)
+    onFocusIn          : function (e) {
+      if(!this.isFocused_) {
         this.onClick(e);
+      }
     },
-    onBlur: function(e) {
-      if(jq.os.android && e.target == window) return; //ignore window blurs
+    onBlur             : function (e) {
+      if(jq.os.android && e.target == window) {
+        return;
+      } //ignore window blurs
 
       this.isFocused_ = false;
       //just in case...
-      if(this.focusedElement) this.focusedElement.removeEventListener('blur', this, false);
+      if(this.focusedElement) {
+        this.focusedElement.removeEventListener('blur', this, false);
+      }
       this.focusedElement = null;
       //make sure this blur is not followed by another focus
       this.justBlurred_ = true;
       $.asap(this.exitEditProxy_, this, [e.target]);
     },
-    exitExit: function(element) {
+    exitExit           : function (element) {
       this.justBlurred_ = false;
       if(!this.isFocused_) {
         //this.log("exit edit mode");
@@ -340,13 +370,16 @@
         //fire / preview reshape event
         if($.os.ios) {
           var that = this;
-          setTimeout(function() {
+          setTimeout(function () {
             that.fireReshapeEvent('exit-edit');
           }, 300); //TODO: get accurate reading from window scrolling motion and get rid of timeout
-        } else this.previewReshapeEvent('exit-edit');
+        }
+        else {
+          this.previewReshapeEvent('exit-edit');
+        }
       }
     },
-    onScroll: function(e) {
+    onScroll           : function (e) {
       //this.log("document scroll detected "+document.body.scrollTop);
       if(!this.allowDocumentScroll_ && !this.isPanning_ && e.target === (document)) {
         this.allowDocumentScroll_ = true;
@@ -354,23 +387,26 @@
           this.wasPanning_ = false;
           //give it a couple of seconds
           setTimeout(this.launchFixUIProxy_, 2000, [maxHideTries]);
-        } else {
+        }
+        else {
           //this.log("scroll forced page into place");
           this.launchFixUI();
         }
       }
     },
 
-    onTouchStart: function(e) {
+    onTouchStart        : function (e) {
       //setup initial touch position
       this.dX = e.touches[0].pageX;
       this.dY = e.touches[0].pageY;
       this.lastTimestamp = e.timeStamp;
-      this.lastTouchStartX=this.lastTouchStartY=null;
+      this.lastTouchStartX = this.lastTouchStartY = null;
 
 
       //check dom if necessary
-      if(requirePanning || $.feat.nativeTouchScroll) this.checkDOMTree(e.target, this.layer);
+      if(requirePanning || $.feat.nativeTouchScroll) {
+        this.checkDOMTree(e.target, this.layer);
+      }
       //scrollend check
       if(this.isScrolling) {
         //remove prev timeout
@@ -378,10 +414,15 @@
           clearTimeout(this.scrollTimeout_);
           this.scrollTimeout_ = null;
           //different element, trigger scrollend anyway
-          if(this.scrollTimeoutEl_ !== this.scrollingEl_) this.scrollEnded(false);
-          else this.blockPossibleClick_ = true;
+          if(this.scrollTimeoutEl_ !== this.scrollingEl_) {
+            this.scrollEnded(false);
+          }
+          else {
+            this.blockPossibleClick_ = true;
+          }
           //check if event was already set
-        } else if(this.scrollTimeoutEl_) {
+        }
+        else if(this.scrollTimeoutEl_) {
           //trigger
           this.scrollEnded(true);
           this.blockPossibleClick_ = true;
@@ -400,34 +441,40 @@
         this.allowDocumentScroll_ = true;
 
         //some stupid phones require a native tap in order for the native input elements to work
-      } else if(inputElementRequiresNativeTap && e.target && e.target.tagName != undefined) {
+      }
+      else if(inputElementRequiresNativeTap && e.target && e.target.tagName != undefined) {
         var tag = e.target.tagName.toLowerCase();
         if(inputElements.indexOf(tag) !== -1) {
           //notify scrollers (android forms bug), except for selects
-          if(tag != 'select') $.trigger(this, 'pre-enter-edit', [e.target]);
+          if(tag != 'select') {
+            $.trigger(this, 'pre-enter-edit', [e.target]);
+          }
           this.requiresNativeTap = true;
         }
       }
-      else if(e.target&&e.target.tagName!==undefined&&e.target.tagName.toLowerCase()=="input"&&e.target.type=="range"){
-        this.requiresNativeTap=true;
+      else if(e.target && e.target.tagName !== undefined && e.target.tagName.toLowerCase() == "input" && e.target.type == "range") {
+        this.requiresNativeTap = true;
       }
 
       //prevent default if possible
       if(!this.isPanning_ && !this.requiresNativeTap) {
-        if((this.isScrolling && !$.feat.nativeTouchScroll)||(!this.isScrolling))
+        if((this.isScrolling && !$.feat.nativeTouchScroll) || (!this.isScrolling)) {
           e.preventDefault();
+        }
         //demand vertical scroll (don't let it pan the page)
-      } else if(this.isScrollingVertical_) {
+      }
+      else if(this.isScrollingVertical_) {
         this.demandVerticalScroll();
       }
     },
-    demandVerticalScroll: function() {
+    demandVerticalScroll: function () {
       //if at top or bottom adjust scroll
       var atTop = this.scrollingEl_.scrollTop <= 0;
       if(atTop) {
         //this.log("adjusting scrollTop to 1");
         this.scrollingEl_.scrollTop = 1;
-      } else {
+      }
+      else {
         var scrollHeight = this.scrollingEl_.scrollTop + this.scrollingEl_.clientHeight;
         var atBottom = scrollHeight >= this.scrollingEl_.scrollHeight;
         if(atBottom) {
@@ -438,28 +485,40 @@
     },
     //set rules here to ignore scrolling check on these elements
     //consider forcing user to use scroller object to assess these... might be causing bugs
-    ignoreScrolling: function(element) {
-      if(element['scrollWidth'] === undefined || element['clientWidth'] === undefined) return true;
-      if(element['scrollHeight'] === undefined || element['clientHeight'] === undefined) return true;
+    ignoreScrolling     : function (element) {
+      if(element['scrollWidth'] === undefined || element['clientWidth'] === undefined) {
+        return true;
+      }
+      if(element['scrollHeight'] === undefined || element['clientHeight'] === undefined) {
+        return true;
+      }
       return false;
     },
 
-    allowsVerticalScroll: function(element, styles) {
+    allowsVerticalScroll  : function (element, styles) {
       var overflowY = styles.overflowY;
-      if(overflowY == 'scroll') return true;
-      if(overflowY == 'auto' && element['scrollHeight'] > element['clientHeight']) return true;
+      if(overflowY == 'scroll') {
+        return true;
+      }
+      if(overflowY == 'auto' && element['scrollHeight'] > element['clientHeight']) {
+        return true;
+      }
       return false;
     },
-    allowsHorizontalScroll: function(element, styles) {
+    allowsHorizontalScroll: function (element, styles) {
       var overflowX = styles.overflowX;
-      if(overflowX == 'scroll') return true;
-      if(overflowX == 'auto' && element['scrollWidth'] > element['clientWidth']) return true;
+      if(overflowX == 'scroll') {
+        return true;
+      }
+      if(overflowX == 'auto' && element['scrollWidth'] > element['clientWidth']) {
+        return true;
+      }
       return false;
     },
 
 
     //check if pan or native scroll is possible
-    checkDOMTree: function(element, parentTarget) {
+    checkDOMTree          : function (element, parentTarget) {
 
       //check panning
       //temporarily disabled for android - click vs panning issues
@@ -482,7 +541,8 @@
           this.scrollingEl_ = element;
           this.isScrolling = true;
           return;
-        } else if(this.allowsHorizontalScroll(element, styles)) {
+        }
+        else if(this.allowsHorizontalScroll(element, styles)) {
           this.isScrollingVertical_ = false;
           this.scrollingEl_ = null;
           this.isScrolling = true;
@@ -490,19 +550,23 @@
 
       }
       //check recursive up to top element
-      var isTarget = element==(parentTarget);
-      if(!isTarget && element.parentNode) this.checkDOMTree(element.parentNode, parentTarget);
+      var isTarget = element == (parentTarget);
+      if(!isTarget && element.parentNode) {
+        this.checkDOMTree(element.parentNode, parentTarget);
+      }
     },
     //scroll finish detectors
-    scrollEnded: function(e) {
+    scrollEnded           : function (e) {
       //this.log("scrollEnded");
-      if(e) this.scrollTimeoutEl_.removeEventListener('scroll', this.scrollEndedProxy_, false);
+      if(e) {
+        this.scrollTimeoutEl_.removeEventListener('scroll', this.scrollEndedProxy_, false);
+      }
       this.fireEvent('UIEvents', 'scrollend', this.scrollTimeoutEl_, false, false);
       this.scrollTimeoutEl_ = null;
     },
 
 
-    onTouchMove: function(e) {
+    onTouchMove: function (e) {
       //set it as moved
       var wasMoving = this.moved;
       this.moved = true;
@@ -533,20 +597,21 @@
 
       if((!$.os.blackberry10 && !this.requiresNativeTap)) {
         //legacy stuff for old browsers
-        if(!this.isScrolling ||!$.feat.nativeTouchScroll)
+        if(!this.isScrolling || !$.feat.nativeTouchScroll) {
           e.preventDefault();
+        }
         return;
       }
       e.stopPropagation();
     },
 
-    onTouchEnd: function(e) {
-      if($.os.ios){
-        if(skipTouchEnd==e.changedTouches[0].identifier){
+    onTouchEnd: function (e) {
+      if($.os.ios) {
+        if(skipTouchEnd == e.changedTouches[0].identifier) {
           e.preventDefault();
           return false;
         }
-        skipTouchEnd=e.changedTouches[0].identifier;
+        skipTouchEnd = e.changedTouches[0].identifier;
       }
       //double check moved for sensitive devices
       var itMoved = this.moved;
@@ -555,7 +620,9 @@
       }
 
       //don't allow document scroll unless a specific click demands it further ahead
-      if(!jq.os.ios || !this.requiresNativeTap) this.allowDocumentScroll_ = false;
+      if(!jq.os.ios || !this.requiresNativeTap) {
+        this.allowDocumentScroll_ = false;
+      }
 
       //panning action
       if(this.isPanning_ && itMoved) {
@@ -563,7 +630,8 @@
         this.wasPanning_ = true;
 
         //a generated click
-      } else if(!itMoved && !this.requiresNativeTap) {
+      }
+      else if(!itMoved && !this.requiresNativeTap) {
 
         //NOTE: on android if touchstart is not preventDefault(), click will fire even if touchend is prevented
         //this is one of the reasons why scrolling and panning can not be nice and native like on iPhone
@@ -572,13 +640,16 @@
         //fire click
         if(!this.blockClicks && !this.blockPossibleClick_) {
           var theTarget = e.target;
-          if(theTarget.nodeType == 3) theTarget = theTarget.parentNode;
-          this.fireEvent('Event', 'click', theTarget, true, e.mouseToTouch,e.changedTouches[0]);
-          this.lastTouchStartX=this.dX;
-          this.lastTouchStartY=this.dY;
+          if(theTarget.nodeType == 3) {
+            theTarget = theTarget.parentNode;
+          }
+          this.fireEvent('Event', 'click', theTarget, true, e.mouseToTouch, e.changedTouches[0]);
+          this.lastTouchStartX = this.dX;
+          this.lastTouchStartY = this.dY;
         }
 
-      } else if(itMoved) {
+      }
+      else if(itMoved) {
         //setup scrollend stuff
         if(this.isScrolling) {
           this.scrollTimeoutEl_ = this.scrollingEl_;
@@ -586,7 +657,8 @@
             //fire scrollend immediatly
             //this.log(" scrollend immediately "+this.speedY);
             this.scrollEnded(false);
-          } else {
+          }
+          else {
             //wait for scroll event
             //this.log($.debug.since()+" setting scroll timeout "+this.speedY);
             this.scrollTimeout_ = setTimeout(this.scrollTimeoutExpireProxy_, 30)
@@ -594,13 +666,15 @@
         }
         //trigger cancel-enter-edit on inputs
         if(this.requiresNativeTap) {
-          if(!this.isFocused_) $.trigger(this, 'cancel-enter-edit', [e.target]);
+          if(!this.isFocused_) {
+            $.trigger(this, 'cancel-enter-edit', [e.target]);
+          }
         }
       }
       this.clearTouchVars();
     },
 
-    clearTouchVars: function() {
+    clearTouchVars: function () {
       //this.log("clearing touchVars");
       this.speedY = this.lastY = this.cY = this.cX = this.dX = this.dY = 0;
       this.moved = false;
@@ -611,19 +685,21 @@
       this.blockPossibleClick_ = false;
     },
 
-    fireEvent: function(eventType, eventName, target, bubbles, mouseToTouch,data) {
+    fireEvent: function (eventType, eventName, target, bubbles, mouseToTouch, data) {
       //this.log("Firing event "+eventName);
       //create the event and set the options
       var theEvent = document.createEvent(eventType);
       theEvent.initEvent(eventName, bubbles, true);
       theEvent.target = target;
-      if(data){
-        $.each(data,function(key,val){
-          theEvent[key]=val;
+      if(data) {
+        $.each(data, function (key, val) {
+          theEvent[key] = val;
         });
       }
       //jq.DesktopBrowsers flag
-      if(mouseToTouch) theEvent.mouseToTouch = true;
+      if(mouseToTouch) {
+        theEvent.mouseToTouch = true;
+      }
       target.dispatchEvent(theEvent);
     }
   };

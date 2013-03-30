@@ -1,32 +1,32 @@
 var chat_log = {
   "chat_info": {
-    "chat_id": "23213123",
-    "my_photo": "photo_url_on_phone",
+    "chat_id"    : "23213123",
+    "my_photo"   : "photo_url_on_phone",
     "other_photo": "photo_url",
-    "other_name": "Bob"
+    "other_name" : "Bob"
   },
-  "messages": [
+  "messages" : [
 
     {
-      "id": "0",
+      "id"  : "0",
       "user": "Bob",
       "text": "hello there",
       "time": "04:41"
     },
     {
-      "id": "1",
+      "id"  : "1",
       "user": "Sam",
       "text": "hey whats up",
       "time": "04:41"
     },
     {
-      "id": "2",
+      "id"  : "2",
       "user": "Bob",
       "text": "nothing much",
       "time": "04:41"
     },
     {
-      "id": "3",
+      "id"  : "3",
       "user": "Bob",
       "text": "what u doing",
       "time": "04:41"
@@ -34,20 +34,20 @@ var chat_log = {
   ]
 };
 var Chat = new $.mvc.model.Extend("chat", {
-  chat_id: '',
-  current_chat: this,                                        //might be wrong
-  my_photo: function () {
+  chat_id                          : '',
+  current_chat                     : this,                                        //might be wrong
+  my_photo                         : function () {
     return current_user.profile_pic;                          //this might keep getting executed multiple times
   },
-  latest_sent_message_timestamp: '',
+  latest_sent_message_timestamp    : '',
   latest_received_message_timestamp: '',
-  messages: [],
-  poll_for_messages: function () {
+  messages                         : [],
+  poll_for_messages                : function () {
     var data = {
-      chat_id: this.chat_id,
-      timestamp: this.latest_received_message_timestamp,
+      chat_id       : this.chat_id,
+      timestamp     : this.latest_received_message_timestamp,
       total_messages: this.messages.length(),
-      token: current_user.token
+      token         : current_user.token
     };
 
 
@@ -65,30 +65,30 @@ var Chat = new $.mvc.model.Extend("chat", {
     //add latest timestamp to this.latest_timestamp
     //this.update
   },
-  send_message: function (messages) {
+  send_message                     : function (messages) {
     //add to local and send to remote
     $.ajax({
-      url: server + "/users/auth",
-      data: message,
+      url    : server + "/users/auth",
+      data   : message,
       success: function (response) {
         //sent date time should display
       },
-      error: function (response) {
+      error  : function (response) {
         //message sending... should display. -> that should be default and it should keep it
       }
     });
 
     $.ajax({
-      type: 'POST',
-      url: server + 'chat',
+      type       : 'POST',
+      url        : server + 'chat',
       contentType: 'application/json',
-      headers: { TOKEN: current_user.token },
-      dataType: 'application/json',
-      data: { message: messages }, //Can be Key/Value, string, or object. $.serialize called if object
-      success: function (response) {
+      headers    : { TOKEN: current_user.token },
+      dataType   : 'application/json',
+      data       : { message: messages }, //Can be Key/Value, string, or object. $.serialize called if object
+      success    : function (response) {
         //sent date time should display
       },
-      error: function (response) {
+      error      : function (response) {
         //message sending should continue to be displayed. retry sending every 5 seconds
       }
 
@@ -97,7 +97,7 @@ var Chat = new $.mvc.model.Extend("chat", {
     //add to local_storage
 
   },                                                              //post & update timestamp
-  update: function (new_messages) {
+  update                           : function (new_messages) {
     //Adds new messages to display window via $()
     //runs a template that only has the 2 chat of left and right and appends it to the end
   }

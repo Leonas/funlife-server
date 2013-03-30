@@ -1,37 +1,38 @@
-(function($ui){
+(function ($ui) {
 
-  function slideUpTransition(old_div, current_div, back) {
+  function slideUpTransition (old_div, current_div, back) {
     old_div.style.display = "block";
     current_div.style.display = "block";
     var that = this;
-    if (back) {
+    if(back) {
       current_div.style.zIndex = 1;
       old_div.style.zIndex = 2;
 
       that.clearAnimations(current_div);
 
       that.css3animate(old_div, {
-        y: "100%",
-        x: "0%",
-        time: "150ms",
-        complete: function() {
+        y       : "100%",
+        x       : "0%",
+        time    : "150ms",
+        complete: function () {
           that.finishTransition(old_div);
           current_div.style.zIndex = 2;
           old_div.style.zIndex = 1;
         }
       });
-    } else {
+    }
+    else {
       current_div.style.zIndex = 2;
       old_div.style.zIndex = 1;
       that.css3animate(current_div, {
-        y: "100%",
-        x: "0%",
-        complete: function() {
+        y       : "100%",
+        x       : "0%",
+        complete: function () {
           that.css3animate(current_div, {
-            y: "0%",
-            x: "0%",
-            time: "150ms",
-            complete: function(canceled) {
+            y       : "0%",
+            x       : "0%",
+            time    : "150ms",
+            complete: function (canceled) {
               if(canceled) {
                 that.finishTransition(old_div, current_div);
                 return;
@@ -39,9 +40,9 @@
 
               that.clearAnimations(current_div);
               that.css3animate(old_div, {
-                x: "-100%",
-                y: 0,
-                complete: function() {
+                x       : "-100%",
+                y       : 0,
+                complete: function () {
                   that.finishTransition(old_div);
                 }
               });
@@ -52,6 +53,7 @@
       });
     }
   }
+
   $ui.availableTransitions.up = slideUpTransition;
 })($.ui);
 

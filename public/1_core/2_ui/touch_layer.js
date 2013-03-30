@@ -41,8 +41,7 @@
   var skipTouchEnd = false; //Fix iOS bug with alerts/confirms
   function getTime () {
     var d = new Date();
-    var n = d.getTime();
-    return n;
+    return d.getTime();
   }
 
   var touch_layer = function (element) {

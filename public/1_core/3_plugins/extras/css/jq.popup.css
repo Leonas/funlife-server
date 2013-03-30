@@ -14,7 +14,7 @@ BODY>DIV#mask {
     width: 280px;
     float: left;
     border: solid 1px #72767b;
-    -webkit-box-shadow: 0px 4px 6px #555, 0 0 20px rgba(255, 255, 255, 0.5);
+    -webkit-box-shadow: 0 4px 6px #555, 0 0 20px rgba(255, 255, 255, 0.5);
     -webkit-border-radius: 10px;
     border-radius: 10px;
     padding: 10px;
@@ -40,7 +40,7 @@ BODY>DIV#mask {
     -webkit-transform: scale(0);
     top: 50%;
     left: 50%;
-    margin: 0px auto;
+    margin: 0 auto;
 }
 
 .jqPopup>HEADER {

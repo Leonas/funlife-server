@@ -82,7 +82,7 @@
       var data = Array.prototype.slice.call(this.container.childNodes);
       while(data.length > 0) {
         var myEl = data.splice(0, 1);
-        myEl = $container.find(myEl)
+        myEl = $container.find(myEl);
         if(myEl.get() == el) {
           continue;
         }
@@ -446,7 +446,7 @@
         }
         // Create the paging dots
         if(this.pagingDiv) {
-          this.pagingDiv.innerHTML = ""
+          this.pagingDiv.innerHTML = "";
           for(i = 0; i < this.childrenCount; i++) {
 
             var pagingEl = document.createElement("div");

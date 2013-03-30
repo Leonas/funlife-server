@@ -3,11 +3,11 @@
   function flipTransition (old_div, current_div, back) {
     old_div.style.display = "block";
     current_div.style.display = "block";
-    var that = this
+    var that = this;
     if(back) {
       that.css3animate(current_div, {
         x       : "100%",
-        scale   : .8,
+        scale   : 0.8,
         rotateY : "180deg",
         complete: function () {
           that.css3animate(current_div, {
@@ -24,7 +24,7 @@
       that.css3animate(old_div, {
         x       : "100%",
         time    : "150ms",
-        scale   : .8,
+        scale   : 0.8,
         rotateY : "180deg",
         complete: function () {
           that.css3animate(old_div, {
@@ -47,7 +47,7 @@
       that.css3animate(old_div, {
         x       : "100%",
         time    : "150ms",
-        scale   : .8,
+        scale   : 0.8,
         rotateY : "180deg",
         complete: function () {
           that.css3animate(old_div, {
@@ -65,7 +65,7 @@
       that.css3animate(current_div, {
         x       : "100%",
         time    : "1ms",
-        scale   : .8,
+        scale   : 0.8,
         rotateY : "180deg",
         complete: function () {
           that.css3animate(current_div, {

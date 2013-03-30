@@ -49,14 +49,14 @@ class User < ActiveRecord::Base
   # => "SELECT 'activities'.* FROM 'activities'  WHERE (('activities'.'user_id' IN (friends_ids, self.id) OR 'activities'.'allow_join' = 't'))"
   # TODO add attending activities
   def feed_activities
-    act = Activity.arel_table
+    activity = Activity.arel_table
 
     # Includes the current_user's Activities
     user_ids = self.following_ids.push(self.id)
 
     Activity.where(
-      act[:user_id].in(user_ids).or(
-        act[:allow_join].eq(true)
+      activity[:user_id].in(user_ids).or(
+        activity[:allow_join].eq(true)
       )
     )
   end

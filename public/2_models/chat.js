@@ -1,38 +1,3 @@
-var chat_log = {
-  "chat_info": {
-    "chat_id"    : "23213123",
-    "my_photo"   : "photo_url_on_phone",
-    "other_photo": "photo_url",
-    "other_name" : "Bob"
-  },
-  "messages" : [
-
-    {
-      "id"  : "0",
-      "user": "Bob",
-      "text": "hello there",
-      "time": "04:41"
-    },
-    {
-      "id"  : "1",
-      "user": "Sam",
-      "text": "hey whats up",
-      "time": "04:41"
-    },
-    {
-      "id"  : "2",
-      "user": "Bob",
-      "text": "nothing much",
-      "time": "04:41"
-    },
-    {
-      "id"  : "3",
-      "user": "Bob",
-      "text": "what u doing",
-      "time": "04:41"
-    }
-  ]
-};
 var Chat = new $.mvc.model.Extend("chat", {
   chat_id                          : '',
   current_chat                     : this,                                        //might be wrong

@@ -36,6 +36,13 @@ Spork.prefork do
   Dir[Rails.root.join('spec/support/**/*.rb')].each {|f| require f}
 
   RSpec.configure do |config|
+    # Use color in STDOUT
+    config.color_enabled = true
+    # Use color not only in STDOUT but also in pagers and files
+    config.tty = true
+    # Use the specified formatter
+    config.formatter = :progress #:documentation # :progress, :html, :textmate
+
     config.order = 'random'
     config.use_transactional_fixtures = false
 

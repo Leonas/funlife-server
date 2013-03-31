@@ -21,7 +21,7 @@ Spork.prefork do
   require 'capybara/rspec'
   require 'capybara/poltergeist'
   Capybara.register_driver :poltergeist do |app|
-    Capybara::Poltergeist::Driver.new(app, inspector: true)
+    Capybara::Poltergeist::Driver.new(app, inspector: true, phantomjs_logger: {})
   end
   Capybara.default_driver = :poltergeist
 

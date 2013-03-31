@@ -92,7 +92,7 @@ describe ChatMessagesController do
       post :create,
            chat_id: @chat.id,
            chat_message: attributes_for(:chat_message)
-      JSON.parse(response.body)['message']['time'].should_not be_nil
+      JSON.parse(response.body)['message']['time'].length.should > 3
     end
   end
 

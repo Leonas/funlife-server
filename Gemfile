@@ -3,13 +3,14 @@ ruby '1.9.3'
 
 gem 'rails-api'
 gem 'rails', '~> 3.2.13'
-gem 'json', '>= 1.7.7'
+#gem 'json', '>= 1.7.7' #replaced with yajl/json_gem
 gem 'bcrypt-ruby', '~> 3.0.0'  # Adds has_secure_password
 
 gem 'newrelic_rpm'
 
 # Use yajl for JSON encode/decode
-gem 'yajl-ruby', require: 'yajl'
+gem 'yajl-ruby', require: 'yajl', require: 'yajl/json_gem'
+
 
 gem "active_model_serializers", :git => "git://github.com/rails-api/active_model_serializers.git"
 

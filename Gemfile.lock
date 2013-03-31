@@ -219,7 +219,6 @@ DEPENDENCIES
   guard-rspec
   guard-spork
   httparty
-  json (>= 1.7.7)
   newrelic_rpm
   pg
   poltergeist

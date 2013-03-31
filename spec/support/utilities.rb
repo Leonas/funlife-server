@@ -1,5 +1,5 @@
 
-def log_in(user)
+def browser_login(user)
   visit root_path
   page.should_not have_content "Today's Activities"
   sleep 1

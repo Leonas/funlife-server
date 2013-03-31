@@ -15,23 +15,54 @@ describe ChatMessagesController do
     it { should assign_to(:chat) }
     it { should assign_to(:chat_messages) }
     it { should respond_with(:success) }
+
+  end
+
+  describe "GET to #index of existing chat" do
+    before do
+      @message1 = Factory.build(:chat_message)
+      @message2 = Factory.build(:chat_message)
+      post :create,
+           chat_id: @chat.id,
+           chat_message: attributes_for(:chat_message)
+
+      post :create,
+           chat_id: @chat.id,
+           chat_message: attributes_for(:chat_message)
+
+      get :index, chat_id: @chat.id
+    end
+
   end
 
   describe "POST to #create" do
     it "should create new message" do
       expect{
-        post :create, chat_id: @chat.id, chat_message: attributes_for(:chat_message)
+        post :create,
+             chat_id: @chat.id,
+             chat_message: attributes_for(:chat_message)
       }.to change(ChatMessage, :count).by(1)
     end
 
     it "should respond with created" do
-      post :create, chat_id: @chat.id, chat_message: attributes_for(:chat_message)
+      post :create,
+           chat_id: @chat.id,
+           chat_message: attributes_for(:chat_message)
       should respond_with(:created)
     end
 
-    it "should respond error with invalid attrs" do
+    it "should respond with an error if posted invalid attributes" do
       post :create, chat_id: @chat.id, chat_message: {}
       should respond_with(:unprocessable_entity)
     end
+
+    it "should respond with a timestamp when the message was created" do
+      post :create,
+           chat_id: @chat.id,
+           chat_message: attributes_for(:chat_message)
+      JSON.parse(response.body)['message']['timestamp'].should_not be_nil
+    end
   end
+
+
 end

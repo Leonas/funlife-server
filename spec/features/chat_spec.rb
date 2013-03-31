@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Chat do
   before :each do
     create_3_users  #defines @user1-3
-    log_in(@user1)
+    browser_login(@user1)
   end
 
 

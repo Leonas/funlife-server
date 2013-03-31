@@ -30,11 +30,11 @@ class User < ActiveRecord::Base
   has_many :comments, dependent: :destroy
 
   def ensure_authentication_token!
-    self.token ||= SecureRandom.urlsafe_base64(15)
+    self.token ||= SecureRandom.urlsafe_base64
   end
 
   def reset_authentication_token
-    self.token = SecureRandom.urlsafe_base64(15)
+    self.token = SecureRandom.urlsafe_base64
   end
 
   def reset_authentication_token!

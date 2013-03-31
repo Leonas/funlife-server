@@ -22,3 +22,7 @@ end
 def three_two_person_chats
 
 end
+
+def be_longer_than(num = 0)
+
+end

@@ -20,8 +20,6 @@ describe ChatMessagesController do
 
   describe "GET to #index of existing chat" do
     before do
-      @message1 = Factory.build(:chat_message)
-      @message2 = Factory.build(:chat_message)
       post :create,
            chat_id: @chat.id,
            chat_message: attributes_for(:chat_message)
@@ -31,6 +29,40 @@ describe ChatMessagesController do
            chat_message: attributes_for(:chat_message)
 
       get :index, chat_id: @chat.id
+
+      @messages = JSON.parse(response.body)['chat_messages']
+
+    end
+
+
+    it "should have an id for each message" do
+      @messages.each do |response|
+        response['id'].should be >= 0
+      end
+    end
+
+    it "should have a body for each message" do
+      @messages.each do |response|
+        response['message'].length.should >= 1
+      end
+    end
+
+    it "should have a user_id for each message" do
+      @messages.each do |response|
+        response['user_id'].should >= 1
+      end
+    end
+
+    it "should have a time for each message" do
+      @messages.each do |response|
+        response['time'].length.should > 3
+      end
+    end
+
+    it "should have a photo url for each message" do
+      JSON.parse(response.body)['chat_messages'].each do |response|
+        response['photo'].length.should > 4
+      end
     end
 
   end
@@ -56,11 +88,11 @@ describe ChatMessagesController do
       should respond_with(:unprocessable_entity)
     end
 
-    it "should respond with a timestamp when the message was created" do
+    it "should respond with a nicely formatted time created" do
       post :create,
            chat_id: @chat.id,
            chat_message: attributes_for(:chat_message)
-      JSON.parse(response.body)['message']['timestamp'].should_not be_nil
+      JSON.parse(response.body)['message']['time'].should_not be_nil
     end
   end
 

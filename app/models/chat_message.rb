@@ -12,7 +12,7 @@ class ChatMessage < ActiveRecord::Base
   validates :user, presence: true
   validates :chat, presence: true
 
-  def self.lasted_messages(timestamp = nil)
+  def self.since(timestamp = nil)
     cm = ChatMessage.arel_table
     timestamp ? where(cm[:created_at].gteq(timestamp)) : all
   end

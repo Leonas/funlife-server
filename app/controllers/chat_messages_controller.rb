@@ -4,7 +4,7 @@ class ChatMessagesController < ApplicationController
   # GET /chats/:chat_id/chat_messages
   # GET /chats/:chat_id/chat_messages.json
   def index
-    @chat_messages = @chat.chat_messages.lasted_messages(params[:latest_timestamp])
+    @chat_messages = @chat.chat_messages.since(params[:latest_timestamp])
     render json: @chat_messages
   end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130329225315) do
+ActiveRecord::Schema.define(:version => 20130401143203) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -119,6 +119,8 @@ ActiveRecord::Schema.define(:version => 20130329225315) do
     t.datetime "updated_at",                     :null => false
     t.integer  "following_count", :default => 0
     t.integer  "followers_count", :default => 0
+    t.string   "gender"
+    t.date     "birthday"
   end
 
 end

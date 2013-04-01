@@ -2,6 +2,8 @@ class User < ActiveRecord::Base
   include ActiveModel::SecurePassword
   has_secure_password
 
+  GENDERS = %w(male female)
+
   # - Mass Assignment Security
   attr_accessible :email, :first_name, :full_name, :last_name
 
@@ -9,6 +11,7 @@ class User < ActiveRecord::Base
 
   # - Validations
   validates :email, presence: true, uniqueness: true
+  validates :gender, inclusion: { in: GENDERS, allow_nil: true }
 
   # - Callbacks
   before_create :ensure_authentication_token!

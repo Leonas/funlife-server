@@ -1,23 +1,6 @@
 require 'spec_helper'
 
 describe UsersController do
-
-  describe "GET to #index" do
-    before do
-      get :index
-    end
-    it { should assign_to(:users) }
-    it { should respond_with(:success) }
-  end
-
-  describe "GET to #feed" do
-    before do
-      get :index
-    end
-    it { should assign_to(:users) }
-    it { should respond_with(:success) }
-  end
-
   it "should render unauthorized status" do
     put :update, id: "1", user: { email: ""}
     should respond_with(401)
@@ -27,6 +10,15 @@ describe UsersController do
     before do
       login_user
     end
+
+    describe "GET to #index" do
+      before do
+        get :index
+      end
+      it { should assign_to(:users) }
+      it { should respond_with(:success) }
+    end
+
 
     describe "GET to #show" do
       before do

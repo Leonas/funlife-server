@@ -15,6 +15,14 @@ describe ActivitiesController do
     it{ should respond_with(:success) }
   end
 
+  describe "GET to #feed" do
+    before do
+      get :feed, date: Date.today
+    end
+    it { should assign_to(:activities) }
+    it { should respond_with(:success) }
+  end
+
   describe "GET to #show" do
     before do
       @activity = create(:activity, user_id: @current_user.id)

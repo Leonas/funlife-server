@@ -1,7 +1,14 @@
 class ChatSerializer < ActiveModel::Serializer
-  embed :ids
-  attributes :id
+  attributes :id, :date, :user_ids
 
-  has_many :users
+  def date
+    object.created_at.strftime("%m %d,  %I:%M%p")
+  end
+
+  def user_ids
+    user_ids = object.user_ids
+    user_ids.delete(scope.current_user)
+    user_ids
+  end
 
 end

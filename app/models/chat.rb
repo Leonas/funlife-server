@@ -5,5 +5,5 @@ class Chat < ActiveRecord::Base
   has_many :users, through: :user_chats
   has_many :chat_messages, dependent: :destroy
 
-  attr_accessible :user_ids
+  attr_accessible :user_ids, :unread
 end

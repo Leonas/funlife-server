@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130401143203) do
+ActiveRecord::Schema.define(:version => 20130401193626) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(:version => 20130401143203) do
     t.integer  "user_id"
     t.integer  "chat_id"
     t.string   "message"
+    t.boolean  "unread"
   end
 
   add_index "chat_messages", ["chat_id"], :name => "index_chat_messages_on_chat_id"

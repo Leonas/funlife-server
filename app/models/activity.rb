@@ -5,17 +5,19 @@ class Activity < ActiveRecord::Base
   # - Mass Assignment Security
   attr_accessible :allow_join, :cost, :details, :end_time, :headline,
     :maximum_users, :pick_time, :pick_date, :start_time, :visibility, :waitlist,
-    :everyone, :women, :men, :verified, :trusted, :star_age, :end_age
+    :everyone, :women, :men, :verified, :trusted, :star_age, :end_age,
+    :address
 
   # - Associations
   belongs_to :user
 
   # - Validations
-  validates :headline, presence: true
-  validates :pick_time, presence: true
-  validates :start_time, presence: true
-  validates :end_time, presence: true
+  validates :headline, presence: true, on: :update
+  validates :pick_time, presence: true, on: :update
+  validates :start_time, presence: true, on: :update
+  validates :end_time, presence: true, on: :update
   validates :waitlist, inclusion: { in: WAITLIST }
+  validates :address, presence: true
 
   # - Class Methods
   class << self

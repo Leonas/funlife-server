@@ -41,7 +41,7 @@ describe ActivitiesController do
     end
 
     it "should respond with error if there are invalid attrs" do
-      post :create, activity: attributes_for(:activity, headline: nil)
+      post :create, activity: attributes_for(:activity, address: nil)
       should respond_with(:unprocessable_entity)
     end
   end
@@ -49,7 +49,7 @@ describe ActivitiesController do
 
   describe "PUT to #update" do
     it "should update the user" do
-      put :update, id: activity.id, activity: { headline: "MyHeadline" }
+      put :update, id: activity.id, activity: attributes_for(:activity_step2)
       should respond_with(:no_content)
     end
 

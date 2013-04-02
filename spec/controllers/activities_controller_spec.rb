@@ -57,6 +57,13 @@ describe ActivitiesController do
       put :update, id: activity.id, activity: { headline: nil }
       should respond_with(:unprocessable_entity)
     end
+
+    it "should add categories to the activities" do
+      expect{
+        category = create(:category)
+        put :update, id: activity.id, activity: attributes_for(:activity_step2).merge({ category_ids: [category.id] })
+      }.to change(ActivityCategory, :count).by(1)
+    end
   end
 
   describe "DELETE to #destroy" do

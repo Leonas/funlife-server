@@ -6,10 +6,12 @@ class Activity < ActiveRecord::Base
   attr_accessible :allow_join, :cost, :details, :end_time, :headline,
     :maximum_users, :date, :start_time, :visibility, :waitlist,
     :everyone, :women, :men, :verified, :trusted, :star_age, :end_age,
-    :address
+    :address, :category_ids
 
   # - Associations
   belongs_to :user
+  has_many :activity_categories, dependent: :destroy
+  has_many :categories, through: :activity_categories
 
   # - Validations
   validates :headline, presence: true, on: :update

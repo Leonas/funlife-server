@@ -4,4 +4,8 @@ class Category < ActiveRecord::Base
 
   # - Validations
   validates :name, presence: true, uniqueness: true
+
+  # - Associations
+  has_many :activity_categories, dependent: :destroy
+  has_many :activities, through: :activity_categories
 end

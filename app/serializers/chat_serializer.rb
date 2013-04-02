@@ -1,5 +1,5 @@
 class ChatSerializer < ActiveModel::Serializer
-  attributes :id, :date, :user_ids, :name
+  attributes :id, :date, :user_ids, :name, :photo
 
   def date
     object.created_at.strftime("%m %d,  %I:%M%p")
@@ -11,6 +11,10 @@ class ChatSerializer < ActiveModel::Serializer
 
   def name
     (object.users - [scope.current_user]).first.full_name
+  end
+
+  def photo
+    (object.users - [scope.current_user]).first.try(:profile_photo).try(:url)
   end
 
 end

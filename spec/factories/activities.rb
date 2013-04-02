@@ -3,12 +3,7 @@
 FactoryGirl.define do
   factory :activity do
     user
-    headline "MyString"
-    details "MyText"
-    pick_time "2013-03-27 14:31:23"
-    pick_date "2013-03-27"
-    start_time "2013-03-27 14:31:23"
-    end_time "2013-03-27 14:31:23"
+    address { Faker::Address.street_address }
     allow_join false
     maximum_users 1
     waitlist "none"
@@ -18,5 +13,13 @@ FactoryGirl.define do
     men false
     verified false
     trusted false
+
+    factory :activity_step2 do
+      headline { Faker::Name.name }
+      details {Faker::Lorem.sentence(10)}
+      date "2013-03-27"
+      start_time "2013-03-27 14:31:23"
+      end_time "2013-03-27 14:31:23"
+    end
   end
 end

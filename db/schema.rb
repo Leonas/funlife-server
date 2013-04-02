@@ -11,32 +11,48 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130402011611) do
+ActiveRecord::Schema.define(:version => 20130402160938) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
-    t.string   "headline",                         :null => false
+    t.string   "headline"
     t.text     "details"
-    t.time     "pick_time",                        :null => false
-    t.date     "pick_date",                        :null => false
-    t.time     "start_time",                       :null => false
-    t.time     "end_time",                         :null => false
-    t.boolean  "allow_join",    :default => false
+    t.time     "start_time",    :limit => 255
+    t.time     "end_time",      :limit => 255
+    t.boolean  "allow_join",                   :default => false
     t.integer  "maximum_users"
     t.string   "waitlist"
     t.decimal  "cost"
-    t.boolean  "everyone",      :default => false
-    t.boolean  "women",         :default => false
-    t.boolean  "men",           :default => false
-    t.boolean  "verified",      :default => false
-    t.boolean  "trusted",       :default => false
+    t.boolean  "everyone",                     :default => false
+    t.boolean  "women",                        :default => false
+    t.boolean  "men",                          :default => false
+    t.boolean  "verified",                     :default => false
+    t.boolean  "trusted",                      :default => false
     t.integer  "star_age"
     t.integer  "end_age"
-    t.datetime "created_at",                       :null => false
-    t.datetime "updated_at",                       :null => false
+    t.datetime "created_at",                                      :null => false
+    t.datetime "updated_at",                                      :null => false
+    t.string   "address"
+    t.date     "date"
   end
 
   add_index "activities", ["user_id"], :name => "index_activities_on_user_id"
+
+  create_table "activity_categories", :force => true do |t|
+    t.integer  "activity_id"
+    t.integer  "category_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "activity_categories", ["activity_id"], :name => "index_activity_categories_on_activity_id"
+  add_index "activity_categories", ["category_id"], :name => "index_activity_categories_on_category_id"
+
+  create_table "categories", :force => true do |t|
+    t.string   "name",       :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "chat_messages", :force => true do |t|
     t.datetime "created_at", :null => false

@@ -24,7 +24,7 @@ class Activity < ActiveRecord::Base
   # - Class Methods
   class << self
     def by_pick_date(date = nil)
-      date ? where(date: date) : all
+      date ? where(date: date) : self.scoped
     end
   end
 

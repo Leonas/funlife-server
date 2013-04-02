@@ -4,15 +4,15 @@ class ActivitiesController < ApplicationController
   # GET /activities.json
   # Current User's Activities
   def index
-    @activities = @current_user.activities.by_pick_date(params[:date])
-    render json: @activities
+    @activities = @current_user.activities.page(params[:page]).by_pick_date(params[:date])
+    render json: @activities, meta: pagination_attrs
   end
 
   # GET /feed
   # GET /feed.json
   def feed
-    @activities = @current_user.feed_activities.by_pick_date(params[:date])
-    render json: @activities
+    @activities = @current_user.feed_activities.page(params[:page]).by_pick_date(params[:date])
+    render json: @activities, meta: pagination_attrs
   end
 
   # GET /activities/1
@@ -50,6 +50,14 @@ class ActivitiesController < ApplicationController
   end
 
   private
+
+  def pagination_attrs
+    {
+      total_records: @activities.total_count,
+      total_pages:  @activities.num_pages,
+      current_page:  @activities.current_page
+    }
+  end
 
   def set_activity
     @activity = @current_user.activities.find(params[:id])

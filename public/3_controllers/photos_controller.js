@@ -103,91 +103,35 @@ $.mvc.controller.create('photos_controller', {
     }
     else {
 
-//        var uploadPhotoFile = function(file){
-//          console.log(forge.file.base64(file));
-//          $.ajax({
-//            url: cloudinary,
-//            type: "POST",
-//            data:
-//            {
-//              file: data,
-//              api_key: 221816386951751,
-//              timestamp: unix_timestamp,
-//              signature: sha1_hash
-//            },
-//            processData: false,
-//            contentType: false,
-//            success: function (res) {
-//              console.log("Upload success. Post this data to rails");
-//            },
-//            error: function(a,b,c){
-//              console.log('error on upload');
-//              console.log(a);
-//
-//            }
-//          });
-//        };
+      forge.file.getImage({}, function (file) {
 
-      var uploadPhotoFile = function (base64string) {
+      file['name'] = 'file';
+
+        var data = {
+          api_key: '221816386951751',
+          timestamp: Math.round((new Date()).getTime() / 1000)
+        };
+        data.signature = sha1_hash;
 
         forge.request.ajax({
-          url        : cloudinary,
-//          headers: {
-//            'X-Parse-Application-Id': config.parseAppId,
-//            'X-Parse-REST-API-Key': config.parseRestKey
-//          },
-          type       : 'POST',
-//          files: [file],
-//          fileUploadMethod: 'raw',
-//          dataType: 'json',
+          url: cloudinary,
+          type: 'POST',
           data       : {
-            file     : base64string,
             api_key  : 221816386951751,
             timestamp: unix_timestamp,
             signature: sha1_hash
           },
-          processData: false,
-          contentType: false,
-          success    : function (data) {
+          files: [file],
+          dataType: 'json',
+          success: function (data) {
             alert('success in upload');
           },
-          error      : function (error) {
-            console.log('error');
-            console.log(error);
+          error: function (error) {
+            alert('error in upload');
           }
         });
-      };
 
-      forge.file.getImage({}, function (file) {
-        //forge.file.base64(file, function(base64string){      //base64 crashes with big images
-        uploadPhotoFile(file);
-        // });
-      });
-
-
-//
-//
-//              $.ajax({
-//                url: cloudinary,
-//                type: "POST",
-//                data:
-//                {
-//                  file: data,
-//                  api_key: 221816386951751,
-//                  timestamp: unix_timestamp,
-//                  signature: sha1_hash
-//                },
-//                processData: false,
-//                contentType: false,
-//                success: function (res) {
-//                  console.log("Upload success. Post this data to rails");
-//                },
-//                error: function(a,b,c){
-//                  console.log('error on upload');
-//                  console.log(a);
-//
-//                }
-//              });
+      })
 
 
     }

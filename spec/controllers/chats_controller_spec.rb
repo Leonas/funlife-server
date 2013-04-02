@@ -34,9 +34,6 @@ describe ChatsController do
       it { should assign_to(:chat) }
       it { should respond_with(:success) }
 
-      it "response should containts the user ids" do
-        response.body.should include "\"user_ids\":[#{@chat.user_ids.join(",")}]"
-      end
     end
 
     describe "POST to #create" do
@@ -60,7 +57,16 @@ describe ChatsController do
 
       it "response should containts the user ids" do
         post :create, chat: chat_attrs
-        response.body.should include "\"user_ids\":[#{user.id},#{@current_user.id}]"
+        response.body.should include "\"user_ids\":[#{user.id}]"
+      end
+
+      it "response should containts the user ids" do
+        post :create, chat: chat_attrs
+        response.body.should include "\"user_ids\":[#{user.id}]"
+      end
+      it "response should containts the user ids" do
+        post :create, chat: chat_attrs
+        response.body.should include "\"name\":\"#{user.full_name}\""
       end
     end
 

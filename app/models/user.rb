@@ -46,6 +46,11 @@ class User < ActiveRecord::Base
   end
 
 
+  def full_name
+    "#{first_name} #{last_name}"
+  end
+
+
   # Query Methods
 
   # user.feed_activities
@@ -67,6 +72,5 @@ class User < ActiveRecord::Base
   def following_photos
     # ActiveRecord::Relation
     Photo.where(user_id: self.followings.select("following_id"))
-
   end
 end

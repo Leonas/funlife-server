@@ -17,23 +17,23 @@ ActiveRecord::Schema.define(:version => 20130402144126) do
     t.integer  "user_id"
     t.string   "headline"
     t.text     "details"
-    t.string   "pick_time"
-    t.string   "pick_date"
-    t.string   "start_time"
-    t.string   "end_time"
-    t.boolean  "allow_join",    :default => false
+    t.time     "pick_time",     :limit => 255
+    t.date     "pick_date",     :limit => 255
+    t.time     "start_time",    :limit => 255
+    t.time     "end_time",      :limit => 255
+    t.boolean  "allow_join",                   :default => false
     t.integer  "maximum_users"
     t.string   "waitlist"
     t.decimal  "cost"
-    t.boolean  "everyone",      :default => false
-    t.boolean  "women",         :default => false
-    t.boolean  "men",           :default => false
-    t.boolean  "verified",      :default => false
-    t.boolean  "trusted",       :default => false
+    t.boolean  "everyone",                     :default => false
+    t.boolean  "women",                        :default => false
+    t.boolean  "men",                          :default => false
+    t.boolean  "verified",                     :default => false
+    t.boolean  "trusted",                      :default => false
     t.integer  "star_age"
     t.integer  "end_age"
-    t.datetime "created_at",                       :null => false
-    t.datetime "updated_at",                       :null => false
+    t.datetime "created_at",                                      :null => false
+    t.datetime "updated_at",                                      :null => false
     t.string   "address"
   end
 

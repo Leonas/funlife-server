@@ -8,6 +8,8 @@ Funlife::Application.routes.draw do
       end
     end
 
+    resources :categories, only: [:index]
+
     resources :chats, except: [:edit, :update, :new] do
       resources :chat_messages, only: [:index, :create]
     end

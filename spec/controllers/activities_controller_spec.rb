@@ -8,19 +8,30 @@ describe ActivitiesController do
 
   describe "GET to #index" do
     before do
+      activity
       get :index
     end
 
     it{ should assign_to(:activities) }
     it{ should respond_with(:success) }
+
+    it "should include the pagination attrs" do
+      JSON.parse(response.body)["meta"].should == {"total_records"=>1, "total_pages"=>1, "current_page"=>1}
+    end
   end
 
   describe "GET to #feed" do
     before do
-      get :feed, date: Date.today
+      create(:activity, date: Date.today, allow_join: true)
+      get :feed, date: Date.today, page: "1"
     end
+
     it { should assign_to(:activities) }
     it { should respond_with(:success) }
+
+    it "should include the pagination attrs" do
+      JSON.parse(response.body)["meta"].should == {"total_records"=>1, "total_pages"=>1, "current_page"=>1}
+    end
   end
 
   describe "GET to #show" do
@@ -41,7 +52,7 @@ describe ActivitiesController do
     end
 
     it "should respond with error if there are invalid attrs" do
-      post :create, activity: attributes_for(:activity, headline: nil)
+      post :create, activity: attributes_for(:activity, address: nil)
       should respond_with(:unprocessable_entity)
     end
   end
@@ -49,13 +60,20 @@ describe ActivitiesController do
 
   describe "PUT to #update" do
     it "should update the user" do
-      put :update, id: activity.id, activity: { headline: "MyHeadline" }
-      should respond_with(:no_content)
+      put :update, id: activity.id, activity: attributes_for(:activity_step2)
+      should respond_with(:success)
     end
 
     it "should no update the user with invalid attrs" do
       put :update, id: activity.id, activity: { headline: nil }
       should respond_with(:unprocessable_entity)
+    end
+
+    it "should add categories to the activities" do
+      expect{
+        category = create(:category)
+        put :update, id: activity.id, activity: attributes_for(:activity_step2).merge({ category_ids: [category.id] })
+      }.to change(ActivityCategory, :count).by(1)
     end
   end
 

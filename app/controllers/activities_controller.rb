@@ -36,7 +36,7 @@ class ActivitiesController < ApplicationController
   # PATCH/PUT /activities/1.json
   def update
     if @activity.update_attributes(params[:activity])
-      head :no_content
+      render json: @activity
     else
       render json: {errors: @activity.errors}, status: :unprocessable_entity
     end

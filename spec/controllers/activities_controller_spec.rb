@@ -50,7 +50,7 @@ describe ActivitiesController do
   describe "PUT to #update" do
     it "should update the user" do
       put :update, id: activity.id, activity: attributes_for(:activity_step2)
-      should respond_with(:no_content)
+      should respond_with(:success)
     end
 
     it "should no update the user with invalid attrs" do

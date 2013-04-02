@@ -17,8 +17,7 @@ FactoryGirl.define do
     factory :activity_step2 do
       headline { Faker::Name.name }
       details {Faker::Lorem.sentence(10)}
-      pick_time "2013-03-27 14:31:23"
-      pick_date "2013-03-27"
+      date "2013-03-27"
       start_time "2013-03-27 14:31:23"
       end_time "2013-03-27 14:31:23"
     end

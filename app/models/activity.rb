@@ -4,7 +4,7 @@ class Activity < ActiveRecord::Base
 
   # - Mass Assignment Security
   attr_accessible :allow_join, :cost, :details, :end_time, :headline,
-    :maximum_users, :pick_time, :pick_date, :start_time, :visibility, :waitlist,
+    :maximum_users, :date, :start_time, :visibility, :waitlist,
     :everyone, :women, :men, :verified, :trusted, :star_age, :end_age,
     :address
 
@@ -13,7 +13,7 @@ class Activity < ActiveRecord::Base
 
   # - Validations
   validates :headline, presence: true, on: :update
-  validates :pick_time, presence: true, on: :update
+  validates :date, presence: true, on: :update
   validates :start_time, presence: true, on: :update
   validates :end_time, presence: true, on: :update
   validates :waitlist, inclusion: { in: WAITLIST }
@@ -22,7 +22,7 @@ class Activity < ActiveRecord::Base
   # - Class Methods
   class << self
     def by_pick_date(date = nil)
-      date ? where(pick_date: date) : all
+      date ? where(date: date) : all
     end
   end
 

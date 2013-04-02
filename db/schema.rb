@@ -11,14 +11,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130402144126) do
+ActiveRecord::Schema.define(:version => 20130402152200) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
     t.string   "headline"
     t.text     "details"
-    t.time     "pick_time",     :limit => 255
-    t.date     "pick_date",     :limit => 255
     t.time     "start_time",    :limit => 255
     t.time     "end_time",      :limit => 255
     t.boolean  "allow_join",                   :default => false
@@ -35,6 +33,7 @@ ActiveRecord::Schema.define(:version => 20130402144126) do
     t.datetime "created_at",                                      :null => false
     t.datetime "updated_at",                                      :null => false
     t.string   "address"
+    t.date     "date"
   end
 
   add_index "activities", ["user_id"], :name => "index_activities_on_user_id"

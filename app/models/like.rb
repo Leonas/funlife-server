@@ -6,5 +6,5 @@ class Like < ActiveRecord::Base
   belongs_to :photo, counter_cache: true
 
   # Validations
-  validates_uniqueness_of :chat_id, scope: :user_id
+  validates_uniqueness_of :photo_id, scope: :user_id
 end

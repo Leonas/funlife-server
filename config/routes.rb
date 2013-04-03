@@ -22,6 +22,10 @@ Funlife::Application.routes.draw do
         get :following
         get :explore
       end
+
+      member do
+        post :like
+      end
     end
 
     resources :users, except: [:update] do

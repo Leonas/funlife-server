@@ -81,5 +81,15 @@ describe PhotosController do
       end
     end
 
+    describe "POST to #like" do
+      let(:photo){ create(:photo) }
+
+      it "should create a new like" do
+        expect{
+          post :like, id: photo.id
+        }.to change(Like, :count).by(1)
+      end
+    end
+
   end
 end

@@ -46,6 +46,12 @@ class PhotosController < ApplicationController
     head :no_content
   end
 
+  def like
+    @photo = Photo.find(params[:id])
+    @photo.user_likes << current_user
+    head :no_content
+  end
+
   private
 
   def set_photo

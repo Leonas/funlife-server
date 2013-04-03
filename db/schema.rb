@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130402160938) do
+ActiveRecord::Schema.define(:version => 20130403140556) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -94,6 +94,16 @@ ActiveRecord::Schema.define(:version => 20130402160938) do
   add_index "friendships", ["follower_id"], :name => "index_friendships_on_follower_id"
   add_index "friendships", ["following_id"], :name => "index_friendships_on_friend_id"
 
+  create_table "likes", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "photo_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "likes", ["photo_id"], :name => "index_likes_on_photo_id"
+  add_index "likes", ["user_id"], :name => "index_likes_on_user_id"
+
   create_table "photos", :force => true do |t|
     t.integer  "user_id"
     t.string   "public_id"
@@ -111,6 +121,7 @@ ActiveRecord::Schema.define(:version => 20130402160938) do
     t.datetime "updated_at",                    :null => false
     t.integer  "comments_count", :default => 0
     t.datetime "processed_at"
+    t.integer  "likes_count",    :default => 0
   end
 
   add_index "photos", ["user_id"], :name => "index_photos_on_user_id"
@@ -137,6 +148,7 @@ ActiveRecord::Schema.define(:version => 20130402160938) do
     t.integer  "followers_count", :default => 0
     t.string   "gender"
     t.date     "birthday"
+    t.integer  "likes_count",     :default => 0
   end
 
 end

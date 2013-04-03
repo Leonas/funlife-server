@@ -81,5 +81,25 @@ describe PhotosController do
       end
     end
 
+    describe "POST to #like" do
+      let(:photo){ create(:photo) }
+
+      it "should create a new like" do
+        expect{
+          post :like, id: photo.id
+        }.to change(Like, :count).by(1)
+      end
+    end
+
+    describe "POST to #unlike" do
+      it "should destroy a like" do
+        photo = create(:photo)
+        photo.user_likes << @current_user
+        expect{
+          post :unlike, id: photo.id
+        }.to change(Like, :count).by(-1)
+      end
+    end
+
   end
 end

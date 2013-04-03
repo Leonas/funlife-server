@@ -25,6 +25,7 @@ Funlife::Application.routes.draw do
 
       member do
         post :like
+        post :unlike
       end
     end
 

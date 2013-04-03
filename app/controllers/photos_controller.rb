@@ -52,6 +52,12 @@ class PhotosController < ApplicationController
     head :no_content
   end
 
+  def unlike
+    @like = @current_user.likes.find_by_photo_id(params[:id])
+    @like.destroy
+    head :no_content
+  end
+
   private
 
   def set_photo

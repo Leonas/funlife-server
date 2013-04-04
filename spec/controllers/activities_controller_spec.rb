@@ -36,7 +36,7 @@ describe ActivitiesController do
 
   describe "GET to #show" do
     before do
-      @activity = create(:activity, user_id: @current_user.id)
+      @activity = create(:activity_step2, user_id: @current_user.id)
       @user = create(:user)
       @activity.guests << @user
       get :show, id: @activity.id

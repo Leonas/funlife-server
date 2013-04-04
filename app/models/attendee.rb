@@ -1,7 +1,12 @@
 class Attendee < ActiveRecord::Base
+  # - Associations
   belongs_to :user
   belongs_to :activity, counter_cache: true
-  # attr_accessible :title, :body
+
+  # - Mass Assignment Security
+  attr_accessible :user_id, :activity_id
+
+  # - Validations
   validates :activity_id, :uniqueness => { :scope => :user_id }
   validate :uninvated_users_cannot_join, unless: Proc.new{ |a| a.activity.allow_join }
 

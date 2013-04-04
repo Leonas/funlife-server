@@ -11,29 +11,30 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130403153529) do
+ActiveRecord::Schema.define(:version => 20130404150642) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
     t.string   "headline"
     t.text     "details"
-    t.time     "start_time",    :limit => 255
-    t.time     "end_time",      :limit => 255
-    t.boolean  "allow_join",                   :default => false
+    t.time     "start_time",      :limit => 255
+    t.time     "end_time",        :limit => 255
+    t.boolean  "allow_join",                     :default => false
     t.integer  "maximum_users"
     t.string   "waitlist"
     t.decimal  "cost"
-    t.boolean  "everyone",                     :default => false
-    t.boolean  "women",                        :default => false
-    t.boolean  "men",                          :default => false
-    t.boolean  "verified",                     :default => false
-    t.boolean  "trusted",                      :default => false
+    t.boolean  "everyone",                       :default => false
+    t.boolean  "women",                          :default => false
+    t.boolean  "men",                            :default => false
+    t.boolean  "verified",                       :default => false
+    t.boolean  "trusted",                        :default => false
     t.integer  "star_age"
     t.integer  "end_age"
-    t.datetime "created_at",                                      :null => false
-    t.datetime "updated_at",                                      :null => false
+    t.datetime "created_at",                                        :null => false
+    t.datetime "updated_at",                                        :null => false
     t.string   "address"
     t.date     "date"
+    t.integer  "attendees_count",                :default => 0
   end
 
   add_index "activities", ["user_id"], :name => "index_activities_on_user_id"
@@ -47,6 +48,16 @@ ActiveRecord::Schema.define(:version => 20130403153529) do
 
   add_index "activity_categories", ["activity_id"], :name => "index_activity_categories_on_activity_id"
   add_index "activity_categories", ["category_id"], :name => "index_activity_categories_on_category_id"
+
+  create_table "attendees", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "activity_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "attendees", ["activity_id"], :name => "index_attendees_on_activity_id"
+  add_index "attendees", ["user_id"], :name => "index_attendees_on_user_id"
 
   create_table "categories", :force => true do |t|
     t.string   "name",       :null => false

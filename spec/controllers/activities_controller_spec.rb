@@ -39,6 +39,7 @@ describe ActivitiesController do
       @activity = create(:activity_step2, user_id: @current_user.id)
       @user = create(:user)
       @activity.guests << @user
+      @activity.users << @user
       get :show, id: @activity.id
     end
 
@@ -47,6 +48,10 @@ describe ActivitiesController do
 
     it "should include the guest ids" do
       JSON.parse(response.body)["activity"]["guest_ids"].should include @user.id
+    end
+
+    it "should include the atteendes count" do
+      JSON.parse(response.body)["activity"]["attendees_count"].should == 1
     end
   end
 
@@ -96,5 +101,4 @@ describe ActivitiesController do
     end
 
   end
-
 end

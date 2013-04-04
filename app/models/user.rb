@@ -35,6 +35,9 @@ class User < ActiveRecord::Base
   has_many :likes, dependent: :destroy
   has_many :photo_likes, through: :likes, source: :photo
 
+  has_many :invitations, dependent: :destroy
+  has_many :invited_activities, through: :invitations, source: :activity
+
   def ensure_authentication_token!
     self.token ||= SecureRandom.urlsafe_base64
   end

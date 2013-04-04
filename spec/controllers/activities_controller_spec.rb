@@ -36,12 +36,18 @@ describe ActivitiesController do
 
   describe "GET to #show" do
     before do
-      @activity = create(:activity, user_id: @current_user.id)
+      @activity = create(:activity_step2, user_id: @current_user.id)
+      @user = create(:user)
+      @activity.guests << @user
       get :show, id: @activity.id
     end
 
     it{ should assign_to(:activity) }
     it{ should respond_with(:success) }
+
+    it "should include the guest ids" do
+      JSON.parse(response.body)["activity"]["guest_ids"].should include @user.id
+    end
   end
 
   describe "POST to #create" do

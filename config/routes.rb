@@ -1,8 +1,12 @@
 Funlife::Application.routes.draw do
 
+
   scope defaults: { format: "json" } do
 
     resources :activities, except: [:edit, :new] do
+
+      resources :invitations, only: [:create]
+
       collection do
         get :feed
       end

@@ -1,6 +1,9 @@
 require 'spec_helper'
 
 describe Activity do
+  it { should have_many(:invitations).dependent(:destroy) }
+  it { should have_many(:guests).through(:invitations) }
+
   describe "#by_pick_date" do
     it "should returns all the activities without date" do
       activity = create(:activity)

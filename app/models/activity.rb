@@ -12,8 +12,12 @@ class Activity < ActiveRecord::Base
   belongs_to :user
   has_many :activity_categories, dependent: :destroy
   has_many :categories, through: :activity_categories
+
   has_many :invitations, dependent: :destroy
   has_many :guests, through: :invitations, source: :user
+
+  has_many :attendees, :dependent => :destroy
+  has_many :users, :through => :attendees
 
 
   # - Validations

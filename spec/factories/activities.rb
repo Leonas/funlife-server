@@ -21,5 +21,9 @@ FactoryGirl.define do
       start_time "2013-03-27 14:31:23"
       end_time "2013-03-27 14:31:23"
     end
+
+    factory :public_activity do
+      allow_join true
+    end
   end
 end

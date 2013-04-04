@@ -38,6 +38,9 @@ class User < ActiveRecord::Base
   has_many :invitations, dependent: :destroy
   has_many :invited_activities, through: :invitations, source: :activity
 
+  has_many :attendees, :dependent => :destroy
+  has_many :attended_activities, through: :attendees, source: :activity
+
   def ensure_authentication_token!
     self.token ||= SecureRandom.urlsafe_base64
   end

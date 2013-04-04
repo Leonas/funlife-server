@@ -5,6 +5,8 @@ Funlife::Application.routes.draw do
 
     resources :activities, except: [:edit, :new] do
 
+      resources :attendees, only: [:index, :create]
+
       resources :invitations, only: [:create]
 
       collection do

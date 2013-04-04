@@ -50,6 +50,12 @@ class ActivitiesController < ApplicationController
     head :no_content
   end
 
+  def join
+    @activity = Activity.find(params[:id])
+    @activity.users << @current_user
+    head :no_content
+  end
+
   private
 
   def pagination_attrs

@@ -102,4 +102,13 @@ describe ActivitiesController do
 
   end
 
+  describe "POST to #join" do
+    it "should create a new atteende" do
+      expect{
+        public_activity = create(:activity, allow_join: true)
+        post :join, id: public_activity.id
+      }.to change(Attendee, :count).by(1)
+    end
+  end
+
 end

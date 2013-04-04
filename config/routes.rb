@@ -10,6 +10,10 @@ Funlife::Application.routes.draw do
       collection do
         get :feed
       end
+
+      member do
+        post :join
+      end
     end
 
     resources :categories, only: [:index]

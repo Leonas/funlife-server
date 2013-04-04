@@ -3,4 +3,11 @@ class Attendee < ActiveRecord::Base
   belongs_to :activity, counter_cache: true
   # attr_accessible :title, :body
   validates :activity_id, :uniqueness => { :scope => :user_id }
+  validate :uninvated_users_cannot_join, unless: Proc.new{ |a| a.activity.allow_join }
+
+  def uninvated_users_cannot_join
+    unless self.activity.guest_ids.include?(self.user_id)
+      errors.add(:user, "can't join if not already invited")
+    end
+  end
 end

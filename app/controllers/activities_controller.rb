@@ -12,8 +12,7 @@ class ActivitiesController < ApplicationController
   # GET /feed.json
   def feed
     @activities = @current_user.feed_activities.page(params[:page]).group(:date)
-    #FIXME move this logic to a serilizer
-    render json: @activities.group_by(&:date).merge( {meta: pagination_attrs})
+    render json: serialize_feed(@activities).merge( {meta: pagination_attrs} )
   end
 
   # GET /activities/1
@@ -62,5 +61,11 @@ class ActivitiesController < ApplicationController
 
   def set_activity
     @activity = @current_user.activities.find(params[:id])
+  end
+
+  def serialize_feed(activities)
+    activities.map do |activity|
+      ActivitySerializer.new(activity, root: false).as_json
+    end.group_by{|x| x[:date]}
   end
 end

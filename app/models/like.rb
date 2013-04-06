@@ -7,4 +7,6 @@ class Like < ActiveRecord::Base
 
   # Validations
   validates_uniqueness_of :photo_id, scope: :user_id
+
+  attr_accessible :user_id
 end

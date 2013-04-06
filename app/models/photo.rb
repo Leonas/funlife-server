@@ -11,6 +11,15 @@ class Photo < ActiveRecord::Base
   def liked?(user)
     !!likes.where(user_id: user.id).first
   end
+
+  def toogle_like(user)
+     if like = likes.where(user_id: user).first
+      like.destroy
+    else
+      likes << Like.new(user_id: user)
+    end
+  end
+
 end
 
 class ProfilePhoto < Photo

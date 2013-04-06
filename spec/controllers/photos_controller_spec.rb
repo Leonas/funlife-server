@@ -46,11 +46,15 @@ describe PhotosController do
 
     describe "GET to #show" do
       before do
+        @photo.user_likes << @current_user
         get :show, id: @photo.id
       end
 
       it { should assign_to(:photo) }
       it { should respond_with(:success) }
+      it "should include the like value" do
+        JSON.parse(response.body)["photo"]["liked"].should == true
+      end
 
     end
 

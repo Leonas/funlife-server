@@ -7,6 +7,10 @@ class Photo < ActiveRecord::Base
 
   # - Mass Assignment Security
   attr_accessible :bytes, :format, :height, :public_id, :resource_type, :secure_url, :signature, :type, :url, :version, :width, :type, :processed_at
+
+  def liked?(user)
+    !!likes.where(user_id: user.id).first
+  end
 end
 
 class ProfilePhoto < Photo

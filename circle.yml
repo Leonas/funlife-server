@@ -7,3 +7,4 @@ deployment:
     branch: master
     commands:
             - git push -f git@heroku.com:vast-crag-6780.git $CIRCLE_SHA1:master
+            - heroku rake db:schema:load

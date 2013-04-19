@@ -6,5 +6,5 @@ deployment:
   staging:
     branch: master
     commands:
-            - git@heroku.com:fl-api-31231493.git $CIRCLE_SHA1:master
+            - git push -f git@heroku.com:fl-api-31231493.git $CIRCLE_SHA1:master
             - heroku rake db:schema:load

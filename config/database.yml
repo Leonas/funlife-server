@@ -18,6 +18,11 @@ test:
   pool: 5
   timeout: 5000
 
+#circleCI info
+#Both postgres and mysql are set up to use the ubuntu user,
+#have a database called circle_test available,
+#and don't require any password.
+
 production:
   adapter: postgresql
   host: localhost

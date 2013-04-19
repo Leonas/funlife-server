@@ -17,18 +17,7 @@ Spork.prefork do
 
 
   require 'database_cleaner'
-  require 'capybara/rails'
-  require 'capybara/rspec'
-  require 'capybara/poltergeist'
-  Capybara.register_driver :poltergeist do |app|
-    Capybara::Poltergeist::Driver.new(app, inspector: true, phantomjs_logger: {})
-  end
-  Capybara.default_driver = :poltergeist
 
-  #Whether start server when testing
-  Capybara.run_server = true
-
-  Capybara.server_port = 8200
 
   #Capybara.ignore_hidden_elements = true           this causes problems
 

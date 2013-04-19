@@ -27,7 +27,6 @@ end
 
 
 group :test do
-  gem 'capybara'
   gem 'database_cleaner'
   gem "simplecov", "~> 0.6.4"
   gem 'shoulda-matchers'
@@ -35,9 +34,8 @@ end
 
 
 group :development, :test do
+  gem 'growl'
   gem 'sqlite3'
-  gem 'sass'
-  #gem 'guard-sass'          #This won't work for some reason
   gem 'httparty'
 
   gem 'rspec-rails'
@@ -49,8 +47,6 @@ group :development, :test do
 
   gem 'guard-spork'
   gem 'spork-rails'
-  gem 'capybara-json'
-  gem 'poltergeist'
 
   gem 'factory_girl_rails'
   gem 'faker'

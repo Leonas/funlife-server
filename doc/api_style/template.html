@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Scout</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet" media="screen">
+    <link href="custom.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="container-fluid">
+
+    <a class="collapsed" data-toggle="collapse" href="#users">
+    <div class="row-fluid">
+       <h3>
+            /users
+
+       </h3>
+
+    </div>
+    </a>
+
+
+    <div id="users" class="collapse">
+
+            <a class="collapsed" data-toggle="collapse" href="#users_get">
+                <div class="row-fluid get get_header">
+                    <div class="span7">
+                            Get a new user by id
+                    </div>
+                    <div class="span4 text-right">
+                        /users/{user_id}
+                    </div>
+                    <div class="span1 get_button">
+                        GET
+                    </div>
+                </div>
+            </a>
+            <div id="users_get" class="collapse get">
+                <div class="description">This is the description area</div>
+                <div class="row-fluid">
+                    <div class="span6">
+                        Request
+                        <pre>
+
+{
+   "user": {
+       "email"   : "email@email.com",
+       "password": "password"
+   }
+}
+                        </pre>
+                    </div>
+                    <div class="span6">
+                        Response: 201
+                        <pre>
+{
+   "user": {
+       "id": "1",
+       "first_name": "First",
+       "full_name" : "First Last",
+       "email"     : "email@email.com",
+       "token"     : "MyToken"
+   }
+}
+
+                            </pre>
+                    </div>
+                </div>
+                <table class="table table-condensed table-hover">
+                    <tr>
+                        <th class="span3">
+                            Name
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                    </tr>
+                    <tr>
+                        <td class="required">
+                            name
+                        </td>
+                        <td>
+                            Name of order
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            name
+                        </td>
+                        <td>
+                            Name of order
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            name
+                        </td>
+                        <td>
+                            Name of order
+                        </td>
+                    </tr>
+                </table>
+           </div>
+
+    </div>
+</div>
+
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="bootstrap/js/bootstrap.js"></script>
+</body>
+
+</html>

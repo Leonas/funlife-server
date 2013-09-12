@@ -39,7 +39,7 @@ describe UsersController do
         }.to change(User, :count).by(1)
       end
 
-      it "respond with successf if pass valid attrs" do
+      it "respond with success if pass valid attrs" do
         post :create, user: attributes_for(:user)
         should respond_with(:created)
       end

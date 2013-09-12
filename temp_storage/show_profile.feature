@@ -1,0 +1,1 @@
+Feature: Show a user's profile when fetching it

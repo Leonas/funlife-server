@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '1.9.3'
+
 
 gem 'rails-api'
 gem 'rails', '~> 3.2.13'
@@ -27,7 +27,8 @@ end
 
 
 group :test do
-  gem 'database_cleaner'
+  gem 'cucumber-rails', :require => false
+  gem 'database_cleaner', "1.0.1"
   gem "simplecov", "~> 0.6.4"
   gem 'shoulda-matchers'
 end
@@ -40,6 +41,7 @@ group :development, :test do
 
   gem 'rspec-rails'
   gem 'guard-rspec'
+  gem 'cucumber'
 
   gem 'wdm', :platforms => [:mswin, :mingw], :require => false     #Speed up spork/guard on windows
   gem 'rb-fsevent', :require => false                              #Speed up spork/guard on osx
@@ -50,6 +52,10 @@ group :development, :test do
 
   gem 'factory_girl_rails'
   gem 'faker'
+
+  gem 'rspec_api_documentation', :path => "/Users/Leonas/funlife-code/rspec_api_documentation"
+  #gem 'rspec_api_documentation', github: 'Leonas/rspec_api_documentation'
+  gem 'json_spec'
 end
 
 

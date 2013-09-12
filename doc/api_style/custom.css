@@ -1,0 +1,97 @@
+h3 {
+    color: black;
+}
+
+.GET {
+    background-color: #c3e8d1;
+    color: black;
+    margin-top: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.GET_header {
+    border: 1px solid #c3d9ec;
+    font-size: 16px;
+    line-height: 32px;
+
+}
+
+.GET_button {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    background-color: #10a54a;
+    border-radius: 4px;
+    text-align: center;
+    color: white;
+}
+
+.POST {
+    background-color: #e7f0f7;
+    border: 1px solid #c3d9ec;
+    font-size: 16px;
+    line-height: 32px;
+    margin-bottom: 4px;
+    padding-left: 4px;
+    color: black;
+}
+
+.POST_button {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    background-color: #0f6ab4;
+    border-radius: 4px;
+    text-align: center;
+    color: white;
+}
+
+.PUT {
+    background-color: #f9f2e9;
+    border: 1px solid #f0e0ca;
+    font-size: 16px;
+    line-height: 32px;
+    margin-bottom: 4px;
+    padding-left: 4px;
+    color: black;
+}
+
+.PUT_button {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    background-color: #c5862b;
+    border-radius: 4px;
+    text-align: center;
+    color: white;
+}
+
+.DELETE {
+    background-color: #f5e8e8;
+    border: 1px solid #e8c6c7;
+    font-size: 16px;
+    line-height: 32px;
+    margin-bottom: 4px;
+    padding-left: 4px;
+    color: black;
+}
+
+.DELETE_button {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    background-color: #a41e22;
+    border-radius: 4px;
+    text-align: center;
+    color: white;
+}
+
+
+td.required:after {
+    float: right;
+    content: "required";
+    font-weight: normal;
+    color: #F08080;
+}
+
+.description{
+    padding: 4px 0 4px 0;
+    font-size: 16px;
+}

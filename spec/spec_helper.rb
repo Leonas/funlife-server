@@ -50,6 +50,10 @@ Spork.prefork do
 
   end
 
+  RspecApiDocumentation.configure do |config|
+    config.docs_dir = Rails.root.join("doc", "api")
+    config.format = :json_iodocs
+  end
 
 end
 

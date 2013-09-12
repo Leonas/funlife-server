@@ -1,5 +1,10 @@
-require 'spec_helper'
 
+#Heres how to do it:
+# https://github.com/rails-api/active_model_serializers/blob/master/test/serializer_test.rb
+
+
+require 'spec_helper'
+require 'rspec_api_documentation/dsl'
 =begin
 
 Create new user (register step 1)

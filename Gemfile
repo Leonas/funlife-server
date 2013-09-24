@@ -11,7 +11,7 @@ gem 'newrelic_rpm'
 gem 'yajl-ruby', require: 'yajl', require: 'yajl/json_gem'
 
 
-gem "active_model_serializers", :git => "git://github.com/rails-api/active_model_serializers.git"
+gem "active_model_serializers", github: 'rails-api/active_model_serializers'
 
 # Pagination
 gem 'kaminari'
@@ -30,7 +30,7 @@ group :test do
   gem 'cucumber-rails', :require => false
   gem 'database_cleaner', "1.0.1"
   gem "simplecov", "~> 0.6.4"
-  gem 'shoulda-matchers'
+  gem 'shoulda-matchers', "~> 1.5.0"
 end
 
 
@@ -38,10 +38,12 @@ group :development, :test do
   gem 'growl'
   gem 'sqlite3'
   gem 'httparty'
+  gem 'json_spec', github: 'marshallshen/json_spec'
 
   gem 'rspec-rails'
   gem 'guard-rspec'
   gem 'cucumber'
+
 
   gem 'wdm', :platforms => [:mswin, :mingw], :require => false     #Speed up spork/guard on windows
   gem 'rb-fsevent', :require => false                              #Speed up spork/guard on osx
@@ -53,9 +55,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'faker'
 
-  gem 'rspec_api_documentation', :path => "/Users/Leonas/funlife-code/rspec_api_documentation"
-  #gem 'rspec_api_documentation', github: 'Leonas/rspec_api_documentation'
-  gem 'json_spec'
+  gem 'rspec_api_documentation'
 end
 
 

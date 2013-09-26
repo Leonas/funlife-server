@@ -4,6 +4,7 @@ require 'spec_helper'
 require 'rspec_api_documentation/dsl'
 
 resource "Users" do
+
   header "Accept", "application/json"
   header "Content-Type", "application/json"
 
@@ -11,19 +12,15 @@ resource "Users" do
 
 
   post "/users" do
-    parameter :email, "User email"
-    parameter :password, "User password"
+    parameter :email,    "User email",    required: true, scope: :user
+    parameter :password, "User password", required: true, scope: :user
 
-    required_parameters :email, :password
-
-    let(:email) { "chub934@gmau.com" }
-    let(:password) { "dubdubdub" }
+    let(:email)    { "email@email.com" }
+    let(:password) { "example" }
 
 
     let(:raw_post) { params.to_json }
 
-
-    scope_parameters :user, :all        #this makes it like user: {email: cow, password: bob}
 
     example_request "Creating an account" do
       explanation "Email and password are sent. Email and Token are received"

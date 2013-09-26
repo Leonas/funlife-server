@@ -1,1 +1,30 @@
-{"endpoints":[{"name":"Cows","methods":[{"MethodName":"Creating an account","Synopsis":"Email and password are sent. Email and Token are received","HTTPMethod":"POST","URI":"/users","RequiresOAuth":"N","parameters":[{"Name":"email","Description":"Name of order","Default":"","Required":"Y"},{"Name":"password","Description":"If the order has been paid for","Default":"","Required":"Y"}]},{"MethodName":"Creating an account","Synopsis":"Email and password are sent. Email and Token are received","HTTPMethod":"POST","URI":"/users","RequiresOAuth":"N","parameters":[{"Name":"email","Description":"Name of order","Default":"","Required":"Y"},{"Name":"password","Description":"If the order has been paid for","Default":"","Required":"Y"}]}]},{"name":"Users","methods":[{"MethodName":"Creating an account","Synopsis":"Email and password are sent. Email and Token are received","HTTPMethod":"POST","URI":"/users","RequiresOAuth":"N","parameters":[{"Name":"email","Description":"Name of order","Default":"","Required":"Y"},{"Name":"password","Description":"If the order has been paid for","Default":"","Required":"Y"}]},{"MethodName":"Creating an account","Synopsis":"Email and password are sent. Email and Token are received","HTTPMethod":"POST","URI":"/users","RequiresOAuth":"N","parameters":[{"Name":"email","Description":"Name of order","Default":"","Required":"Y"},{"Name":"password","Description":"If the order has been paid for","Default":"","Required":"Y"}]}]}]}
+{
+  "endpoints": [
+    {
+      "name": "Users",
+      "methods": [
+        {
+          "MethodName": "Creating an account",
+          "Synopsis": "Email and password are sent. Email and Token are received",
+          "HTTPMethod": "POST",
+          "URI": "/users",
+          "RequiresOAuth": "N",
+          "parameters": [
+            {
+              "Name": "email",
+              "Description": "User email",
+              "Default": "",
+              "Required": "Y"
+            },
+            {
+              "Name": "password",
+              "Description": "User password",
+              "Default": "",
+              "Required": "Y"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

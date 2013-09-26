@@ -27,7 +27,7 @@ end
 
 
 group :test do
-  gem 'cucumber-rails', :require => false
+  gem 'cucumber-rails', require: false
   gem 'database_cleaner', "1.0.1"
   gem "simplecov", "~> 0.6.4"
   gem 'shoulda-matchers', "~> 1.5.0"
@@ -45,9 +45,9 @@ group :development, :test do
   gem 'cucumber'
 
 
-  gem 'wdm', :platforms => [:mswin, :mingw], :require => false     #Speed up spork/guard on windows
-  gem 'rb-fsevent', :require => false                              #Speed up spork/guard on osx
-  gem 'rb-inotify', :require => false                              #Speed up spork/guard on linux
+  gem 'wdm', :platforms => [:mswin, :mingw], require: false     #Speed up spork/guard on windows
+  gem 'rb-fsevent', require: false                              #Speed up spork/guard on osx
+  gem 'rb-inotify', require: false                              #Speed up spork/guard on linux
 
   gem 'guard-spork'
   gem 'spork-rails'
@@ -55,7 +55,8 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'faker'
 
-  gem 'rspec_api_documentation'
+  #gem 'rspec_api_documentation', github: 'zipmark/rspec_api_documentation'
+  gem 'rspec_api_documentation', path: '/Users/Leonas/funlife-code/rspec_api_documentation'
 end
 
 

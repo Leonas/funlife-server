@@ -26,3 +26,4 @@ xerial-sqlite-license.txt
 .ruby-version
 .rspec
 /coverage
+doc/funlife-api.wiki/

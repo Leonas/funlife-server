@@ -1,1 +1,0 @@
-Feature: You can view all messages sent to you

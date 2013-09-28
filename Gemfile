@@ -38,11 +38,10 @@ group :development, :test do
   gem 'growl'
   gem 'sqlite3'
   gem 'httparty'
-  gem 'json_spec', github: 'marshallshen/json_spec'
+
 
   gem 'rspec-rails'
   gem 'guard-rspec'
-  gem 'cucumber'
 
 
   gem 'wdm', :platforms => [:mswin, :mingw], require: false     #Speed up spork/guard on windows
@@ -57,6 +56,9 @@ group :development, :test do
 
   #gem 'rspec_api_documentation', github: 'zipmark/rspec_api_documentation'
   gem 'rspec_api_documentation', path: '/Users/Leonas/funlife-code/rspec_api_documentation'
+  gem 'awesome_print'
+  #gem 'rspec-deep-matchers', path: '/Users/Leonas/funlife-code/rspec-deep-matchers'         #this or one below
+  gem 'json_spec', path: '/Users/Leonas/funlife-code/json_spec'
 end
 
 

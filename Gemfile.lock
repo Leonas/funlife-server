@@ -1,17 +1,16 @@
 GIT
-  remote: git://github.com/marshallshen/json_spec.git
-  revision: fa8f1b5fd21de3a74da4085897e4766db768d32f
-  specs:
-    json_spec (1.1.1)
-      multi_json (~> 1.0)
-      rspec (~> 2.0)
-
-GIT
   remote: git://github.com/rails-api/active_model_serializers.git
   revision: 919bb3840107e8176a65d90c0af8ec1e02cef683
   specs:
     active_model_serializers (0.8.1)
       activemodel (>= 3.2)
+
+PATH
+  remote: /Users/Leonas/funlife-code/json_spec
+  specs:
+    json_spec (1.1.1)
+      multi_json (~> 1.0)
+      rspec (~> 2.0)
 
 PATH
   remote: /Users/Leonas/funlife-code/rspec_api_documentation
@@ -56,6 +55,7 @@ GEM
       multi_json (~> 1.0)
     addressable (2.3.5)
     arel (3.0.2)
+    awesome_print (1.1.0)
     bcrypt-ruby (3.0.1)
     bourne (1.5.0)
       mocha (>= 0.13.2, < 0.15)
@@ -239,8 +239,8 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers!
+  awesome_print
   bcrypt-ruby (~> 3.0.0)
-  cucumber
   cucumber-rails
   database_cleaner (= 1.0.1)
   factory_girl_rails

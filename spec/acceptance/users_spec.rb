@@ -13,18 +13,16 @@ resource "Users" do
     parameter :email,    "User email",    scope: :user, required: true
     parameter :password, "User password", scope: :user, required: true
 
-    let(:email)    { random_email }
-    let(:password) { "example" }
+    let(:email)    { build_user.email }
+    let(:password) { build_user.password }
     let(:raw_post) { params.to_json }
 
     example_request "Creating an account" do
-      @token = JSON.parse(response_body)["user"]["token"]
       explanation "User signs up with unique email and password. No header auth required."
-
       response_body.should include_json({
 
             email: email,
-            token: @token
+            token: JSON.parse(response_body)["user"]["token"]
 
       }.to_json).at_path("user")
 
@@ -39,18 +37,19 @@ resource "Users" do
 
     parameter :first_name,  "First name", scope: :user, required: true
     parameter :last_name,   "Last name",  scope: :user, required: true
-    parameter :gender,      "Gender",     scope: :user
-    parameter :birthday,    "Birthday",   scope: :user
+#    parameter :gender,      "Gender",     scope: :user
+#    parameter :birthday,    "Birthday",   scope: :user
 
 
-    header "Authorization", token
-    let(:first_name) {"bob"}
-    #let(:gender) {"M"}
-    #let(:birthday) { "ape" }
+    header "Authorization", create_user.token
+
+    let(:first_name) { create_user.first_name }
+    let(:last_name)  { create_user.last_name }
+
 
     let(:raw_post) { params.to_json }
 
-    example_request "Complete the signup process / update a user" do
+    example_request "Complete the signup process or update a user" do
       explanation "A user needs to have their first and last name on file before they can view any API endpoints"
 
       status.should == 204

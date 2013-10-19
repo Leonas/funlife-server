@@ -37,6 +37,7 @@ Spork.prefork do
 
     config.include JsonSpec::Helpers
 
+    config.include FactoryGirl::Syntax::Methods
 
     config.before(:suite) do
      # DatabaseCleaner.strategy = :truncation   #uncommenting this will break acceptance tests

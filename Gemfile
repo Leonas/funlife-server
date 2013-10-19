@@ -54,12 +54,9 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'faker'
 
-  #gem 'rspec_api_documentation', github: 'zipmark/rspec_api_documentation'
   gem 'rspec_api_documentation', path: '/Users/Leonas/funlife-code/rspec_api_documentation'
   gem 'awesome_print'
-  #gem 'rspec-deep-matchers', path: '/Users/Leonas/funlife-code/rspec-deep-matchers'         #this or one below
-  gem 'json_spec', path: '/Users/Leonas/funlife-code/json_spec'
+  gem 'json_spec', github: 'Leonas/json_spec'
 end
-
 
 

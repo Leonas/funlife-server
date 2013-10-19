@@ -1,17 +1,18 @@
 GIT
-  remote: git://github.com/rails-api/active_model_serializers.git
-  revision: 919bb3840107e8176a65d90c0af8ec1e02cef683
-  specs:
-    active_model_serializers (0.8.1)
-      activemodel (>= 3.2)
-
-PATH
-  remote: /Users/Leonas/funlife-code/json_spec
+  remote: git://github.com/Leonas/json_spec.git
+  revision: af325ab9f95f008df3f502df8f72bf2f09b7163d
   specs:
     json_spec (1.1.1)
       hashdiff (~> 0.1.1)
       multi_json (~> 1.0)
       rspec (~> 2.0)
+
+GIT
+  remote: git://github.com/rails-api/active_model_serializers.git
+  revision: 919bb3840107e8176a65d90c0af8ec1e02cef683
+  specs:
+    active_model_serializers (0.8.1)
+      activemodel (>= 3.2)
 
 PATH
   remote: /Users/Leonas/funlife-code/rspec_api_documentation

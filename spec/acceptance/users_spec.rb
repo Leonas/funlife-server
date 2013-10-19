@@ -41,10 +41,10 @@ resource "Users" do
 #    parameter :birthday,    "Birthday",   scope: :user
 
 
-    header "Authorization", create_user.token
+    header "Authorization", token
 
-    let(:first_name) { create_user.first_name }
-    let(:last_name)  { create_user.last_name }
+    let(:first_name) { build_user.first_name }
+    let(:last_name)  { build_user.last_name }
 
 
     let(:raw_post) { params.to_json }

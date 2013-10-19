@@ -35,19 +35,20 @@ Spork.prefork do
     config.order = 'random'
     config.use_transactional_fixtures = false
 
-    #config.include JsonSpec::Helpers
+    config.include JsonSpec::Helpers
+
 
     config.before(:suite) do
-      DatabaseCleaner.strategy = :truncation
-      DatabaseCleaner.clean
+     # DatabaseCleaner.strategy = :truncation
+     # DatabaseCleaner.clean
     end
 
     config.before(:each) do
-      DatabaseCleaner.start
+     # DatabaseCleaner.start
     end
 
     config.after(:each) do
-      DatabaseCleaner.clean
+     # DatabaseCleaner.clean
     end
 
   end

@@ -9,7 +9,7 @@ describe SessionsController do
       should respond_with(:success)
     end
 
-    it "response should containts the user token" do
+    it "response should contain the user token" do
       post :create, user: { email: user.email, password: "secret2013" }
       response.body.should include user.token
     end

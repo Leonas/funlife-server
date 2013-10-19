@@ -6,46 +6,60 @@ resource "Users" do
   header "Accept", "application/json"
   header "Content-Type", "application/json"
 
-  let(:email)    { "email@email.com" }
-  let(:password) { "example" }
-  let(:raw_post) { params.to_json }
 
-
-
+  ######################################start
   post "/users" do
-    parameter :email,    "User email",    required: true, scope: :user
-    parameter :password, "User password", required: true, scope: :user
+
+    parameter :email,    "User email",    scope: :user, required: true
+    parameter :password, "User password", scope: :user, required: true
+
+    let(:email)    { random_email }
+    let(:password) { "example" }
+    let(:raw_post) { params.to_json }
 
     example_request "Creating an account" do
+      @token = JSON.parse(response_body)["user"]["token"]
       explanation "User signs up with unique email and password. No header auth required."
+
       response_body.should include_json({
 
-        user: {
             email: email,
+            token: @token
 
-            token: JSON.parse(response_body)['user']['token']
-        }
+      }.to_json).at_path("user")
 
-      }.to_json)
       status.should == 201
     end
   end
+  ######################################end
 
-  #put "/users" do
-  #  parameter :first_name,  "First name", required: true, scope: :user
-  #  parameter :last_name,   "Last name",  required: true, scope: :user
-  #  parameter :gender,      "Gender",     scope: :user
-  #  parameter :birthday,    "Birthday",   scope: :user
-  #
-  #  example_request "Complete the signup process / update a user" do
-  #    explanation "A user needs to have their first and last name on file before they can view any API endpoints"
-  #
-  #    status.should == 204 #no content?
-  #
-  #  end
-  #end
-  #
-  #
+
+  ######################################start
+  put "/users" do
+
+    parameter :first_name,  "First name", scope: :user, required: true
+    parameter :last_name,   "Last name",  scope: :user, required: true
+    parameter :gender,      "Gender",     scope: :user
+    parameter :birthday,    "Birthday",   scope: :user
+
+
+    header "Authorization", token
+    let(:first_name) {"bob"}
+    #let(:gender) {"M"}
+    #let(:birthday) { "ape" }
+
+    let(:raw_post) { params.to_json }
+
+    example_request "Complete the signup process / update a user" do
+      explanation "A user needs to have their first and last name on file before they can view any API endpoints"
+
+      status.should == 204
+
+    end
+  end
+  ######################################end
+
+
   #get "/users" do
   #  #need to make factories create 2 fake users
   #  example_request "List nearby users" do

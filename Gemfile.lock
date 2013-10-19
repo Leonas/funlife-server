@@ -9,6 +9,7 @@ PATH
   remote: /Users/Leonas/funlife-code/json_spec
   specs:
     json_spec (1.1.1)
+      hashdiff (~> 0.1.1)
       multi_json (~> 1.0)
       rspec (~> 2.0)
 
@@ -110,6 +111,7 @@ GEM
       childprocess (>= 0.2.3)
       guard (>= 1.1)
       spork (>= 0.8.4)
+    hashdiff (0.1.1)
     hike (1.2.3)
     httparty (0.11.0)
       multi_json (~> 1.0)

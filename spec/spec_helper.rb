@@ -39,16 +39,16 @@ Spork.prefork do
 
 
     config.before(:suite) do
-     # DatabaseCleaner.strategy = :truncation
-     # DatabaseCleaner.clean
+     # DatabaseCleaner.strategy = :truncation   #uncommenting this will break acceptance tests
+      DatabaseCleaner.clean
     end
 
     config.before(:each) do
-     # DatabaseCleaner.start
+      DatabaseCleaner.start
     end
 
     config.after(:each) do
-     # DatabaseCleaner.clean
+      DatabaseCleaner.clean
     end
 
   end

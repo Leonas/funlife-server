@@ -39,6 +39,8 @@ group :development, :test do
   gem 'shoulda-kept-assign-to', github: 'tinfoil/shoulda-kept-assign-to'
 
 
+  gem 'guard'
+  gem 'guard-process'
   gem 'guard-rspec'
   gem 'guard-spork'
   gem 'spork-rails'

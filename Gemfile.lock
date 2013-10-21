@@ -93,6 +93,9 @@ GEM
       lumberjack (~> 1.0)
       pry (>= 0.9.12)
       thor (>= 0.18.1)
+    guard-process (1.0.6)
+      guard (>= 0.4.2)
+      spoon (~> 0.0.1)
     guard-rspec (4.0.3)
       guard (>= 2.1.1)
       rspec (~> 2.14)
@@ -188,6 +191,8 @@ GEM
       simplecov-html (~> 0.5.3)
     simplecov-html (0.5.3)
     slop (3.4.6)
+    spoon (0.0.4)
+      ffi
     spork (1.0.0rc4)
     spork-rails (4.0.0)
       rails (>= 3.0.0, < 5)
@@ -225,6 +230,8 @@ DEPENDENCIES
   factory_girl_rails
   faker
   growl
+  guard
+  guard-process
   guard-rspec
   guard-spork
   httparty

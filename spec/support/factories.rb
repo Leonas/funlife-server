@@ -1,6 +1,5 @@
-def token
-  current_user = FactoryGirl.create(:user)
-  "Basic " + Base64::encode64("#{current_user.token}:me")
+def token(user = FactoryGirl.create(:user))
+  "Basic " + Base64::encode64("#{user.token}:me")
 end
 
 def random_email
@@ -12,6 +11,6 @@ def build_user
   FactoryGirl.build(:user)
 end
 
-def create_user
-  FactoryGirl.create(:user)
+def user1
+  @user1 ||= FactoryGirl.create(:user)
 end

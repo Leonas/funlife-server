@@ -12,22 +12,14 @@ Spork.prefork do
   ENV['RAILS_ENV'] ||= 'test'
   require File.expand_path('../../config/environment', __FILE__)
   require 'rspec/rails'
-
   require 'rspec/autorun'
-
-
   require 'database_cleaner'
-
-
-  #Capybara.ignore_hidden_elements = true           this causes problems
 
   #Requires supporting ruby files with custom matchers, macros, etc in spec/support/.
   Dir[Rails.root.join('spec/support/**/*.rb')].each {|f| require f}
 
   RSpec.configure do |config|
-    # Use color in STDOUT
     config.color_enabled = true
-    # Use color not only in STDOUT but also in pagers and files
     config.tty = true
     # Use the specified formatter
     config.formatter = :progress #:documentation # :progress, :html, :textmate

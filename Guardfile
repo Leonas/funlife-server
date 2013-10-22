@@ -1,3 +1,5 @@
+logger level:       :warn
+
 guard 'spork', :rspec_env => { 'RAILS_ENV' => 'test' } do
   watch('config/application.rb')
   watch('config/environment.rb')
@@ -25,6 +27,6 @@ end
 
 guard 'process', name: 'dev-server:3000', command: 'rails server', dont_stop: true
 guard 'process', name: 'redis', command: 'redis-server', dont_stop: true
-guard 'process', name: 'iodocs', command: 'npm start', dir: '../funlife-iodocs', dont_stop: true
+guard 'process', name: 'iodocs', command: 'npm start', dir: '../funlife-iodocs'
 
 

@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
     @user = User.find_by_email(auth_params[:email])
     if @user && @user.authenticate(auth_params[:password])
       @current_user = @user
-      render json: @user
+      render json: @user, serializer: CurrentUserSerializer, root: "user"
     else
       render json: @user, status: 401
     end

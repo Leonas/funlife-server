@@ -26,7 +26,7 @@ describe UsersController do
       end
 
       it{ should respond_with(:success) }
-      it "response should containts the user token" do
+      it "response should contain the user token" do
         response.body.should include @current_user.token
       end
     end

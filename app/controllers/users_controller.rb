@@ -5,31 +5,33 @@ class UsersController < ApplicationController
   # GET /users
   def index
     @users = User.all :conditions => (current_user ? ["id != ?", current_user.id] : [])
-    render json: @users, each_serializer: NearbyUsersSerializer
+    render json: @users, each_serializer: NearbyUsersSerializer, root: "users"
   end
 
-  # GET /users/1
-  # GET /users/1.json
+  # GET /users/:id
   def show
-    render json: @user
+    if @current_user.id.to_s == params[:id]
+      render json: @user, serializer: CurrentUserSerializer, root: "user"
+    else
+      render json: @user
+    end
+
   end
 
 
   # POST /users
-  # POST /users.json
   def create
     @user = User.new(params[:user])
 
     if @user.save
       @current_user = @user
-      render json: @user, status: :created, location: @user
+      render json: @user, status: :created, serializer: CurrentUserSerializer, root: "user"
     else
       render json: {errors: @user.errors}, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /users/1
-  # PATCH/PUT /users/1.json
+  # PATCH/PUT /users/:id
   def update
     if @current_user.update_attributes(params[:user])
       head :no_content

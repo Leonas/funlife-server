@@ -21,26 +21,18 @@ Spork.prefork do
 
 
   RSpec.configure do |config|
-    config.color_enabled = true
-    config.tty = true
-    # Use the specified formatter
-    config.formatter = :progress #:documentation # :progress, :html, :textmate
-
-    config.order = 'random'
-    config.use_transactional_fixtures = false
-
     config.include JsonSpec::Helpers
-
     config.include FactoryGirl::Syntax::Methods
 
-    config.before(:each) do
-      DatabaseCleaner.start
-    end
+    config.tty = true
+    config.color_enabled = true
+    config.formatter = :progress
 
-    config.after(:each) do
-      DatabaseCleaner.clean
-    end
+    config.order = 'random'
+    config.use_transactional_fixtures = false    #let Database cleaner handle transactions
 
+    config.before(:each) { DatabaseCleaner.start }
+    config.after(:each)  { DatabaseCleaner.clean }
   end
 
   RspecApiDocumentation.configure do |config|
@@ -49,10 +41,8 @@ Spork.prefork do
     config.api_name = "funlife"
     config.clear_directory = false
   end
-
 end
 
 Spork.each_run do
   DatabaseCleaner.clean_with :truncation
-
 end

@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'rspec_api_documentation/dsl'
+require 'database_cleaner'
 
 resource "Users" do
 
@@ -17,8 +18,10 @@ resource "Users" do
     let(:password) { build_user.password }
     let(:raw_post) { params.to_json }
 
-    example_request "Creating an account" do
+    example "Creating an account" do
       explanation "User signs up with unique email and password. No header auth required."
+
+      do_request
       response_body.should include_json({
 
             email: email,
@@ -59,26 +62,32 @@ resource "Users" do
   ######################################end
 
 
-  #get "/users" do
-  #  #need to make factories create 2 fake users
-  #  example_request "List nearby users" do
-  #    explanation "A list of users is returned based on proximity to their gps coordinates"
-  #    response_body.should be_json_eql({
-  #
-  #      users: [
-  #        {
-  #          id: user1.id,
-  #          full_name: user1.full_name,
-  #        },
-  #        {
-  #          id: user2.id,
-  #          full_name: user2.full_name,
-  #        }
-  #      ]
-  #
-  #  })
-  #  end
-  #end
+  get "/users" do
+
+    header "Authorization", token
+
+    example "List nearby users" do
+      explanation "A list of users is returned based on proximity to their gps coordinates"
+
+      @user2 = user2
+      @user3 = user3
+      do_request
+      response_body.should include_json({
+
+        users: [
+          {
+            id: @user2.id,
+            name: @user2.full_name
+          },
+          {
+            id: @user3.id,
+            name: @user3.full_name
+          }
+        ]
+
+    }.to_json)
+    end
+  end
   #
   #
   #get "/users/:id" do

@@ -18,6 +18,8 @@ Spork.prefork do
   #Requires supporting ruby files with custom matchers, macros, etc in spec/support/.
   Dir[Rails.root.join('spec/support/**/*.rb')].each {|f| require f}
 
+
+
   RSpec.configure do |config|
     config.color_enabled = true
     config.tty = true
@@ -30,11 +32,6 @@ Spork.prefork do
     config.include JsonSpec::Helpers
 
     config.include FactoryGirl::Syntax::Methods
-
-    config.before(:suite) do
-     # DatabaseCleaner.strategy = :truncation   #uncommenting this will break acceptance tests
-      DatabaseCleaner.clean
-    end
 
     config.before(:each) do
       DatabaseCleaner.start
@@ -56,6 +53,6 @@ Spork.prefork do
 end
 
 Spork.each_run do
-  #do something here each time spork is run
+  DatabaseCleaner.clean_with :truncation
 
 end

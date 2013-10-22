@@ -14,3 +14,11 @@ end
 def user1
   @user1 ||= FactoryGirl.create(:user)
 end
+
+def user2
+  @user2 ||= FactoryGirl.create(:user)
+end
+
+def user3
+  @user3 ||= FactoryGirl.create(:user)
+end

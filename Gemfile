@@ -43,6 +43,7 @@ group :development, :test do
   gem 'guard-process'
   gem 'guard-rspec'
   gem 'guard-spork'
+  gem 'guard-rake'
   gem 'spork-rails'
   gem 'wdm', :platforms => [:mswin, :mingw], require: false     #Speed up spork/guard on windows
   gem 'rb-fsevent', require: false                              #Speed up spork/guard on osx

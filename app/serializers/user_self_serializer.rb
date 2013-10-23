@@ -1,4 +1,4 @@
-class CurrentUserSerializer < ActiveModel::Serializer
+class UserSelfSerializer < ActiveModel::Serializer
   attributes :id, :name, :email, :token, :following_count, :followers_count
   #has_one :profile_photo, embed: :id
 

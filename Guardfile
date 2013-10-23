@@ -24,6 +24,9 @@ guard 'rspec', cli: "--drb" do
 
 end
 
+guard 'rake', :task => 'generate_iodocs' do
+  watch(%r{^spec/acceptance/(.+)\.rb$})
+end
 
 guard 'process', name: 'dev-server:3000', command: 'rails server', dont_stop: true
 guard 'process', name: 'redis', command: 'redis-server', dont_stop: true

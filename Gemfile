@@ -51,7 +51,7 @@ group :development, :test do
 
 
   gem 'awesome_print'
-  gem 'rspec_api_documentation', path: '/Users/Leonas/funlife-code/rspec_api_documentation'
+  gem 'rspec_to_iodocs', path: '/Users/Leonas/funlife-code/rspec_to_iodocs'
   gem 'json_spec', github: 'Leonas/json_spec'
 end
 

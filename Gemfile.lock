@@ -22,9 +22,9 @@ GIT
       shoulda-matchers (>= 2.1.0)
 
 PATH
-  remote: /Users/Leonas/funlife-code/rspec_api_documentation
+  remote: /Users/Leonas/funlife-code/rspec_to_iodocs
   specs:
-    rspec_api_documentation (1.1.0)
+    rspec_to_iodocs (1.0.0)
       activesupport (>= 3.0.0)
       i18n (>= 0.1.0)
       json (>= 1.4.6)
@@ -248,7 +248,7 @@ DEPENDENCIES
   rb-fsevent
   rb-inotify
   rspec-rails
-  rspec_api_documentation!
+  rspec_to_iodocs!
   shoulda-kept-assign-to!
   simplecov (~> 0.6.4)
   spork-rails

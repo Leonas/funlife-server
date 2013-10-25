@@ -27,3 +27,4 @@ xerial-sqlite-license.txt
 .rspec
 /coverage
 doc/funlife-api.wiki/
+spec/coverage

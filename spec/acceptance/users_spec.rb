@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'rspec_api_documentation/dsl'
+require 'rspec_to_iodocs/dsl'
 
 resource "Users" do
   header "Accept", "application/json"
@@ -88,32 +88,32 @@ resource "Users" do
 
 
 
-  #need to increase users by 1 if uncommenting the delete sessions
   #breaks docs:generate aka iodocs writer because the way i have mine is it requires a scope otherwise fail
-  #######################################
-  #get "/users/:id" do ##################
-  #######################################
-  #
-  #  header "Authorization", token
-  #  parameter :id, "user id", required: true
-  #  let(:id) { 4 }
-  #
-  #  example "Fetch a user's profile" do
-  #    explanation "user profile"
-  #    @user2 = user2
-  #
-  #    do_request
-  #
-  #    response_body.should include_json({
-  #        user: {
-  #          id: @user2.id,
-  #          name: @user2.full_name,
-  #          following_count: @user2.following_count,
-  #          followers_count: @user2.followers_count
-  #        }
-  #    }.to_json)
-  #  end
-  #end
+  ######################################
+  get "/users/:id" do ##################
+  ######################################
+
+    header "Authorization", token
+    parameter :id, "user id", required: true
+
+    let(:user_1) { user1 }
+    let(:id) { user_1.id }
+
+    example "Fetch a user's profile" do
+      explanation "user profile"
+
+      do_request
+
+      response_body.should include_json({
+          user: {
+            id: user_1.id,
+            name: user_1.full_name,
+            following_count: user_1.following_count,
+            followers_count: user_1.followers_count
+          }
+      }.to_json)
+    end
+  end
 
 
 end

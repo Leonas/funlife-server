@@ -116,4 +116,43 @@ resource "Users" do
   end
 
 
+  #path: /users/:id
+  #
+  #Response
+  #
+  #Status: 200 OK
+  #{
+  #    "user": {
+  #    "id": "1",
+  #    "name"           : "First Last",
+  #    "photo"          : "photo_url",
+  #    "follower_count" : "23",
+  #    "following_count": "34",
+  #    "status"         : "single or blank",
+  #    "verified"       : "true",      //ribbon
+  #"trusted"        : "false",     //ribbon
+  #"trust"          : "false",     //do I trust this person?
+  #"follow"         : "true",      //do I follow this person?
+  #"feedback"       : "75",
+  #    "invite_me" {
+  #    "standard_activities": [
+  #    "img_url",
+  #    "img_url",
+  #    "img_url"
+  #],
+  #    "custom_activities": "shopping, eating donuts, pool parties"
+  #},
+  #    "activities_completed": [
+  #    { "img": "url", "times": "6" },
+  #    { "img": "url", "times": "4" },
+  #    { "img": "url", "times": "1" },
+  #],
+  #    "questions": [
+  #    { "title": "introduction", "answer": "hello" },
+  #    { "title": "enjoyment", "answer": "biking" }
+  #]
+  #
+  #}
+  #}
+
 end

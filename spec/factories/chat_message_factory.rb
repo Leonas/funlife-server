@@ -1,9 +1,9 @@
 require 'faker'
 
 FactoryGirl.define do
-  factory :chat_message do
+  factory :conversation_message do
     user
-    chat
+    conversation
     message { Faker::Lorem.sentence(5)  }
   end
 end

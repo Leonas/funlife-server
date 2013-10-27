@@ -65,19 +65,19 @@ ActiveRecord::Schema.define(:version => 20130404150642) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "chat_messages", :force => true do |t|
+  create_table "conversation_messages", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.integer  "user_id"
-    t.integer  "chat_id"
+    t.integer  "conversation_id"
     t.string   "message"
     t.boolean  "unread"
   end
 
-  add_index "chat_messages", ["chat_id"], :name => "index_chat_messages_on_chat_id"
-  add_index "chat_messages", ["user_id"], :name => "index_chat_messages_on_user_id"
+  add_index "conversation_messages", ["conversation_id"], :name => "index_conversation_messages_on_conversation_id"
+  add_index "conversation_messages", ["user_id"], :name => "index_conversation_messages_on_user_id"
 
-  create_table "chats", :force => true do |t|
+  create_table "conversations", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -147,15 +147,15 @@ ActiveRecord::Schema.define(:version => 20130404150642) do
 
   add_index "photos", ["user_id"], :name => "index_photos_on_user_id"
 
-  create_table "user_chats", :force => true do |t|
-    t.integer  "chat_id"
+  create_table "conversation_users", :force => true do |t|
+    t.integer  "conversation_id"
     t.integer  "user_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  add_index "user_chats", ["chat_id"], :name => "index_user_chats_on_chat_id"
-  add_index "user_chats", ["user_id"], :name => "index_user_chats_on_user_id"
+  add_index "conversation_users", ["conversation_id"], :name => "index_conversation_users_on_conversation_id"
+  add_index "conversation_users", ["user_id"], :name => "index_conversation_users_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "email"

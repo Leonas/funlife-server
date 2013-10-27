@@ -1,4 +1,4 @@
-class ChatSerializer < ActiveModel::Serializer
+class ConversationSerializer < ActiveModel::Serializer
   attributes :id, :date, :user_ids, :name, :photo
 
   def date

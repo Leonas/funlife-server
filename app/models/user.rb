@@ -18,9 +18,9 @@ class User < ActiveRecord::Base
 
   # Associations
   has_many :activities
-  has_many :user_chats, dependent: :destroy
-  has_many :chats, through: :user_chats
-  has_many :chat_messages, dependent: :destroy
+  has_many :conversation_users, dependent: :destroy
+  has_many :conversations, through: :conversation_users
+  has_many :conversation_messages, dependent: :destroy
   has_many :photos, dependent: :destroy
   has_one  :profile_photo
 

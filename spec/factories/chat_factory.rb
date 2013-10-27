@@ -1,9 +1,9 @@
 require 'faker'
 
 FactoryGirl.define do
-  factory :chat do
-    after(:build) do |chat|
-      chat.users << FactoryGirl.build(:user)
+  factory :conversation do
+    after(:build) do |conversation|
+      conversation.users << FactoryGirl.build(:user)
     end
   end
 end

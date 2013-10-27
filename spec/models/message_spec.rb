@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ChatMessage do
+describe ConversationMessage do
    xit 'todo' do
 
    end

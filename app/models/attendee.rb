@@ -8,9 +8,9 @@ class Attendee < ActiveRecord::Base
 
   # - Validations
   validates :activity_id, :uniqueness => { :scope => :user_id }
-  validate :uninvated_users_cannot_join, unless: Proc.new{ |a| a.activity.allow_join }
+  validate :uninvited_users_cannot_join, unless: Proc.new{ |a| a.activity.allow_join }
 
-  def uninvated_users_cannot_join
+  def uninvited_users_cannot_join
     unless self.activity.guest_ids.include?(self.user_id)
       errors.add(:user, "can't join if not already invited")
     end

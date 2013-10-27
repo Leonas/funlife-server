@@ -4,7 +4,7 @@ describe Attendee do
   it { should belong_to(:user) }
   it { should belong_to(:activity) }
 
-  it "validates uninvated_users_cannot_join" do
+  it "validates uninvited_users_cannot_join" do
     activity = create(:activity_step2)
     user = create(:user)
     attendee = build(:attendee, activity_id: activity.id, user_id: user.id)

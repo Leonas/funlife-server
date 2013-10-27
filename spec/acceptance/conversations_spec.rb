@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'rspec_to_iodocs/dsl'
 
-resource "conversations" do
+resource "Conversations" do
   header "Accept", "application/json"
   header "Content-Type", "application/json"
   header "Authorization", :token

@@ -27,3 +27,17 @@ FactoryGirl.define do
     end
   end
 end
+
+FactoryGirl.define do
+  factory :category do
+    name {Faker::Name.name}
+  end
+end
+
+
+FactoryGirl.define do
+  factory :activity_category do
+    activity nil
+    category nil
+  end
+end

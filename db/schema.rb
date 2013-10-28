@@ -65,23 +65,6 @@ ActiveRecord::Schema.define(:version => 20130404150642) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "conversation_messages", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-    t.integer  "user_id"
-    t.integer  "conversation_id"
-    t.string   "message"
-    t.boolean  "unread"
-  end
-
-  add_index "conversation_messages", ["conversation_id"], :name => "index_conversation_messages_on_conversation_id"
-  add_index "conversation_messages", ["user_id"], :name => "index_conversation_messages_on_user_id"
-
-  create_table "conversations", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
   create_table "comments", :force => true do |t|
     t.integer  "user_id",                       :null => false
     t.integer  "photo_id",                      :null => false
@@ -94,6 +77,33 @@ ActiveRecord::Schema.define(:version => 20130404150642) do
 
   add_index "comments", ["photo_id"], :name => "index_comments_on_photo_id"
   add_index "comments", ["user_id"], :name => "index_comments_on_user_id"
+
+  create_table "conversation_messages", :force => true do |t|
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.integer  "user_id"
+    t.integer  "conversation_id"
+    t.string   "message"
+    t.boolean  "unread"
+  end
+
+  add_index "conversation_messages", ["conversation_id"], :name => "index_conversation_messages_on_conversation_id"
+  add_index "conversation_messages", ["user_id"], :name => "index_conversation_messages_on_user_id"
+
+  create_table "conversation_users", :force => true do |t|
+    t.integer  "conversation_id"
+    t.integer  "user_id"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  add_index "conversation_users", ["conversation_id"], :name => "index_conversation_users_on_conversation_id"
+  add_index "conversation_users", ["user_id"], :name => "index_conversation_users_on_user_id"
+
+  create_table "conversations", :force => true do |t|
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "friendships", :force => true do |t|
     t.integer  "following_id"
@@ -146,16 +156,6 @@ ActiveRecord::Schema.define(:version => 20130404150642) do
   end
 
   add_index "photos", ["user_id"], :name => "index_photos_on_user_id"
-
-  create_table "conversation_users", :force => true do |t|
-    t.integer  "conversation_id"
-    t.integer  "user_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  add_index "conversation_users", ["conversation_id"], :name => "index_conversation_users_on_conversation_id"
-  add_index "conversation_users", ["user_id"], :name => "index_conversation_users_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "email"

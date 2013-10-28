@@ -4,42 +4,46 @@ class User < ActiveRecord::Base
 
   GENDERS = %w(male female)
 
-  # - Mass Assignment Security
   attr_accessible :email, :first_name, :full_name, :last_name
-
   attr_protected :token, :password_digest
 
-  # - Validations
   validates :email, presence: true, uniqueness: true
   validates :gender, inclusion: { in: GENDERS, allow_nil: true }
 
-  # - Callbacks
   before_create :ensure_authentication_token!
 
-  # Associations
+
+  #activities
   has_many :activities
-  has_many :conversation_users, dependent: :destroy
-  has_many :conversations, through: :conversation_users
+  has_many :invitations,         dependent: :destroy
+  has_many :invited_activities,  through: :invitations, source: :activity
+  has_many :attendees,           dependent: :destroy                     #why is this here?
+  has_many :attended_activities, through: :attendees, source: :activity
+
+
+  #conversations
+  has_many :conversations,         through:   :conversation_users
   has_many :conversation_messages, dependent: :destroy
+  has_many :conversation_users,    dependent: :destroy
+
+
+  #photos
   has_many :photos, dependent: :destroy
   has_one  :profile_photo
 
+
+  #relationships
   has_many :friendships, dependent: :destroy, foreign_key: "follower_id", class_name: "Friendship"
   has_many :followings, through: :friendships
-
   has_many :my_followers, dependent: :destroy, foreign_key: "following_id", class_name: "Friendship"
   has_many :followers, through: :my_followers
 
-  has_many :comments, dependent: :destroy
 
+  #general
+  has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
   has_many :photo_likes, through: :likes, source: :photo
 
-  has_many :invitations, dependent: :destroy
-  has_many :invited_activities, through: :invitations, source: :activity
-
-  has_many :attendees, :dependent => :destroy
-  has_many :attended_activities, through: :attendees, source: :activity
 
   def ensure_authentication_token!
     self.token ||= SecureRandom.urlsafe_base64

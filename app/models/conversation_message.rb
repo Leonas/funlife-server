@@ -1,16 +1,16 @@
 class ConversationMessage < ActiveRecord::Base
 
-  # - Mass Assignment Security
-  attr_accessible :message, :user_id
+  attr_accessible :message
+  attr_accessible :user_id
+  attr_accessible :unread
 
-  # Associations
   belongs_to :user
   belongs_to :conversation
 
-  # - Validations
-  validates :message, presence: true
-  validates :user, presence: true
-  validates :conversation, presence: true
+  validates_presence_of :message
+  validates_presence_of :user
+  validates_presence_of :conversation
+
 
   def self.since(timestamp = nil)
     conversation_messages = ConversationMessage.arel_table

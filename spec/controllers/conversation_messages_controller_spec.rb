@@ -8,53 +8,48 @@ describe ConversationMessagesController do
   end
 
   describe "GET to #index" do
-    before do
-      get :index, conversation_id: @conversation.id
-    end
+    before { get :index, conversation_id: @conversation.id }
 
     it { should assign_to(:conversation) }
     it { should assign_to(:conversation_messages) }
     it { should respond_with(:success) }
-
   end
 
   describe "GET to #index of existing conversation" do
     before do
       2.times{create(:conversation_message, conversation_id: @conversation.id)}
-
       get :index, conversation_id: @conversation.id
-
       @messages = JSON.parse(response.body)['conversation_messages']
     end
 
 
     it "should have an id for each message" do
-      @messages.each do |response|
-        response['id'].should_not be 0
+      @messages.each do |message|
+        expect(message['id']).to be
       end
     end
 
     it "should have a body for each message" do
-      @messages.each do |response|
-        response['message'].should_not be nil
+      @messages.each do |message|
+        expect(message['message']).to be
       end
     end
 
-    xit "should have a user_id for each message" do
-      @messages.each do |response|
-        response['user_id'].should >= 1
+    it "should have a user_id for each message" do
+      @messages.each do |message|
+        expect(message['user_id']).to be
       end
     end
 
-    xit "should have a time for each message" do
-      @messages.each do |response|
-        response['time'].length.should > 3
+    it "should have a timestamp for each message" do
+      @messages.each do |message|
+        expect(message['time']).to be
       end
     end
 
     xit "should have a photo url for each message" do
-      JSON.parse(response.body)['conversation_messages'].each do |response|
-        response['photo'].length.should > 4
+      JSON.parse(response.body)['conversation_messages'].each do |message|
+        expect(message['photo']).to be
       end
     end
 

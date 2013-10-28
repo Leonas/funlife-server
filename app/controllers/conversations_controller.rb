@@ -30,7 +30,8 @@ class ConversationsController < ApplicationController
 
   # DELETE /conversations/1
   def destroy
-    @conversation.destroy
+    (@current_user.conversation_users.find_by_conversation_id(params[:id])).destroy     #make this safe delete later
+    #@conversation.destroy
     head :no_content
   end
 

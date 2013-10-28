@@ -33,11 +33,11 @@ describe ConversationsController do
     end
 
     it "should destroy a new conversation" do
-      expect{delete_conversation}.to change(Conversation, :count).by(-1)
+      expect{delete_conversation}.to change(Conversation, :count).by(0)
     end
 
-    it "should destroy 2 rows in conversation_user join table" do
-      expect{delete_conversation}.to change(ConversationUser, :count).by(-2)
+    it "should only remove 1 row in conversation_user join table" do
+      expect{delete_conversation}.to change(ConversationUser, :count).by(-1)
     end
 
   end

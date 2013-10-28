@@ -6,7 +6,7 @@ describe ConversationMessage do
     ConversationMessage.since.should include conversation_message
   end
 
-  it "should return the lasted messages" do
+  it "should return the messages since timestamp" do
     create(:conversation_message)
     conversation_message = create(:conversation_message)
     ConversationMessage.since(conversation_message.created_at).should include conversation_message

@@ -13,7 +13,14 @@ class ConversationMessage < ActiveRecord::Base
   validates :conversation, presence: true
 
   def self.since(timestamp = nil)
-    cm = ConversationMessage.arel_table
-    timestamp ? where(cm[:created_at].gteq(timestamp)) : all
+    conversation_messages = ConversationMessage.arel_table
+    #for more info on arel, look here:
+    #http://www.slideshare.net/brynary/arel-ruby-relational-algebra
+    #http://www.slideshare.net/flah00/activerecord-arel
+    if timestamp
+      where(conversation_messages[:created_at].gteq(timestamp))
+    else
+      all
+    end
   end
 end

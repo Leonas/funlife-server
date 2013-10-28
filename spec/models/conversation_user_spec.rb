@@ -1,5 +1,5 @@
 require 'spec_helper'
 
 describe ConversationUser do
-  pending "add some examples to (or delete) #{__FILE__}"
+  #it should make sure that each user only has only one instance of a unique chat id
 end

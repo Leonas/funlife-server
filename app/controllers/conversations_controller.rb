@@ -1,20 +1,21 @@
 class ConversationsController < ApplicationController
   before_filter :set_conversation, only: [:show, :destroy, :update]
+
+
   # GET /conversations
-  # GET /conversations.json
   def index
     @conversations = @current_user.conversations
     render json: @conversations
   end
 
+
   # GET /conversations/1
-  # GET /conversations/1.json
   def show
     render json: @conversation
   end
 
+
   # POST /conversations
-  # POST /conversations.json
   def create
     @conversation = @current_user.conversations.build(params[:conversation])
     if @conversation.save
@@ -26,12 +27,13 @@ class ConversationsController < ApplicationController
     end
   end
 
+
   # DELETE /conversations/1
-  # DELETE /conversations/1.json
   def destroy
     @conversation.destroy
     head :no_content
   end
+
 
   private
 

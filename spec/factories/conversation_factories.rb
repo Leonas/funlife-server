@@ -39,18 +39,4 @@ FactoryGirl.define do
     user nil
   end
 
-
-end
-
-
-def create_conversation_with_users(*users)
-  convo = FactoryGirl.create(:conversation)
-  users.each do |user|
-    convo.users << user
-  end
-  convo
-end
-
-def create_conversation_message(user, conversation, message)
-   #just use the factory for this
 end

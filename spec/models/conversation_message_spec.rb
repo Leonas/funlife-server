@@ -11,4 +11,55 @@ describe ConversationMessage do
     conversation_message = create(:conversation_message)
     ConversationMessage.since(conversation_message.created_at).should include conversation_message
   end
+
+  context "when there are two users in one conversation and three messages sent" do
+    before do
+      @user1 = create(:user)
+      @user2 = create(:user)
+      @conversation1 = create(:conversation, users: [@user1, @user2])
+      @user1_message1 = create(:conversation_message, user: @user1, conversation: @conversation1, message: "Gday Mate")
+      Timecop.freeze(Date.today + 1) do
+        @user2_message1 = create(:conversation_message, user: @user2, conversation: @conversation1, message: "Howdy")
+      end
+      Timecop.freeze(Date.today + 2) do
+        @user2_message2 = create(:conversation_message, user: @user2, conversation: @conversation1, message: "Wachu up 2")
+      end
+    end
+
+
+    describe "the conversation" do
+      it "should have three messages" do
+        expect(@conversation1.conversation_messages.length).to equal(3)
+      end
+    end
+
+    describe "@user1" do
+      it "should have one message" do
+        expect(@user1.conversation_messages.length).to equal(1)
+      end
+
+      it "should have the message text as Gday Mate" do
+        expect(@user1.conversation_messages.first.message).to eq("Gday Mate")
+      end
+
+      it "should be able to see 3 messages in the conversation" do
+        expect(@user1.conversations.first.conversation_messages.length).to equal(3)
+      end
+    end
+
+    describe "@user2" do
+      it "should have two messages" do
+        expect(@user2.conversation_messages.length).to equal(2)
+      end
+
+      it "should have the first message text as Howdy" do
+        expect(@user2.conversation_messages.first.message).to eq("Howdy")
+      end
+
+      it "should be able to see 3 messages in the conversation" do
+        expect(@user2.conversations.first.conversation_messages.length).to equal(3)
+      end
+    end
+
+  end
 end

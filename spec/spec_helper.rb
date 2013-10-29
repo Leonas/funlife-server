@@ -7,9 +7,9 @@ SimpleCov.start 'rails'
 #require 'spork/ext/ruby-debug'
 
 Spork.prefork do
-  require 'rubygems'
-
-  ENV['RAILS_ENV'] ||= 'test'
+  #require 'rubygems'
+  #
+  #ENV['RAILS_ENV'] ||= 'test'
   require File.expand_path('../../config/environment', __FILE__)
   require 'rspec/rails'
   require 'rspec/autorun'
@@ -26,7 +26,7 @@ Spork.prefork do
 
     config.tty = true
     config.color_enabled = true
-    config.formatter = :progress
+   # config.formatter = :progress
 
     config.order = 'random'
     config.use_transactional_fixtures = false    #let Database cleaner handle transactions

@@ -4,14 +4,19 @@ require 'rspec_to_iodocs/dsl'
 resource "Conversations" do
   header "Accept", "application/json"
   header "Content-Type", "application/json"
-  header "Authorization", :token
 
+  before do
+    @user1 = create(:user)
+    @user2 = create(:user)
+    @user3 = create(:user)
+    @built_user = build(:user)
+  end
 
   ######################################
   get "/conversations" do ##############
   ######################################
 
-    let(:token) { token(user_1) }
+    header "Authorization", token(@user1)
 
     example_request "Conversation inbox ordered by date" do
       explanation "A user's conversation inbox is returned ordered by date."
@@ -46,7 +51,7 @@ resource "Conversations" do
   post "/conversations" do #############
   ######################################
 
-    header "Authorization", token
+    header "Authorization", token(@user1)
     parameter :user_ids,  "user IDs", scope: :conversations, required: true, type: :array #TODO not yet implemented to use types     #Also message can be included and diff stuff might get returned if it is?
     parameter :message, "message"
 
@@ -76,7 +81,7 @@ resource "Conversations" do
   delete "/conversations/:id" do #######
   ######################################
 
-    header "Authorization", token(user1)
+    header "Authorization", token(@user1)
     parameter :id, "conversation id", required: true
 
     example_request "Delete a conversation" do
@@ -94,7 +99,7 @@ resource "Conversations" do
   get "/conversations/:id" do ##########
   ######################################
 
-    header "Authorization", token
+    header "Authorization", token(@user1)
     parameter :id, "conversation id", required: true
     parameter :since_timestamp, "since timestamp"
 
@@ -144,7 +149,7 @@ resource "Conversations" do
   post "/conversations/:id" do #########
   ######################################
 
-    header "Authorization", token
+    header "Authorization", token(@user1)
     parameter :id, "conversation id", required: true
     parameter :message, "message",     scope: :conversation_message, required: true
     parameter :timestamp, "timestamp", scope: :conversation_message

@@ -10,8 +10,9 @@ FactoryGirl.define do
 end
 
 
-def token(user = FactoryGirl.create(:user))
-  "Basic " + Base64::encode64("#{user.token}:me")
+def token(user = nil)
+  token_user = user || FactoryGirl.create(:user)
+  "Basic " + Base64::encode64("#{token_user.token}:me")
 end
 
 def random_email
@@ -19,21 +20,21 @@ def random_email
   current_user.email
 end
 
-def build_user
-  FactoryGirl.build(:user)
-end
+#def build_user
+#  FactoryGirl.build(:user)
+#end
 
-def user1
-  @user1 ||= FactoryGirl.create(:user)
-end
-
-def user2
-  @user2 ||= FactoryGirl.create(:user)
-end
-
-def user3
-  @user3 ||= FactoryGirl.create(:user)
-end
+#def user1
+#  @user1 ||= FactoryGirl.create(:user)
+#end
+#
+#def user2
+#  @user2 ||= FactoryGirl.create(:user)
+#end
+#
+#def user3
+#  @user3 ||= FactoryGirl.create(:user)
+#end
 
 def login_user(user = nil)
   @current_user = user || FactoryGirl.create(:user)

@@ -52,7 +52,7 @@ describe ConversationsController do
 
     context "a new message gets sent in the same conversation" do
 
-      it "should add back the row in the conversation_user join table" do
+      xit "should add back the row in the conversation_user join table" do
         expect{something}.to change(ConversationUser, :count).by(1)
       end
 

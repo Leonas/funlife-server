@@ -8,10 +8,10 @@ resource "Conversations" do
 
 
   ######################################
-  get "/conversations" do #####################
+  get "/conversations" do ##############
   ######################################
 
-    let(:token) { ?? }
+    let(:token) { token(user_1) }
 
     example_request "Conversation inbox ordered by date" do
       explanation "A user's conversation inbox is returned ordered by date."
@@ -43,7 +43,7 @@ resource "Conversations" do
 
 
   ######################################
-  post "/conversations" do ######################
+  post "/conversations" do #############
   ######################################
 
     header "Authorization", token
@@ -73,7 +73,7 @@ resource "Conversations" do
 
 
   ######################################
-  delete "/conversations/:id" do ################
+  delete "/conversations/:id" do #######
   ######################################
 
     header "Authorization", token(user1)
@@ -91,7 +91,7 @@ resource "Conversations" do
 
 
   ######################################
-  get "/conversations/:id" do ##################
+  get "/conversations/:id" do ##########
   ######################################
 
     header "Authorization", token
@@ -141,7 +141,7 @@ resource "Conversations" do
 
 
   ######################################
-  post "/conversations/:id" do #################
+  post "/conversations/:id" do #########
   ######################################
 
     header "Authorization", token

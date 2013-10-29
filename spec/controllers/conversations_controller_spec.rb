@@ -2,24 +2,23 @@ require 'spec_helper'
 
 describe ConversationsController do
   before do
-    login_user
-    @conversation = create(:conversation)
-    @conversation.users << @current_user
+    @current_user = login_user
+    @user2 = create(:user)
+    @conversation = create(:conversation, users: [@current_user, @user2])
+    @convo_attributes = FactoryGirl.attributes_for(:conversation)
   end
-
-  let(:user) { create(:user) }
 
   context "POST to #create" do
     let(:create_conversation) do
-      post :create, conversation: attributes_for(:conversation).merge(user_ids: user.id)
+      post :create, conversation: attributes_for(:conversation).merge(user_ids: @user2.id)
     end
 
-    it "must have at least 2 users" do
-      false
+    xit "must have at least 2 users" do
+      #false
     end
 
-    it "must have a starting message" do
-      false
+    xit "must have a starting message" do
+      #false
     end
 
 

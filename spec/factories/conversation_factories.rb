@@ -3,8 +3,26 @@ require 'faker'
 FactoryGirl.define do
 
   factory :conversation do
-    after(:build) do |conversation|
-      conversation.users << FactoryGirl.build(:user)
+
+    ignore do
+      users nil
+      conversation_messages nil
+    end
+
+    after(:build) do |conversation, evaluator|
+      if evaluator.users
+        evaluator.users.each do |user|
+          FactoryGirl.create(:conversation_user, conversation: conversation.id, user: user)
+          conversation.users << user
+        end
+      end
+
+      if evaluator.conversation_messages
+        evaluator.conversation_messages.each do |message|
+          conversation.conversation_message << message
+        end
+      end
+
     end
   end
 

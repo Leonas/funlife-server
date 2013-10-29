@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
 
   #conversations
   has_many :conversations,         through:   :conversation_users
-  has_many :conversation_messages, through:   :conversations
+  has_many :conversation_messages
   has_many :conversation_users,    dependent: :destroy
 
 

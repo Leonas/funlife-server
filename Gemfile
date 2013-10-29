@@ -36,6 +36,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'faker'
+  gem 'timecop'
   gem 'shoulda-kept-assign-to', github: 'tinfoil/shoulda-kept-assign-to'
 
 

@@ -19,12 +19,8 @@
 /*.DS_Store
 .DS_Store
 
-/trigger_io/
 
-sqlite-jdbc-3.7.2.jar
-xerial-sqlite-license.txt
 .ruby-version
 .rspec
 /coverage
-doc/funlife-api.wiki/
 spec/coverage

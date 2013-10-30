@@ -6,10 +6,10 @@ resource "Users" do
   header "Content-Type", "application/json"
 
   before do
-    @user1 = create(:user)
-    @user2 = create(:user)
-    @user3 = create(:user)
-    @built_user = build(:user)
+    @user1 = Factory.create(:user)
+    @user2 = Factory.create(:user)
+    @user3 = Factory.create(:user)
+    @built_user = Factory.build(:user)
   end
 
 

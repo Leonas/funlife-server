@@ -9,12 +9,14 @@ FactoryGirl.define do
       conversation_messages nil
     end
 
-    after(:build) do |conversation, evaluator|
+    after(:create) do |conversation, evaluator|
       if evaluator.users
         evaluator.users.each do |user|
-          FactoryGirl.create(:conversation_user, conversation: conversation.id, user: user)
           conversation.users << user
         end
+      else
+        conversation.users << Factory.create(:user)
+        conversation.users << Factory.create(:user)
       end
 
       if evaluator.conversation_messages
@@ -24,6 +26,11 @@ FactoryGirl.define do
       end
 
     end
+  end
+
+  factory :conversation_invalid, parent: :conversation do
+    users nil
+    conversation_messages nil
   end
 
 
@@ -40,3 +47,8 @@ FactoryGirl.define do
   end
 
 end
+
+
+#factory :invalid_contact, parent: :contact do |f|
+#  f.firstname nil
+#end

@@ -5,28 +5,27 @@ resource "Conversations" do
   header "Accept", "application/json"
   header "Content-Type", "application/json"
 
-  before do
-    @user1 = create(:user)
-    @user2 = create(:user)
-    @user3 = create(:user)
-    @built_user = build(:user)
-
-    @conversation1 = create(:conversation, users: [@user1, @user2]) #can this be run with build?
-
-    #3 messages on 3 different days
-    @user1_message1 = create(:conversation_message, user: @user1, conversation: @conversation1, message: "G'day Mate")
-    Timecop.freeze(Date.today + 1) do
-      @user2_message1 = create(:conversation_message, user: @user2, conversation: @conversation1, message: "Howdy")
-    end
-    Timecop.freeze(Date.today + 2) do
-      @user2_message2 = create(:conversation_message, user: @user2, conversation: @conversation1, message: "Wachu up 2")
-    end
-
-  end
+  #before(:each) do
+  #
+  #
+  #end
 
   ######################################
   get "/conversations" do ##############
   ######################################
+    @user1 = Factory.create(:user)
+    @user2 = Factory.create(:user)
+    @user3 = Factory.create(:user)
+
+    @conversation1 = Factory.create(:conversation, users: [@user1, @user2])
+    @conversation2 = Factory.create(:conversation, users: [@user2, @user1])
+    @conversation3 = Factory.create(:conversation, users: [@user2, @user3])
+    @conversation4 = Factory.create(:conversation, users: [@user3, @user1])
+
+    #3 messages on 3 different days
+                                      @user1_message1 = Factory.create(:conversation_message, user: @user1, conversation: @conversation1, message: "G'day Mate")
+    Timecop.freeze(Date.today + 1) do @user2_message1 = Factory.create(:conversation_message, user: @user2, conversation: @conversation1, message: "Howdy") end
+    Timecop.freeze(Date.today + 2) do @user2_message2 = Factory.create(:conversation_message, user: @user2, conversation: @conversation1, message: "Wachu up 2") end
 
     header "Authorization", token(@user1)
 

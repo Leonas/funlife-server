@@ -3,12 +3,12 @@ require 'spec_helper'
 describe Photo do
   before do
 
-    @photo = create(:photo)
-    @user = create(:user)
+    @photo = Factory.create(:photo)
+    @user = Factory.create(:user)
   end
 
   it "should return true a photo was liked" do
-    create(:like, photo_id: @photo.id, user_id: @user.id)
+    Factory.create(:like, photo_id: @photo.id, user_id: @user.id)
     @photo.liked?(@user).should == true
   end
 

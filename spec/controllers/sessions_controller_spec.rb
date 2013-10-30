@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe SessionsController do
-  let(:user) { create(:user, password: "secret2013") }
+  let(:user) { Factory.create(:user, password: "secret2013") }
 
   describe "POST to #create" do
     it "should create a session" do

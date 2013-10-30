@@ -1,8 +1,8 @@
 class ConversationSerializer < ActiveModel::Serializer
-  attributes :id, :date, :user_ids, :name, :photo
+  attributes :id, :updated_at, :user_ids, :name, :photo
 
-  def date
-    object.created_at.strftime("%m %d,  %I:%M%p")
+  def updated_at
+    object.updated_at.strftime("%b %d,  %I:%M%P")
   end
 
   def user_ids

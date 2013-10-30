@@ -18,11 +18,11 @@ Spork.prefork do
   #Requires supporting ruby files with custom matchers, macros, etc in spec/support/.
   Dir[Rails.root.join('spec/support/**/*.rb')].each {|f| require f}
 
-
+  Factory = FactoryGirl
 
   RSpec.configure do |config|
     config.include JsonSpec::Helpers
-    config.include FactoryGirl::Syntax::Methods
+    #config.include FactoryGirl::Syntax::Methods
 
     config.tty = true
     config.color_enabled = true

@@ -6,7 +6,7 @@ describe FriendshipsController do
   end
 
   describe "POST to #create" do
-    let(:friend) { create(:user) }
+    let(:friend) { Factory.create(:user) }
     it "should create a new Frienship" do
       expect{
         post :create, following_id: friend.id
@@ -24,7 +24,7 @@ describe FriendshipsController do
 
     it "should destroy a friendship" do
       expect{
-        friendship = create(:friendship, follower_id: @current_user.id)
+        friendship = Factory.create(:friendship, follower_id: @current_user.id)
         delete :destroy, id: friendship.id
       }.to change(Friendship, :count).by(0)
     end

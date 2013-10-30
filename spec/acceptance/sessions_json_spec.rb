@@ -7,7 +7,7 @@ resource "Sessions" do
   header "Content-Type", "application/json"
 
   before do
-    @user1 = create(:user)
+    @user1 = Factory.create(:user)
   end
 
   ######################################

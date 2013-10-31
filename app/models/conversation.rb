@@ -6,5 +6,7 @@ class Conversation < ActiveRecord::Base
 
   attr_accessible :user_ids
 
+  validates_presence_of :conversation_messages
+  validates :users, length: { minimum: 2}
   #the only attributes this has now is id and created at
 end

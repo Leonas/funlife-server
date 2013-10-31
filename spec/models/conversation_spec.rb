@@ -16,7 +16,7 @@ describe Conversation do
     it "can be accessed through @user2"     do expect(@user2.conversations.first).to eq(@conversation1)      end
     it "is the only conversation in @user2" do expect(@user1.conversations.length).to equal(1)               end
 
-    xit "must have at least 2 users"   do false end
+    xit "must have at least 2 users"   do expect(Factory.create(:conversation_)) end
     xit "must have a starting message" do false end
   end
 end

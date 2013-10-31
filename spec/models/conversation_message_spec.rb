@@ -29,13 +29,13 @@ describe ConversationMessage do
 
     describe "the conversation" do
       it "should have three messages" do
-        expect(@conversation1.conversation_messages.length).to equal(3)
+        expect(@conversation1.conversation_messages.length).to eq(3)
       end
     end
 
     describe "@user1" do
       it "should have one message" do
-        expect(@user1.conversation_messages.length).to equal(1)
+        expect(@user1.conversation_messages.length).to eq(1)
       end
 
       it "should have the message text as Gday Mate" do
@@ -43,13 +43,13 @@ describe ConversationMessage do
       end
 
       it "should be able to see 3 messages in the conversation" do
-        expect(@user1.conversations.first.conversation_messages.length).to equal(3)
+        expect(@user1.conversations.first.conversation_messages.length).to eq(3)
       end
     end
 
     describe "@user2" do
       it "should have two messages" do
-        expect(@user2.conversation_messages.length).to equal(2)
+        expect(@user2.conversation_messages.length).to eq(2)
       end
 
       it "should have the first message text as Howdy" do

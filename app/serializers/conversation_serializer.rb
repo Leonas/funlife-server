@@ -1,5 +1,10 @@
 class ConversationSerializer < ActiveModel::Serializer
-  attributes :id, :updated_at, :user_ids, :name, :photo
+  attributes :id,
+             :updated_at,
+             :user_ids,
+             :name,
+             :latest_message
+             #:photo
 
   def updated_at
     object.updated_at.strftime("%b %d,  %I:%M%P")
@@ -13,8 +18,12 @@ class ConversationSerializer < ActiveModel::Serializer
     (object.users - [scope.current_user]).first.full_name
   end
 
-  def photo
-    (object.users - [scope.current_user]).first.try(:profile_photo).try(:url)
+  def latest_message
+   "fat"# object.conversation_messages.last.message
   end
+
+  #def photo
+  #  (object.users - [scope.current_user]).first.try(:profile_photo).try(:url)
+  #end
 
 end

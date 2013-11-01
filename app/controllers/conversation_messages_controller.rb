@@ -27,6 +27,9 @@ class ConversationMessagesController < ApplicationController
   end
 
   def conversation_params
-    params[:conversation_message].merge({user_id: @current_user.id})
+    {
+      message: params[:message],
+      user_id: @current_user.id
+    }
   end
 end

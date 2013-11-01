@@ -10,7 +10,6 @@ class ConversationMessage < ActiveRecord::Base
   validates_presence_of :user
   validates_presence_of :conversation
 
-
   def self.since(timestamp = nil)
     conversation_messages = ConversationMessage.arel_table
     #for more info on arel, look here:

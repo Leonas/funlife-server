@@ -12,7 +12,8 @@ class ConversationsController < ApplicationController
 
   # GET /conversations/1
   def show
-    render json: @conversation
+    #render json: @conversation
+    render json: @conversation, root: :conversation, serializer: ConversationMessagesSerializer
   end
 
 

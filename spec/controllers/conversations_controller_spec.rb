@@ -17,13 +17,13 @@ describe ConversationsController do
       it "populates an array of conversations on user1" do
         login_user(@user1)
         get :index
-        assigns(:conversations).should eq([@conversation1, @conversation2, @conversation3])
+        assigns(:conversations).should eq([@conversation3, @conversation2, @conversation1])
       end
 
       it "populates an array of conversations on user2" do
         login_user(@user2)
         get :index
-        assigns(:conversations).should eq([@conversation1, @conversation2, @conversation3, @conversation4])
+        assigns(:conversations).should eq([@conversation4, @conversation3, @conversation2, @conversation1])
       end
 
       it "should display the user's conversations in chronological order" do

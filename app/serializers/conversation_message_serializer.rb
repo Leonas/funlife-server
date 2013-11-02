@@ -1,15 +1,11 @@
 class ConversationMessageSerializer < ActiveModel::Serializer
-  attributes :id, :message, :name, :user_id, :date
+  attributes :id, :user_id, :date, :name, :message
 
   def name
-    object.user.full_name
-  end
-
-  def include_name?
-    object.user_id != scope.current_user.id
+    object.user.name
   end
 
   def date
-    object.created_at.strftime("%m %d,  %I:%M%p")
+    object.updated_at.strftime("%b %d,  %I:%M%P")
   end
 end

@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
 
   GENDERS = %w(male female)
 
-  attr_accessible :email, :first_name, :full_name, :last_name
+  attr_accessible :email, :first_name, :last_name, :full_name, :name
   attr_protected :token, :password_digest
 
   validates :email, presence: true, uniqueness: true
@@ -61,6 +61,10 @@ class User < ActiveRecord::Base
 
   def full_name
     "#{first_name} #{last_name}"
+  end
+
+  def name
+    "#{first_name} #{last_name.chr}."
   end
 
 

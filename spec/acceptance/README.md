@@ -1,3 +1,13 @@
+##Specs
+
+Only this code will make the variables available for testing (check conversation_json_spec):
+``ruby
+let!(:something) do
+   #stuff here
+end
+``
+
+
 ## Authentication
 
 A Base64 encoded token is required in headers at every endpoint except for login and register.

@@ -11,7 +11,7 @@ describe ConversationMessagesController do
   get :index, conversation_id: @conversation.id
     end
 
-    it "finds the correct conversation"       do expect(assigns(:conversation)).to eq(@conversation) end
+    it "finds the correct conversation"       do expect(assigns(:conversation)).to eq(@conversation)     end
     it "finds the correct number of messages" do expect(assigns(:conversation_messages)).to have(1).item end
   end
 

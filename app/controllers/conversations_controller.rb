@@ -5,6 +5,7 @@ class ConversationsController < ApplicationController
   # GET /conversations
   def index
     @conversations = @current_user.conversations.all
+    @conversations.sort_by! { |conversation| conversation.conversation_messages.last.updated_at}.reverse! #this should be updated to make it faster
     render json: @conversations
   end
 

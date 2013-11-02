@@ -1,12 +1,13 @@
 class ConversationMessagesController < ApplicationController
   before_filter :set_conversation
 
+
   # GET /conversations/:conversation_id/conversation_messages
-  # GET /conversations/:conversation_id/conversation_messages.json
   def index
     @conversation_messages = @conversation.conversation_messages.since(params[:latest_timestamp])
     render json: @conversation_messages
   end
+
 
   # POST /conversations/:conversation_id/conversation_messages
   def create
@@ -18,6 +19,7 @@ class ConversationMessagesController < ApplicationController
     end
   end
 
+
   private
 
   def set_conversation
@@ -25,6 +27,9 @@ class ConversationMessagesController < ApplicationController
   end
 
   def conversation_params
-    params[:conversation_message].merge({user_id: @current_user.id})
+    {
+      message: params[:message],
+      user_id: @current_user.id
+    }
   end
 end

@@ -18,18 +18,19 @@ guard 'rspec', cli: "--drb" do
 
   watch(%r{^app/(.+)\.rb$})                           { |m| "spec/#{m[1]}_spec.rb" }
   watch(%r{^app/controllers/(.+)_(controller)\.rb$})  { |m| ["spec/routing/#{m[1]}_routing_spec.rb", "spec/#{m[2]}s/#{m[1]}_#{m[2]}_spec.rb", "spec/acceptance/#{m[1]}_spec.rb"] }
+  watch(%r{^spec/acceptance/(.+)_(spec)\.rb$})        { |m| "spec/acceptance/#{m[1]}_spec.rb" }
   watch(%r{^spec/support/(.+)\.rb$})                  { "spec" }
   watch('config/routes.rb')                           { "spec/routing" }
   watch('app/controllers/application_controller.rb')  { "spec/controllers" }
 
 end
 
-guard 'rake', :task => 'generate_iodocs' do
-  watch(%r{^spec/acceptance/(.+)\.rb$})
-end
-
-guard 'process', name: 'dev-server:3000', command: 'rails server', dont_stop: true
-guard 'process', name: 'redis', command: 'redis-server', dont_stop: true
-guard 'process', name: 'iodocs', command: 'npm start', dir: '../funlife-iodocs'
+#guard 'rake', :task => 'generate_iodocs' do
+#  watch(%r{^spec/acceptance/(.+)\.rb$})
+#end
+#
+#guard 'process', name: 'dev-server:3000', command: 'rails server', dont_stop: true
+#guard 'process', name: 'redis', command: 'redis-server', dont_stop: true
+#guard 'process', name: 'iodocs', command: 'npm start', dir: '../funlife-iodocs'
 
 

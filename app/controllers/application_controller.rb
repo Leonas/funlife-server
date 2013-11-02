@@ -2,12 +2,9 @@ class ApplicationController < ActionController::Base
   include ActionController::MimeResponds
 
   around_filter :global_request_logging
-
   before_filter :authenticate_user_token
   before_filter :cors_preflight_check
   before_filter :allow_cross_domain
-
-
 
   attr_reader :current_user
 
@@ -24,8 +21,6 @@ class ApplicationController < ActionController::Base
       @current_user = User.find_by_token(authentication_token)
     end
   end
-
-
 
   private
 

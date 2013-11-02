@@ -1,3 +1,4 @@
+#this is the join table for conversations and users
 class ConversationUser < ActiveRecord::Base
   # Associations
   belongs_to :conversation

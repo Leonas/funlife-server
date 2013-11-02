@@ -1,19 +1,24 @@
 class ConversationMessage < ActiveRecord::Base
 
-  # - Mass Assignment Security
-  attr_accessible :message, :user_id
+  attr_accessible :message
+  attr_accessible :user_id
 
-  # Associations
   belongs_to :user
   belongs_to :conversation
 
-  # - Validations
-  validates :message, presence: true
-  validates :user, presence: true
-  validates :conversation, presence: true
+  validates_presence_of :message
+  validates_presence_of :user
+  validates_presence_of :conversation
 
   def self.since(timestamp = nil)
-    cm = ConversationMessage.arel_table
-    timestamp ? where(cm[:created_at].gteq(timestamp)) : all
+    conversation_messages = ConversationMessage.arel_table
+    #for more info on arel, look here:
+    #http://www.slideshare.net/brynary/arel-ruby-relational-algebra
+    #http://www.slideshare.net/flah00/activerecord-arel
+    if timestamp
+      where(conversation_messages[:created_at].gteq(timestamp))
+    else
+      all
+    end
   end
 end

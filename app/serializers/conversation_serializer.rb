@@ -1,20 +1,20 @@
 class ConversationSerializer < ActiveModel::Serializer
-  attributes :id, :date, :user_ids, :name, :photo
+  attributes :id,
+             :users,
+             :latest_message,
+             :date
 
   def date
-    object.created_at.strftime("%m %d,  %I:%M%p")
+    object.conversation_messages.last.updated_at.strftime("%b %d,  %I:%M%P")
   end
 
-  def user_ids
-    object.user_ids - [scope.current_user.id]
+  def users
+    @users = object.user_ids - [scope.current_user.id]
+    @users.map { |user| User.find(user).name }
   end
 
-  def name
-    (object.users - [scope.current_user]).first.full_name
-  end
-
-  def photo
-    (object.users - [scope.current_user]).first.try(:profile_photo).try(:url)
+  def latest_message
+   object.conversation_messages.last.message
   end
 
 end

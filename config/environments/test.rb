@@ -37,4 +37,11 @@ Funlife::Application.configure do
 
   # See everything in the log (default is :info)
   config.log_level = :debug
+
+  config.after_initialize do
+    # Set Time.now to September 1, 2008 10:05:00 AM (at this instant), but allow it to move forward
+    t = Time.local(2000, 1, 1, 10, 0, 0)
+    Timecop.travel(t)
+  end
+
 end

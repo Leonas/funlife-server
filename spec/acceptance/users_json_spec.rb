@@ -5,6 +5,12 @@ resource "Users" do
   header "Accept", "application/json"
   header "Content-Type", "application/json"
 
+  before do
+    @user1 = Factory.create(:user)
+    @user2 = Factory.create(:user)
+    @user3 = Factory.create(:user)
+    @built_user = Factory.build(:user)
+  end
 
 
   ######################################
@@ -14,8 +20,8 @@ resource "Users" do
     parameter :email,    "User email",    scope: :user, required: true
     parameter :password, "User password", scope: :user, required: true
 
-    let(:email)    { build_user.email }
-    let(:password) { build_user.password }
+    let(:email)    { @built_user.email }
+    let(:password) { @built_user.password }
     let(:raw_post) { params.to_json }
 
     example_request "Creating an account" do
@@ -35,14 +41,14 @@ resource "Users" do
   put "/users" do ######################
   ######################################
 
-    header "Authorization", token
+    header "Authorization", token(@user1)
     parameter :first_name,  "First name", scope: :user, required: true
     parameter :last_name,   "Last name",  scope: :user, required: true
 #    parameter :gender,      "Gender",     scope: :user
 #    parameter :birthday,    "Birthday",   scope: :user
 
-    let(:first_name) { build_user.first_name }
-    let(:last_name)  { build_user.last_name }
+    let(:first_name) { @built_user.first_name }
+    let(:last_name)  { @built_user.last_name }
     let(:raw_post) { params.to_json }
 
     example_request "Complete the signup process or update a user" do
@@ -58,15 +64,12 @@ resource "Users" do
   get "/users" do ######################
   ######################################
 
-    header "Authorization", token
+    header "Authorization", token(@user1)
     parameter :longitude, "longitude", scope: :user
     parameter :latitude, "latitude",   scope: :user
 
     example "List nearby users" do
       explanation "A list of users is returned based on proximity to their gps coordinates"
-
-      @user2 = user2
-      @user3 = user3
 
       do_request
       response_body.should include_json({
@@ -96,20 +99,17 @@ resource "Users" do
     header "Authorization", token
     parameter :id, "user id", required: true
 
-    let(:user_1) { user1 }
-    let(:id) { user_1.id }
+    let(:id) { @user1.id }
 
-    example "Fetch a user's profile" do
+    example_request "Fetch a user's profile" do
       explanation "user profile"
-
-      do_request
 
       response_body.should include_json({
           user: {
-            id: user_1.id,
-            name: user_1.full_name,
-            following_count: user_1.following_count,
-            followers_count: user_1.followers_count
+            id: @user1.id,
+            name: @user1.full_name,
+            following_count: @user1.following_count,
+            followers_count: @user1.followers_count
           }
       }.to_json)
     end

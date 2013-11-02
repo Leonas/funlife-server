@@ -14,13 +14,6 @@ GIT
     active_model_serializers (0.9.0.pre)
       activemodel (>= 3.2)
 
-GIT
-  remote: git://github.com/tinfoil/shoulda-kept-assign-to.git
-  revision: fa0bdc6c0cb5ff9851fc9893a9af18f728ac143b
-  specs:
-    shoulda-kept-assign-to (1.0.0)
-      shoulda-matchers (>= 2.1.0)
-
 PATH
   remote: /Users/Leonas/funlife-code/rspec_to_iodocs
   specs:
@@ -208,6 +201,7 @@ GEM
     sqlite3 (1.3.8)
     thor (0.18.1)
     tilt (1.4.1)
+    timecop (0.6.3)
     timers (1.1.0)
     treetop (1.4.15)
       polyglot
@@ -249,10 +243,11 @@ DEPENDENCIES
   rb-inotify
   rspec-rails
   rspec_to_iodocs!
-  shoulda-kept-assign-to!
+  shoulda-matchers
   simplecov (~> 0.6.4)
   spork-rails
   sqlite3
+  timecop
   unicorn
   wdm
   yajl-ruby

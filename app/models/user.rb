@@ -30,10 +30,6 @@ class User < ActiveRecord::Base
 
 
   #relationships
-  #has_many :friendships, dependent: :destroy, foreign_key: "follower_id", class_name: "Friendship"
-  #has_many :followings, through: :friendships
-  #has_many :my_followers, dependent: :destroy, foreign_key: "following_id", class_name: "Friendship"
-  #has_many :followers, through: :my_followers
   has_many :relationships, foreign_key: "follower_id", dependent: :destroy
   has_many :followed_users, through: :relationships, source: :followed
   has_many :reverse_relationships, foreign_key: "followed_id", class_name: "Relationship", dependent: :destroy

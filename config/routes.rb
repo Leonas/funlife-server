@@ -23,8 +23,8 @@ Funlife::Application.routes.draw do
       resources :conversation_messages, only: [:index, :create]
     end
 
-    ############Friendships################
-    resources :friendships, only: [:create, :destroy]
+    ############Relationships################
+    resources :relationships, only: [:create, :destroy]
 
 
     ############Photos################

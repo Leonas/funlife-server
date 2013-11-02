@@ -12,20 +12,17 @@ class User < ActiveRecord::Base
 
   before_create :ensure_authentication_token!
 
+  #conversations
+  has_many :conversations,         through:   :conversation_users
+  has_many :conversation_messages
+  has_many :conversation_users,    dependent: :destroy
 
   #activities
   has_many :activities
   has_many :invitations,         dependent: :destroy
   has_many :invited_activities,  through: :invitations, source: :activity
   has_many :attendees,           dependent: :destroy                     #why is this here?
-  has_many :attended_activities, through: :attendees, source: :activity
-
-
-  #conversations
-  has_many :conversations,         through:   :conversation_users
-  has_many :conversation_messages
-  has_many :conversation_users,    dependent: :destroy
-
+  has_many :attended_activities, through: :attendees,   source: :activity
 
   #photos
   has_many :photos, dependent: :destroy
@@ -33,17 +30,37 @@ class User < ActiveRecord::Base
 
 
   #relationships
-  has_many :friendships, dependent: :destroy, foreign_key: "follower_id", class_name: "Friendship"
-  has_many :followings, through: :friendships
-  has_many :my_followers, dependent: :destroy, foreign_key: "following_id", class_name: "Friendship"
-  has_many :followers, through: :my_followers
-
+  #has_many :friendships, dependent: :destroy, foreign_key: "follower_id", class_name: "Friendship"
+  #has_many :followings, through: :friendships
+  #has_many :my_followers, dependent: :destroy, foreign_key: "following_id", class_name: "Friendship"
+  #has_many :followers, through: :my_followers
+  has_many :relationships, foreign_key: "follower_id", dependent: :destroy
+  has_many :followed_users, through: :relationships, source: :followed
+  has_many :reverse_relationships, foreign_key: "followed_id", class_name: "Relationship", dependent: :destroy
+  has_many :followers, through: :reverse_relationships, source: :follower
 
   #general
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
   has_many :photo_likes, through: :likes, source: :photo
 
+
+
+  ##################################################
+  #  Definitions  ##################################
+  ##################################################
+
+  def full_name
+    "#{first_name} #{last_name}"
+  end
+
+  def name
+    "#{first_name} #{last_name.chr}."
+  end
+
+  ##################################################
+  #  Actions  ######################################
+  ##################################################
 
   def ensure_authentication_token!
     self.token ||= SecureRandom.urlsafe_base64
@@ -58,21 +75,23 @@ class User < ActiveRecord::Base
     self.save
   end
 
-
-  def full_name
-    "#{first_name} #{last_name}"
+  def following?(other_user)
+    relationships.find_by_followed_id(other_user.id)
   end
 
-  def name
-    "#{first_name} #{last_name.chr}."
+  def follow!(other_user)
+    relationships.create!(followed_id: other_user.id)
+  end
+
+  def unfollow!(other_user)
+    relationships.find_by_followed_id(other_user.id).destroy
   end
 
 
-  # Query Methods
+  ##################################################
+  #  Queries  ######################################
+  ##################################################
 
-  # user.feed_activities
-  # => "SELECT 'activities'.* FROM 'activities'  WHERE (('activities'.'user_id' IN (friends_ids, self.id) OR 'activities'.'allow_join' = 't'))"
-  # TODO add attending activities
   def feed_activities
     activity = Activity.arel_table
 

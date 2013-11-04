@@ -41,7 +41,7 @@ resource "Sessions" do
   delete "/sessions" do ################
   ######################################
 
-    header "Authorization", token(@user1)
+    header "Authorization", generate_token(@user1)
 
     example_request "Destroy a session (logout)" do
       explanation "A user logs out"

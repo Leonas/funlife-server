@@ -3,6 +3,37 @@ Funlife::Application.routes.draw do
 
   scope defaults: { format: "json" } do
 
+    ############Sessions################
+    resources :sessions, only: [:create] do
+      collection do
+        delete :destroy
+      end
+    end
+
+
+    ############Users################
+    resources :users, except: [:update] do
+      member do
+        get :following
+        get :followers
+      end
+      collection do
+        put :update
+      end
+    end
+
+
+    ############Conversations################
+    resources :conversations, except: [:edit, :update, :new] do
+      resources :conversation_messages, only: [:index, :create]
+    end
+
+
+    ############Relationships################
+    resources :relationships, only: [:create] do
+      delete :destroy, on: :collection
+    end
+
 
     ############Activities################
     resources :activities, except: [:edit, :new] do
@@ -18,15 +49,6 @@ Funlife::Application.routes.draw do
     resources :categories, only: [:index]
 
 
-    ############Conversations################
-    resources :conversations, except: [:edit, :update, :new] do
-      resources :conversation_messages, only: [:index, :create]
-    end
-
-    ############Relationships################
-    resources :relationships, only: [:create, :destroy]
-
-
     ############Photos################
     resources :photos, except: [:edit, :update, :new] do
       resources :comments, except: [:edit, :new]
@@ -40,21 +62,10 @@ Funlife::Application.routes.draw do
     end
 
 
-    ############Users################
-    resources :users, except: [:update] do
-      collection do
-        put :update
-      end
-    end
-
-    ############Sessions################
-    resources :sessions, only: [:create] do
-      collection do
-        delete :destroy
-      end
-    end
+    ############Cross Origin Resource Sharing (CORS) ################ is that what this is for?
     match '*options', controller: 'users', action: 'options', constraints: { method: 'OPTIONS' }
-    match '/users', :controller => 'users', :action => 'options', :constraints => {:method => 'OPTIONS'}
+    match '/users',   controller: 'users', action: 'options', constraints: { method: 'OPTIONS' }
+
   end
 
 

@@ -1,7 +1,7 @@
 class RelationshipsController < ApplicationController
 
   def create
-    @user = User.find(params[:relationship][:followed_id])
+    @user = User.find(params[:user_id])
 
     if current_user.follow!(@user)
       head :created
@@ -15,8 +15,7 @@ class RelationshipsController < ApplicationController
 
 
   def destroy
-    @user = Relationship.find(params[:id]).followed
-
+    @user = User.find(params[:user_id])
     if current_user.unfollow!(@user)
       head :no_content
     else

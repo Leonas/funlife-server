@@ -5,13 +5,21 @@ resource "Users" do
   header "Accept", "application/json"
   header "Content-Type", "application/json"
 
-  let(:setup_users) do
-    @user1 = Factory.create(:user)
+
+  let!(:user1) { @user1 = Factory.create(:user) }
+  let!(:setup_users) do
     @user2 = Factory.create(:user)
     @user3 = Factory.create(:user)
     @built_user = Factory.build(:user)
+
+    @user2.follow!(@user1)
+    @user3.follow!(@user1)
+    @user1.follow!(@user3)
+    @user1.reload
+    @user2.reload
+    @user3.reload
   end
-  let(:token) { login_user(@user1) }
+  let!(:token) { generate_token(@user1) }
 
 
 
@@ -85,11 +93,11 @@ resource "Users" do
         users: [
           {
             id: @user2.id,
-            name: @user2.full_name
+            name: @user2.name
           },
           {
             id: @user3.id,
-            name: @user3.full_name
+            name: @user3.name
           }
         ]
 
@@ -108,19 +116,21 @@ resource "Users" do
     header "Authorization", :token
     parameter :id, "user id", required: true
 
-    let(:id) { @user1.id }
+    let(:id) { @user2.id }
 
     example_request "Fetch a user's profile" do
       explanation "user profile"
 
       response_body.should include_json({
           user: {
-            id: @user1.id,
-            name: @user1.full_name,
-            following_count: @user1.following_count,
-            followers_count: @user1.followers_count
+            id: @user2.id,
+            name: @user2.name,
+            following_count: @user2.following_count,
+            followers_count: @user2.followers_count
           }
       }.to_json)
+      user = JSON.parse(response_body)['user']
+      expect(user['token']).to be_nil
     end
   end
 
@@ -134,20 +144,20 @@ resource "Users" do
     header "Authorization", :token
     parameter :id, "user id", required: true
 
-    example "Get list of followers" do
-      explanation "Get a list of followers for user_id"
+    let(:id) { @user1.id }
 
-      do_request
+    example_request "Get list of followers" do
+      explanation "Get a list of followers for user_id"
       response_body.should include_json({
 
           users: [
               {
                   id: @user2.id,
-                  name: @user2.full_name
+                  name: @user2.name
               },
               {
                   id: @user3.id,
-                  name: @user3.full_name
+                  name: @user3.name
               }
           ]
 
@@ -171,12 +181,10 @@ resource "Users" do
       explanation ""
 
       response_body.should include_json({
-          user: {
-              id: @user1.id,
-              name: @user1.full_name,
-              following_count: @user1.following_count,
-              followers_count: @user1.followers_count
-          }
+          users: [
+              id: @user3.id,
+              name: @user3.name
+          ]
       }.to_json)
     end
   end

@@ -12,17 +12,17 @@ describe RelationshipsController do
 
     it "should increment the Relationship count" do
       expect do
-        post :create, relationship: { followed_id: user2.id }
+        post :create, user_id: user2.id
       end.to change(Relationship, :count).by(1)
     end
 
     it "should respond with success" do
-      post :create, relationship: { followed_id: user2.id }
+      post :create, user_id: user2.id
       response.should be_success
     end
 
     it "should set the cached counters" do
-      post :create, relationship: { followed_id: user2.id }
+      post :create, user_id: user2.id
       user1.reload.following_count.should == 1
       user2.reload.followers_count.should == 1
     end
@@ -35,16 +35,15 @@ describe RelationshipsController do
       user1.follow!(user2)
     end
 
-    let(:relationship) { user1.relationships.find_by_followed_id(user2) }
 
     it "should decrement the Relationship count" do
       expect do
-        delete :destroy, id: relationship.id
+        delete :destroy, user_id: user2.id
       end.to change(Relationship, :count).by(-1)
     end
 
     it "should respond with success" do
-      delete :destroy, id: relationship.id
+      delete :destroy, user_id: user2.id
       response.should be_success
     end
   end

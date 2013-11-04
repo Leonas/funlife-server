@@ -51,7 +51,8 @@ class User < ActiveRecord::Base
   end
 
   def name
-    "#{first_name} #{last_name.chr}."
+    "new user"
+    "#{first_name} #{last_name.chr}." if first_name and last_name
   end
 
   ##################################################

@@ -10,7 +10,7 @@ FactoryGirl.define do
 end
 
 
-def token(user = nil)
+def generate_token(user = nil)
   token_user = user || FactoryGirl.create(:user)
   "Basic " + Base64::encode64("#{token_user.token}:me")
 end

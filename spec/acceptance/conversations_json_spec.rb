@@ -17,7 +17,7 @@ resource "Conversations" do
     Timecop.freeze(Date.today + 1) do @user2_message1 = Factory.create(:conversation_message, user: @user2, conversation: @conversation1, message: "message2_1") end
     Timecop.freeze(Date.today + 2) do @user2_message2 = Factory.create(:conversation_message, user: @user2, conversation: @conversation1, message: "message2_2") end
   end
-  let!(:user_token) { token(@user1)}
+  let!(:user_token) { generate_token(@user1)}
 
 
 
@@ -192,7 +192,7 @@ resource "Conversations" do
   #delete "/conversations/:id" do #######           #this needs to just hide it
   #######################################
   #
-  #  header "Authorization", token(@user1)
+  #  header "Authorization", generate_token(@user1)
   #  parameter :id, "conversation id", required: true
   #
   #  example_request "Delete a conversation" do

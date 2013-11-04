@@ -1,33 +1,55 @@
-### Create new Friendship
-#
-#method: POST, path: /friendships, Input: { followind_id: 2 }
-#
-#**Response**
-#
-#```
-#Status : 201 Created
-#```
-#
-#```json
-#{"friendship":
-#  {"created_at":"2013-03-29T12:12:43Z",
-#   "following_id": 1,
-#   "friend_id":2,
-#    "id":1,
-#   "updated_at":"2013-03-29T12:12:43Z"
-#  }
-#}
-#```
-#
-### Delete a Friendship
-#
-#method: DELETE, path: /friendship/:id
-#
-#**Response**
-#
-#    ```
-#Status: 204 No Content
-#```
-#
-#Reference this app for how to name the variables:
-#                                           https://github.com/railstutorial/sample_app_2nd_ed
+require 'spec_helper'
+require 'rspec_to_iodocs/dsl'
+
+resource "Relationships" do
+  header "Accept", "application/json"
+  header "Content-Type", "application/json"
+
+  let!(:create_users) do
+    @user1 = Factory.create(:user)
+    @user2 = Factory.create(:user)
+    @user3 = Factory.create(:user)
+    @user1.follow!(@user3)
+  end
+  let!(:token)       { generate_token(@user1) }
+
+
+
+  ######################################
+  post "/relationships" do #############
+  ######################################
+    header "Authorization", :token
+    parameter :user_id, "user_id to follow", required: true
+
+    let(:user_id)     { @user2.id }
+    let(:raw_post)    { params.to_json }
+
+    example_request "Follow a user" do
+      explanation "Follows a user"
+
+      expect(@user1.reload.following_count).to eq(2)
+      status.should == 201
+    end
+  end
+
+
+
+
+  ######################################
+  delete "/relationships" do ###########
+  ######################################
+
+    header "Authorization", :token
+    parameter :user_id, "user_id to unfollow", required: true
+
+    let(:user_id)       { @user3.id }
+    let(:raw_post)      { params.to_json }
+
+    example_request "Unfollow a user" do
+      explanation "User is no longer followed"
+
+      expect(@user1.reload.following_count).to eq(0)
+      status.should == 204
+    end
+  end
+end

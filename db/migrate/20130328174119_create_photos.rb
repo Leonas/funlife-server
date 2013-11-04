@@ -14,6 +14,8 @@ class CreatePhotos < ActiveRecord::Migration
       t.string :url
       t.string :secure_url
       t.string :type
+      t.integer :comments_count, default: 0
+      t.integer :likes_count, default: 0
 
       t.timestamps
     end

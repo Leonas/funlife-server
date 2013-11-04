@@ -3,7 +3,7 @@ class CreateComments < ActiveRecord::Migration
     create_table :comments do |t|
       t.references :user, null: false
       t.references :photo, null: false
-      t.text :body, null: false
+      t.string :body, null: false
       t.integer :parent_id
       t.integer :children_count, default: 0
 

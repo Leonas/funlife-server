@@ -8,6 +8,8 @@ class CreateUsers < ActiveRecord::Migration
       t.string :token
       t.string :gender
       t.date   :birthday
+      t.integer :following_count, default: 0
+      t.integer :followers_count, default: 0
 
       t.timestamps
     end

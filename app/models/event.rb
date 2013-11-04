@@ -1,39 +1,35 @@
 class Event < ActiveRecord::Base
 
-  WAITLIST = %w(none everyone unverified untrusted)
 
-  # - Mass Assignment Security
-  attr_accessible :allow_join, :cost, :details, :end_time, :headline,
-    :maximum_users, :date, :start_time, :visibility, :waitlist,
-    :everyone, :women, :men, :verified, :trusted, :star_age, :end_age,
-    :address, :category_ids
 
-  # - Associations
+  attr_accessible :name,
+                  :details,
+                  :date,
+                  :time,
+                  :duration,
+                  :max_attendance,
+                  :invite_only?,
+                  :allow_request_invite?,
+                  :allow_women?,
+                  :allow_men?,
+                  :allow_youngest_age,
+                  :allow_oldest_age,
+                  :attendees_count
+
+
   belongs_to :user
-  has_many :events, dependent: :destroy
-  has_many :categories, through: :event_categories
+  #has_many :activities                                 # this and migrations need fixing
+  #has_many :categories, through: :activities           # this and migrations need fixing
 
-  has_many :invitations, dependent: :destroy
-  has_many :guests, through: :invitations, source: :user
+  has_many :invitations,    dependent: :destroy
+  has_many :guests,         through: :invitations, source: :user         #wtf is diff between this and attendees?
 
-  has_many :attendees, :dependent => :destroy
-  has_many :users, :through => :attendees
+  has_many :attendees,      dependent: :destroy
+  has_many :users,          through: :attendees
+
+  has_one  :place,          as: :location
 
 
-  # - Validations
-  validates :headline, presence: true, on: :update
-  validates :date, presence: true, on: :update
-  validates :start_time, presence: true, on: :update
-  validates :end_time, presence: true, on: :update
-  validates :waitlist, inclusion: { in: WAITLIST }
-  validates :address, presence: true
-
-  # - Class Methods
-  class << self
-    def by_pick_date(date = nil)
-      date ? where(date: date) : self.scoped
-    end
-  end
 
 
 end

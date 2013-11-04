@@ -1,12 +1,12 @@
 class Attendee < ActiveRecord::Base
-  # - Associations
+
   belongs_to :user
   belongs_to :event, counter_cache: true
 
-  # - Mass Assignment Security
+
   attr_accessible :user_id, :event_id
 
-  # - Validations
+
   validates :event_id, :uniqueness => { :scope => :user_id }
   validate :uninvited_users_cannot_join, unless: Proc.new{ |a| a.event.allow_join }
 

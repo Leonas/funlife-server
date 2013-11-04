@@ -3,12 +3,13 @@ class CreateEvents < ActiveRecord::Migration
     create_table :events do |t|
       t.references :user
       t.string :name
-      t.text :details
+      t.string :details
       t.date :date
       t.time :time, null: false
       t.time :duration, null: false
       t.integer :max_attendance
-      t.boolean :invite_only
+      t.boolean :invite_only, default: false
+      t.boolean :allow_request_invite, default: false
       t.boolean :allow_women, default: false
       t.boolean :allow_men, default: false
       t.integer :allow_youngest_age

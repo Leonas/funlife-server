@@ -38,7 +38,7 @@ class ConversationsController < ApplicationController
   # DELETE /conversations/1
   def destroy
     #hide instead of destroy the conversations
-    #(@current_user.conversation_users.find_by_conversation_id(params[:id])).destroy
+    #(@current_user.conversation_user_joins.find_by_conversation_id(params[:id])).destroy
     #@conversation.destroy
     head :no_content
   end

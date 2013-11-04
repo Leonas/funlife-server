@@ -51,7 +51,7 @@ describe ConversationsController do
     end
 
     it "should create a new conversation"                                  do expect{create_conversation}.to change(Conversation, :count).by(1) end
-    it "should create a row in conversation_user join table for each user" do expect{create_conversation}.to change(ConversationUser, :count).by(3) end
+    it "should create a row in conversation_user join table for each user" do expect{create_conversation}.to change(ConversationUserJoin, :count).by(3) end
     it "should create a new conversation message"                          do expect{create_conversation}.to change(ConversationMessage, :count).by(1) end
 
 
@@ -69,7 +69,7 @@ describe ConversationsController do
     let(:delete_conversation) do delete :destroy, id: @conversation.id end
 
     it "should NOT destroy the actual conversation"           do expect{delete_conversation}.to change(Conversation, :count).by(0) end
-    it "should NOT do anything to the ConversationUser table" do expect{delete_conversation}.to change(ConversationUser, :count).by(0) end
+    it "should NOT do anything to the ConversationUser table" do expect{delete_conversation}.to change(ConversationUserJoin, :count).by(0) end
 
     xit "should hide the conversation for the current user"   do end
     xit "should un-hide when a new message is sent"           do end

@@ -1,7 +1,8 @@
 class CreatePhotos < ActiveRecord::Migration
   def change
     create_table :photos do |t|
-      t.references :imageable, polymorphic: true
+      t.integer :imageable_id
+      t.string  :imageable_type
       t.string :public_id
       t.string :version
       t.string :signature

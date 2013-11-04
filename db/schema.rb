@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131104095548) do
+ActiveRecord::Schema.define(:version => 20131104095549) do
 
   create_table "activities", :force => true do |t|
     t.integer "activity_type_id"
@@ -20,13 +20,15 @@ ActiveRecord::Schema.define(:version => 20131104095548) do
     t.string  "icon_url"
   end
 
-  create_table "activities_categories", :id => false, :force => true do |t|
-    t.integer "activity_id"
-    t.integer "category_id"
+  create_table "activity_category_joins", :force => true do |t|
+    t.integer  "activity_id"
+    t.integer  "category_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
-  add_index "activities_categories", ["activity_id"], :name => "index_activities_categories_on_activity_id"
-  add_index "activities_categories", ["category_id"], :name => "index_activities_categories_on_category_id"
+  add_index "activity_category_joins", ["activity_id"], :name => "index_activity_category_joins_on_activity_id"
+  add_index "activity_category_joins", ["category_id"], :name => "index_activity_category_joins_on_category_id"
 
   create_table "attendees", :force => true do |t|
     t.integer  "user_id"
@@ -69,15 +71,16 @@ ActiveRecord::Schema.define(:version => 20131104095548) do
   add_index "conversation_messages", ["conversation_id"], :name => "index_conversation_messages_on_conversation_id"
   add_index "conversation_messages", ["user_id"], :name => "index_conversation_messages_on_user_id"
 
-  create_table "conversation_users", :force => true do |t|
+  create_table "conversation_user_joins", :force => true do |t|
     t.integer  "conversation_id"
     t.integer  "user_id"
+    t.boolean  "hidden"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end
 
-  add_index "conversation_users", ["conversation_id"], :name => "index_conversation_users_on_conversation_id"
-  add_index "conversation_users", ["user_id"], :name => "index_conversation_users_on_user_id"
+  add_index "conversation_user_joins", ["conversation_id"], :name => "index_conversation_user_joins_on_conversation_id"
+  add_index "conversation_user_joins", ["user_id"], :name => "index_conversation_user_joins_on_user_id"
 
   create_table "conversations", :force => true do |t|
     t.datetime "created_at", :null => false
@@ -135,6 +138,16 @@ ActiveRecord::Schema.define(:version => 20131104095548) do
     t.datetime "updated_at",                    :null => false
   end
 
+  create_table "place_user_joins", :force => true do |t|
+    t.integer  "place_id"
+    t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "place_user_joins", ["place_id"], :name => "index_place_user_joins_on_place_id"
+  add_index "place_user_joins", ["user_id"], :name => "index_place_user_joins_on_user_id"
+
   create_table "places", :force => true do |t|
     t.string   "name"
     t.string   "street_address"
@@ -171,6 +184,8 @@ ActiveRecord::Schema.define(:version => 20131104095548) do
     t.string   "token"
     t.string   "gender"
     t.date     "birthday"
+    t.integer  "main_photo_id"
+    t.integer  "avatar_id"
     t.integer  "following_count", :default => 0
     t.integer  "followers_count", :default => 0
     t.datetime "created_at",                     :null => false

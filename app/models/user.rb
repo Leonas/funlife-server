@@ -8,9 +8,8 @@ class User < ActiveRecord::Base
                   :first_name,
                   :last_name,
                   :main_photo_id,
-                  :icon_photo_id,
-                  :full_name,     #is this necessary?
-                  :name           #is this necessary?
+                  :avatar_id
+
 
   attr_protected :token, :password_digest
 
@@ -19,30 +18,37 @@ class User < ActiveRecord::Base
 
   before_create :ensure_authentication_token!
 
+
   #conversations
-  has_many :conversations,         through:   :conversation_users
+  has_many :conversation_user_joins
+  has_many :conversations,              through:   :conversation_user_joins
   has_many :conversation_messages
-  has_many :conversation_users,    dependent: :destroy
+
+
+  #places to get invited to
+  has_many :place_user_joins,           dependent: :destroy
+  has_many :favorite_places,            through: :place_user_joins, source: :places
+
 
   #events
   has_many :events
-  has_many :invitations,           dependent: :destroy
-  has_many :invited_events,    through: :invitations, source: :event
-  has_many :attendees,             dependent: :destroy                     #why is this here?
-  has_many :attended_events,   through: :attendees,   source: :event
+  has_many :invitations,                dependent: :destroy
+  has_many :invited_events,             through: :invitations, source: :event
+  has_many :attendees,                  dependent: :destroy                     #why is this here?
+  has_many :attended_events,            through: :attendees,   source: :event
 
 
   #relationships
-  has_many :relationships,         foreign_key: "follower_id", dependent: :destroy
-  has_many :followed_users,        through: :relationships, source: :followed
-  has_many :reverse_relationships, foreign_key: "followed_id", class_name: "Relationship", dependent: :destroy
-  has_many :followers,             through: :reverse_relationships, source: :follower
+  has_many :relationships,              foreign_key: "follower_id", dependent: :destroy
+  has_many :followed_users,             through: :relationships, source: :followed
+  has_many :reverse_relationships,      foreign_key: "followed_id", class_name: "Relationship", dependent: :destroy
+  has_many :followers,                  through: :reverse_relationships, source: :follower
+
 
   #general
-  has_many :photos,                as: :imageable, dependent: :destroy
-  has_many :comments,              dependent: :destroy
-  has_many :likes,                 dependent: :destroy
-
+  has_many :photos,                     as: :imageable, dependent: :destroy
+  has_many :comments,                   dependent: :destroy
+  has_many :likes,                      dependent: :destroy
 
 
   ##################################################
@@ -87,26 +93,33 @@ class User < ActiveRecord::Base
     relationships.find_by_followed_id(other_user.id).destroy
   end
 
+  def set_avatar!(photo)
+    #todo
+  end
+
+  def set_main_photo!(photo)
+    #todo
+  end
 
   ##################################################
   #  Queries  ######################################
   ##################################################
 
-  def feed_events
-    event = Event.arel_table
-
-    # Includes the current_user's Events
-    user_ids = self.following_ids.push(self.id)
-
-    Event.where(
-      event[:user_id].in(user_ids).or(
-        event[:allow_join].eq(true)
-      )
-    )
-  end
-
-  def following_photos
-    # ActiveRecord::Relation
-    Photo.where(user_id: self.followings.select("following_id"))
-  end
+  #def feed_events
+  #  event = Event.arel_table
+  #
+  #  # Includes the current_user's Events
+  #  user_ids = self.following_ids.push(self.id)
+  #
+  #  Event.where(
+  #    event[:user_id].in(user_ids).or(
+  #      event[:allow_join].eq(true)
+  #    )
+  #  )
+  #end
+  #
+  #def following_photos
+  #  # ActiveRecord::Relation
+  #  Photo.where(user_id: self.followings.select("following_id"))
+  #end
 end

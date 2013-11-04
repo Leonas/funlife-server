@@ -7,6 +7,6 @@ class CreateInvitations < ActiveRecord::Migration
       t.timestamps
     end
     add_index :invitations, :user_id
-    add_index :invitations, :activity_id
+    add_index :invitations, :event_id
   end
 end

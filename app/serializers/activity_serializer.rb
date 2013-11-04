@@ -1,4 +1,4 @@
-class ActivitySerializer < ActiveModel::Serializer
+class EventSerializer < ActiveModel::Serializer
   attributes :id, :headline, :details, :date, :start_time, :end_time,
     :allow_join, :maximum_users, :waitlist, :cost, :address, :attendees_count
   has_one :user, embed: :ids

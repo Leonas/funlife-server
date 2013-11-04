@@ -1,5 +1,5 @@
 class AttendeesController < ApplicationController
-  before_filter :set_activity
+  before_filter :set_event
 
   def index
     @users = @event.users
@@ -18,7 +18,7 @@ class AttendeesController < ApplicationController
 
   private
 
-  def set_activity
-    @event = Event.find(params[:activity_id])
+  def set_event
+    @event = Event.find(params[:event_id])
   end
 end

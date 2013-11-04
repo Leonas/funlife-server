@@ -1,5 +1,5 @@
 ### List all places nearby
-#[Used on 05 Map Screen (not including bottom)](https://github.com/Leonas/funlife/blob/master/graphics/app_screens/05.activity-ideas-screen.png)
+#[Used on 05 Map Screen (not including bottom)](https://github.com/Leonas/funlife/blob/master/graphics/app_screens/05.event-ideas-screen.png)
 #**request method:** GET, **path:** /places/
 #
 #**Response**
@@ -22,7 +22,7 @@
 #```
 #
 ### Fetch a summary
-#[Used on 05 Map Screen (bottom)](https://github.com/Leonas/funlife/blob/master/graphics/app_screens/05.activity-ideas-screen.png)
+#[Used on 05 Map Screen (bottom)](https://github.com/Leonas/funlife/blob/master/graphics/app_screens/05.event-ideas-screen.png)
 #**method:** GET, **path:** /places/:id/summary
 #**Response**
 #
@@ -35,7 +35,7 @@
 #     {
 #      "id": "1",
 #      "title": "Lake Bike Trail",
-#      "activities": "Biking, Hiking, Camping, Fishing",
+#      "events": "Biking, Hiking, Camping, Fishing",
 #      "distance": "4.5",
 #      "rating": "2"
 #     }

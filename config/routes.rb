@@ -37,7 +37,7 @@ Funlife::Application.routes.draw do
     end
 
 
-    ############Activities################
+    ############Events################
     resources :events, except: [:edit, :new] do
       resources :attendees, only: [:index, :create]
       resources :invitations, only: [:create]

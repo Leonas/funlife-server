@@ -6,6 +6,6 @@ class Category < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
 
   # - Associations
-  has_many :activities, dependent: :destroy
-  has_many :events, through: :activity_categories
+  has_many :events, dependent: :destroy
+  #has_many :events, through: :event_categories
 end

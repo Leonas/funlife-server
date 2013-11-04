@@ -4,7 +4,14 @@ class User < ActiveRecord::Base
 
   GENDERS = %w(male female)
 
-  attr_accessible :email, :first_name, :last_name, :full_name, :name
+  attr_accessible :email,
+                  :first_name,
+                  :last_name,
+                  :main_photo_id,
+                  :icon_photo_id,
+                  :full_name,     #is this necessary?
+                  :name           #is this necessary?
+
   attr_protected :token, :password_digest
 
   validates :email, presence: true, uniqueness: true
@@ -17,28 +24,24 @@ class User < ActiveRecord::Base
   has_many :conversation_messages
   has_many :conversation_users,    dependent: :destroy
 
-  #activities
+  #events
   has_many :events
-  has_many :invitations,         dependent: :destroy
-  has_many :invited_activities,  through: :invitations, source: :activity
-  has_many :attendees,           dependent: :destroy                     #why is this here?
-  has_many :attended_activities, through: :attendees,   source: :activity
-
-  #photos
-  has_many :photos, dependent: :destroy
-  has_one  :profile_photo
+  has_many :invitations,           dependent: :destroy
+  has_many :invited_events,    through: :invitations, source: :event
+  has_many :attendees,             dependent: :destroy                     #why is this here?
+  has_many :attended_events,   through: :attendees,   source: :event
 
 
   #relationships
-  has_many :relationships, foreign_key: "follower_id", dependent: :destroy
-  has_many :followed_users, through: :relationships, source: :followed
+  has_many :relationships,         foreign_key: "follower_id", dependent: :destroy
+  has_many :followed_users,        through: :relationships, source: :followed
   has_many :reverse_relationships, foreign_key: "followed_id", class_name: "Relationship", dependent: :destroy
-  has_many :followers, through: :reverse_relationships, source: :follower
+  has_many :followers,             through: :reverse_relationships, source: :follower
 
   #general
-  has_many :comments, dependent: :destroy
-  has_many :likes, dependent: :destroy
-  has_many :photo_likes, through: :likes, source: :photo
+  has_many :photos,                as: :imageable, dependent: :destroy
+  has_many :comments,              dependent: :destroy
+  has_many :likes,                 dependent: :destroy
 
 
 
@@ -89,15 +92,15 @@ class User < ActiveRecord::Base
   #  Queries  ######################################
   ##################################################
 
-  def feed_activities
-    activity = Event.arel_table
+  def feed_events
+    event = Event.arel_table
 
-    # Includes the current_user's Activities
+    # Includes the current_user's Events
     user_ids = self.following_ids.push(self.id)
 
     Event.where(
-      activity[:user_id].in(user_ids).or(
-        activity[:allow_join].eq(true)
+      event[:user_id].in(user_ids).or(
+        event[:allow_join].eq(true)
       )
     )
   end

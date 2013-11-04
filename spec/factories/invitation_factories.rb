@@ -3,6 +3,6 @@
 #FactoryGirl.define do
 #  factory :invitation do
 #    user nil
-#    activity nil
+#    event nil
 #  end
 #end

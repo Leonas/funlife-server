@@ -1,8 +1,8 @@
 class EventsController < ApplicationController
-  before_filter :set_activity, only: [:show, :destroy, :update]
-  # GET /activities
-  # GET /activities.json
-  # Current User's Activities
+  before_filter :set_event, only: [:show, :destroy, :update]
+  # GET /events
+  # GET /events.json
+  # Current User's Events
   def index
     @events = @current_user.events.page(params[:page]).by_pick_date(params[:date])
     render json: @events, meta: pagination_attrs
@@ -11,18 +11,18 @@ class EventsController < ApplicationController
   # GET /feed
   # GET /feed.json
   def feed
-    @events = @current_user.feed_activities.page(params[:page]).group(:date)
+    @events = @current_user.feed_events.page(params[:page]).group(:date)
     render json: serialize_feed(@events).merge( {meta: pagination_attrs} )
   end
 
-  # GET /activities/1
-  # GET /activities/1.json
+  # GET /events/1
+  # GET /events/1.json
   def show
     render json: @event
   end
 
-  # POST /activities
-  # POST /activities.json
+  # POST /events
+  # POST /events.json
   def create
     @event = @current_user.events.build(params[:event])
     if @event.save
@@ -32,8 +32,8 @@ class EventsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /activities/1
-  # PATCH/PUT /activities/1.json
+  # PATCH/PUT /events/1
+  # PATCH/PUT /events/1.json
   def update
     if @event.update_attributes(params[:event])
       render json: @event
@@ -42,8 +42,8 @@ class EventsController < ApplicationController
     end
   end
 
-  # DELETE /activities/1
-  # DELETE /activities/1.json
+  # DELETE /events/1
+  # DELETE /events/1.json
   def destroy
     @event.destroy
     head :no_content
@@ -59,13 +59,13 @@ class EventsController < ApplicationController
     }
   end
 
-  def set_activity
+  def set_event
     @event = @current_user.events.find(params[:id])
   end
 
-  def serialize_feed(activities)
-    activities.map do |activity|
-      ActivitySerializer.new(activity, root: false).as_json
+  def serialize_feed(events)
+    events.map do |event|
+      EventSerializer.new(event, root: false).as_json
     end.group_by{|x| x[:date]}
   end
 end

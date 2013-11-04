@@ -10,8 +10,8 @@ class Event < ActiveRecord::Base
 
   # - Associations
   belongs_to :user
-  has_many :activities, dependent: :destroy
-  has_many :categories, through: :activity_categories
+  has_many :events, dependent: :destroy
+  has_many :categories, through: :event_categories
 
   has_many :invitations, dependent: :destroy
   has_many :guests, through: :invitations, source: :user

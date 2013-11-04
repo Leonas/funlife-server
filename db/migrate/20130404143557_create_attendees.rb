@@ -2,7 +2,7 @@ class CreateAttendees < ActiveRecord::Migration
   def change
     create_table :attendees do |t|
       t.references :user
-      t.references :activity
+      t.references :event
 
       t.timestamps
     end

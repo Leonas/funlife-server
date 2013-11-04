@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
   has_many :conversation_users,    dependent: :destroy
 
   #activities
-  has_many :activities
+  has_many :events
   has_many :invitations,         dependent: :destroy
   has_many :invited_activities,  through: :invitations, source: :activity
   has_many :attendees,           dependent: :destroy                     #why is this here?
@@ -90,12 +90,12 @@ class User < ActiveRecord::Base
   ##################################################
 
   def feed_activities
-    activity = Activity.arel_table
+    activity = Event.arel_table
 
     # Includes the current_user's Activities
     user_ids = self.following_ids.push(self.id)
 
-    Activity.where(
+    Event.where(
       activity[:user_id].in(user_ids).or(
         activity[:allow_join].eq(true)
       )

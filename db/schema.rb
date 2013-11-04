@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130404150642) do
+ActiveRecord::Schema.define(:version => 20131104095546) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -126,7 +126,8 @@ ActiveRecord::Schema.define(:version => 20130404150642) do
   add_index "likes", ["user_id"], :name => "index_likes_on_user_id"
 
   create_table "photos", :force => true do |t|
-    t.integer  "user_id"
+    t.integer  "imageable_id"
+    t.string   "imageable_type"
     t.string   "public_id"
     t.string   "version"
     t.string   "signature"
@@ -145,7 +146,12 @@ ActiveRecord::Schema.define(:version => 20130404150642) do
     t.integer  "likes_count",    :default => 0
   end
 
-  add_index "photos", ["user_id"], :name => "index_photos_on_user_id"
+  create_table "places", :force => true do |t|
+    t.string   "name"
+    t.string   "address"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "relationships", :force => true do |t|
     t.integer  "follower_id"

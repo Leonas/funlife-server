@@ -1,7 +1,7 @@
 class CreateActivityCategories < ActiveRecord::Migration
   def change
     create_table :activity_categories do |t|
-      t.references :activity
+      t.references :event
       t.references :category
 
       t.timestamps

@@ -1,6 +1,6 @@
 class Photo < ActiveRecord::Base
   # - Associations
-  belongs_to :user
+  belongs_to :imageable, polymorphic: true
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
   has_many :user_likes, through: :likes, source: :user
@@ -20,7 +20,4 @@ class Photo < ActiveRecord::Base
     end
   end
 
-end
-
-class ProfilePhoto < Photo
 end

@@ -2,12 +2,12 @@ class AttendeesController < ApplicationController
   before_filter :set_activity
 
   def index
-    @users = @activity.users
+    @users = @event.users
     render json: @users
   end
 
   def create
-    @attendee = @activity.attendees.build(user_id: @current_user)
+    @attendee = @event.attendees.build(user_id: @current_user)
 
     if @attendee.save
       render json: @attendee, status: :created
@@ -19,6 +19,6 @@ class AttendeesController < ApplicationController
   private
 
   def set_activity
-    @activity = Activity.find(params[:activity_id])
+    @event = Event.find(params[:activity_id])
   end
 end

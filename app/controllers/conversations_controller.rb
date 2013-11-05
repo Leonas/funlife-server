@@ -1,5 +1,5 @@
 class ConversationsController < ApplicationController
-  before_filter :set_conversation, only: [:show, :destroy, :update]
+  before_filter :set_conversation, only: [:show, :destroy]
 
 
   # GET /conversations

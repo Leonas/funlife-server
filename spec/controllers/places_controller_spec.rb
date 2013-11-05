@@ -41,7 +41,7 @@ describe PlacesController do
   describe "GET show" do
     it "assigns the requested place as @place" do
       place = Place.create! valid_attributes
-      get :show, {:id => place.to_param}, valid_session
+      get :show, {id: place.to_param}, valid_session
       assigns(:place).should eq(place)
     end
   end
@@ -56,7 +56,7 @@ describe PlacesController do
   describe "GET edit" do
     it "assigns the requested place as @place" do
       place = Place.create! valid_attributes
-      get :edit, {:id => place.to_param}, valid_session
+      get :edit, {id: place.to_param}, valid_session
       assigns(:place).should eq(place)
     end
   end
@@ -65,18 +65,18 @@ describe PlacesController do
     describe "with valid params" do
       it "creates a new Place" do
         expect {
-          post :create, {:place => valid_attributes}, valid_session
+          post :create, {place: valid_attributes}, valid_session
         }.to change(Place, :count).by(1)
       end
 
       it "assigns a newly created place as @place" do
-        post :create, {:place => valid_attributes}, valid_session
+        post :create, {place: valid_attributes}, valid_session
         assigns(:place).should be_a(Place)
         assigns(:place).should be_persisted
       end
 
       it "redirects to the created place" do
-        post :create, {:place => valid_attributes}, valid_session
+        post :create, {place: valid_attributes}, valid_session
         response.should redirect_to(Place.last)
       end
     end
@@ -85,14 +85,14 @@ describe PlacesController do
       it "assigns a newly created but unsaved place as @place" do
         # Trigger the behavior that occurs when invalid params are submitted
         Place.any_instance.stub(:save).and_return(false)
-        post :create, {:place => { "name" => "invalid value" }}, valid_session
+        post :create, {place: {"name" => "invalid value"}}, valid_session
         assigns(:place).should be_a_new(Place)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Place.any_instance.stub(:save).and_return(false)
-        post :create, {:place => { "name" => "invalid value" }}, valid_session
+        post :create, {place: {"name" => "invalid value"}}, valid_session
         response.should render_template("new")
       end
     end
@@ -107,18 +107,18 @@ describe PlacesController do
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         Place.any_instance.should_receive(:update_attributes).with({ "name" => "MyString" })
-        put :update, {:id => place.to_param, :place => { "name" => "MyString" }}, valid_session
+        put :update, {id: place.to_param, place: {"name" => "MyString"}}, valid_session
       end
 
       it "assigns the requested place as @place" do
         place = Place.create! valid_attributes
-        put :update, {:id => place.to_param, :place => valid_attributes}, valid_session
+        put :update, {id: place.to_param, place: valid_attributes}, valid_session
         assigns(:place).should eq(place)
       end
 
       it "redirects to the place" do
         place = Place.create! valid_attributes
-        put :update, {:id => place.to_param, :place => valid_attributes}, valid_session
+        put :update, {id: place.to_param, place: valid_attributes}, valid_session
         response.should redirect_to(place)
       end
     end
@@ -128,7 +128,7 @@ describe PlacesController do
         place = Place.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Place.any_instance.stub(:save).and_return(false)
-        put :update, {:id => place.to_param, :place => { "name" => "invalid value" }}, valid_session
+        put :update, {id: place.to_param, place: {"name" => "invalid value"}}, valid_session
         assigns(:place).should eq(place)
       end
 
@@ -136,7 +136,7 @@ describe PlacesController do
         place = Place.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Place.any_instance.stub(:save).and_return(false)
-        put :update, {:id => place.to_param, :place => { "name" => "invalid value" }}, valid_session
+        put :update, {id: place.to_param, place: {"name" => "invalid value"}}, valid_session
         response.should render_template("edit")
       end
     end
@@ -146,13 +146,13 @@ describe PlacesController do
     it "destroys the requested place" do
       place = Place.create! valid_attributes
       expect {
-        delete :destroy, {:id => place.to_param}, valid_session
+        delete :destroy, {id: place.to_param}, valid_session
       }.to change(Place, :count).by(-1)
     end
 
     it "redirects to the places list" do
       place = Place.create! valid_attributes
-      delete :destroy, {:id => place.to_param}, valid_session
+      delete :destroy, {id: place.to_param}, valid_session
       response.should redirect_to(places_url)
     end
   end

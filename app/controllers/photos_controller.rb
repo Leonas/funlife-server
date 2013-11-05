@@ -1,5 +1,5 @@
 class PhotosController < ApplicationController
-  before_filter :set_photo, only: [:destroy, :update]
+  before_filter :set_photo, only: [:destroy]
 
 
   # GET /photos
@@ -44,7 +44,7 @@ class PhotosController < ApplicationController
 
   def like
     @photo = Photo.find(params[:id])
-    @photo.toogle_like(current_user)
+    @photo.toggle_like(current_user)
     head :no_content
   end
 

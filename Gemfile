@@ -11,7 +11,7 @@ gem 'newrelic_rpm'
 
 gem 'yajl-ruby', require: 'yajl', require: 'yajl/json_gem' #JSON encode/decode
 gem 'kaminari'  # Pagination
-#gem 'cancan'   #this hasnt been implemented yet but should be
+#gem 'cancan'   #this hasn't been implemented yet but should be
 
 
 group :production do

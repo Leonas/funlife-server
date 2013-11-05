@@ -36,7 +36,7 @@ Spork.prefork do
   end
 
   RspecToIodocs.configure do |config|
-    config.docs_dir = Rails.root.join("..", "funlife-iodocs", "public", "data")
+    config.docs_dir = Rails.root.join("..", "funlife-docs", "public", "data")
     config.format = :json_iodocs
     config.api_name = "funlife"
     config.clear_directory = false

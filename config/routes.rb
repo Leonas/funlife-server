@@ -1,4 +1,4 @@
-Funlife::Application.routes.draw do
+FunlifeServer::Application.routes.draw do
 
 
   resources :places, except: [:new, :edit]

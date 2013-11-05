@@ -25,3 +25,4 @@
 /coverage
 spec/coverage
 *.sqlite3-journal
+*.rdb

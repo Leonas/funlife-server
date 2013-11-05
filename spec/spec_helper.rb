@@ -1,15 +1,17 @@
 require 'rubygems'
 require 'spork'
-require 'simplecov'
 ENV["RAILS_ENV"] ||= 'test'
-SimpleCov.start 'rails'
+require 'simplecov'
+
+SimpleCov.start 'rails' do
+  root File.expand_path("..", Dir.pwd)
+  add_group "Funlife-Server", "funlife-server"
+  coverage_dir "/funlife-docs/simplecov"
+end
 
 #require 'spork/ext/ruby-debug'
 
 Spork.prefork do
-  #require 'rubygems'
-  #
-  #ENV['RAILS_ENV'] ||= 'test'
   require File.expand_path('../../config/environment', __FILE__)
   require 'rspec/rails'
   require 'rspec/autorun'

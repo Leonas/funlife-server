@@ -7,8 +7,8 @@ class CreatePlaces < ActiveRecord::Migration
       t.string  :city
       t.decimal :longitude
       t.decimal :latitude
-      t.time    :time_open
-      t.time    :time_close
+      t.string  :time_open
+      t.string  :time_close
       t.string  :phone
       t.string  :summary
       t.string  :description

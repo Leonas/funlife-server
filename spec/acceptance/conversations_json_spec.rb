@@ -36,7 +36,7 @@ resource "Conversations" do
             id: @conversation1.id,
             users: [@user2.name],
             latest_message: "message2_2",
-            date:  @user2_message2.created_at.strftime("%b %d,  %I:%M%P")
+            date:  @user2_message2.updated_at.strftime("%b %d,  %I:%M%P")
           },
           {
             id: @conversation4.id,

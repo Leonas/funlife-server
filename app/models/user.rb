@@ -27,7 +27,7 @@ class User < ActiveRecord::Base
 
   #places to get invited to
   has_many :place_user_joins,           dependent: :destroy
-  has_many :favorite_places,            through: :place_user_joins, source: :places
+  has_many :favorite_places,                 through: :place_user_joins, source: :place
 
 
   #events
@@ -99,6 +99,14 @@ class User < ActiveRecord::Base
 
   def set_main_photo!(photo)
     #todo
+  end
+
+  def add_favorite_place!(place)
+     place_user_joins.create!(place_id: place.id)
+  end
+
+  def remove_favorite_place!(place)
+    place_user_joins.find(place.id).destroy
   end
 
   ##################################################

@@ -1,7 +1,8 @@
 class Place < ActiveRecord::Base
   belongs_to :location, polymorphic: true
   has_many :photos, as: :imageable
-  has_many :activities, as: :activity_type
+  has_many :activity_place_joins
+  has_many :activities, through: :activity_place_joins
 
   attr_accessible :name,
                   :street_address,

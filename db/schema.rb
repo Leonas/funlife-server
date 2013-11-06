@@ -11,13 +11,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131104095549) do
+ActiveRecord::Schema.define(:version => 20131104095551) do
 
   create_table "activities", :force => true do |t|
-    t.integer "activity_type_id"
-    t.string  "activity_type_type"
-    t.string  "name"
-    t.string  "icon_url"
+    t.string "name"
+    t.string "icon_url"
   end
 
   create_table "activity_category_joins", :force => true do |t|
@@ -30,6 +28,26 @@ ActiveRecord::Schema.define(:version => 20131104095549) do
   add_index "activity_category_joins", ["activity_id"], :name => "index_activity_category_joins_on_activity_id"
   add_index "activity_category_joins", ["category_id"], :name => "index_activity_category_joins_on_category_id"
 
+  create_table "activity_event_joins", :force => true do |t|
+    t.integer  "activity_id"
+    t.integer  "event_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "activity_event_joins", ["activity_id"], :name => "index_activity_event_joins_on_activity_id"
+  add_index "activity_event_joins", ["event_id"], :name => "index_activity_event_joins_on_event_id"
+
+  create_table "activity_place_joins", :force => true do |t|
+    t.integer  "activity_id"
+    t.integer  "place_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "activity_place_joins", ["activity_id"], :name => "index_activity_place_joins_on_activity_id"
+  add_index "activity_place_joins", ["place_id"], :name => "index_activity_place_joins_on_place_id"
+
   create_table "attendees", :force => true do |t|
     t.integer  "user_id"
     t.integer  "event_id"
@@ -41,10 +59,9 @@ ActiveRecord::Schema.define(:version => 20131104095549) do
   add_index "attendees", ["user_id"], :name => "index_attendees_on_user_id"
 
   create_table "categories", :force => true do |t|
-    t.string   "name",          :null => false
-    t.integer  "activities_id"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.string   "name",       :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "comments", :force => true do |t|

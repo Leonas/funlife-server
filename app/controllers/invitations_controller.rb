@@ -1,8 +1,8 @@
 class InvitationsController < ApplicationController
 
   def create
-    @activity = @current_user.activities.find(params[:activity_id])
-    @activity.guest_ids << params[:invitation][:user_ids]
+    @event = @current_user.events.find(params[:event_id])
+    @event.guest_ids << params[:invitation][:user_ids]
     head :no_content
   end
 end

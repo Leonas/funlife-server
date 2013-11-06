@@ -1,10 +1,10 @@
 class InvitationMailer < ActionMailer::Base
   default from: "no-reply@funlife.com"
 
-  def email(activity, guest)
-    @activity = activity
-    @user = activity.user
+  def email(event, guest)
+    @event = event
+    @user = event.user
     @guest = guest
-    mail(to: guest.email, subject: "You're invited #{@activity.headline}")
+    mail(to: guest.email, subject: "You're invited #{@event.headline}")
   end
 end

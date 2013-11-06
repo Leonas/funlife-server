@@ -15,7 +15,6 @@ describe UsersController do
       before do
         get :index
       end
-      xit{ should assign_to(:users) }
       it { should respond_with(:success) }
     end
 

@@ -188,4 +188,47 @@ resource "Users" do
       }.to_json)
     end
   end
+
+
+  #######################################
+  #get "/users/:id/places" do ########
+  #######################################
+  #
+  #  header "Authorization", :token
+  #  parameter :id, "user id", required: true
+  #
+  #  let(:id) { @user1.id }
+  #
+  #  example_request "Get a list of a user's favorite places" do
+  #    explanation ""
+  #
+  #    response_body.should include_json({
+  #                                          places: [
+  #                                              id: @place1.id,
+  #                                              name: @place1.name
+  #                                          ]
+  #                                      }.to_json)
+  #  end
+  #end
+
+  #######################################
+  #get "/users/:id/activities" do ########
+  #######################################
+  #
+  #  header "Authorization", :token
+  #  parameter :id, "user id", required: true
+  #
+  #  let(:id) { @user1.id }
+  #
+  #  example_request "Get a list of a user's favorite activities" do
+  #    explanation ""
+  #
+  #    response_body.should include_json({
+  #                                          places: [
+  #                                              id: @place1.id,
+  #                                              name: @place1.name
+  #                                          ]
+  #                                      }.to_json)
+  #  end
+  #end
 end

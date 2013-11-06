@@ -5,8 +5,13 @@ class CreateUsers < ActiveRecord::Migration
       t.string :password_digest
       t.string :first_name
       t.string :last_name
-      t.string :full_name
       t.string :token
+      t.string :gender
+      t.date   :birthday
+      t.integer :main_photo_id
+      t.integer :avatar_id
+      t.integer :following_count, default: 0
+      t.integer :followers_count, default: 0
 
       t.timestamps
     end

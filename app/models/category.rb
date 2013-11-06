@@ -1,11 +1,11 @@
 class Category < ActiveRecord::Base
-  # - Mass Assignment Security
+
+  has_many :activity_category_joins
+  has_many :activities,               through: :activity_category_joins
+
   attr_accessible :name
 
-  # - Validations
   validates :name, presence: true, uniqueness: true
 
-  # - Associations
-  has_many :activity_categories, dependent: :destroy
-  has_many :activities, through: :activity_categories
+
 end

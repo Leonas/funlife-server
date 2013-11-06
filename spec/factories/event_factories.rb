@@ -1,7 +1,7 @@
 ## Read about factories at https://github.com/thoughtbot/factory_girl
 #
 #FactoryGirl.define do
-#  factory :activity do
+#  factory :event do
 #    user
 #    address { Faker::Address.street_address }
 #    allow_join false
@@ -14,7 +14,7 @@
 #    verified false
 #    trusted false
 #
-#    factory :activity_step2 do
+#    factory :event_step2 do
 #      headline { Faker::Name.name }
 #      details {Faker::Lorem.sentence(10)}
 #      date "2013-03-27"
@@ -22,7 +22,7 @@
 #      end_time "2013-03-27 14:31:23"
 #    end
 #
-#    factory :public_activity do
+#    factory :public_event do
 #      allow_join true
 #    end
 #  end
@@ -36,8 +36,8 @@
 #
 #
 #FactoryGirl.define do
-#  factory :activity_category do
-#    activity nil
+#  factory :event_category do
+#    event nil
 #    category nil
 #  end
 #end

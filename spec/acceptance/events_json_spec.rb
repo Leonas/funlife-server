@@ -1,7 +1,7 @@
-### List activities on home screen feed
+### List events on home screen feed
 #[01 Home Screen](https://github.com/Leonas/funlife/blob/master/graphics/app_screens/01.home-screenv3.png)
 #**method**: GET
-#**path:** /activities/feed
+#**path:** /events/feed
 #
 #**Response**
 #
@@ -11,9 +11,9 @@
 #
 #```json
 #{
-#   "my_activities": [
+#   "my_events": [
 #      {
-#         "id": "new_activity",
+#         "id": "new_event",
 #         "img": "img_url"
 #      },
 #      {
@@ -32,8 +32,8 @@
 #      {
 #         "day"       : "23",
 #         "month"     : "aug",
-#         "title"     : "Today's Activities",
-#         "activities":
+#         "title"     : "Today's Events",
+#         "events":
 #            [
 #               {
 #                  "id"       : "3",
@@ -54,8 +54,8 @@
 #      {
 #         "day"       : "24",
 #         "month"     : "aug",
-#         "title"     : "Tomorrow's Activities",
-#         "activities":
+#         "title"     : "Tomorrow's Events",
+#         "events":
 #            [
 #               {
 #                  "id"       : "5",
@@ -78,10 +78,10 @@
 #```
 #
 #
-### Fetch info for an activity
-#[08 Activity Info Screen](https://github.com/Leonas/funlife/blob/master/graphics/app_screens/08.1.activity.png)
+### Fetch info for an event
+#[08 Event Info Screen](https://github.com/Leonas/funlife/blob/master/graphics/app_screens/08.1.event.png)
 #**method**: GET
-#**path**: /activities/:id
+#**path**: /events/:id
 #
 #**Response**
 #
@@ -91,7 +91,7 @@
 #
 #```json
 #{
-#   "activity": {
+#   "event": {
 #      "id":1,
 #      "headline"     : "Bowling @ Jupiter Lanes",
 #      "icon_url"     : "url",
@@ -114,10 +114,10 @@
 #
 #```
 #
-### Fetch users attending for activity
-#[08 Activity Attending Screen](https://github.com/Leonas/funlife/blob/master/graphics/app_screens/08.2.activity.png)
+### Fetch users attending for event
+#[08 Event Attending Screen](https://github.com/Leonas/funlife/blob/master/graphics/app_screens/08.2.event.png)
 #**method**: GET
-#**path**: /activities/:id/attending
+#**path**: /events/:id/attending
 #
 #**Response**
 #
@@ -140,14 +140,14 @@
 #   ]
 #}
 #```
-### Create new activity (part 1)
-#[This screen is not drawn, but its the screen before 13.1](https://github.com/Leonas/funlife/blob/master/graphics/app_screens/13.2.create-activity-screen.png)
+### Create new event (part 1)
+#[This screen is not drawn, but its the screen before 13.1](https://github.com/Leonas/funlife/blob/master/graphics/app_screens/13.2.create-event-screen.png)
 #**method:** POST
-#**path:** /activities
+#**path:** /events
 #**Request**
 #```
 #{
-#   "activity": {
+#   "event": {
 #     "category": "basketball",
 #     "address" : "423 Address Rd"
 #   }
@@ -161,12 +161,12 @@
 #
 #```json
 #{
-#   "activity": {
-#      "id"          : "activity_id",
+#   "event": {
+#      "id"          : "event_id",
 #      "category"    : "Basketball",
 #      "address"     : "423 Address Rd",
 #      "img"         : "img_url",
-#      "start_hour"  : "6",        //These are most common times for such activity
+#      "start_hour"  : "6",        //These are most common times for such event
 #                                                                             "start_minute": "30",
 #                                                                                 "start_period": "pm",
 #                                                                                 "end_hour"    : "9",
@@ -179,15 +179,15 @@
 #                                                                             ```
 #
 #
-### Create new activity (part 2)
-#[13.2 Create Activity Screen](https://github.com/Leonas/funlife/blob/master/graphics/app_screens/13.2.create-activity-screen.png)
+### Create new event (part 2)
+#[13.2 Create Event Screen](https://github.com/Leonas/funlife/blob/master/graphics/app_screens/13.2.create-event-screen.png)
 #**method:** PUT
-#**path:** /activities
+#**path:** /events
 #**Request**
 #```
 #                                                                             {
-#                                                                                 "activity": {
-#                                                                                 "id"         : "activity_id",
+#                                                                                 "event": {
+#                                                                                 "id"         : "event_id",
 #                                                                                 "headline"   : "Basketball game",
 #                                                                                 "details"    : "We'll be playing a game of bball near my house",
 #                                                                                 "day"        : "date_stamp",
@@ -204,7 +204,7 @@
 #
 #                                                                             ```json
 #                                                                             {
-#                                                                                 "activity" {
+#                                                                                 "event" {
 #                                                                                 "networks":
 #                                                                                 [
 #                                                                                     {
@@ -224,14 +224,14 @@
 #
 #```
 #
-### Create new activity (part 3)
+### Create new event (part 3)
 #[13.3 Invite Friends Screen](https://github.com/Leonas/funlife/blob/master/graphics/app_screens/13.3.invite-screen-v02.png)
 #                                                                             **method:** PUT
-#                                                                             **path:** /activities
+#                                                                             **path:** /events
 #**Request**
 #```
 #{
-#   "activity": {
+#   "event": {
 #      "invited": ["id1", "id2"]
 #   }
 #}
@@ -243,15 +243,15 @@
 #Status: 204 Updated
 #```
 #
-### Create new activity (part 4)
-#[13.4 Make Public Activity Screen](https://github.com/Leonas/funlife/blob/master/graphics/app_screens/13.3.invite-screen-v02.png)
+### Create new event (part 4)
+#[13.4 Make Public Event Screen](https://github.com/Leonas/funlife/blob/master/graphics/app_screens/13.3.invite-screen-v02.png)
 #                                                                             **details:** everything on this page is optional
 #                                                                             **method:** PUT
-#                                                                             **path:** /activities
+#                                                                             **path:** /events
 #**Request**
 #```
 #{
-#   "activity": {                       //all optional
+#   "event": {                       //all optional
 #                                                                             "allow_others"  : "true",
 #                                                                                 "max_attendees" : "10",
 #                                                                                 "min_age"       : "20",
@@ -272,7 +272,7 @@
 #
 #                                                                             ```json
 #                                                                             {
-#                                                                                 "activity": {
+#                                                                                 "event": {
 #                                                                                 "id":1,
 #                                                                                 "headline"     : "Bowling @ Jupiter Lanes",
 #                                                                                 "icon_url"     : "url",
@@ -285,7 +285,7 @@
 #                                                                             ```
 #
 #
-### Update an Activity
+### Update an Event
 #
 #```
 #                                                                             {}
@@ -297,9 +297,9 @@
 #Status: 204 No Content
 #```
 #
-### Delete an Activity
+### Delete an Event
 #
-#                                                                             request method: DELETE, path: /activities/:id
+#                                                                             request method: DELETE, path: /events/:id
 #
 #                                                                             ```
 #Status: 204 No Content

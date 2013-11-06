@@ -4,5 +4,5 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Funlife::Application.load_tasks
+FunlifeServer::Application.load_tasks
 

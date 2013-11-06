@@ -1,5 +1,7 @@
-Funlife::Application.routes.draw do
+FunlifeServer::Application.routes.draw do
 
+
+  resources :places, except: [:new, :edit]
 
   scope defaults: { format: "json" } do
 
@@ -35,8 +37,8 @@ Funlife::Application.routes.draw do
     end
 
 
-    ############Activities################
-    resources :activities, except: [:edit, :new] do
+    ############Events################
+    resources :events, except: [:edit, :new] do
       resources :attendees, only: [:index, :create]
       resources :invitations, only: [:create]
       collection do

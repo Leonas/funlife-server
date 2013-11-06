@@ -1,18 +1,18 @@
 #require 'spec_helper'
 #
-#describe ActivitiesController do
+#describe EventsController do
 #  before do
 #    login_user
 #  end
-#  let(:activity) { Factory.create(:activity, user_id: @current_user.id) }
+#  let(:event) { Factory.create(:event, user_id: @current_user.id) }
 #
 #  describe "GET to #index" do
 #    before do
-#      activity
+#      event
 #      get :index
 #    end
 #
-#    xit{ should assign_to(:activities) }
+#    xit{ should assign_to(:events) }
 #    it{ should respond_with(:success) }
 #
 #    it "should include the pagination attrs" do
@@ -22,11 +22,11 @@
 #
 #  describe "GET to #feed" do
 #    before do
-#      Factory.create(:activity, date: Date.today, allow_join: true)
+#      Factory.create(:event, date: Date.today, allow_join: true)
 #      get :feed, date: Date.today, page: "1"
 #    end
 #
-#    xit { should assign_to(:activities) }
+#    xit { should assign_to(:events) }
 #    it { should respond_with(:success) }
 #
 #    it "should include the pagination attrs" do
@@ -36,34 +36,34 @@
 #
 #  describe "GET to #show" do
 #    before do
-#      @activity = Factory.create(:activity_step2, user_id: @current_user.id)
+#      @event = Factory.create(:event_step2, user_id: @current_user.id)
 #      @user = Factory.create(:user)
-#      @activity.guests << @user
-#      @activity.users << @user
-#      get :show, id: @activity.id
+#      @event.guests << @user
+#      @event.users << @user
+#      get :show, id: @event.id
 #    end
 #
-#    xit{ should assign_to(:activity) }
+#    xit{ should assign_to(:event) }
 #    it{ should respond_with(:success) }
 #
 #    it "should include the guest ids" do
-#      JSON.parse(response.body)["activity"]["guest_ids"].should include @user.id
+#      JSON.parse(response.body)["event"]["guest_ids"].should include @user.id
 #    end
 #
 #    it "should include the atteendes count" do
-#      JSON.parse(response.body)["activity"]["attendees_count"].should == 1
+#      JSON.parse(response.body)["event"]["attendees_count"].should == 1
 #    end
 #  end
 #
 #  describe "POST to #create" do
-#    it "should create a new activity" do
+#    it "should create a new event" do
 #      expect{
-#        post :create, activity: Factory.attributes_for(:activity)
-#      }.to change(Activity, :count).by(1)
+#        post :create, event: Factory.attributes_for(:event)
+#      }.to change(Event, :count).by(1)
 #    end
 #
 #    it "should respond with error if there are invalid attrs" do
-#      post :create, activity: Factory.attributes_for(:activity, address: nil)
+#      post :create, event: Factory.attributes_for(:event, address: nil)
 #      should respond_with(:unprocessable_entity)
 #    end
 #  end
@@ -71,32 +71,32 @@
 #
 #  describe "PUT to #update" do
 #    it "should update the user" do
-#      put :update, id: activity.id, activity: Factory.attributes_for(:activity_step2)
+#      put :update, id: event.id, event: Factory.attributes_for(:event_step2)
 #      should respond_with(:success)
 #    end
 #
 #    it "should no update the user with invalid attrs" do
-#      put :update, id: activity.id, activity: { headline: nil }
+#      put :update, id: event.id, event: { headline: nil }
 #      should respond_with(:unprocessable_entity)
 #    end
 #
-#    it "should add categories to the activities" do
+#    it "should add categories to the events" do
 #      expect{
 #        category = Factory.create(:category)
-#        put :update, id: activity.id, activity: Factory.attributes_for(:activity_step2).merge({ category_ids: [category.id] })
-#      }.to change(ActivityCategory, :count).by(1)
+#        put :update, id: event.id, event: Factory.attributes_for(:event_step2).merge({ category_ids: [category.id] })
+#      }.to change(EventCategory, :count).by(1)
 #    end
 #  end
 #
 #  describe "DELETE to #destroy" do
-#    it "should destroy and activity" do
+#    it "should destroy and event" do
 #      expect{
-#        delete :destroy, id: activity.id
-#      }.to change(Activity, :count).by(0)
+#        delete :destroy, id: event.id
+#      }.to change(Event, :count).by(0)
 #    end
 #
 #    it "should respond with no content" do
-#      delete :destroy, id: activity.id
+#      delete :destroy, id: event.id
 #      should respond_with(:no_content)
 #    end
 #

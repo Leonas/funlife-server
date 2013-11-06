@@ -11,52 +11,51 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130404150642) do
+ActiveRecord::Schema.define(:version => 20131104095551) do
 
   create_table "activities", :force => true do |t|
-    t.integer  "user_id"
-    t.string   "headline"
-    t.text     "details"
-    t.time     "start_time"
-    t.time     "end_time"
-    t.boolean  "allow_join",      :default => false
-    t.integer  "maximum_users"
-    t.string   "waitlist"
-    t.decimal  "cost"
-    t.boolean  "everyone",        :default => false
-    t.boolean  "women",           :default => false
-    t.boolean  "men",             :default => false
-    t.boolean  "verified",        :default => false
-    t.boolean  "trusted",         :default => false
-    t.integer  "star_age"
-    t.integer  "end_age"
-    t.datetime "created_at",                         :null => false
-    t.datetime "updated_at",                         :null => false
-    t.string   "address"
-    t.date     "date"
-    t.integer  "attendees_count", :default => 0
+    t.string "name"
+    t.string "icon_url"
   end
 
-  add_index "activities", ["user_id"], :name => "index_activities_on_user_id"
-
-  create_table "activity_categories", :force => true do |t|
+  create_table "activity_category_joins", :force => true do |t|
     t.integer  "activity_id"
     t.integer  "category_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
 
-  add_index "activity_categories", ["activity_id"], :name => "index_activity_categories_on_activity_id"
-  add_index "activity_categories", ["category_id"], :name => "index_activity_categories_on_category_id"
+  add_index "activity_category_joins", ["activity_id"], :name => "index_activity_category_joins_on_activity_id"
+  add_index "activity_category_joins", ["category_id"], :name => "index_activity_category_joins_on_category_id"
 
-  create_table "attendees", :force => true do |t|
-    t.integer  "user_id"
+  create_table "activity_event_joins", :force => true do |t|
     t.integer  "activity_id"
+    t.integer  "event_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
 
-  add_index "attendees", ["activity_id"], :name => "index_attendees_on_activity_id"
+  add_index "activity_event_joins", ["activity_id"], :name => "index_activity_event_joins_on_activity_id"
+  add_index "activity_event_joins", ["event_id"], :name => "index_activity_event_joins_on_event_id"
+
+  create_table "activity_place_joins", :force => true do |t|
+    t.integer  "activity_id"
+    t.integer  "place_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "activity_place_joins", ["activity_id"], :name => "index_activity_place_joins_on_activity_id"
+  add_index "activity_place_joins", ["place_id"], :name => "index_activity_place_joins_on_place_id"
+
+  create_table "attendees", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "event_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "attendees", ["event_id"], :name => "index_attendees_on_event_id"
   add_index "attendees", ["user_id"], :name => "index_attendees_on_user_id"
 
   create_table "categories", :force => true do |t|
@@ -68,7 +67,7 @@ ActiveRecord::Schema.define(:version => 20130404150642) do
   create_table "comments", :force => true do |t|
     t.integer  "user_id",                       :null => false
     t.integer  "photo_id",                      :null => false
-    t.text     "body",                          :null => false
+    t.string   "body",                          :null => false
     t.integer  "parent_id"
     t.integer  "children_count", :default => 0
     t.datetime "created_at",                    :null => false
@@ -79,54 +78,66 @@ ActiveRecord::Schema.define(:version => 20130404150642) do
   add_index "comments", ["user_id"], :name => "index_comments_on_user_id"
 
   create_table "conversation_messages", :force => true do |t|
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
     t.integer  "user_id"
     t.integer  "conversation_id"
     t.string   "message"
-    t.boolean  "unread"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
   add_index "conversation_messages", ["conversation_id"], :name => "index_conversation_messages_on_conversation_id"
   add_index "conversation_messages", ["user_id"], :name => "index_conversation_messages_on_user_id"
 
-  create_table "conversation_users", :force => true do |t|
+  create_table "conversation_user_joins", :force => true do |t|
     t.integer  "conversation_id"
     t.integer  "user_id"
+    t.boolean  "hidden"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end
 
-  add_index "conversation_users", ["conversation_id"], :name => "index_conversation_users_on_conversation_id"
-  add_index "conversation_users", ["user_id"], :name => "index_conversation_users_on_user_id"
+  add_index "conversation_user_joins", ["conversation_id"], :name => "index_conversation_user_joins_on_conversation_id"
+  add_index "conversation_user_joins", ["user_id"], :name => "index_conversation_user_joins_on_user_id"
 
   create_table "conversations", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  create_table "invitations", :force => true do |t|
-    t.integer  "user_id",     :null => false
-    t.integer  "activity_id", :null => false
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+  create_table "events", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.string   "details"
+    t.date     "date"
+    t.time     "time",                                    :null => false
+    t.time     "duration",                                :null => false
+    t.integer  "max_attendance"
+    t.boolean  "invite_only",          :default => false
+    t.boolean  "allow_request_invite", :default => false
+    t.boolean  "allow_women",          :default => false
+    t.boolean  "allow_men",            :default => false
+    t.integer  "allow_youngest_age"
+    t.integer  "allow_oldest_age"
+    t.integer  "attendees_count",      :default => 0
+    t.datetime "created_at",                              :null => false
+    t.datetime "updated_at",                              :null => false
   end
 
-  add_index "invitations", ["activity_id"], :name => "index_invitations_on_activity_id"
-  add_index "invitations", ["user_id"], :name => "index_invitations_on_user_id"
+  add_index "events", ["user_id"], :name => "index_events_on_user_id"
 
-  create_table "likes", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "photo_id"
+  create_table "invitations", :force => true do |t|
+    t.integer  "user_id",    :null => false
+    t.integer  "event_id",   :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  add_index "likes", ["photo_id"], :name => "index_likes_on_photo_id"
-  add_index "likes", ["user_id"], :name => "index_likes_on_user_id"
+  add_index "invitations", ["event_id"], :name => "index_invitations_on_event_id"
+  add_index "invitations", ["user_id"], :name => "index_invitations_on_user_id"
 
   create_table "photos", :force => true do |t|
-    t.integer  "user_id"
+    t.integer  "imageable_id"
+    t.string   "imageable_type"
     t.string   "public_id"
     t.string   "version"
     t.string   "signature"
@@ -138,14 +149,38 @@ ActiveRecord::Schema.define(:version => 20130404150642) do
     t.string   "type"
     t.string   "url"
     t.string   "secure_url"
+    t.integer  "comments_count", :default => 0
+    t.integer  "likes_count",    :default => 0
     t.datetime "created_at",                    :null => false
     t.datetime "updated_at",                    :null => false
-    t.integer  "comments_count", :default => 0
-    t.datetime "processed_at"
-    t.integer  "likes_count",    :default => 0
   end
 
-  add_index "photos", ["user_id"], :name => "index_photos_on_user_id"
+  create_table "place_user_joins", :force => true do |t|
+    t.integer  "place_id"
+    t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "place_user_joins", ["place_id"], :name => "index_place_user_joins_on_place_id"
+  add_index "place_user_joins", ["user_id"], :name => "index_place_user_joins_on_user_id"
+
+  create_table "places", :force => true do |t|
+    t.string   "name"
+    t.string   "street_address"
+    t.integer  "zip_code"
+    t.string   "city"
+    t.decimal  "longitude"
+    t.decimal  "latitude"
+    t.string   "time_open"
+    t.string   "time_close"
+    t.string   "phone"
+    t.string   "summary"
+    t.string   "description"
+    t.boolean  "featured",       :default => false
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
+  end
 
   create_table "relationships", :force => true do |t|
     t.integer  "follower_id"
@@ -164,13 +199,14 @@ ActiveRecord::Schema.define(:version => 20130404150642) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "token"
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
-    t.integer  "following_count", :default => 0
-    t.integer  "followers_count", :default => 0
     t.string   "gender"
     t.date     "birthday"
-    t.integer  "likes_count",     :default => 0
+    t.integer  "main_photo_id"
+    t.integer  "avatar_id"
+    t.integer  "following_count", :default => 0
+    t.integer  "followers_count", :default => 0
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
   end
 
 end

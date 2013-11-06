@@ -13,7 +13,7 @@ describe User do
   it { should_not allow_mass_assignment_of(:password_digest) }
 
   it { should have_many(:attendees).dependent(:destroy) }
-  it { should have_many(:attended_activities).through(:attendees) }
+  it { should have_many(:attended_events).through(:attendees) }
 
 
   xit "orders Users by distance from user" do end
@@ -33,10 +33,10 @@ describe User do
   end
 
   xit "should list the public events, attending events, and friends' events" do
-    #feed_activities = user.feed_activities
-    #feed_activities.should include user_activity
-    #feed_activities.should include friend_activity
-    #feed_activities.should include public_activity
+    #feed_events = user.feed_events
+    #feed_events.should include user_event
+    #feed_events.should include friend_event
+    #feed_events.should include public_event
   end
 
 

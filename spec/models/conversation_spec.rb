@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Conversation do
 
-  it { should have_many(:users).through(:conversation_users) }
+  it { should have_many(:users).through(:conversation_user_joins) }
 
   before(:each) do
     @user1 = Factory.create(:user)

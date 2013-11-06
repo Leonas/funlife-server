@@ -1,0 +1,6 @@
+class ActivityPlaceJoin < ActiveRecord::Base
+
+  belongs_to :activity
+  belongs_to :place
+
+end

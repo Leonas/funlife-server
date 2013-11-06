@@ -1,77 +1,89 @@
-### List all places nearby
-#[Used on 05 Map Screen (not including bottom)](https://github.com/Leonas/funlife/blob/master/graphics/app_screens/05.event-ideas-screen.png)
-#**request method:** GET, **path:** /places/
+#require 'spec_helper'
+#require 'rspec_to_iodocs/dsl'
 #
-#**Response**
+#resource "Places" do
+#  header "Accept", "application/json"
+#  header "Content-Type", "application/json"
 #
-#    ```
-#Status: 200 OK
-#```
+#  let!(:setup_places) do
 #
-#```json
-#{
-#  "places": [
-#    {
-#      "id": "1",
-#      "icon_url": "/biking.png",
-#      "lon": "-23.2342",
-#      "lat": "32.1232"
-#    }
-#  ]
-#}
-#```
-#
-### Fetch a summary
-#[Used on 05 Map Screen (bottom)](https://github.com/Leonas/funlife/blob/master/graphics/app_screens/05.event-ideas-screen.png)
-#**method:** GET, **path:** /places/:id/summary
-#**Response**
-#
-#    ```
-#Status: 200 OK
-#```
-#
-#```json
-# { "place":
-#     {
-#      "id": "1",
-#      "title": "Lake Bike Trail",
-#      "events": "Biking, Hiking, Camping, Fishing",
-#      "distance": "4.5",
-#      "rating": "2"
-#     }
-#  }
-#```
-#
-### Fetch place info
-#[Used on 06 Location Details Screen](https://github.com/Leonas/funlife/blob/master/graphics/app_screens/06.location-screen.png)
-#**method:** GET, **path:** /places/:id
-#**Response**
-#
-#    ```
-#Status: 200 OK
-#```
-#
-#```json
-# { "place":
-#     {
-#      "todo":"todo"
-#     }
-#  }
-#```
+#  end
+#  let!(:token) { generate_token(@user1) }
 #
 #
-### Fetch place photos
-#**method:** GET, **path:** /places/:id/photos
-#**Response**
+#  ######################################
+#  get "/places" do #####################
+#  ######################################
 #
-#    ```
-#Status: 200 OK
-#```
+#    parameter :longitude,  "Longitude"
+#    parameter :latitude,   "Latitude"
+#    parameter :activities, "Activity"
+#    parameter :categories, "Category"
 #
-#```json
-# { "place":
-#     {
-#      "todo":"todo"
-#     }
-#  }
-#```
+#    let(:longitude) { @user1.longitude }
+#    let(:latitude)  { @user1.latitude }
+#
+#    example_request "Get a list of nearby places" do
+#      explanation "All places sorted by distance to user"
+#      response_body.should include_json({
+#      #                                      "places" : [
+#      #    {
+#      #        "id" : "1",
+#      #    "icon_url" : "/biking.png",
+#      #    "lon" : "-23.2342",
+#      #    "lat" : "32.1232"
+#      #}
+#      #]
+#                                        }.to_json)
+#      status.should == 201
+#    end
+#  end
+#
+#  ######################################
+#  get "/places/:id" do #################
+#  ######################################
+#
+#
+#    example_request "Get place details" do
+#      explanation "All places sorted by distance to user"
+#      response_body.should include_json({
+#                                            # { "place":
+#                                            #     {
+#                                            #      "id": "1",
+#                                            #      "title": "Lake Bike Trail",
+#                                            #      "events": "Biking, Hiking, Camping, Fishing",
+#                                            #      "distance": "4.5",
+#                                            #      "rating": "2"
+#                                            #     }
+#                                            #  }
+#                                        }.to_json)
+#      status.should == 201
+#    end
+#  end
+#
+#  ######################################
+#  get "/places/:id/summary" do #########
+#  ######################################
+#
+#    example_request "Get a short summary of place info to be used on the map page" do
+#      explanation ""
+#      response_body.should include_json({
+#
+#                                        }.to_json)
+#      status.should == 201
+#    end
+#  end
+#
+#  ######################################
+#  get "/places/:id/photos" do ##########
+#  ######################################
+#
+#    example_request "Get place photos" do
+#      explanation ""
+#      response_body.should include_json({
+#
+#                                        }.to_json)
+#      status.should == 201
+#    end
+#  end
+#end

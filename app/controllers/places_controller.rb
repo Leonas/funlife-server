@@ -1,6 +1,5 @@
 class PlacesController < ApplicationController
   # GET /places
-  # GET /places.json
   def index
     @places = Place.all
 
@@ -8,7 +7,6 @@ class PlacesController < ApplicationController
   end
 
   # GET /places/1
-  # GET /places/1.json
   def show
     @place = Place.find(params[:id])
 
@@ -16,7 +14,6 @@ class PlacesController < ApplicationController
   end
 
   # POST /places
-  # POST /places.json
   def create
     @place = Place.new(params[:place])
 
@@ -28,7 +25,6 @@ class PlacesController < ApplicationController
   end
 
   # PATCH/PUT /places/1
-  # PATCH/PUT /places/1.json
   def update
     @place = Place.find(params[:id])
 
@@ -39,12 +35,11 @@ class PlacesController < ApplicationController
     end
   end
 
-  # DELETE /places/1
-  # DELETE /places/1.json
-  def destroy
-    @place = Place.find(params[:id])
-    @place.destroy
-
-    head :no_content
-  end
+  ## DELETE /places/1
+  #def destroy
+  #  @place = Place.find(params[:id])
+  #  @place.destroy
+  #
+  #  head :no_content
+  #end
 end

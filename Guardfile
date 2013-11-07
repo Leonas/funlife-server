@@ -1,6 +1,6 @@
-logger level:       :warn
+logger level:       :debug
 
-guard 'spork', :rspec_env => { 'RAILS_ENV' => 'test' } do
+guard :spork do
   watch('config/application.rb')
   watch('config/environment.rb')
   watch('config/environments/test.rb')
@@ -10,8 +10,13 @@ guard 'spork', :rspec_env => { 'RAILS_ENV' => 'test' } do
   watch('spec/spec_helper.rb') { :rspec }
 end
 
+guard 'process', name: 'dev-server:3000', command: 'rails server', dont_stop: true
+guard 'process', name: 'redis', command: 'redis-server', dont_stop: true
+guard 'process', name: 'iodocs', command: 'npm start', dir: '../funlife-docs'
+guard 'rake',    task: 'generate_iodocs' do watch(%r{^spec/acceptance/(.+)\.rb$}) end
 
-guard 'rspec', cli: "--drb" do
+
+guard :rspec, cmd: "rspec --drb", all_on_start: true, focus_on_failed: false do
   watch(%r{^spec/.+_spec\.rb$})
   watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
   watch('spec/spec_helper.rb')  { "spec" }
@@ -25,12 +30,6 @@ guard 'rspec', cli: "--drb" do
 
 end
 
-#guard 'rake', :task => 'generate_iodocs' do
-#  watch(%r{^spec/acceptance/(.+)\.rb$})
-#end
-#
-#guard 'process', name: 'dev-server:3000', command: 'rails server', dont_stop: true
-#guard 'process', name: 'redis', command: 'redis-server', dont_stop: true
-#guard 'process', name: 'iodocs', command: 'npm start', dir: '../funlife-docs'
+
 
 

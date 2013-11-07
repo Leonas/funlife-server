@@ -165,8 +165,8 @@ resource "Conversations" do
     let(:message) { "wassup" }
     let(:raw_post) { params.to_json }
 
-    example_request "Post a new message to an existing conversation" do
-      explanation "send a new message to the conversation"
+    example_request "Send a new message to an existing conversation" do
+      explanation "A user sends a new message in a conversation and gets back the confirmed timestamp"
 
       response_body.should include_json({
 

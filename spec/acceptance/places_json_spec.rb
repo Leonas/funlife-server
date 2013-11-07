@@ -53,7 +53,8 @@
 #                                            #      "title": "Lake Bike Trail",
 #                                            #      "events": "Biking, Hiking, Camping, Fishing",
 #                                            #      "distance": "4.5",
-#                                            #      "rating": "2"
+#                                            #      "rating": "2",
+#                                            #      users who want to be invited here: user1, user2, etc
 #                                            #     }
 #                                            #  }
 #                                        }.to_json)

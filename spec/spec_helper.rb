@@ -6,7 +6,7 @@ require 'simplecov'
 SimpleCov.start 'rails' do
   root File.expand_path("..", Dir.pwd)
   add_group "Funlife-Server", "funlife-server"
-  coverage_dir "/funlife-docs/simplecov"
+  coverage_dir "/funlife-docs/public/simplecov"
 end
 
 #require 'spork/ext/ruby-debug'

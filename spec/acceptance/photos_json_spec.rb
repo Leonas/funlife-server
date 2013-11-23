@@ -51,6 +51,7 @@ resource "Photos" do
   end
 
 
+
   ######################################
   post "/photos/" do #################
   ######################################
@@ -61,7 +62,7 @@ resource "Photos" do
 
 
   #put to /photos/:id with this extra received data, sets confirmed_upload: true
-
+    header "Authorization", :token
     parameter :id, "Photo id", required: true
     parameter :stuff_from_cloudinary, required: true
 
@@ -70,6 +71,23 @@ resource "Photos" do
       status.should == 200
     end
   end
+
+
+
+  ######################################
+  post "/photos/:id/like" do ###########
+  ######################################
+
+    header "Authorization", :token
+    parameter :id, "Photo id", required: true
+    parameter :stuff_from_cloudinary, required: true
+
+    example_request "Like or unlike a photo" do
+      explanation "Toggles between like/unlike"
+      status.should == 200
+    end
+  end
+
 
 
   ######################################
@@ -85,7 +103,9 @@ resource "Photos" do
                                             photo: {
                                                 id: xxx,
                                                 url: xxx,
-                                                date: xxx
+                                                date: xxx,
+                                                like_count: 50,
+                                                like: true
                                             }
 
                                         }.to_json)
@@ -93,6 +113,7 @@ resource "Photos" do
       status.should == 200
     end
   end
+
 
 
   ######################################

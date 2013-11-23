@@ -84,10 +84,9 @@ resource "Users" do
     #let(:longitude) {}
     #let(:latitude)  {}
 
-    example "List nearby users" do
+    example_request "List nearby users" do
       explanation "A list of users is returned based on proximity to their gps coordinates"
 
-      do_request
       response_body.should include_json({
 
         users: [
@@ -190,8 +189,38 @@ resource "Users" do
   end
 
 
+  ######################################
+  get "/users/:id/photos" do ###########
+  ######################################
+
+    header "Authorization", :token
+    parameter :id, "User id"
+
+    example_request "List a user's photos" do
+      explanation "An array of user's photos is received"
+      response_body.should include_json({
+
+                                            photos: [
+                                                {
+                                                    id: xxx,
+                                                    url: xxx,
+                                                    date: xxx
+                                                },
+                                                {
+                                                    id: xxx,
+                                                    url: xxx,
+                                                    date: xxx
+                                                }
+                                            ]
+
+                                        }.to_json)
+      status.should == 200
+    end
+  end
+
+
   #######################################
-  #get "/users/:id/places" do ########
+  #get "/users/:id/fav_places" do #######
   #######################################
   #
   #  header "Authorization", :token
@@ -211,8 +240,10 @@ resource "Users" do
   #  end
   #end
 
+
+
   #######################################
-  #get "/users/:id/activities" do ########
+  #get "/users/:id/fav_activities" do ###
   #######################################
   #
   #  header "Authorization", :token
@@ -231,4 +262,9 @@ resource "Users" do
   #                                      }.to_json)
   #  end
   #end
+
+
+
+
+
 end

@@ -1,3 +1,10 @@
+
+
+
+
+
+
+
 ### List events on home screen feed
 #[01 Home Screen](https://github.com/Leonas/funlife/blob/master/graphics/app_screens/01.home-screenv3.png)
 #**method**: GET

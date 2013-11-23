@@ -2,19 +2,19 @@ class Event < ActiveRecord::Base
 
 
 
-  attr_accessible :name,
+  attr_accessible :title,
                   :details,
                   :date,
-                  :time,
+                  :start_time,
+                  :end_time,
                   :duration,
-                  :max_attendance,
-                  :invite_only?,
-                  :allow_request_invite?,
-                  :allow_women?,
-                  :allow_men?,
-                  :allow_youngest_age,
-                  :allow_oldest_age,
-                  :attendees_count
+                  :private?,
+                  :visible_to_women?,
+                  :visible_to_men?,
+                  :youngest_allowed_age,
+                  :oldest_allowed_age,
+                  :attendees_count,
+                  :activated?
 
 
   belongs_to :user
@@ -30,6 +30,8 @@ class Event < ActiveRecord::Base
   has_one  :place,          as: :location
 
 
-
+  def activate!
+    #if all items filled out, then set to active
+  end
 
 end

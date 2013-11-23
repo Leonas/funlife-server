@@ -40,6 +40,27 @@
 #  end
 #
 #  ######################################
+#  get "/places/categories" do ##########
+#  ######################################
+#
+#
+#    example_request "List all place categories" do
+#      explanation ""
+#      response_body.should include_json({
+#      #                                      "places" : [
+#      #    {
+#      #        "id" : "1",
+#      #    "icon_url" : "/biking.png",
+#      #    "lon" : "-23.2342",
+#      #    "lat" : "32.1232"
+#      #}
+#      #]
+#                                        }.to_json)
+#      status.should == 201
+#    end
+#  end
+#
+#  ######################################
 #  get "/places/:id" do #################
 #  ######################################
 #

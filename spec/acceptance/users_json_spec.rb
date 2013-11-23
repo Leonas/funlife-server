@@ -237,6 +237,7 @@ resource "Users" do
   #                                              name: @place1.name
   #                                          ]
   #                                      }.to_json)
+  #status.should == 200
   #  end
   #end
 
@@ -260,11 +261,57 @@ resource "Users" do
   #                                              name: @place1.name
   #                                          ]
   #                                      }.to_json)
+  #status.should == 200
   #  end
   #end
 
 
+  #######################################
+  #get "/users/:id/invitations" do ########
+  #######################################
+  #
+  #  header "Authorization", :token
+  #  parameter :id, "user id", required: true
+  #
+  #  let(:id) { @user1.id }
+  #
+  #  example_request "Get array of invites for user" do
+  #    explanation "Get a list of followers for user_id"
+  #    response_body.should include_json({
+  #
+  #                                          users: [
+  #                                              {
+  #                                                  id: @user2.id,
+  #                                                  name: @user2.name
+  #                                              },
+  #                                              {
+  #                                                  id: @user3.id,
+  #                                                  name: @user3.name
+  #                                              }
+  #                                          ]
+  #
+  #                                      }.to_json)
+  #  end
+  #end
 
+
+  #######################################
+  #get "/users/dashboard" do #################
+  #######################################
+  #
+  #  header "Authorization", :token
+  #
+  #  let(:id) { @user1.id }
+  #
+  #  example_request "View dashboard" do
+  #    explanation "Gets the current user's dashboard"
+  #
+  #    response_body.should include_json({
+  #
+  #                                      }.to_json)
+  #status.should == 200
+  #  end
+  #end
 
 
 end

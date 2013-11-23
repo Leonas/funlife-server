@@ -46,7 +46,7 @@ resource "Photos" do
 
                                         }.to_json)
 
-      expect(status).to eq(201)
+      status.should == 201
     end
   end
 
@@ -67,7 +67,7 @@ resource "Photos" do
 
     example_request "Update photo details with stuff from cloudinary" do
       explanation "meow"
-      expect(status).to eq(200)
+      status.should == 200
     end
   end
 
@@ -90,7 +90,7 @@ resource "Photos" do
 
                                         }.to_json)
 
-      expect(status).to eq(200)
+      status.should == 200
     end
   end
 

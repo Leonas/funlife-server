@@ -1,36 +1,8 @@
 require 'spec_helper'
 
 describe PhotosController do
-  before do
-    login_user
-  end
 
-  describe "GET to #index" do
-    before do
-      get :index
-    end
 
-    xit{ should assign_to(:photos) }
-    it { should respond_with(:success) }
-  end
-
-  describe "GET to #following" do
-    before do
-      get :following
-    end
-
-    xit{ should assign_to(:photos) }
-    it { should respond_with(:success) }
-  end
-
-  describe "GET to #explore" do
-    before do
-      get :explore
-    end
-
-    xit{ should assign_to(:photos) }
-    it { should respond_with(:success) }
-  end
 
   describe "with a existing photo" do
     before do

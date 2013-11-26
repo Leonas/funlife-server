@@ -1,17 +1,19 @@
----
 development:
+  upload_url: https://api.cloudinary.com/v1_1/funlife/image/upload
   cloud_name: funlife
   api_key: '221816386951751'
   api_secret: p0HsqkrLaNZpg3nruhEfWl4-tuc
   enhance_image_tag: true
   static_image_support: false
 production:
+  upload_url: https://api.cloudinary.com/v1_1/funlife/image/upload
   cloud_name: funlife
   api_key: '221816386951751'
   api_secret: p0HsqkrLaNZpg3nruhEfWl4-tuc
   enhance_image_tag: true
   static_image_support: true
 test:
+  upload_url: https://api.cloudinary.com/v1_1/funlife/image/upload
   cloud_name: funlife
   api_key: '221816386951751'
   api_secret: p0HsqkrLaNZpg3nruhEfWl4-tuc

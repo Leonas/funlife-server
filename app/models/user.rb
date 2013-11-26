@@ -93,6 +93,18 @@ class User < ActiveRecord::Base
     relationships.find_by_followed_id(other_user.id).destroy
   end
 
+  def like!(likeable_object)
+    current_like = likes.create!(likeable_object)
+    likeable_object.likes << current_like
+    likeable_object.save
+
+         if like == likes.where(user_id: user).first
+      like.destroy
+    else
+      likes << Like.new(user_id: user)
+    end
+  end
+
   def set_avatar!(photo)
     #todo
   end

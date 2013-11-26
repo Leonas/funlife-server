@@ -55,8 +55,7 @@ FunlifeServer::Application.routes.draw do
     resources :photos, except: [:edit, :update, :new] do
       resources :comments, except: [:edit, :new]
       collection do
-        get :following
-        get :explore
+        get :auth
       end
       member do
         post :like

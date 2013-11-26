@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131104095551) do
+ActiveRecord::Schema.define(:version => 20131104095552) do
 
   create_table "activities", :force => true do |t|
     t.string "name"
@@ -134,6 +134,14 @@ ActiveRecord::Schema.define(:version => 20131104095551) do
 
   add_index "invitations", ["event_id"], :name => "index_invitations_on_event_id"
   add_index "invitations", ["user_id"], :name => "index_invitations_on_user_id"
+
+  create_table "likes", :force => true do |t|
+    t.integer  "likeable_id"
+    t.string   "likeable_type"
+    t.integer  "user_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
 
   create_table "photos", :force => true do |t|
     t.integer  "imageable_id"

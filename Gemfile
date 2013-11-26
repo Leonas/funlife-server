@@ -3,22 +3,21 @@ source 'https://rubygems.org'
 
 gem 'rails-api'
 gem "active_model_serializers", github: 'rails-api/active_model_serializers'
-gem 'rails', '~> 3.2.13'
-gem 'bcrypt-ruby', '~> 3.0.0'  # Adds has_secure_password
-
-gem 'newrelic_rpm'
-
-
+gem 'rails',       '~> 3.2.13'
+gem 'bcrypt-ruby', '~> 3.0.0'
+gem 'pg'
 gem 'yajl-ruby', require: 'yajl', require: 'yajl/json_gem' #JSON encode/decode
-gem 'kaminari'  # Pagination
+gem 'kaminari'  # best pagination gem
 #gem 'cancan'   #this hasn't been implemented yet but should be
+gem 'acts-as-taggable-on'
+gem 'acts_as_votable'
 
 
 group :production do
-  gem 'pg'
   #gem 'puma'        #procfile = web: bundle exec rails server puma -p $PORT -e $RACK_ENV
   #gem 'thin'        #procfile = web: bundle exec rails server thin -p $PORT -e $RACK_ENV
   gem 'unicorn'      #procfile = web: bundle exec unicorn -p $PORT -c ./config/unicorn.rb
+  gem 'newrelic_rpm'
 end
 
 
@@ -29,7 +28,6 @@ group :development, :test do
 
 
   gem 'growl'
-  gem 'sqlite3'
   gem 'httparty'
 
 

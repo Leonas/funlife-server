@@ -12,23 +12,10 @@ resource "Photos" do
   end
   let!(:token) { generate_token(@user1) }
 
-#
-### Create a Photo
-
-#step 1
-#POST /photos
-# -> a new photo item is created on my server
-# -> a cloudinary url is instantly stored as it will be using my unique id anyway
-# -> confirmed_upload: false
-
-
-
 
   ######################################
-  get "/photos/auth" do ###################
+  get "/photos/auth" do ################
   ######################################
-
-  # https://github.com/cloudinary/cloudinary_gem/blob/master/lib/cloudinary/utils.rb shows how to do the hashing
 
     header "Authorization", :token
 
@@ -40,7 +27,6 @@ resource "Photos" do
                                                 unix_timestamp: xxx,
                                                 api_key: xxx,
                                                 upload_url: xxx,
-                                                unique_photo_id: xxx,
                                                 cloudinary_signature: xxx
                                             }
 

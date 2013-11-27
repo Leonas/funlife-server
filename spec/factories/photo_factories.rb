@@ -16,7 +16,7 @@ FactoryGirl.define do
     url           "x"
     version       "x"
     width         "x"
-    type          "x"
+    file_type     "x"
 
 
     after(:create) do |photo, evaluator|
@@ -24,8 +24,6 @@ FactoryGirl.define do
       if evaluator.uploaded_by
         evaluator.uploaded_by.photos << photo
         evaluator.uploaded_by.save!
-      else
-        photo.user << create(:user)
       end
     end
 

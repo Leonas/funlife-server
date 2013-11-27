@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/Leonas/json_spec.git
-  revision: af325ab9f95f008df3f502df8f72bf2f09b7163d
+  revision: df324d67966dc0c8faa4c87b8498481ce3b29978
   specs:
     json_spec (1.1.1)
       hashdiff (~> 0.1.1)

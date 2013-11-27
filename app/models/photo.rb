@@ -2,7 +2,8 @@ class Photo < ActiveRecord::Base
 
   belongs_to :imageable,   polymorphic: true
   has_many   :comments,    dependent: :destroy
-  has_many   :likes,       dependent: :destroy
+
+  acts_as_votable
 
 
   attr_accessible :bytes,
@@ -15,7 +16,14 @@ class Photo < ActiveRecord::Base
                   :url,
                   :version,
                   :width,
-                  :type
+                  :file_type
 
 
+  def date
+    updated_at #needs to be in human format
+  end
+
+  def like_count
+    likes.size
+  end
 end

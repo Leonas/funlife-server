@@ -52,6 +52,7 @@ group :development, :test do
   gem 'awesome_print'
   gem 'rspec_to_iodocs', path: '/Users/Leonas/funlife-code/rspec_to_iodocs'
   gem 'json_spec', github: 'Leonas/json_spec'
+  #gem 'json_spec', path: '/Users/Leonas/funlife-code/json_spec'
 end
 
 

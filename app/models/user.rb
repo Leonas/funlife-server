@@ -27,7 +27,7 @@ class User < ActiveRecord::Base
 
   #places to get invited to
   has_many :place_user_joins,           dependent: :destroy
-  has_many :favorite_places,                 through: :place_user_joins, source: :place
+  has_many :favorite_places,            through: :place_user_joins, source: :place
 
 
   #events
@@ -48,8 +48,11 @@ class User < ActiveRecord::Base
   #general
   has_many :photos,                     as: :imageable, dependent: :destroy
   has_many :comments,                   dependent: :destroy
-  has_many :likes,                      dependent: :destroy
 
+
+  acts_as_voter
+  acts_as_taggable
+  acts_as_taggable_on :favorite_activities
 
   ##################################################
   #  Definitions  ##################################
@@ -91,18 +94,6 @@ class User < ActiveRecord::Base
 
   def unfollow!(other_user)
     relationships.find_by_followed_id(other_user.id).destroy
-  end
-
-  def like!(likeable_object)
-    current_like = likes.create!(likeable_object)
-    likeable_object.likes << current_like
-    likeable_object.save
-
-         if like == likes.where(user_id: user).first
-      like.destroy
-    else
-      likes << Like.new(user_id: user)
-    end
   end
 
   def set_avatar!(photo)

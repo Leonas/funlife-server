@@ -1,9 +1,13 @@
 class PhotoSerializer < ActiveModel::Serializer
-  attributes :id, :public_id, :version, :signature, :width, :height, :format,
-    :resource_type, :bytes, :type, :url, :secure_url, :type, :processed_at, :likes_count, :liked
-  has_one :user, embed: :id
+  attributes :id,
+             :url,
+             :date,
+             :like_count,
+             :liked
+
+
 
   def liked
-    object.liked?(scope.current_user)
+    @scope.current_user.liked? object
   end
 end

@@ -8,14 +8,16 @@ class PhotosController < ApplicationController
   # used to get auth for cloudinary
   def auth
     @timestamp = Time.now.to_i
-    @signature = Digest::SHA1.hexdigest("timestamp=#{@timestamp}#{CLOUDINARY.api_secret}")
+    @cloudinary = CLOUDINARY[Rails.env.to_sym]
+    @signature = Digest::SHA1.hexdigest("timestamp=#{@timestamp}#{@cloudinary['api_secret']}")
     @auth = {
-        unix_timestamp: @timestamp,
-        api_key: CLOUDINARY.api_key,
+        timestamp: @timestamp,
+        api_key: @cloudinary['api_key'],
         signature: @signature,
-        upload_url: CLOUDINARY.upload_url
+        upload_url: @cloudinary['upload_url']
     }
-    render json: @auth, serializer: PhotoAuthSerializer, root: "upload_auth"
+    @upload_auth = { upload_auth: @auth }
+    render json: @upload_auth, status: :created
   end
 
 
@@ -31,15 +33,21 @@ class PhotosController < ApplicationController
   #POST /photos/:id/like
   def like
     @photo = Photo.find(params[:id])
-    @photo.toggle_like(current_user)
-    head :okay
+    if current_user.liked? @photo
+      @photo.unliked_by current_user
+      head :deleted
+    else
+      @photo.liked_by current_user
+      head :created
+    end
+
   end
 
 
 
   # POST /photos
   def create
-    @photo = @current_user.photos.build(params[:photo])
+    @photo = current_user.photos.build(params[:photo])
     if @photo.save
       render json: @photo, status: :created
     else
@@ -60,6 +68,6 @@ class PhotosController < ApplicationController
   private
 
   def set_photo
-    @photo = @current_user.photos.find(params[:id])
+    @photo = current_user.photos.find(params[:id])
   end
 end

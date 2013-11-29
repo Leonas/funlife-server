@@ -1,8 +1,6 @@
 FunlifeServer::Application.routes.draw do
 
 
-  resources :places, except: [:new, :edit]
-
   scope defaults: { format: "json" } do
 
     ############Sessions################
@@ -14,37 +12,40 @@ FunlifeServer::Application.routes.draw do
 
 
     ############Users################
-    resources :users, except: [:update] do
+    resources :users, only: [:index, :create, :show, :update] do
       member do
         get :following
         get :followers
         get :photos
+        get :fav_places
+        get :fav_activities
+        get :invitations
       end
       collection do
-        put :update
+        get :dashboard
       end
     end
 
 
     ############Conversations################
-    resources :conversations, except: [:edit, :update, :new] do
+    resources :conversations, only: [:index, :create, :show, :destroy] do
       resources :conversation_messages, only: [:index, :create]
     end
 
 
     ############Relationships################
     resources :relationships, only: [:create] do
-      delete :destroy, on: :collection
+      collection do
+        delete :destroy
+      end
     end
 
 
     ############Events################
-    resources :events, except: [:edit, :new] do
-      resources :attendees, only: [:index, :create]
-      resources :invitations, only: [:create]
-      collection do
-        get :feed
-      end
+    resources :events, only: [:index, :create, :show, :destroy] do
+      resources :attendees, only: [:index, :create, :destroy]
+      resources :invitations, only: [:index, :create, :destroy]
+      resources :comments, only: [:index, :create, :delete]
     end
 
 
@@ -53,14 +54,22 @@ FunlifeServer::Application.routes.draw do
 
 
     ############Photos################
-    resources :photos, except: [:edit, :update, :new] do
-      resources :comments, except: [:edit, :new]
+    resources :photos, only: [:create, :show, :delete] do
       collection do
         get :auth
       end
       member do
         post :like
       end
+      resources :comments, only: [:index, :create, :delete]
+    end
+
+    ############Places################
+    resources :places, only: [:index, :show] do
+      member do
+        post :like
+      end
+      resources :comments, only: [:index, :create, :delete]
     end
 
 

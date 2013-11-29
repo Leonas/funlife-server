@@ -17,7 +17,7 @@ class Event < ActiveRecord::Base
                   :activated?
 
 
-  belongs_to :user
+
   #has_many :activities                                 # this and migrations need fixing
   #has_many :categories, through: :activities           # this and migrations need fixing
 

@@ -138,18 +138,15 @@ ActiveRecord::Schema.define(:version => 20131104095551) do
   create_table "photos", :force => true do |t|
     t.integer  "imageable_id"
     t.string   "imageable_type"
-    t.string   "public_id"
-    t.string   "version"
-    t.string   "signature"
-    t.string   "width"
-    t.string   "height"
-    t.string   "format"
-    t.string   "resource_type"
     t.string   "bytes"
-    t.string   "type"
+    t.string   "format"
+    t.string   "height"
+    t.string   "width"
+    t.string   "public_id"
     t.string   "url"
     t.string   "secure_url"
-    t.string   "file_type"
+    t.string   "signature"
+    t.string   "version"
     t.integer  "comments_count", :default => 0
     t.datetime "created_at",                    :null => false
     t.datetime "updated_at",                    :null => false

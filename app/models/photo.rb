@@ -9,15 +9,26 @@ class Photo < ActiveRecord::Base
   attr_accessible :bytes,
                   :format,
                   :height,
+                  :width,
                   :public_id,
-                  :resource_type,
+                  :url,
                   :secure_url,
                   :signature,
-                  :url,
-                  :version,
-                  :width,
-                  :file_type
+                  :version
 
+
+
+  def self.cloudinary_auth
+    @timestamp = Time.now.to_i
+    @cloudinary = CLOUDINARY[Rails.env.to_sym]
+    @signature = Digest::SHA1.hexdigest("timestamp=#{@timestamp}#{@cloudinary['api_secret']}")
+    @auth = {
+        timestamp: @timestamp,
+        api_key: @cloudinary['api_key'],
+        signature: @signature,
+        upload_url: @cloudinary['upload_url']
+    }
+  end
 
   def date
     updated_at #needs to be in human format

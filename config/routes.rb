@@ -18,6 +18,7 @@ FunlifeServer::Application.routes.draw do
       member do
         get :following
         get :followers
+        get :photos
       end
       collection do
         put :update

@@ -28,7 +28,7 @@ group :development, :test do
 
 
   gem 'growl'
-  gem 'httparty'
+  gem 'httmultiparty'
 
 
   gem 'rspec-rails'

@@ -188,21 +188,21 @@ resource "Conversations" do
 
 
 
-  #######################################
-  #delete "/conversations/:id" do #######           #this needs to just hide it
-  #######################################
-  #
-  #  header "Authorization", generate_token(@user1)
-  #  parameter :id, "conversation id", required: true
-  #
-  #  example_request "Delete a conversation" do
-  #    explanation "A conversation gets removed from the user's inbox"
-  #    status.should == 204
-  #  end
-  #end
-  #
-  #
-  #
+  ######################################
+  delete "/conversations/:id" do #######           #this needs to just hide it
+  ######################################
+
+    header "Authorization", generate_token(@user1)
+    parameter :id, "conversation id", required: true
+
+    example_request "Delete a conversation" do
+      explanation "A conversation gets removed from the user's inbox"
+      status.should == 209
+    end
+  end
+
+
+
 
 
 

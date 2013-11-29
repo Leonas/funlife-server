@@ -1,5 +1,7 @@
-#require 'spec_helper'
-#
-#describe Activity do
-#  pending "add some examples to (or delete) #{__FILE__}"
-#end
+require 'spec_helper'
+
+describe Activity do
+  xit "does something" do
+
+  end
+end

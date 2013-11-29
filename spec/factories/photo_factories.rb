@@ -9,14 +9,13 @@ FactoryGirl.define do
     bytes         "x"
     format        "x"
     height        "x"
+    width         "x"
     public_id     "x"
-    resource_type "x"
+    url           "x"
     secure_url    "x"
     signature     "x"
-    url           "x"
     version       "x"
-    width         "x"
-    file_type     "x"
+
 
 
     after(:create) do |photo, evaluator|

@@ -47,5 +47,16 @@ describe PhotosController do
       end
     end
 
+    describe "DELETE to #destroy" do
+
+      xit "should mark the photo as deleted" do
+
+      end
+
+      xit "should not do anything if the user doesn't own the photo" do
+
+      end
+    end
+
   end
 end

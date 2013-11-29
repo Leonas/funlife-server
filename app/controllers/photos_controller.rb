@@ -7,15 +7,7 @@ class PhotosController < ApplicationController
   # GET /photos/auth
   # used to get auth for cloudinary
   def auth
-    @timestamp = Time.now.to_i
-    @cloudinary = CLOUDINARY[Rails.env.to_sym]
-    @signature = Digest::SHA1.hexdigest("timestamp=#{@timestamp}#{@cloudinary['api_secret']}")
-    @auth = {
-        timestamp: @timestamp,
-        api_key: @cloudinary['api_key'],
-        signature: @signature,
-        upload_url: @cloudinary['upload_url']
-    }
+    @auth = Photo.cloudinary_auth
     @upload_auth = { upload_auth: @auth }
     render json: @upload_auth, status: :created
   end

@@ -57,14 +57,15 @@ class User < ActiveRecord::Base
   #  Definitions  ##################################
   ##################################################
 
-  def full_name
-    "#{first_name} #{last_name}"
-  end
-
   def name
     "new user"
     "#{first_name} #{last_name.chr}." if first_name and last_name
   end
+
+  def full_name
+    "#{first_name} #{last_name}"
+  end
+
 
   ##################################################
   #  Actions  ######################################

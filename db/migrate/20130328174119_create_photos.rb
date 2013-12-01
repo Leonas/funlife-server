@@ -13,7 +13,6 @@ class CreatePhotos < ActiveRecord::Migration
       t.string :signature
       t.string :version
 
-      t.integer :comments_count, default: 0
 
       t.timestamps
     end

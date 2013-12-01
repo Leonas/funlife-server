@@ -1,4 +1,4 @@
-class AttendeesController < ApplicationController
+class EventGuestsController < ApplicationController
   before_filter :set_event
 
   def index
@@ -14,6 +14,12 @@ class AttendeesController < ApplicationController
     else
       render json: {errors: @attendee.errors}, status: :unprocessable_entity
     end
+  end
+
+  def create_guest
+    @event = @current_user.events.find(params[:event_id])
+    @event.guest_ids << params[:invitation][:user_ids]
+    head :no_content
   end
 
   private

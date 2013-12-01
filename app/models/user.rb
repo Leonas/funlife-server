@@ -1,22 +1,23 @@
 class User < ActiveRecord::Base
   include ActiveModel::SecurePassword
   has_secure_password
+  acts_as_voter
+  acts_as_tagger
+  acts_as_taggable_on :favorite_activities
 
-  GENDERS = %w(male female)
+  GENDERS = ["male", "female"]
 
   attr_accessible :email,
                   :first_name,
                   :last_name,
+                  :gender,
+                  :birthday,
                   :main_photo_id,
                   :avatar_id
 
 
-  attr_protected :token, :password_digest
-
-  validates :email, presence: true, uniqueness: true
-  validates :gender, inclusion: { in: GENDERS, allow_nil: true }
-
-  before_create :ensure_authentication_token!
+  attr_protected :token,
+                 :password_digest
 
 
   #conversations
@@ -31,11 +32,8 @@ class User < ActiveRecord::Base
 
 
   #events
-  has_many :events
-  has_many :invitations,                dependent: :destroy
-  has_many :invited_events,             through: :invitations, source: :event
-  has_many :attendees,                  dependent: :destroy                     #why is this here?
-  has_many :attended_events,            through: :attendees,   source: :event
+  has_many :guest_states,               class_name: "EventGuest", dependent: :destroy
+  has_many :events,                     through: :guest_states
 
 
   #relationships
@@ -50,9 +48,10 @@ class User < ActiveRecord::Base
   has_many :comments,                   dependent: :destroy
 
 
-  acts_as_voter
-  acts_as_taggable
-  acts_as_taggable_on :favorite_activities
+  validates :email, presence: true, uniqueness: true
+  validates :gender, inclusion: {in: GENDERS, allow_nil: true}
+
+  before_create :ensure_authentication_token!
 
   ##################################################
   #  Definitions  ##################################

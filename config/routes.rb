@@ -43,14 +43,9 @@ FunlifeServer::Application.routes.draw do
 
     ############Events################
     resources :events, only: [:index, :create, :show, :destroy] do
-      resources :attendees, only: [:index, :create, :destroy]
-      resources :invitations, only: [:index, :create, :destroy]
+      resources :guests, controller: "event_guests", only: [:index, :create, :update, :destroy]
       resources :comments, only: [:index, :create, :delete]
     end
-
-
-    ############Categories################
-    resources :categories, only: [:index]
 
 
     ############Photos################

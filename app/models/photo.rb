@@ -1,7 +1,7 @@
 class Photo < ActiveRecord::Base
 
   belongs_to :imageable,   polymorphic: true
-  has_many   :comments,    dependent: :destroy
+  has_many   :comments,    as: :commentable, dependent: :destroy
 
   acts_as_votable
 

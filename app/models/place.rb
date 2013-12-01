@@ -20,4 +20,8 @@ class Place < ActiveRecord::Base
                   :featured
 
 
+  def whats_here?
+    #shows the tags of the place: biking, bike rentals, etc
+  end
+
 end

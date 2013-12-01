@@ -1,6 +1,6 @@
 class Event < ActiveRecord::Base
 
-
+  VISIBILITIES = ["all", "none", "women", "men"]
 
   attr_accessible :title,
                   :details,
@@ -8,30 +8,27 @@ class Event < ActiveRecord::Base
                   :start_time,
                   :end_time,
                   :duration,
-                  :private?,
-                  :visible_to_women?,
-                  :visible_to_men?,
-                  :youngest_allowed_age,
-                  :oldest_allowed_age,
-                  :attendees_count,
-                  :activated?
+                  :visibility,
+                  :hidden,
+                  :min_age,
+                  :max_age,
+                  :activated
 
 
+  has_one  :place,                as: :location
+  has_many :activity_event_joins
+  has_many :activities,           through: :activity_event_joins
+  has_many :event_guests,         dependent: :destroy
+  has_many :users,                through: :event_guests
 
-  #has_many :activities                                 # this and migrations need fixing
-  #has_many :categories, through: :activities           # this and migrations need fixing
-
-  has_many :invitations,    dependent: :destroy
-  has_many :guests,         through: :invitations, source: :user         #wtf is diff between this and attendees?
-
-  has_many :attendees,      dependent: :destroy
-  has_many :users,          through: :attendees
-
-  has_one  :place,          as: :location
-
+   validates :visiblity, inclusion: { in: VISIBILITIES, allow_nil: false}
 
   def activate!
     #if all items filled out, then set to active
+  end
+
+  def activated?
+
   end
 
 end

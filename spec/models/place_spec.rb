@@ -13,24 +13,25 @@ describe Place do
       @place2 = Factory.create(:place)
     end
 
-    it "should allow a person to get added to the meet me here list" do
-      expect{@user1.add_favorite_place!(@place1)}.to change{PlaceUserJoin.count}.by(1)
+    it "should allow a user to add the place to their favorites" do
+      expect{@user1.likes(@place1)}.to change{@place1.likes.size}.by(1)
     end
 
-    it "should allow a person to remove themselves from the meet me here list" do
-      @user1.add_favorite_place!(@place1)
-      expect{@user1.remove_favorite_place!(@place1)}.to change{PlaceUserJoin.count}.by(-1)
+    it "should allow a user to unfavorite a place" do
+      @user1.likes @place1
+      expect{ @user1.unlike @place1 }.to change{@place1.likes.size}.by(-1)
     end
 
     it "should show a list of users who favorited a place" do
-      @user1.add_favorite_place!(@place2)
-      @user2.add_favorite_place!(@place2)
-      expect(@place2.users.all.count).to eq(2)
+      @user1.likes @place2
+      @user2.likes @place2
+      expect(@place2.likes.size).to eq(2)
+      expect(@place2.up_votes.first.voter).to eq(@user1)     #order is wrong in this gem
     end
 
     it "should show the favorite places for a user" do
-      @user1.add_favorite_place!(@place1)
-      expect(@user1.favorite_places.length).to eq(1)
+      @user1.likes @place1
+      expect( @user1.find_up_votes_for_class(Place).size ).to eq(1)
     end
   end
 

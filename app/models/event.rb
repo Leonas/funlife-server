@@ -21,14 +21,18 @@ class Event < ActiveRecord::Base
   has_many :event_guests,         dependent: :destroy
   has_many :users,                through: :event_guests
 
-   validates :visiblity, inclusion: { in: VISIBILITIES, allow_nil: false}
-
   def activate!
     #if all items filled out, then set to active
+    self.attributes.each do |attribute|
+      if attribute.nil?
+        return false
+      end
+    end
+    self.activated = true
   end
 
-  def activated?
-
+  def activated?                 #is this necessary?
+    self.activated
   end
 
 end

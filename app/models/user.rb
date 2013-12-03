@@ -25,12 +25,6 @@ class User < ActiveRecord::Base
   has_many :conversations,              through:   :conversation_user_joins
   has_many :conversation_messages
 
-
-  #places to get invited to
-  has_many :place_user_joins,           dependent: :destroy
-  has_many :favorite_places,            through: :place_user_joins, source: :place
-
-
   #events
   has_many :guest_states,               class_name: "EventGuest", dependent: :destroy
   has_many :events,                     through: :guest_states
@@ -51,6 +45,7 @@ class User < ActiveRecord::Base
   validates :email, presence: true, uniqueness: true
   validates :gender, inclusion: {in: GENDERS, allow_nil: true}
 
+  before_save { self.email = email.downcase }
   before_create :ensure_authentication_token!
 
   ##################################################
@@ -104,33 +99,25 @@ class User < ActiveRecord::Base
     #todo
   end
 
-  def add_favorite_place!(place)
-     place_user_joins.create!(place_id: place.id)
-  end
-
-  def remove_favorite_place!(place)
-    place_user_joins.find(place.id).destroy
-  end
-
   ##################################################
   #  Queries  ######################################
   ##################################################
 
-  #def feed_events
-  #  event = Event.arel_table
-  #
-  #  # Includes the current_user's Events
-  #  user_ids = self.following_ids.push(self.id)
-  #
-  #  Event.where(
-  #    event[:user_id].in(user_ids).or(
-  #      event[:allow_join].eq(true)
-  #    )
-  #  )
-  #end
-  #
-  #def following_photos
-  #  # ActiveRecord::Relation
-  #  Photo.where(user_id: self.followings.select("following_id"))
-  #end
+  def upcoming_events
+    event = Event.arel_table
+
+    # Includes the current_user's Events
+    user_ids = self.followed_users.push(self.id)
+
+    Event.where(
+      event[:user_id].in(user_ids).or(
+        event[:allow_join].eq(true)
+      )
+    )
+  end
+
+  def following_photos
+    Photo.where(user_id: self.followed_users.select("following_id"))
+  end
+
 end

@@ -11,6 +11,7 @@ gem 'kaminari'  # best pagination gem
 #gem 'cancan'   #this hasn't been implemented yet but should be
 gem 'acts-as-taggable-on'
 gem 'acts_as_votable'
+gem 'strong_parameters'
 
 
 group :production do
@@ -43,6 +44,8 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'guard-spork'
   gem 'guard-rake'
+  gem 'guard-brakeman'
+
   gem 'spork-rails'
   gem 'wdm', :platforms => [:mswin, :mingw], require: false     #Speed up spork/guard on windows
   gem 'rb-fsevent', require: false                              #Speed up spork/guard on osx
@@ -53,6 +56,8 @@ group :development, :test do
   gem 'rspec_to_iodocs', path: '/Users/Leonas/funlife-code/rspec_to_iodocs'
   gem 'json_spec', github: 'Leonas/json_spec'
   #gem 'json_spec', path: '/Users/Leonas/funlife-code/json_spec'
+
+  #add https://www.ruby-toolbox.com/categories/spam_detection
 end
 
 

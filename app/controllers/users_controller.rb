@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-  before_filter :set_user, only: [:show]
   skip_before_filter :authenticate_user_token, only: [:create, :options]
 
 
@@ -10,20 +9,22 @@ class UsersController < ApplicationController
   end
 
 
+
   # GET /users/:id
   def show
     if @current_user.id.to_s == params[:id]
-      render json: @user, serializer: UserSelfSerializer, root: "user"
+      render json: @current_user, serializer: UserSelfSerializer, root: "user"
     else
-      render json: @user
+      @user = User.find(params[:id])
+      render json: @user             #need to add thing for error
     end
-
   end
+
 
 
   # POST /users
   def create
-    @user = User.new(params[:user])
+    @user = User.new(user_params)
 
     if @user.save
       @current_user = @user
@@ -34,14 +35,16 @@ class UsersController < ApplicationController
   end
 
 
-  # PATCH/PUT /users/:id
+
+  # PATCH /users/:id
   def update
-    if @current_user.update_attributes(params[:user])
+    if @current_user.update_attributes(user_params)
       head :no_content
     else
       render json: {errors: @current_user.errors}, status: :unprocessable_entity
     end
   end
+
 
 
   # GET /users/:id/following
@@ -56,6 +59,7 @@ class UsersController < ApplicationController
   end
 
 
+
   # GET /users/:id/followers
   def followers
     @user = User.find(params[:id])
@@ -67,13 +71,23 @@ class UsersController < ApplicationController
     end
   end
 
+
+
   def options
     cors_preflight_check
   end
 
   private
 
-  def set_user
-    @user = User.find(params[:id])
+  def user_params
+    params.require(:user).permit(
+        :email,
+        :password,
+        :first_name,
+        :last_name,
+        :gender,
+        :birthday
+    )
+
   end
 end

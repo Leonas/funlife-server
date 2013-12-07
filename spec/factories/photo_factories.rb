@@ -3,7 +3,7 @@ FactoryGirl.define do
   factory :photo do
 
     ignore do
-      uploaded_by nil
+      user nil
     end
 
     bytes         "x"
@@ -20,9 +20,9 @@ FactoryGirl.define do
 
     after(:create) do |photo, evaluator|
 
-      if evaluator.uploaded_by
-        evaluator.uploaded_by.photos << photo
-        evaluator.uploaded_by.save!
+      if evaluator.user
+        evaluator.user.photos << photo
+        evaluator.user.save!
       end
     end
 

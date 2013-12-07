@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131104095551) do
+ActiveRecord::Schema.define(:version => 20131104095552) do
 
   create_table "activities", :force => true do |t|
     t.string "name"
@@ -188,10 +188,11 @@ ActiveRecord::Schema.define(:version => 20131104095551) do
     t.date     "birthday"
     t.integer  "main_photo_id"
     t.integer  "avatar_id"
-    t.integer  "following_count", :default => 0
-    t.integer  "followers_count", :default => 0
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
+    t.integer  "following_count",   :default => 0
+    t.integer  "followers_count",   :default => 0
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
+    t.boolean  "completed_profile"
   end
 
   create_table "votes", :force => true do |t|

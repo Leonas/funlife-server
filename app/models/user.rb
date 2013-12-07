@@ -1,24 +1,10 @@
 class User < ActiveRecord::Base
-  include ActiveModel::SecurePassword
-  has_secure_password
+  has_secure_password #validations: false  #uncomment this for rails4
   acts_as_voter
   acts_as_tagger
   acts_as_taggable_on :favorite_activities
 
   GENDERS = ["male", "female"]
-
-  attr_accessible :email,
-                  :first_name,
-                  :last_name,
-                  :gender,
-                  :birthday,
-                  :main_photo_id,
-                  :avatar_id
-
-
-  attr_protected :token,
-                 :password_digest
-
 
   #conversations
   has_many :conversation_user_joins
@@ -38,19 +24,34 @@ class User < ActiveRecord::Base
 
 
   #general
-  has_many :photos,                     as: :imageable, dependent: :destroy
+  has_many :photos,                     as: :imageable, dependent: :destroy, order: 'created_at DESC'
   has_many :comments,                   dependent: :destroy
 
 
-  validates :email, presence: true, uniqueness: true
-  validates :gender, inclusion: {in: GENDERS, allow_nil: true}
+  validates :email,           presence: true, uniqueness: true
+  validates :gender,          inclusion: { in: GENDERS, allow_nil: true }
 
+  validates :password, length: { minimum: 6 }, allow_nil: true
   before_save { self.email = email.downcase }
+  #before_save { completed_profile? }
   before_create :ensure_authentication_token!
 
   ##################################################
   #  Definitions  ##################################
   ##################################################
+
+  def completed_profile?
+    self.completed_profile = [
+        self.email,
+        self.first_name,
+        self.last_name,
+        self.gender,
+        self.birthday,
+        self.main_photo_id,
+        self.avatar_id
+    ].all? { |attribute| attribute.blank?}
+
+  end
 
   def name
     "new user"

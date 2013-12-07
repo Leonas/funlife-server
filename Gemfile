@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 
 gem 'rails-api'
 gem "active_model_serializers", github: 'rails-api/active_model_serializers'
-gem 'rails',       '~> 3.2.13'
+gem 'rails',       '~> 3.2.16'
 gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'pg'
 gem 'yajl-ruby', require: 'yajl', require: 'yajl/json_gem' #JSON encode/decode
@@ -34,7 +34,7 @@ group :development, :test do
 
   gem 'rspec-rails'
   gem 'factory_girl_rails'
-  gem 'faker'
+  gem 'faker', github: 'stympy/faker'
   gem 'timecop'
   gem 'shoulda-matchers'
 

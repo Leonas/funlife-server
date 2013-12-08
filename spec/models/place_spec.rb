@@ -26,7 +26,7 @@ describe Place do
       @user1.likes @place2
       @user2.likes @place2
       expect(@place2.likes.size).to eq(2)
-      expect(@place2.up_votes.first.voter).to eq(@user1)     #order is wrong in this gem
+      expect(@place2.up_votes.order('created_at ASC').limit(1).first.voter).to eq(@user1)
     end
 
     it "should show the favorite places for a user" do

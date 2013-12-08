@@ -24,6 +24,7 @@ FunlifeServer::Application.routes.draw do
       collection do
         get :dashboard
       end
+      resources :comments, only: [:index, :create, :update, :delete]
     end
 
 
@@ -44,7 +45,7 @@ FunlifeServer::Application.routes.draw do
     ############Events################
     resources :events, only: [:index, :create, :show, :destroy] do
       resources :guests, controller: "event_guests", only: [:index, :create, :update, :destroy]
-      resources :comments, only: [:index, :create, :delete]
+      resources :comments, only: [:index, :create, :update, :delete]
     end
 
 
@@ -56,7 +57,7 @@ FunlifeServer::Application.routes.draw do
       member do
         post :like
       end
-      resources :comments, only: [:index, :create, :delete]
+      resources :comments, only: [:index, :create, :update, :delete]
     end
 
     ############Places################
@@ -64,7 +65,7 @@ FunlifeServer::Application.routes.draw do
       member do
         post :like
       end
-      resources :comments, only: [:index, :create, :delete]
+      resources :comments, only: [:index, :create, :update, :delete]
     end
 
 

@@ -14,8 +14,8 @@ resource "Conversations" do
     @conversation3 = Factory.create(:conversation, created_by: @user2, to_users: [@user3])
     Timecop.freeze(Date.today + 1) do @conversation4  = Factory.create(:conversation, created_by: @user3, to_users: [@user1]) end
     @user1_message1 = Factory.create(:conversation_message, user: @user1, conversation: @conversation1, message: "message1_1")
-    Timecop.freeze(Date.today + 1) do @user2_message1 = Factory.create(:conversation_message, user: @user2, conversation: @conversation1, message: "message2_1") end
-    Timecop.freeze(Date.today + 2) do @user2_message2 = Factory.create(:conversation_message, user: @user2, conversation: @conversation1, message: "message2_2") end
+    Timecop.freeze(Date.today + 1) do @user2_message1 = Factory.create(:conversation_message, user: @user2, conversation: @conversation1, body: "message2_1") end
+    Timecop.freeze(Date.today + 2) do @user2_message2 = Factory.create(:conversation_message, user: @user2, conversation: @conversation1, body: "message2_2", created_at: 2.days.from_now) end
   end
   let!(:user_token) { generate_token(@user1)}
 

@@ -5,19 +5,6 @@ class Photo < ActiveRecord::Base
 
   acts_as_votable
 
-
-  attr_accessible :bytes,
-                  :format,
-                  :height,
-                  :width,
-                  :public_id,
-                  :url,
-                  :secure_url,
-                  :signature,
-                  :version
-
-
-
   def self.cloudinary_auth
     @timestamp = Time.now.to_i
     @cloudinary = CLOUDINARY[Rails.env.to_sym]

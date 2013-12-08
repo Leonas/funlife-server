@@ -8,11 +8,11 @@ class ConversationMessagesSerializer < ActiveModel::Serializer
   end
 
   def latest_message
-    object.conversation_messages.last.message
+    object.conversation_messages.order("created_by DESC").limit(1).first.body
   end
 
-  def conversation_messages
-    object.conversation_messages.reverse
-  end
+  #def conversation_messages
+  #  object.conversation_messages.reverse
+  #end
 
 end

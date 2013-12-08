@@ -22,7 +22,7 @@ describe ConversationMessagesController do
 
         post :create,
              conversation_id: @conversation.id,
-             message: "message2"
+                 body: "message2"
 
       }.to change(ConversationMessage, :count).by(1)
     end

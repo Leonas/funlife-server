@@ -1,6 +1,6 @@
 class ConversationUserJoin < ActiveRecord::Base
 
-  attr_accessible :hidden          #hides the conversation when delete pressed
+ # attr_accessible :hidden          #hides the conversation when delete pressed
 
   belongs_to :conversation
   belongs_to :user

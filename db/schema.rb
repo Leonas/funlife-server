@@ -41,8 +41,8 @@ ActiveRecord::Schema.define(:version => 20131104095552) do
   create_table "comments", :force => true do |t|
     t.integer  "commentable_id"
     t.string   "commentable_type"
-    t.integer  "user_id",                         :null => false
-    t.string   "body",                            :null => false
+    t.string   "body"
+    t.integer  "user_id"
     t.integer  "parent_id"
     t.integer  "children_count",   :default => 0
     t.datetime "created_at",                      :null => false
@@ -54,7 +54,7 @@ ActiveRecord::Schema.define(:version => 20131104095552) do
   create_table "conversation_messages", :force => true do |t|
     t.integer  "user_id"
     t.integer  "conversation_id"
-    t.string   "message"
+    t.string   "body"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end
@@ -94,10 +94,10 @@ ActiveRecord::Schema.define(:version => 20131104095552) do
     t.string   "title"
     t.string   "details"
     t.date     "date"
-    t.time     "start_time",                    :null => false
-    t.time     "end_time",                      :null => false
-    t.time     "duration",                      :null => false
-    t.string   "visibility",                    :null => false
+    t.time     "start_time"
+    t.time     "end_time"
+    t.time     "duration"
+    t.string   "visibility"
     t.integer  "min_age"
     t.integer  "max_age"
     t.boolean  "activated",  :default => false
@@ -120,16 +120,6 @@ ActiveRecord::Schema.define(:version => 20131104095552) do
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
   end
-
-  create_table "place_user_joins", :force => true do |t|
-    t.integer  "place_id"
-    t.integer  "user_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  add_index "place_user_joins", ["place_id"], :name => "index_place_user_joins_on_place_id"
-  add_index "place_user_joins", ["user_id"], :name => "index_place_user_joins_on_user_id"
 
   create_table "places", :force => true do |t|
     t.string   "location_id"

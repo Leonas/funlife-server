@@ -2,18 +2,6 @@ class Event < ActiveRecord::Base
 
   VISIBILITIES = ["all", "none", "women", "men"]
 
-  attr_accessible :title,
-                  :details,
-                  :date,
-                  :start_time,
-                  :end_time,
-                  :duration,
-                  :visibility,
-                  :hidden,
-                  :min_age,
-                  :max_age,
-                  :activated
-
 
   has_one  :place,                as: :location
   has_many :activity_event_joins

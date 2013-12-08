@@ -25,7 +25,7 @@ FactoryGirl.define do
       end
 
       if evaluator.message
-        conversation.conversation_messages << create(:conversation_message, conversation: conversation, user: conversation.users.first, message: evaluator.message)
+        conversation.conversation_messages << create(:conversation_message, conversation: conversation, user: conversation.users.first, body: evaluator.message)
       else
         conversation.conversation_messages << create(:conversation_message, conversation: conversation, user: conversation.users.first)
       end
@@ -37,18 +37,7 @@ FactoryGirl.define do
   factory :conversation_message do
     association :user
     association :conversation
-    message { Faker::Lorem.sentence(5)  }
-
-    ignore do
-      time_travel nil
-    end
-
-    before(:create) do |message, evaluator|
-        Timecop.freeze(Date.today + evaluator.time_travel) if evaluator.time_travel
-    end
-    after(:create) do |message, evaluator|
-      Timecop.return if evaluator.time_travel
-    end
+    body { Faker::Lorem.sentence(5)  }
   end
 
 

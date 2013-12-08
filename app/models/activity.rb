@@ -6,8 +6,4 @@ class Activity < ActiveRecord::Base
   has_many :events,                   through: :activity_event_joins
 
 
-  attr_accessible :name,
-                  :icon_url
-
-
 end

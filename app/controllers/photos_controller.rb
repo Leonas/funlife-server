@@ -39,7 +39,7 @@ class PhotosController < ApplicationController
 
   # POST /photos
   def create
-    @photo = current_user.photos.build(params[:photo])
+    @photo = current_user.photos.build(photo_params)
     if @photo.save
       render json: @photo, status: :created
     else
@@ -58,6 +58,20 @@ class PhotosController < ApplicationController
 
 
   private
+
+  def photo_params
+    params.require(:photo).permit(
+        :bytes,
+        :format,
+        :height,
+        :width,
+        :public_id,
+        :url,
+        :secure_url,
+        :signature,
+        :version
+    )
+  end
 
   def set_photo
     @photo = current_user.photos.find(params[:id])

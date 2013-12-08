@@ -6,18 +6,6 @@ class Place < ActiveRecord::Base
 
   acts_as_votable
 
-  attr_accessible :name,
-                  :street_address,
-                  :zip_code,
-                  :city,
-                  :longitude,
-                  :latitude,
-                  :time_open,
-                  :time_close,
-                  :phone,
-                  :summary,
-                  :description,
-                  :featured
 
 
   def whats_here?

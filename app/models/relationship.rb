@@ -1,5 +1,5 @@
 class Relationship < ActiveRecord::Base
-  attr_accessible :followed_id     #the user's id who current_user is following
+  #followed_id = the user's id who current_user is following
 
   belongs_to :follower, class_name: "User", counter_cache: :following_count
   belongs_to :followed, class_name: "User", counter_cache: :followers_count

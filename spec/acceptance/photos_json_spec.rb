@@ -8,7 +8,6 @@ resource "Photos" do
   let!(:user1) { @user1 = Factory.create(:user) }
   let!(:setup_photos) do
     @photo1 = Factory.create(:photo, uploaded_by: @user1)
-    Timecop.return
     @auth = Photo.cloudinary_auth
     @sample_photo = File.new(File.expand_path("../sample_photo.png", __FILE__))
 

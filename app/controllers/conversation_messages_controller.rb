@@ -28,7 +28,7 @@ class ConversationMessagesController < ApplicationController
 
   def conversation_params
     {
-      message: params[:message],
+      body: params[:body],
       user_id: @current_user.id
     }
   end

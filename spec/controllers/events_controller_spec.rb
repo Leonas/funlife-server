@@ -12,7 +12,6 @@ describe EventsController do
       get :index
     end
 
-    xit{ should assign_to(:events) }
     it{ should respond_with(:success) }
 
     it "should include the pagination attrs" do
@@ -20,19 +19,6 @@ describe EventsController do
     end
   end
 
-  describe "GET to #feed" do
-    before do
-      Factory.create(:event, date: Date.today, allow_join: true)
-      get :feed, date: Date.today, page: "1"
-    end
-
-    xit { should assign_to(:events) }
-    it { should respond_with(:success) }
-
-    it "should include the pagination attrs" do
-      JSON.parse(response.body)["meta"].should == {"total_records"=>1, "total_pages"=>1, "current_page"=>1}
-    end
-  end
 
   describe "GET to #show" do
     before do

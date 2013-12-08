@@ -5,7 +5,7 @@ describe Photo do
   before do
     @user1 = Factory.create(:user)
     @user2 = Factory.create(:user)
-    @photo = Factory.create(:photo, uploaded_by: @user1)
+    @photo = Factory.create(:photo, user: @user1)
   end
 
   it "should belong to a user" do

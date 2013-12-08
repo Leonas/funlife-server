@@ -27,4 +27,11 @@ class EventGuestsController < ApplicationController
   def set_event
     @event = Event.find(params[:event_id])
   end
+
+  def event_guest_params
+    params.require(:event_guests).permit(
+        :attending,
+        :message
+    )
+  end
 end

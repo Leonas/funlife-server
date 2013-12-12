@@ -9,6 +9,7 @@ class CreateEvents < ActiveRecord::Migration
       t.string   :visibility
       t.integer  :min_age
       t.integer  :max_age
+      t.integer  :cover_photo_id
       t.boolean  :activated,  default: false
 
       t.timestamps

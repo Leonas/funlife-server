@@ -3,7 +3,7 @@ class CreateEventGuests < ActiveRecord::Migration
     create_table :event_guests do |t|
       t.integer :user_id
       t.integer :event_id
-      t.boolean :attending
+      t.string  :guest_state
       t.string  :message
 
       t.timestamps

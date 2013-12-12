@@ -81,10 +81,10 @@ ActiveRecord::Schema.define(:version => 20131104095552) do
   create_table "event_guests", :force => true do |t|
     t.integer  "user_id"
     t.integer  "event_id"
-    t.boolean  "attending"
+    t.string   "guest_state"
     t.string   "message"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   add_index "event_guests", ["event_id"], :name => "index_event_guests_on_event_id"
@@ -99,6 +99,7 @@ ActiveRecord::Schema.define(:version => 20131104095552) do
     t.string   "visibility"
     t.integer  "min_age"
     t.integer  "max_age"
+    t.integer  "cover_photo_id"
     t.boolean  "activated",        :default => false
     t.datetime "created_at",                          :null => false
     t.datetime "updated_at",                          :null => false

@@ -5,10 +5,14 @@ resource "Events" do
   header "Accept", "application/json"
   header "Content-Type", "application/json"
 
-  let!(:user1) { @user1 = Factory.create(:user) }
   let!(:setup_events) do
+    @user1 = Factory.create(:user)
     @user2 = Factory.create(:user)
     @user3 = Factory.create(:user)
+
+    @event1 = Factory.create(:event)
+    @event2 = Factory.create(:event)
+    @event3 = Factory.create(:event)
   end
   let!(:token) { generate_token(@user1) }
 
@@ -18,7 +22,8 @@ resource "Events" do
   ######################################
 
     header "Authorization", :token
-    parameter :sort_by, "Sort by", type: :list, items: [:default, :date, :distance]
+    parameter :sort_by, "Sort by", type: :list, items: [:recommended, :date, :distance]
+    parameter :page, "Page", type: :integer
 
     let(:raw_post) { params.to_json }
 
@@ -26,11 +31,38 @@ resource "Events" do
       explanation "Optionally sort by date or distance"
       response_body.should include_json({
 
-                                            photo: {
-                                                id: xxx,
-                                                url: xxx,
-                                                date: xxx
-                                            }
+                                            events: [
+                                                {
+                                                    id: @event1.id,
+                                                    title: @event1.title,
+                                                    details: @event1.details,
+                                                    timestamp_start: @event1.unix_start_time,
+                                                    timestamp_end:   @event1.unix_end_time,
+                                                    human_start_day: @event1.human_start_day,
+                                                    human_start_time: @event1.human_start_hour,
+                                                    human_end_day: "November 15",
+                                                    human_end_time: "7:00pm",
+                                                    human_duration: "1 hour 30 min",
+                                                    cover_photo: @event1.cover_photo,
+                                                    place: {
+                                                        #address details
+                                                    },
+                                                    photos: [
+                                                        { id: 1, url: "url" },
+                                                        { id: 1, url: "url" }
+                                                    ],
+                                                    activities: [
+                                                        { id: 1, icon_url: "url" },
+                                                        { id: 2, icon_url: "url" }
+                                                    ],
+                                                    event_guests: [
+                                                        { id: 1, name: "name", avatar: "url" },
+                                                        { id: 2, name: "name", avatar: "url" }
+                                                    ]
+
+
+                                                }
+                                            ]
 
                                         }.to_json)
 

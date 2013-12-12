@@ -4,6 +4,7 @@ class Event < ActiveRecord::Base
   LATEST_ALLOWED_DATE = 1.year.from_now
 
   has_one  :place,                as: :location
+  has_many :photos,               as: :imageable
   has_many :activity_event_joins
   has_many :activities,           through: :activity_event_joins
   has_many :event_guests,         dependent: :destroy

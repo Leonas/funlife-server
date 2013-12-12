@@ -10,10 +10,10 @@ guard :spork do
   watch('spec/spec_helper.rb') { :rspec }
 end
 
-guard 'process', name: 'dev-server:3000', command: 'rails server', dont_stop: true
-guard 'process', name: 'redis', command: 'redis-server', dont_stop: true
-guard 'process', name: 'iodocs', command: 'npm start', dir: '../funlife-docs'
-guard 'rake',    task: 'generate_iodocs' do watch(%r{^spec/acceptance/(.+)\.rb$}) end
+#guard 'process', name: 'dev-server:3000', command: 'rails server', dont_stop: true
+#guard 'process', name: 'redis', command: 'redis-server', dont_stop: true
+#guard 'process', name: 'iodocs', command: 'npm start', dir: '../funlife-docs'
+#guard 'rake',    task: 'generate_iodocs' do watch(%r{^spec/acceptance/(.+)\.rb$}) end
 
 
 guard :rspec, cmd: "rspec --drb", all_on_start: true, focus_on_failed: false do
@@ -33,3 +33,9 @@ end
 
 
 
+#guard 'brakeman', :run_on_start => true do
+#  watch(%r{^app/.+\.(erb|haml|rhtml|rb)$})
+#  watch(%r{^config/.+\.rb$})
+#  watch(%r{^lib/.+\.rb$})
+#  watch('Gemfile')
+#end

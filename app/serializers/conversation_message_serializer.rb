@@ -1,5 +1,5 @@
 class ConversationMessageSerializer < ActiveModel::Serializer
-  attributes :id, :user_id, :date, :name, :message
+  attributes :id, :user_id, :date, :name, :body
 
   def name
     object.user.name

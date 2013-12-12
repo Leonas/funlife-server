@@ -11,9 +11,6 @@ class RelationshipsController < ApplicationController
 
   end
 
-
-
-
   def destroy
     @user = User.find(params[:user_id])
     if current_user.unfollow!(@user)
@@ -22,4 +19,5 @@ class RelationshipsController < ApplicationController
       render json: {errors: @current_user.errors}, status: :unprocessable_entity
     end
   end
+
 end

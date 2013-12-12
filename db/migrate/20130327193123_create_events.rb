@@ -1,23 +1,18 @@
 class CreateEvents < ActiveRecord::Migration
   def change
     create_table :events do |t|
-      t.integer :user_id
-      t.string :name
-      t.string :details
-      t.date :date
-      t.time :time, null: false
-      t.time :duration, null: false
-      t.integer :max_attendance
-      t.boolean :invite_only, default: false
-      t.boolean :allow_request_invite, default: false
-      t.boolean :allow_women, default: false
-      t.boolean :allow_men, default: false
-      t.integer :allow_youngest_age
-      t.integer :allow_oldest_age
-      t.integer :attendees_count, default: 0
+      t.string   :title
+      t.string   :details
+      t.datetime :start_time
+      t.datetime :end_time
+      t.integer  :duration_minutes
+      t.string   :visibility
+      t.integer  :min_age
+      t.integer  :max_age
+      t.integer  :cover_photo_id
+      t.boolean  :activated,  default: false
 
       t.timestamps
     end
-    add_index :events, :user_id
   end
 end

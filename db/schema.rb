@@ -11,22 +11,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131104095551) do
+ActiveRecord::Schema.define(:version => 20131104095552) do
 
   create_table "activities", :force => true do |t|
     t.string "name"
     t.string "icon_url"
   end
-
-  create_table "activity_category_joins", :force => true do |t|
-    t.integer  "activity_id"
-    t.integer  "category_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
-
-  add_index "activity_category_joins", ["activity_id"], :name => "index_activity_category_joins_on_activity_id"
-  add_index "activity_category_joins", ["category_id"], :name => "index_activity_category_joins_on_category_id"
 
   create_table "activity_event_joins", :force => true do |t|
     t.integer  "activity_id"
@@ -48,39 +38,23 @@ ActiveRecord::Schema.define(:version => 20131104095551) do
   add_index "activity_place_joins", ["activity_id"], :name => "index_activity_place_joins_on_activity_id"
   add_index "activity_place_joins", ["place_id"], :name => "index_activity_place_joins_on_place_id"
 
-  create_table "attendees", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "event_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  add_index "attendees", ["event_id"], :name => "index_attendees_on_event_id"
-  add_index "attendees", ["user_id"], :name => "index_attendees_on_user_id"
-
-  create_table "categories", :force => true do |t|
-    t.string   "name",       :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
   create_table "comments", :force => true do |t|
-    t.integer  "user_id",                       :null => false
-    t.integer  "photo_id",                      :null => false
-    t.string   "body",                          :null => false
+    t.integer  "commentable_id"
+    t.string   "commentable_type"
+    t.string   "body"
+    t.integer  "user_id"
     t.integer  "parent_id"
-    t.integer  "children_count", :default => 0
-    t.datetime "created_at",                    :null => false
-    t.datetime "updated_at",                    :null => false
+    t.integer  "children_count",   :default => 0
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
   end
 
-  add_index "comments", ["photo_id"], :name => "index_comments_on_photo_id"
   add_index "comments", ["user_id"], :name => "index_comments_on_user_id"
 
   create_table "conversation_messages", :force => true do |t|
     t.integer  "user_id"
     t.integer  "conversation_id"
-    t.string   "message"
+    t.string   "body"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end
@@ -104,68 +78,52 @@ ActiveRecord::Schema.define(:version => 20131104095551) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "events", :force => true do |t|
+  create_table "event_guests", :force => true do |t|
     t.integer  "user_id"
-    t.string   "name"
+    t.integer  "event_id"
+    t.string   "guest_state"
+    t.string   "message"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "event_guests", ["event_id"], :name => "index_event_guests_on_event_id"
+  add_index "event_guests", ["user_id"], :name => "index_event_guests_on_user_id"
+
+  create_table "events", :force => true do |t|
+    t.string   "title"
     t.string   "details"
-    t.date     "date"
-    t.time     "time",                                    :null => false
-    t.time     "duration",                                :null => false
-    t.integer  "max_attendance"
-    t.boolean  "invite_only",          :default => false
-    t.boolean  "allow_request_invite", :default => false
-    t.boolean  "allow_women",          :default => false
-    t.boolean  "allow_men",            :default => false
-    t.integer  "allow_youngest_age"
-    t.integer  "allow_oldest_age"
-    t.integer  "attendees_count",      :default => 0
-    t.datetime "created_at",                              :null => false
-    t.datetime "updated_at",                              :null => false
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.integer  "duration_minutes"
+    t.string   "visibility"
+    t.integer  "min_age"
+    t.integer  "max_age"
+    t.integer  "cover_photo_id"
+    t.boolean  "activated",        :default => false
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
   end
-
-  add_index "events", ["user_id"], :name => "index_events_on_user_id"
-
-  create_table "invitations", :force => true do |t|
-    t.integer  "user_id",    :null => false
-    t.integer  "event_id",   :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  add_index "invitations", ["event_id"], :name => "index_invitations_on_event_id"
-  add_index "invitations", ["user_id"], :name => "index_invitations_on_user_id"
 
   create_table "photos", :force => true do |t|
     t.integer  "imageable_id"
     t.string   "imageable_type"
-    t.string   "public_id"
-    t.string   "version"
-    t.string   "signature"
-    t.string   "width"
-    t.string   "height"
-    t.string   "format"
-    t.string   "resource_type"
     t.string   "bytes"
-    t.string   "type"
+    t.string   "format"
+    t.string   "height"
+    t.string   "width"
+    t.string   "public_id"
     t.string   "url"
     t.string   "secure_url"
-    t.integer  "comments_count", :default => 0
-    t.integer  "likes_count",    :default => 0
-    t.datetime "created_at",                    :null => false
-    t.datetime "updated_at",                    :null => false
+    t.string   "signature"
+    t.string   "version"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
-
-  create_table "place_user_joins", :force => true do |t|
-    t.integer  "place_id"
-    t.integer  "user_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  add_index "place_user_joins", ["place_id"], :name => "index_place_user_joins_on_place_id"
-  add_index "place_user_joins", ["user_id"], :name => "index_place_user_joins_on_user_id"
 
   create_table "places", :force => true do |t|
+    t.string   "location_id"
+    t.string   "location_type"
     t.string   "name"
     t.string   "street_address"
     t.integer  "zip_code"
@@ -193,20 +151,55 @@ ActiveRecord::Schema.define(:version => 20131104095551) do
   add_index "relationships", ["follower_id", "followed_id"], :name => "index_relationships_on_follower_id_and_followed_id", :unique => true
   add_index "relationships", ["follower_id"], :name => "index_relationships_on_follower_id"
 
+  create_table "taggings", :force => true do |t|
+    t.integer  "tag_id"
+    t.integer  "taggable_id"
+    t.string   "taggable_type"
+    t.integer  "tagger_id"
+    t.string   "tagger_type"
+    t.string   "context"
+    t.datetime "created_at"
+  end
+
+  add_index "taggings", ["tag_id"], :name => "index_taggings_on_tag_id"
+  add_index "taggings", ["taggable_id", "taggable_type", "context"], :name => "index_taggings_on_taggable_id_and_taggable_type_and_context"
+
+  create_table "tags", :force => true do |t|
+    t.string "name"
+  end
+
   create_table "users", :force => true do |t|
     t.string   "email"
-    t.string   "password_digest"
     t.string   "first_name"
     t.string   "last_name"
+    t.string   "password_digest"
     t.string   "token"
     t.string   "gender"
     t.date     "birthday"
     t.integer  "main_photo_id"
     t.integer  "avatar_id"
-    t.integer  "following_count", :default => 0
-    t.integer  "followers_count", :default => 0
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
+    t.integer  "following_count",   :default => 0
+    t.integer  "followers_count",   :default => 0
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
+    t.boolean  "completed_profile"
   end
+
+  create_table "votes", :force => true do |t|
+    t.integer  "votable_id"
+    t.string   "votable_type"
+    t.integer  "voter_id"
+    t.string   "voter_type"
+    t.boolean  "vote_flag"
+    t.string   "vote_scope"
+    t.integer  "vote_weight"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "votes", ["votable_id", "votable_type", "vote_scope"], :name => "index_votes_on_votable_id_and_votable_type_and_vote_scope"
+  add_index "votes", ["votable_id", "votable_type"], :name => "index_votes_on_votable_id_and_votable_type"
+  add_index "votes", ["voter_id", "voter_type", "vote_scope"], :name => "index_votes_on_voter_id_and_voter_type_and_vote_scope"
+  add_index "votes", ["voter_id", "voter_type"], :name => "index_votes_on_voter_id_and_voter_type"
 
 end

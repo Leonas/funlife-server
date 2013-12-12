@@ -7,4 +7,3 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 #
 # For Run use rake db:seed
-Category.where(name: "custom").first_or_create!

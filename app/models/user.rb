@@ -1,22 +1,8 @@
 class User < ActiveRecord::Base
-  include ActiveModel::SecurePassword
-  has_secure_password
-
-  GENDERS = %w(male female)
-
-  attr_accessible :email,
-                  :first_name,
-                  :last_name,
-                  :main_photo_id,
-                  :avatar_id
-
-
-  attr_protected :token, :password_digest
-
-  validates :email, presence: true, uniqueness: true
-  validates :gender, inclusion: { in: GENDERS, allow_nil: true }
-
-  before_create :ensure_authentication_token!
+  has_secure_password #validations: false  #uncomment this for rails4
+  acts_as_voter
+  acts_as_tagger
+  acts_as_taggable_on :favorite_activities
 
 
   #conversations
@@ -24,18 +10,9 @@ class User < ActiveRecord::Base
   has_many :conversations,              through:   :conversation_user_joins
   has_many :conversation_messages
 
-
-  #places to get invited to
-  has_many :place_user_joins,           dependent: :destroy
-  has_many :favorite_places,                 through: :place_user_joins, source: :place
-
-
   #events
-  has_many :events
-  has_many :invitations,                dependent: :destroy
-  has_many :invited_events,             through: :invitations, source: :event
-  has_many :attendees,                  dependent: :destroy                     #why is this here?
-  has_many :attended_events,            through: :attendees,   source: :event
+  has_many :guest_states,               class_name: "EventGuest", dependent: :destroy
+  has_many :events,                     through: :guest_states
 
 
   #relationships
@@ -46,23 +23,44 @@ class User < ActiveRecord::Base
 
 
   #general
-  has_many :photos,                     as: :imageable, dependent: :destroy
+  has_many :photos,                     as: :imageable, dependent: :destroy, order: 'created_at DESC'
   has_many :comments,                   dependent: :destroy
-  has_many :likes,                      dependent: :destroy
 
+
+  validates :email,           presence: true, uniqueness: true
+  validates :gender,          inclusion: { in: ["male", "female"], allow_nil: true }
+
+  validates :password, length: { minimum: 6 }, allow_nil: true
+  before_save { self.email = email.downcase }
+  #before_save { completed_profile? }
+  before_create :ensure_authentication_token!
 
   ##################################################
   #  Definitions  ##################################
   ##################################################
 
-  def full_name
-    "#{first_name} #{last_name}"
+  def completed_profile?
+    self.completed_profile = [
+        self.email,
+        self.first_name,
+        self.last_name,
+        self.gender,
+        self.birthday,
+        self.main_photo_id,
+        self.avatar_id
+    ].all? { |attribute| attribute.blank?}
+
   end
 
   def name
     "new user"
     "#{first_name} #{last_name.chr}." if first_name and last_name
   end
+
+  def full_name
+    "#{first_name} #{last_name}"
+  end
+
 
   ##################################################
   #  Actions  ######################################
@@ -101,33 +99,25 @@ class User < ActiveRecord::Base
     #todo
   end
 
-  def add_favorite_place!(place)
-     place_user_joins.create!(place_id: place.id)
-  end
-
-  def remove_favorite_place!(place)
-    place_user_joins.find(place.id).destroy
-  end
-
   ##################################################
   #  Queries  ######################################
   ##################################################
 
-  #def feed_events
-  #  event = Event.arel_table
-  #
-  #  # Includes the current_user's Events
-  #  user_ids = self.following_ids.push(self.id)
-  #
-  #  Event.where(
-  #    event[:user_id].in(user_ids).or(
-  #      event[:allow_join].eq(true)
-  #    )
-  #  )
-  #end
-  #
-  #def following_photos
-  #  # ActiveRecord::Relation
-  #  Photo.where(user_id: self.followings.select("following_id"))
-  #end
+  def upcoming_events
+    event = Event.arel_table
+
+    # Includes the current_user's Events
+    user_ids = self.followed_users.push(self.id)
+
+    Event.where(
+      event[:user_id].in(user_ids).or(
+        event[:allow_join].eq(true)
+      )
+    )
+  end
+
+  def following_photos
+    Photo.where(user_id: self.followed_users.select("following_id"))
+  end
+
 end

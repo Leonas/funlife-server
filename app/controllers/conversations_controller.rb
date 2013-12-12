@@ -23,7 +23,7 @@ class ConversationsController < ApplicationController
     @user_ids << @current_user.id
 
     @conversation = @current_user.conversations.build(user_ids: @user_ids)
-    @conversation_message = @current_user.conversation_messages.build(user_id: @current_user.id, message: params[:conversation][:message])
+    @conversation_message = @current_user.conversation_messages.build(user_id: @current_user.id, body: params[:conversation][:message])
     @conversation.conversation_messages << @conversation_message
     @conversation_message.conversation = @conversation
 

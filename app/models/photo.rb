@@ -1,34 +1,27 @@
 class Photo < ActiveRecord::Base
 
   belongs_to :imageable,   polymorphic: true
-  has_many   :comments,    dependent: :destroy
-  has_many   :likes,       dependent: :destroy
-  has_many   :user_likes,  through: :likes, source: :user
+  has_many   :comments,    as: :commentable, dependent: :destroy
 
+  acts_as_votable
 
-  attr_accessible :bytes,
-                  :format,
-                  :height,
-                  :public_id,
-                  :resource_type,
-                  :secure_url,
-                  :signature,
-                  :type,
-                  :url,
-                  :version,
-                  :width,
-                  :type
+  def self.cloudinary_auth
+    @timestamp = Time.now.to_i
+    @cloudinary = CLOUDINARY[Rails.env.to_sym]
+    @signature = Digest::SHA1.hexdigest("timestamp=#{@timestamp}#{@cloudinary['api_secret']}")
+    @auth = {
+        timestamp: @timestamp,
+        api_key: @cloudinary['api_key'],
+        signature: @signature,
+        upload_url: @cloudinary['upload_url']
+    }
+  end
 
-  #def liked?(user)
-  #  !!likes.where(user_id: user.id).first
-  #end
-  #
-  #def toggle_like(user)
-  #   if like == likes.where(user_id: user).first
-  #    like.destroy
-  #  else
-  #    likes << Like.new(user_id: user)
-  #  end
-  #end
+  def date
+    updated_at #needs to be in human format
+  end
 
+  def like_count
+    likes.size
+  end
 end

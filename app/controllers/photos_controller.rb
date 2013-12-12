@@ -1,24 +1,18 @@
+require 'digest/sha1'
+
 class PhotosController < ApplicationController
   before_filter :set_photo, only: [:destroy]
 
 
-  # GET /photos
-  def index
-    @photos = @current_user.photos
-    render json: @photos
+  # GET /photos/auth
+  # used to get auth for cloudinary
+  def auth
+    @auth = Photo.cloudinary_auth
+    @upload_auth = { upload_auth: @auth }
+    render json: @upload_auth, status: :created
   end
 
-  # GET /photos/following
-  def following
-    @photos = @current_user.following_photos
-    render json: @photos
-  end
 
-  # GET /photos/friends
-  def explore
-    @photos = Photo.all
-    render json: @photos
-  end
 
   # GET /photos/1
   def show
@@ -26,9 +20,26 @@ class PhotosController < ApplicationController
     render json: @photo
   end
 
+
+
+  #POST /photos/:id/like
+  def like
+    @photo = Photo.find(params[:id])
+    if current_user.liked? @photo
+      @photo.unliked_by current_user
+      head :deleted
+    else
+      @photo.liked_by current_user
+      head :created
+    end
+
+  end
+
+
+
   # POST /photos
   def create
-    @photo = @current_user.photos.build(params[:photo])
+    @photo = current_user.photos.build(photo_params)
     if @photo.save
       render json: @photo, status: :created
     else
@@ -36,21 +47,33 @@ class PhotosController < ApplicationController
     end
   end
 
+
+
   # DELETE /photos/1
   def destroy
     @photo.destroy
     head :no_content
   end
 
-  def like
-    @photo = Photo.find(params[:id])
-    @photo.toggle_like(current_user)
-    head :no_content
-  end
+
 
   private
 
+  def photo_params
+    params.require(:photo).permit(
+        :bytes,
+        :format,
+        :height,
+        :width,
+        :public_id,
+        :url,
+        :secure_url,
+        :signature,
+        :version
+    )
+  end
+
   def set_photo
-    @photo = @current_user.photos.find(params[:id])
+    @photo = current_user.photos.find(params[:id])
   end
 end

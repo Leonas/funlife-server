@@ -93,16 +93,15 @@ ActiveRecord::Schema.define(:version => 20131104095552) do
   create_table "events", :force => true do |t|
     t.string   "title"
     t.string   "details"
-    t.date     "date"
-    t.time     "start_time"
-    t.time     "end_time"
-    t.time     "duration"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.integer  "duration_minutes"
     t.string   "visibility"
     t.integer  "min_age"
     t.integer  "max_age"
-    t.boolean  "activated",  :default => false
-    t.datetime "created_at",                    :null => false
-    t.datetime "updated_at",                    :null => false
+    t.boolean  "activated",        :default => false
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
   end
 
   create_table "photos", :force => true do |t|

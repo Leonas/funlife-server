@@ -4,7 +4,6 @@ class User < ActiveRecord::Base
   acts_as_tagger
   acts_as_taggable_on :favorite_activities
 
-  GENDERS = ["male", "female"]
 
   #conversations
   has_many :conversation_user_joins
@@ -29,7 +28,7 @@ class User < ActiveRecord::Base
 
 
   validates :email,           presence: true, uniqueness: true
-  validates :gender,          inclusion: { in: GENDERS, allow_nil: true }
+  validates :gender,          inclusion: { in: ["male", "female"], allow_nil: true }
 
   validates :password, length: { minimum: 6 }, allow_nil: true
   before_save { self.email = email.downcase }

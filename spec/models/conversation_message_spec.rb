@@ -9,7 +9,7 @@ describe ConversationMessage do
       @conversation = Factory.create(:conversation, created_by: @user1, to_users: [@user2], message: "message1")
       @user1_message1 = @conversation.conversation_messages.first
       @user2_message1 = Factory.create(:conversation_message, user: @user2, conversation: @conversation, body: "message2", created_at: 1.day.from_now, updated_at: 1.day.from_now)
-      @user2_message2 = Factory.create(:conversation_message, user: @user2, conversation: @conversation, body: "message3", created_at: 2.days.from_now, updated_at: 2.day.from_now)
+      @user2_message2 = Factory.create(:conversation_message, user: @user2, conversation: @conversation, body: "message3", created_at: 2.days.from_now, updated_at: 2.days.from_now)
     end
 
     describe "the conversation" do

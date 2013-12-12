@@ -46,7 +46,6 @@ class EventsController < ApplicationController
         :end_time,
         :duration,
         :visibility,
-        :hidden,
         :min_age,
         :max_age
     )

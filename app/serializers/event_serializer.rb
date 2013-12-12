@@ -1,6 +1,17 @@
 class EventSerializer < ActiveModel::Serializer
-  attributes :id, :headline, :details, :date, :start_time, :end_time,
-    :allow_join, :maximum_users, :waitlist, :cost, :address, :attendees_count
+  attributes :id,
+             :headline,
+             :details,
+             :date,
+             :start_time,
+             :end_time,
+             :allow_join,
+             :maximum_users,
+             :waitlist,
+             :cost,
+             :address,
+             :attendees_count
+
   has_one :user, embed: :ids
   has_many :guests, embed: :ids
   has_many :categories, embed: :objects

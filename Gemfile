@@ -8,10 +8,12 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'pg'
 gem 'yajl-ruby', require: 'yajl', require: 'yajl/json_gem' #JSON encode/decode
 gem 'kaminari'  # best pagination gem
-#gem 'cancan'   #this hasn't been implemented yet but should be
+#gem 'cancan'   #this hasn't been implemented yet but should be and doesn't work in rails 4
 gem 'acts-as-taggable-on'
 gem 'acts_as_votable'
 gem 'strong_parameters'
+#gem 'whisper'       #read more about this and definately use it https://github.com/krisleech/wisper
+#add https://www.ruby-toolbox.com/categories/spam_detection
 
 
 group :production do
@@ -57,7 +59,6 @@ group :development, :test do
   gem 'json_spec', github: 'Leonas/json_spec'
   #gem 'json_spec', path: '/Users/Leonas/funlife-code/json_spec'
 
-  #add https://www.ruby-toolbox.com/categories/spam_detection
 end
 
 

@@ -13,7 +13,7 @@ resource "Conversations" do
     @conversation2 = Factory.create(:conversation, created_by: @user2, to_users: [@user1])
     @conversation3 = Factory.create(:conversation, created_by: @user2, to_users: [@user3])
     Timecop.freeze(Date.today + 1) do @conversation4  = Factory.create(:conversation, created_by: @user3, to_users: [@user1]) end
-    @user1_message1 = Factory.create(:conversation_message, user: @user1, conversation: @conversation1, message: "message1_1")
+    @user1_message1 = Factory.create(:conversation_message, user: @user1, conversation: @conversation1, body: "message1_1")
     Timecop.freeze(Date.today + 1) do @user2_message1 = Factory.create(:conversation_message, user: @user2, conversation: @conversation1, body: "message2_1") end
     Timecop.freeze(Date.today + 2) do @user2_message2 = Factory.create(:conversation_message, user: @user2, conversation: @conversation1, body: "message2_2", created_at: 2.days.from_now) end
   end
@@ -41,13 +41,13 @@ resource "Conversations" do
           {
             id: @conversation4.id,
             users: [@user3.name],
-            latest_message: @conversation4.conversation_messages.last.message,
+            latest_message: @conversation4.conversation_messages.last.body,
             date: @conversation4.updated_at.strftime("%b %d,  %I:%M%P")
           },
           {
             id: @conversation2.id,
             users: [@user2.name],
-            latest_message: @conversation2.conversation_messages.last.message,
+            latest_message: @conversation2.conversation_messages.last.body,
             date: @conversation2.updated_at.strftime("%b %d,  %I:%M%P")
           }
         ]
@@ -86,21 +86,21 @@ resource "Conversations" do
                                                         user_id: @user2.id,
                                                         date: @user2_message2.updated_at.strftime("%b %d,  %I:%M%P"),
                                                         name: @user2.name,
-                                                        message: @user2_message2.message
+                                                        body: @user2_message2.body
                                                     },
                                                     {
                                                         id:@user2_message1.id,
                                                         user_id: @user2.id,
                                                         date: @user2_message1.updated_at.strftime("%b %d,  %I:%M%P"),
                                                         name: @user2.name,
-                                                        message: @user2_message1.message
+                                                        body: @user2_message1.body
                                                     },
                                                     {
                                                         id:@user1_message1.id,
                                                         user_id: @user1.id,
                                                         date: @user1_message1.updated_at.strftime("%b %d,  %I:%M%P"),
                                                         name: @user1.name,
-                                                        message: @user1_message1.message
+                                                        body: @user1_message1.body
                                                     }
                                                 ]
                                             }
@@ -159,7 +159,6 @@ resource "Conversations" do
     header "Authorization", :user_token
     parameter :id, "conversation id",   required: true
     parameter :message, "message",      required: true
-    #parameter :timestamp, "timestamp", scope: :conversation_message               #can add this in later to measure time delay
 
     let(:conversation_id)      { @conversation1.id }
     let(:message) { "wassup" }
@@ -175,7 +174,7 @@ resource "Conversations" do
             user_id: @user1.id,
             date: @conversation1.conversation_messages.last.updated_at.strftime("%b %d,  %I:%M%P"),
             name: @user1.name,
-            message: "wassup"
+            body: "wassup"
           }
 
       }.to_json)
@@ -192,27 +191,14 @@ resource "Conversations" do
   delete "/conversations/:id" do #######           #this needs to just hide it
   ######################################
 
-    header "Authorization", generate_token(@user1)
+    header "Authorization", :user_token
     parameter :id, "conversation id", required: true
+
+    let!(:id) { @conversation1.id }
 
     example_request "Delete a conversation" do
       explanation "A conversation gets removed from the user's inbox"
-      status.should == 209
+      status.should == 204
     end
   end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 end

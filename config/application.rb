@@ -38,6 +38,22 @@ module FunlifeServer
 
     config.active_record.whitelist_attributes = false   # using strong_parameters instead
     config.assets.enabled = false
+    config.session_store = :disabled             #possibly use something else to speed things up
+    config.beginning_of_week = :monday
+    config.serve_static_assets = false
+    config.action_controller.allow_forgery_protection = false #disable CSRF protection
+    config.active_support.escape_html_entities_in_json = true
+    config.active_support.use_standard_json_time_format = true # enables serializing dates to ISO 8601 format
+
+
+    #config.action_dispatch.default_headers = {
+    #    'X-Frame-Options'  => 'SAMEORIGIN',
+    #    'X-XSS-Protection' => '1; mode=block',
+    #    'X-Content-Type-Options' => 'nosniff'
+    #}                                                    #is this really the default?
+
+
+
 
     config.generators do |g|
       g.assets          false
@@ -46,6 +62,13 @@ module FunlifeServer
       g.orm             :active_record
       g.stylesheets     false
       g.template_engine nil
+    end
+
+    console do
+      # this block is called only when running console,
+      # so we can safely require pry here
+      require "pry"
+      config.console = Pry
     end
   end
 end

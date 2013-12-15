@@ -14,7 +14,7 @@ class ConversationSerializer < ActiveModel::Serializer
   end
 
   def latest_message
-   object.conversation_messages.last.message
+   object.conversation_messages.last.body
   end
 
 end

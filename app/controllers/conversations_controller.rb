@@ -12,20 +12,18 @@ class ConversationsController < ApplicationController
 
   # GET /conversations/1
   def show
-    #render json: @conversation
     render json: @conversation, root: :conversation, serializer: ConversationMessagesSerializer
   end
 
 
   # POST /conversations
   def create
+    #add all users including current users to conversation users
     @user_ids = params[:conversation][:user_ids]
-    @user_ids << @current_user.id
+    #@user_ids << @current_user.id
 
-    @conversation = @current_user.conversations.build(user_ids: @user_ids)
-    @conversation_message = @current_user.conversation_messages.build(user_id: @current_user.id, body: params[:conversation][:message])
-    @conversation.conversation_messages << @conversation_message
-    @conversation_message.conversation = @conversation
+    @conversation = current_user.conversations.build(user_ids: @user_ids,
+                                       conversation_messages_attributes: [body: params[:conversation][:message]])
 
     if @conversation.save
       render json: @conversation, status: :created, location: @conversation

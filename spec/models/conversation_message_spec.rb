@@ -15,7 +15,7 @@ describe ConversationMessage do
     describe "the conversation" do
       it "should have three messages"                do expect(@conversation.conversation_messages.all.length).to eq(3) end
       it "should have two users"                     do expect(@conversation.users.length).to eq(2) end
-      it "should return all the messages"            do expect(@conversation.conversation_messages.since).to eq([@user2_message2, @user2_message1, @user1_message1]) end
+      it "should return all the messages in the right order" do expect(@conversation.conversation_messages).to eq([@user2_message2, @user2_message1, @user1_message1]) end
       it "should return messages since timestamp"    do expect(@conversation.conversation_messages.since(@user2_message1.created_at)).to eq([@user2_message2, @user2_message1]) end
     end
 

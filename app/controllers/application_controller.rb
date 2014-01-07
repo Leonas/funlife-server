@@ -31,20 +31,20 @@ class ApplicationController < ActionController::Base
     headers['Access-Control-Allow-Headers'] = '*, x-requested-with, Content-Type, Authorization'
     headers["Access-Control-Max-Age"] = '1728000'
   end
-  #
+
+
   def options
     cors_preflight_check
   end
 
 
   def cors_preflight_check
-    if request.method == 'OPTIONS' || request.request_method == 'OPTIONS'
-      headers['Access-Control-Allow-Origin'] = '*'
+    if request.method == 'OPTIONS' or request.request_method == 'OPTIONS'
+      headers['Access-Control-Allow-Origin']  = '*'
       headers['Access-Control-Allow-Methods'] = 'GET, POST, PATCH, PUT, DELETE, OPTIONS'
       headers['Access-Control-Allow-Headers'] = '*, x-requested-with, Content-Type, Authorization'
-      headers["Access-Control-Max-Age"] = '1728000'
-      #head(:ok)
-      render :text => '', :content_type => 'text/plain'
+      headers["Access-Control-Max-Age"]       = '1728000'
+      render text: '', content_type: 'text/plain'
     end
   end
 

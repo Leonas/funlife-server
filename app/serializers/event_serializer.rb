@@ -1,20 +1,14 @@
 class EventSerializer < ActiveModel::Serializer
   attributes :id,
-             :headline,
+             :title,
              :details,
-             :date,
              :start_time,
              :end_time,
-             :allow_join,
-             :maximum_users,
-             :waitlist,
-             :cost,
-             :address,
-             :attendees_count
+             :cover_photo_id
 
-  has_one :user, embed: :ids
-  has_many :guests, embed: :ids
-  has_many :categories, embed: :objects
+  has_many :admins
+  has_many :guests
+  has_many :categories, serializer: CategoriesSerializer
 
   def start_time
     object.start_time.try{ |x| x.strftime("%I:%M%p") }
@@ -23,4 +17,5 @@ class EventSerializer < ActiveModel::Serializer
   def end_time
     object.end_time.try{ |x| x.strftime("%I:%M%p") }
   end
+
 end

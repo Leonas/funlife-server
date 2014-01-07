@@ -1,11 +1,10 @@
 require 'digest/sha1'
 
 class PhotosController < ApplicationController
-  before_filter :set_photo, only: [:destroy]
 
 
-  # GET /photos/auth
-  # used to get auth for cloudinary
+  #get /photos/auth
+  #gets auth for cloudinary
   def auth
     @auth = Photo.cloudinary_auth
     @upload_auth = { upload_auth: @auth }
@@ -14,7 +13,7 @@ class PhotosController < ApplicationController
 
 
 
-  # GET /photos/1
+  #get /photos/1
   def show
     @photo = Photo.find(params[:id])
     render json: @photo
@@ -22,7 +21,7 @@ class PhotosController < ApplicationController
 
 
 
-  #POST /photos/:id/like
+  #post /photos/:id/like
   def like
     @photo = Photo.find(params[:id])
     if current_user.liked? @photo
@@ -37,7 +36,7 @@ class PhotosController < ApplicationController
 
 
 
-  # POST /photos
+  #post /photos
   def create
     @photo = current_user.photos.build(photo_params)
     if @photo.save
@@ -49,8 +48,9 @@ class PhotosController < ApplicationController
 
 
 
-  # DELETE /photos/1
+  #delete /photos/1
   def destroy
+    @photo = current_user.photos.find(params[:id])
     @photo.destroy
     head :no_content
   end
@@ -73,7 +73,4 @@ class PhotosController < ApplicationController
     )
   end
 
-  def set_photo
-    @photo = current_user.photos.find(params[:id])
-  end
 end

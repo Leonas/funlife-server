@@ -3,10 +3,11 @@ require 'spec_helper'
 describe PhotosController do
 
   let(:user1) { Factory.create(:user) }
+
   before do
     login_user user1
-    @photo1 = Factory.create(:photo, uploaded_by: user1)
-    @photo2 = Factory.create(:photo, uploaded_by: user1)
+    @photo1 = Factory.create(:photo, user: user1)
+    @photo2 = Factory.create(:photo, user: user1)
   end
 
   def photo_attrs
@@ -28,7 +29,7 @@ describe PhotosController do
 
 
     describe "DELETE to #destroy" do
-      it "should destroy a new photo" do
+      it "should destroy the photo" do
         expect{
           delete :destroy, id: @photo1.id
         }.to change(Photo, :count).by(-1)

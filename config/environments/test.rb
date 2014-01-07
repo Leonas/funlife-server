@@ -1,7 +1,7 @@
 FunlifeServer::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
-  config.cache_classes = true
+  config.cache_classes = false
   config.whiny_nils = true
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false

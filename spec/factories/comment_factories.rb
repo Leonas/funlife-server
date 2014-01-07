@@ -1,9 +1,9 @@
-## Read about factories at https://github.com/thoughtbot/factory_girl
-#
-#FactoryGirl.define do
-#  factory :comment do
-#    user
-#    body { Faker::Lorem.sentence(10) }
-#    parent_id nil
-#  end
-#end
+FactoryGirl.define do
+  factory :comment do
+    user
+    commentable_id
+    commentable_type
+    text { Faker::Lorem.sentence(10) }
+    parent_id nil
+  end
+end

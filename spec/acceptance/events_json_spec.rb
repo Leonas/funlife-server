@@ -218,7 +218,7 @@ resource "Events" do
                                             conversation: {
                                                 id: Conversation.last,
                                                 users: [@user2.name],
-                                                latest_message: "hello",
+                                                newest_message: "hello",
                                                 date: Conversation.last.updated_at.strftime("%b %d,  %I:%M%P")
                                             },
 
@@ -277,7 +277,7 @@ resource "Events" do
                                             conversation: {
                                                 id: Conversation.last,
                                                 users: [@user2.name],
-                                                latest_message: "hello",
+                                                newest_message: "hello",
                                                 date: Conversation.last.updated_at.strftime("%b %d,  %I:%M%P")
                                             },
 

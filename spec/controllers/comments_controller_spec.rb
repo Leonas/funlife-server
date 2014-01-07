@@ -58,12 +58,12 @@ describe CommentsController do
       @comment = Factory.create(:comment, photo_id: photo.id)
     end
     it "should update the user" do
-      put :update, photo_id: photo.id, id: @comment.id, comment: { body: "Hey Hey"}
+      put :update, photo_id: photo.id, id: @comment.id, comment: { text: "Hey Hey"}
       should respond_with(:no_content)
     end
 
-    it "shoudl no update the user with invalid params" do
-      put :update, photo_id: photo.id, id: @comment.id, comment: { body: "" }
+    it "should not update the comment with invalid params" do
+      put :update, photo_id: photo.id, id: @comment.id, comment: { text: "" }
       should respond_with(:unprocessable_entity)
     end
   end

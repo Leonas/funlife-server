@@ -9,13 +9,13 @@ resource "Conversations" do
     @user1 = Factory.create(:user)
     @user2 = Factory.create(:user)
     @user3 = Factory.create(:user)
-    @conversation1 = Factory.create(:conversation, created_by: @user1, to_users: [@user2])
-    @conversation2 = Factory.create(:conversation, created_by: @user2, to_users: [@user1])
-    @conversation3 = Factory.create(:conversation, created_by: @user2, to_users: [@user3])
-    Timecop.freeze(Date.today + 1) do @conversation4  = Factory.create(:conversation, created_by: @user3, to_users: [@user1]) end
-    @user1_message1 = Factory.create(:conversation_message, user: @user1, conversation: @conversation1, body: "message1_1")
-    Timecop.freeze(Date.today + 1) do @user2_message1 = Factory.create(:conversation_message, user: @user2, conversation: @conversation1, body: "message2_1") end
-    Timecop.freeze(Date.today + 2) do @user2_message2 = Factory.create(:conversation_message, user: @user2, conversation: @conversation1, body: "message2_2", created_at: 2.days.from_now) end
+    @conversation1 = Factory.create(:conversation, created_by: @user1, users: [@user2])
+    @conversation2 = Factory.create(:conversation, created_by: @user2, users: [@user1])
+    @conversation3 = Factory.create(:conversation, created_by: @user2, users: [@user3])
+    Timecop.freeze(Date.today + 1) do @conversation4  = Factory.create(:conversation, created_by: @user3, users: [@user1]) end
+    @user1_message1 = Factory.create(:conversation_message, user: @user1, conversation: @conversation1, text: "message1_1")
+    Timecop.freeze(Date.today + 1) do @user2_message1 = Factory.create(:conversation_message, user: @user2, conversation: @conversation1, text: "message2_1") end
+    Timecop.freeze(Date.today + 2) do @user2_message2 = Factory.create(:conversation_message, user: @user2, conversation: @conversation1, text: "message2_2") end
   end
   let!(:user_token) { generate_token(@user1)}
 
@@ -34,20 +34,47 @@ resource "Conversations" do
         conversations: [
           {
             id: @conversation1.id,
-            users: [@user2.name],
-            latest_message: "message2_2",
+            users: [
+                {
+                    id: @user1.id,
+                    name: @user1.name
+                },
+                {
+                    id: @user2.id,
+                    name: @user2.name
+                }
+                ],
+            newest_message: "message2_2",
             date:  @user2_message2.updated_at.strftime("%b %d,  %I:%M%P")
           },
           {
             id: @conversation4.id,
-            users: [@user3.name],
-            latest_message: @conversation4.conversation_messages.last.body,
+            users: [
+                {
+                    id: @user3.id,
+                    name: @user3.name
+                },
+                {
+                    id: @user1.id,
+                    name: @user1.name
+                }
+                ],
+            newest_message: @conversation4.conversation_messages.last.text,
             date: @conversation4.updated_at.strftime("%b %d,  %I:%M%P")
           },
           {
             id: @conversation2.id,
-            users: [@user2.name],
-            latest_message: @conversation2.conversation_messages.last.body,
+            users: [
+                 {
+                     id: @user1.id,
+                     name: @user1.name
+                 },
+                 {
+                     id: @user2.id,
+                     name: @user2.name
+                 }
+                 ],
+            newest_message: @conversation2.conversation_messages.last.text,
             date: @conversation2.updated_at.strftime("%b %d,  %I:%M%P")
           }
         ]
@@ -78,7 +105,16 @@ resource "Conversations" do
       response_body.should include_json({
 
                                             conversation: {
-                                                users: [@user1.name, @user2.name],
+                                                users: [
+                                                           {
+                                                               id: @user1.id,
+                                                               name: @user1.name
+                                                           },
+                                                           {
+                                                               id: @user2.id,
+                                                               name: @user2.name
+                                                           }
+                                                       ],
 
                                                 conversation_messages: [
                                                     {
@@ -86,21 +122,21 @@ resource "Conversations" do
                                                         user_id: @user2.id,
                                                         date: @user2_message2.updated_at.strftime("%b %d,  %I:%M%P"),
                                                         name: @user2.name,
-                                                        body: @user2_message2.body
+                                                        text: @user2_message2.text
                                                     },
                                                     {
                                                         id:@user2_message1.id,
                                                         user_id: @user2.id,
                                                         date: @user2_message1.updated_at.strftime("%b %d,  %I:%M%P"),
                                                         name: @user2.name,
-                                                        body: @user2_message1.body
+                                                        text: @user2_message1.text
                                                     },
                                                     {
                                                         id:@user1_message1.id,
                                                         user_id: @user1.id,
                                                         date: @user1_message1.updated_at.strftime("%b %d,  %I:%M%P"),
                                                         name: @user1.name,
-                                                        body: @user1_message1.body
+                                                        text: @user1_message1.text
                                                     }
                                                 ]
                                             }
@@ -119,11 +155,11 @@ resource "Conversations" do
   ######################################
 
     header "Authorization", :user_token
-    parameter :user_ids, "user IDs", scope: :conversation, required: true, type: :array #TODO not yet implemented to use types
-    parameter :message, "message",   scope: :conversation, required: true
+    parameter :users, "user IDs", scope: :conversation, required: true, type: :array #TODO not yet implemented to use types
+    parameter :text, "message",   scope: :conversation, required: true
 
-    let(:user_ids) { [@user2.id] }
-    let(:message)  { "hello" }
+    let(:users) { [@user2.id] }
+    let(:text)  { "hello u" }
     let(:raw_post) { params.to_json }
 
     example_request "Create a new conversation" do
@@ -131,18 +167,31 @@ resource "Conversations" do
       response_body.should include_json({
 
             conversation: {
-                id: Conversation.last,
-                users: [@user2.name],
-                latest_message: "hello",
-                date:  Conversation.last.updated_at.strftime("%b %d,  %I:%M%P")
+                id: Conversation.last.id,
+                users: [
+                           {
+                               id: @user1.id,
+                               name: @user1.name
+                           },
+                           {
+                               id: @user2.id,
+                               name: @user2.name
+                           }
+                    ],
+                conversation_messages: [
+                        {
+                            id: Conversation.last.conversation_messages.newest.id,
+                            user_id: @user1.id,
+                            date: Conversation.last.conversation_messages.newest.updated_at.strftime("%b %d,  %I:%M%P"),
+                            name: @user1.name,
+                            text: "hello u"
+                        }
+                    ]
+
             },
 
       }.to_json)
 
-      conversation = JSON.parse(response_body)['conversation']
-      expect(conversation['id']).to_not be_nil
-      expect(conversation['date']).to_not be_nil
-      expect(conversation['users']).to_not include [@user1.name]
 
       status.should == 201
     end
@@ -153,15 +202,15 @@ resource "Conversations" do
 
 
   ######################################
-  post "/conversations/:conversation_id/conversation_messages" do
+  post "/conversations/:id/create_message" do
   ######################################
 
     header "Authorization", :user_token
     parameter :id, "conversation id",   required: true
-    parameter :message, "message",      required: true
+    parameter :text, "message",         required: true
 
-    let(:conversation_id)      { @conversation1.id }
-    let(:message) { "wassup" }
+    let(:id)       { @conversation1.id }
+    let(:text)     { "wassup" }
     let(:raw_post) { params.to_json }
 
     example_request "Send a new message to an existing conversation" do
@@ -174,7 +223,7 @@ resource "Conversations" do
             user_id: @user1.id,
             date: @conversation1.conversation_messages.last.updated_at.strftime("%b %d,  %I:%M%P"),
             name: @user1.name,
-            body: "wassup"
+            text: "wassup"
           }
 
       }.to_json)

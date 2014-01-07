@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(:version => 20131104095552) do
   create_table "comments", :force => true do |t|
     t.integer  "commentable_id"
     t.string   "commentable_type"
-    t.string   "body"
+    t.string   "text"
     t.integer  "user_id"
     t.integer  "parent_id"
     t.integer  "children_count",   :default => 0
@@ -54,7 +54,7 @@ ActiveRecord::Schema.define(:version => 20131104095552) do
   create_table "conversation_messages", :force => true do |t|
     t.integer  "user_id"
     t.integer  "conversation_id"
-    t.string   "body"
+    t.string   "text"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end

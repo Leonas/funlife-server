@@ -1,5 +1,6 @@
 class RelationshipsController < ApplicationController
 
+  #post /relationships/:user_id
   def create
     @user = User.find(params[:user_id])
 
@@ -11,6 +12,8 @@ class RelationshipsController < ApplicationController
 
   end
 
+
+  #delete /relationships/:user_id
   def destroy
     @user = User.find(params[:user_id])
     if current_user.unfollow!(@user)

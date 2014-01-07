@@ -34,7 +34,7 @@ class User < ActiveRecord::Base
   validates :gender,          inclusion: { in: ["male", "female"], allow_nil: true }
   validates :password, length: { minimum: 6 }, allow_nil: true
 
-  before_validation { self.email = email.downcase }
+  before_validation { email.try { self.email = email.downcase} }
   before_validation :set_name!
   before_save :check_if_profile_complete
   before_create :ensure_authentication_token!
@@ -105,13 +105,13 @@ class User < ActiveRecord::Base
     self.cover_photo_id = photo.id
   end
 
-  def delete_conversation(conversation)
-    convo = conversation_user_joins.where(conversation_id: conversation.id).take
+  def delete_conversation(conversation_id)
+    convo = conversation_user_joins.where(conversation_id: conversation_id).first
     convo.update_attributes(hidden: true)
   end
 
-  def send_message_to_conversation(conversation, message_body)
-    conversation_messages.create(conversation: conversation, body: message_body)
+  def send_message_to_conversation(conversation, text)
+    conversation_messages.create(conversation: conversation, text: text)
   end
 
   #def conversations

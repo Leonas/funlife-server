@@ -4,7 +4,7 @@ describe EventsController do
   before do
     login_user
   end
-  let(:event) { Factory.create(:event, user_id: @current_user.id) }
+  let(:event) { Factory.create(:event) }
 
   describe "GET to #index" do
     before do
@@ -14,15 +14,12 @@ describe EventsController do
 
     it{ should respond_with(:success) }
 
-    it "should include the pagination attrs" do
-      JSON.parse(response.body)["meta"].should == {"total_records"=>1, "total_pages"=>1, "current_page"=>1}
-    end
   end
 
 
   describe "GET to #show" do
     before do
-      @event = Factory.create(:event_step2, user_id: @current_user.id)
+      @event = Factory.create(:random_future_event)
       @user = Factory.create(:user)
       @event.guests << @user
       @event.users << @user
@@ -57,7 +54,7 @@ describe EventsController do
 
   describe "PUT to #update" do
     it "should update the user" do
-      put :update, id: event.id, event: Factory.attributes_for(:event_step2)
+      put :update, id: event.id, event: Factory.attributes_for(:random_future_event)
       should respond_with(:success)
     end
 
@@ -66,12 +63,6 @@ describe EventsController do
       should respond_with(:unprocessable_entity)
     end
 
-    it "should add categories to the events" do
-      expect{
-        category = Factory.create(:category)
-        put :update, id: event.id, event: Factory.attributes_for(:event_step2).merge({ category_ids: [category.id] })
-      }.to change(EventCategory, :count).by(1)
-    end
   end
 
   describe "DELETE to #destroy" do

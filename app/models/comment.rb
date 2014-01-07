@@ -7,5 +7,5 @@ class Comment < ActiveRecord::Base
 
 
   validates :user, presence: true
-  validates :body, presence: true
+  validates :text, presence: true
 end

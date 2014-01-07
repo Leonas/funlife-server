@@ -12,16 +12,17 @@ FunlifeServer::Application.routes.draw do
 
 
     ############Users################
-    resources :users, only: [:index, :create, :show, :update] do
+    resources :users, only: [:index, :create, :show] do
       member do
         get :following
         get :followers
-        get :photos
         get :fav_places
         get :fav_activities
         get :invitations
+        get :photos
       end
       collection do
+        put :update
         get :dashboard
       end
       resources :comments, only: [:index, :create, :update, :delete]
@@ -30,7 +31,9 @@ FunlifeServer::Application.routes.draw do
 
     ############Conversations################
     resources :conversations, only: [:index, :create, :show, :destroy] do
-      resources :conversation_messages, only: [:index, :create]
+      member do
+        post :create_message
+      end
     end
 
 
@@ -44,7 +47,11 @@ FunlifeServer::Application.routes.draw do
 
     ############Events################
     resources :events, only: [:index, :create, :show, :destroy] do
-      resources :guests, controller: "event_guests", only: [:index, :create, :update, :destroy]
+      resources :guests, controller: "event_guests", only: [:index, :create, :update, :destroy] do
+        collection do
+          get :attending
+        end
+      end
       resources :comments, only: [:index, :create, :update, :delete]
     end
 
@@ -68,6 +75,14 @@ FunlifeServer::Application.routes.draw do
       resources :comments, only: [:index, :create, :update, :delete]
     end
 
+
+    ############Activities################
+    resources :activities, only: [:index, :show] do
+      member do
+        get :events
+        get :places
+      end
+    end
 
     ############Cross Origin Resource Sharing (CORS) ################ is that what this is for?
     match '*options', controller: 'users', action: 'options', constraints: { method: 'OPTIONS' }

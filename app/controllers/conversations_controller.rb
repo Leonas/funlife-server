@@ -1,52 +1,66 @@
 class ConversationsController < ApplicationController
-  before_filter :set_conversation, only: [:show, :destroy]
 
-
-  # GET /conversations
+  #get /conversations
   def index
     @conversations = @current_user.conversations.all
-    @conversations.sort_by! { |conversation| conversation.conversation_messages.last.updated_at}.reverse! #this should be updated to make it faster
-    render json: @conversations
+    render json: @conversations, each_serializer: ConversationOverviewSerializer, root: "conversations"
   end
 
 
-  # GET /conversations/1
+
+  #get /conversations/1
   def show
-    #render json: @conversation
-    render json: @conversation, root: :conversation, serializer: ConversationMessagesSerializer
+    @conversation = @current_user.conversations.find(params[:id])
+    render json: @conversation, serializer: ConversationSerializer, root: "conversation"
   end
 
 
-  # POST /conversations
-  def create
-    @user_ids = params[:conversation][:user_ids]
-    @user_ids << @current_user.id
 
-    @conversation = @current_user.conversations.build(user_ids: @user_ids)
-    @conversation_message = @current_user.conversation_messages.build(user_id: @current_user.id, body: params[:conversation][:message])
-    @conversation.conversation_messages << @conversation_message
-    @conversation_message.conversation = @conversation
+  #post /conversations
+  def create
+
+    @users = params[:conversation][:users]
+    @users << current_user.id
+    @text  = params[:conversation][:text]
+
+    @conversation = current_user.conversations.build(
+        user_ids: @users,
+        conversation_messages_attributes: [user: current_user, text: @text],
+    )
+
+    @users.each do |user|
+      @conversation.conversation_user_joins.build(user_id: user)
+    end
 
     if @conversation.save
-      render json: @conversation, status: :created, location: @conversation
+      render json: @conversation, serializer: ConversationSerializer, root: "conversation", status: :created
     else
       render json: @conversation.errors, status: :unprocessable_entity
     end
   end
 
 
-  # DELETE /conversations/1
-  def destroy
-    #hide instead of destroy the conversations
-    #(@current_user.conversation_user_joins.find_by_conversation_id(params[:id])).destroy
-    #@conversation.destroy
-    head :no_content
+
+  #post /conversations/:id/
+  def create_message
+    @conversation = @current_user.conversations.find(params[:id])
+    @conversation_message = @conversation.conversation_messages.build(text: params[:text], user: current_user)
+
+    if @conversation_message.save
+      render json: @conversation_message, status: :created
+    else
+      render json: @conversation_message.errors, status: :unprocessable_entity
+    end
   end
 
 
-  private
+  #delete /conversations/1
+  def destroy
+    if current_user.delete_conversation(params[:id])
+      head :no_content
+    else
+      render json: @conversation.errors, status: :unprocessable_entity
+    end
 
-  def set_conversation
-    @conversation = @current_user.conversations.find(params[:id])
   end
 end

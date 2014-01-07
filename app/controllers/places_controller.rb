@@ -1,19 +1,19 @@
 class PlacesController < ApplicationController
-  # GET /places
+  #get /places
   def index
     @places = Place.all
 
     render json: @places
   end
 
-  # GET /places/1
+  #get /places/1
   def show
     @place = Place.find(params[:id])
 
     render json: @place
   end
 
-  # POST /places
+  #post /places
   def create
     @place = Place.new(place_params)
 
@@ -24,7 +24,7 @@ class PlacesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /places/1
+  #patch /places/1
   def update
     @place = Place.find(params[:id])
 
@@ -35,13 +35,16 @@ class PlacesController < ApplicationController
     end
   end
 
-  ## DELETE /places/1                                  #sets place to hidden
-  #def destroy
-  #  @place = Place.find(params[:id])
-  #  @place.destroy
-  #
-  #  head :no_content
-  #end
+  #delete /places/1
+  def destroy
+    @place = Place.find(params[:id])
+
+    if @place.hide
+      head :no_content
+    else
+      render json: @place.errors, status: :unprocessable_entity
+    end
+  end
 
  private
 

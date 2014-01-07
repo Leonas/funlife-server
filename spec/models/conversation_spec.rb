@@ -7,7 +7,7 @@ describe Conversation do
   before(:each) do
     @user1 = Factory.create(:user)
     @user2 = Factory.create(:user)
-    @conversation = Factory.create(:conversation, created_by: @user1, to_users: [@user2], message: "hello")
+    @conversation = Factory.create(:conversation, created_by: @user1, users: [@user2], text: "hello")
   end
 
   it "must have at least 2 users"   do
@@ -24,7 +24,7 @@ describe Conversation do
     before do
       @user1 = Factory.create(:user)
       @user2 = Factory.create(:user)
-      @conversation = Factory.create(:conversation, created_by: @user1, to_users: [@user2], message: "hello")
+      @conversation = Factory.create(:conversation, created_by: @user1, users: [@user2], text: "hello")
     end
 
     it "has both users in a conversation"  do expect(@conversation.users).to match_array([@user1, @user2])  end

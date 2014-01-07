@@ -1,32 +1,34 @@
 class EventGuestsController < ApplicationController
-  before_filter :set_event
 
+  #get /events/:id/guests
   def index
-    @users = @event.users
-    render json: @users
+    @event = Event.find(params[:event_id])
+    @guests = @event.users
+    render json: @guests
   end
 
-  def create
-    @attendee = @event.attendees.build(user_id: @current_user)
-
-    if @attendee.save
-      render json: @attendee, status: :created
-    else
-      render json: {errors: @attendee.errors}, status: :unprocessable_entity
-    end
+  #get /events/:id/guests/attending
+  def attending
+    @event = Event.find(params[:event_id])
+    @attending = @event.guests.where(attending: true)
+    render json: @attending
   end
 
-  def create_guest
+  #patch /events/:id/guests
+  def update
+    @event = Event.find(params[:event_id])
     @event = @current_user.events.find(params[:event_id])
     @event.guest_ids << params[:invitation][:user_ids]
-    head :no_content
+
+    if @event_guests.save
+      render json: @attendee, status: :created
+    else
+      render json: { errors: @attendee.errors }, status: :unprocessable_entity
+    end
+
   end
 
   private
-
-  def set_event
-    @event = Event.find(params[:event_id])
-  end
 
   def event_guest_params
     params.require(:event_guests).permit(

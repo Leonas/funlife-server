@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   skip_before_filter :authenticate_user_token, only: [:create, :options]
 
 
-  # GET /users
+  #get /users
   def index
     @users = User.all :conditions => (current_user ? ["id != ?", current_user.id] : [])
     render json: @users, each_serializer: UsersNearbySerializer, root: "users"
@@ -10,7 +10,7 @@ class UsersController < ApplicationController
 
 
 
-  # GET /users/:id
+  #get /users/:id
   def show
     if @current_user.id.to_s == params[:id]
       render json: @current_user, serializer: UserSelfSerializer, root: "user"
@@ -22,7 +22,7 @@ class UsersController < ApplicationController
 
 
 
-  # POST /users
+  #post /users
   def create
     @user = User.new(user_params)
 
@@ -36,7 +36,7 @@ class UsersController < ApplicationController
 
 
 
-  # PATCH /users/:id
+  #patch /users/:id
   def update
     if @current_user.update_attributes(user_params)
       head :no_content
@@ -47,7 +47,7 @@ class UsersController < ApplicationController
 
 
 
-  # GET /users/:id/following
+  #get /users/:id/following
   def following
     @user = User.find(params[:id])
     @users = @user.followed_users      #.paginate(page: params[:page])
@@ -60,7 +60,7 @@ class UsersController < ApplicationController
 
 
 
-  # GET /users/:id/followers
+  #get /users/:id/followers
   def followers
     @user = User.find(params[:id])
     @users = @user.followers          #.paginate(page: params[:page])
@@ -71,6 +71,30 @@ class UsersController < ApplicationController
     end
   end
 
+  #get /users/:id/fav_activities
+  def fav_activities
+
+  end
+
+  #get /users/:id/dashboard
+  def dashboard
+
+  end
+
+  #get /users/:id/photos
+  def photos
+    #this should most likely be not here but rather a routing to the photos controller
+  end
+
+  #get /users/:id/invitations
+  def invitations
+    #only for current user
+  end
+
+  #get /users/:id/fav_places
+  def fav_places
+
+  end
 
 
   def options
@@ -88,6 +112,6 @@ class UsersController < ApplicationController
         :gender,
         :birthday
     )
-
   end
+
 end

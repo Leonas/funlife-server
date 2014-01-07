@@ -1,20 +1,20 @@
 class CommentsController < ApplicationController
 
-  # GET /photos/:photo_id/comments
+  #get /object/:object_id/comments
   def index
-    @comments = Comment.all     #todo this is wrong
+    @comments = Comment.where(commentable_id, params[:commentable_id])
     render json: @comments
   end
 
-  # GET /comments/1
+  #get /comments/1
   def show
     @comment = Comment.find(params[:id])
     render json: @comment
   end
 
-  # POST /comments
+  #post /comments
   def create
-    @comment = Comment.build(comment_params)
+    @comment = current_user.comments.build(comment_params)
     if @comment.save
       render json: @comment, status: :created
     else
@@ -22,17 +22,17 @@ class CommentsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /comments/1
+  #patch /comments/1
   def update
     @comment = Comment.find(params[:id])
-    if @comment.update_attributes(params[:comment])
+    if @comment.update_attributes(comment_params)
       head :no_content
     else
       render json: {errors: @comment.errors}, status: :unprocessable_entity
     end
   end
 
-  # DELETE /comments/1
+  #delete /comments/1
   def destroy
     @comment = Comment.find(params[:id])
     @comment.destroy
@@ -41,12 +41,11 @@ class CommentsController < ApplicationController
 
   private
 
-  def comment_params                       #this stuff is highly questionable
-    params[:comment].merge({user_id: @current_user.id})
+  def comment_params
     params.require(:comment).permit(
         :commentable_id,
         :commentable_type,
-        :body,
+        :text,
         :user_id,
         :parent_id
     )

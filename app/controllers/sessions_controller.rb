@@ -1,7 +1,8 @@
 class SessionsController < ApplicationController
   skip_before_filter :authenticate_user_token, only: [:create]
-  # POST /sessions
-  # POST /sessions.json
+
+
+  #post /sessions
   def create
     auth_params = params[:user] || {}
     @user = User.find_by_email(auth_params[:email])
@@ -13,6 +14,7 @@ class SessionsController < ApplicationController
     end
   end
 
+  #delete /sessions
   def destroy
     @current_user.reset_authentication_token!
     @current_user = nil

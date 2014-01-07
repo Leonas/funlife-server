@@ -6,8 +6,8 @@ FactoryGirl.define do
 
     ignore do
       created_by nil
-      to_users   nil
-      message    nil
+      users   nil
+      text    nil
     end
 
     after(:build) do |conversation, evaluator|
@@ -18,14 +18,14 @@ FactoryGirl.define do
         conversation.users << create(:user)
       end
 
-      if evaluator.to_users && conversation.users
-        (conversation.users).concat(evaluator.to_users)
+      if evaluator.users && conversation.users
+        (conversation.users).concat(evaluator.users)
       else
         conversation.users << create(:user)
       end
 
-      if evaluator.message
-        conversation.conversation_messages << create(:conversation_message, conversation: conversation, user: conversation.users.first, body: evaluator.message)
+      if evaluator.text
+        conversation.conversation_messages << create(:conversation_message, conversation: conversation, user: conversation.users.first, text: evaluator.text)
       else
         conversation.conversation_messages << create(:conversation_message, conversation: conversation, user: conversation.users.first)
       end
@@ -37,7 +37,7 @@ FactoryGirl.define do
   factory :conversation_message do
     association :user
     association :conversation
-    body { Faker::Lorem.sentence(5)  }
+    text { Faker::Lorem.sentence(5)  }
   end
 
 

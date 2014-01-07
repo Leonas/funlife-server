@@ -6,20 +6,23 @@ class User < ActiveRecord::Base
 
 
   #conversations
-  has_many :conversation_user_joins
-  has_many :conversations,              through:   :conversation_user_joins
-  has_many :conversation_messages
+
+  # http://stackoverflow.com/questions/408872/rails-has-many-through-find-by-extra-attributes-in-join-model
+
+  has_many :conversation_user_joins,    conditions: { hidden: false }    # in rails4 this has to be -> { where "hidden = false" }
+  has_many :conversations,              through:   :conversation_user_joins, order: "updated_at DESC"
+  has_many :conversation_messages,      order: "created_at DESC"
 
   #events
   has_many :guest_states,               class_name: "EventGuest", dependent: :destroy
-  has_many :events,                     through: :guest_states
+  has_many :events,                     through: :guest_states, order: "created_at DESC"
 
 
   #relationships
   has_many :relationships,              foreign_key: "follower_id", dependent: :destroy
-  has_many :followed_users,             through: :relationships, source: :followed
+  has_many :followed_users,             through: :relationships, source: :followed, order: "name ASC"
   has_many :reverse_relationships,      foreign_key: "followed_id", class_name: "Relationship", dependent: :destroy
-  has_many :followers,                  through: :reverse_relationships, source: :follower
+  has_many :followers,                  through: :reverse_relationships, source: :follower, order: "name ASC"
 
 
   #general
@@ -29,32 +32,35 @@ class User < ActiveRecord::Base
 
   validates :email,           presence: true, uniqueness: true
   validates :gender,          inclusion: { in: ["male", "female"], allow_nil: true }
-
   validates :password, length: { minimum: 6 }, allow_nil: true
-  before_save { self.email = email.downcase }
-  #before_save { completed_profile? }
+
+  before_validation { email.try { self.email = email.downcase} }
+  before_validation :set_name!
+  before_save :check_if_profile_complete
   before_create :ensure_authentication_token!
 
   ##################################################
   #  Definitions  ##################################
   ##################################################
 
-  def completed_profile?
+  def check_if_profile_complete
     self.completed_profile = [
         self.email,
         self.first_name,
         self.last_name,
+        self.name,
         self.gender,
         self.birthday,
-        self.main_photo_id,
+        self.cover_photo_id,
         self.avatar_id
-    ].all? { |attribute| attribute.blank?}
+    ].all?
 
+    #to prevent .save returning false
+    true
   end
 
-  def name
-    "new user"
-    "#{first_name} #{last_name.chr}." if first_name and last_name
+  def set_name!
+    self.name = "#{first_name} #{last_name.chr}." if first_name and last_name
   end
 
   def full_name
@@ -92,12 +98,28 @@ class User < ActiveRecord::Base
   end
 
   def set_avatar!(photo)
-    #todo
+    self.avatar_id = photo.id
   end
 
-  def set_main_photo!(photo)
-    #todo
+  def set_cover_photo!(photo)
+    self.cover_photo_id = photo.id
   end
+
+  def delete_conversation(conversation_id)
+    convo = conversation_user_joins.where(conversation_id: conversation_id).first
+    convo.update_attributes(hidden: true)
+  end
+
+  def send_message_to_conversation(conversation, text)
+    conversation_messages.create(conversation: conversation, text: text)
+  end
+
+  #def conversations
+  # conversations.where(hidden: false)                #this needs to be a condition on the join model
+  # # super
+  #  #return array of non hidden conversations
+  #  #http://api.rubyonrails.org/classes/ActiveRecord/Associations/ClassMethods.html
+  #end
 
   ##################################################
   #  Queries  ######################################
@@ -114,6 +136,14 @@ class User < ActiveRecord::Base
         event[:allow_join].eq(true)
       )
     )
+  end
+
+  def avatar
+    photos.find(avatar_id)
+  end
+
+  def cover_photo
+    photos.find(cover_photo_id)
   end
 
   def following_photos

@@ -1,16 +1,16 @@
 class EventsController < ApplicationController
 
-  # GET /events
+  #get /events
   def index
 
   end
 
-  # GET /events/1
+  #get /events/1
   def show
     render json: @event
   end
 
-  # POST /events
+  #post /events
   def create
     @event = @current_user.events.build(event_params)
     if @event.save
@@ -20,7 +20,7 @@ class EventsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /events/1
+  #patch /events/1
   def update
     if @event.update_attributes(event_params)
       render json: @event
@@ -29,7 +29,7 @@ class EventsController < ApplicationController
     end
   end
 
-  # DELETE /events/1
+  #delete /events/1
   def destroy
     @event.destroy
     head :no_content

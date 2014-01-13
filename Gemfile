@@ -14,7 +14,10 @@ gem "acts-as-taggable-on", "~> 3.0.1"
 gem "acts_as_votable",     "~> 0.8.0"
 gem "strong_parameters",   "~> 0.2.2"
 gem "paper_trail",         "~> 3.0.0"
-#gem "whisper"       #read more about this and definately use it https://github.com/krisleech/wisper
+#gem "rails_admin",         "~> 0.6.0"   #REQUIRES RAILS 4
+#gem 'rakismet'              #API Key: 1cb00c17c2f3      #anti-spam but not necessary if all posts are from paid members
+
+#gem "whisper"       #pub/sub library for ruby
 #add https://www.ruby-toolbox.com/categories/spam_detection
 
 

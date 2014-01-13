@@ -1,4 +1,5 @@
 class Activity < ActiveRecord::Base
+  has_paper_trail
 
   has_many :activity_place_joins
   has_many :activity_event_joins

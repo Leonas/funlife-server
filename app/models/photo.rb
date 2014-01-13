@@ -1,7 +1,10 @@
 class Photo < ActiveRecord::Base
 
+  has_paper_trail
+
   belongs_to :imageable,   polymorphic: true
   has_many   :comments,    as: :commentable, dependent: :destroy
+
 
   acts_as_votable
 

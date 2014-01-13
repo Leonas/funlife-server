@@ -1,5 +1,7 @@
 class ConversationMessage < ActiveRecord::Base
 
+  has_paper_trail
+
   belongs_to :user
   belongs_to :conversation, inverse_of: :conversation_messages
 

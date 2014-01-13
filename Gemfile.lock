@@ -32,8 +32,9 @@ GIT
     faker (1.2.0)
       i18n (~> 0.5)
 
-PATH
-  remote: /Users/Leonas/funlife-code/rspec_to_iodocs
+GIT
+  remote: https://b1749bc913b7134b5d54b7e833cad2cd91ceb6ad:x-oauth-basic@github.com/Leonas/rspec_to_iodocs.git
+  revision: b0e85aa30a87e4943cf9b019ccb6a9c19b09a3cb
   specs:
     rspec_to_iodocs (1.0.0)
       activesupport (>= 3.0.0)
@@ -281,6 +282,7 @@ DEPENDENCIES
   acts_as_votable (~> 0.8.0)
   awesome_print (~> 1.2.0)
   bcrypt-ruby (~> 3.0.0)
+  brakeman
   database_cleaner (~> 1.2.0)
   factory_girl_rails (~> 4.3.0)
   faker!

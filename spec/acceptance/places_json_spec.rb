@@ -27,7 +27,7 @@ resource "Places" do
     let(:latitude)  { Faker::Address.latitude }
 
     example_request "Get a list of nearby places" do
-      explanation "All places sorted by distance to user with all details given too"
+      explanation "All places sorted by distance to user with all details given per place"
       response_body.should include_json({
           places: [
                     {
@@ -60,8 +60,48 @@ resource "Places" do
                                             #     }
                                             #  }
                                         }.to_json)
+      status.should == 200
+    end
+  end
+
+
+  ######################################
+  post "/places/:id/like" do ###########
+  ######################################
+
+    header "Authorization", :token
+    parameter :id, "Place id", required: true
+
+    example_request "Like or unlike a place" do
+      explanation "Toggles between like/unlike"
+      status.should == 200
+    end
+  end
+
+
+
+  ######################################
+  get "/places/:id" do #################
+  ######################################
+
+
+    example_request "Get place details" do
+      explanation "Place details"
+      response_body.should include_json({
+                                            # { "place":
+                                            #     {
+                                            #      "id": "1",
+                                            #      "title": "Lake Bike Trail",
+                                            #      "events": "Biking, Hiking, Camping, Fishing",
+                                            #      "distance": "4.5",
+                                            #      "rating": "2",
+                                            #      users who want to be invited here: user1, user2, etc
+                                            #     }
+                                            #  }
+                                        }.to_json)
       status.should == 201
     end
   end
+
 
 end

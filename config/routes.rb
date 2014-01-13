@@ -25,7 +25,7 @@ FunlifeServer::Application.routes.draw do
         put :update
         get :dashboard
       end
-      resources :comments, only: [:index, :create, :update, :delete]
+      resources :comments, only: [:index, :create]
     end
 
 
@@ -61,23 +61,28 @@ FunlifeServer::Application.routes.draw do
       collection do
         get :auth
       end
-      member do
-        post :like
+      resources :comments, only: [:index, :create]
+      resources :likes, only: [:create] do
+        collection do
+          delete :destroy
+        end
       end
-      resources :comments, only: [:index, :create, :update, :delete]
     end
 
     ############Places################
     resources :places, only: [:index, :show] do
-
-      member do
-        post :like
-        get  :photos
-        get  :summary
+      resources :comments, only: [:index, :create]
+      resources :likes, only: [:create] do
+        collection do
+          delete :destroy
+        end
       end
-
-      resources :comments, only: [:index, :create, :update, :delete]
     end
+
+
+    ############Comments################
+    resources :comments, only: [:show, :update, :destroy]
+
 
 
     ############Activities################
@@ -88,15 +93,15 @@ FunlifeServer::Application.routes.draw do
       end
     end
 
-    ############Cross Origin Resource Sharing (CORS) ################ is that what this is for?
-    match '*options', controller: 'users', action: 'options', constraints: { method: 'OPTIONS' }
-    match '/users',   controller: 'users', action: 'options', constraints: { method: 'OPTIONS' }
+    ############Cross Origin Resource Sharing (CORS) ################
+    match "*options", controller: "users", action: "options", constraints: { method: "OPTIONS" }
+    match "/users",   controller: "users", action: "options", constraints: { method: "OPTIONS" }
 
   end
 
 
   ############Root################
-  root to: 'users#index'
+  root to: "users#index"
 
 
 end

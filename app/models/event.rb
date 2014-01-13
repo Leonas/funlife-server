@@ -1,5 +1,7 @@
 class Event < ActiveRecord::Base
 
+  has_paper_trail
+
   MAX_DURATION        = 30.days
   LATEST_ALLOWED_DATE = 1.year.from_now
 

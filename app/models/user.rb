@@ -1,4 +1,7 @@
 class User < ActiveRecord::Base
+
+  has_paper_trail
+
   has_secure_password #validations: false  #uncomment this for rails4
   acts_as_voter
   acts_as_tagger

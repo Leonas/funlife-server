@@ -1,5 +1,7 @@
 class Conversation < ActiveRecord::Base
 
+  has_paper_trail
+
   has_many :conversation_user_joins,    dependent: :destroy
   has_many :conversation_messages,      dependent: :destroy, inverse_of: :conversation, order: "created_at DESC"
   has_many :users,                      through: :conversation_user_joins, order: "name ASC"

@@ -1,5 +1,7 @@
 class ConversationUserJoin < ActiveRecord::Base
 
+  has_paper_trail
+
   belongs_to :conversation
   belongs_to :user
 

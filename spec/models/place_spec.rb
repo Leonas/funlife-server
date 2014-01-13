@@ -18,14 +18,12 @@ describe Place do
     end
 
     it "should allow a user to add the place to their favorites" do
-      expect{ @user1.likes(@place1) }.to
-      change{ @place1.likes.size }.by(1)
+      expect{ @user1.likes(@place1) }.to change{ @place1.likes.size }.by(1)
     end
 
     it "should allow a user to unfavorite a place" do
       @user1.likes @place1
-      expect{ @user1.unlike @place1 }.to
-      change{ @place1.likes.size }.by(-1)
+      expect{ @user1.unlike @place1 }.to change{ @place1.likes.size }.by(-1)
     end
 
     it "should show a list of users who favorited a place" do

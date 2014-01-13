@@ -12,7 +12,8 @@ class CreatePhotos < ActiveRecord::Migration
       t.string :secure_url
       t.string :signature
       t.string :version
-
+      t.decimal :longitude
+      t.decimal :latitude
 
       t.timestamps
     end

@@ -105,23 +105,6 @@ describe PlacesController do
       end
     end
 
-    describe "with invalid params" do
-      xit "assigns the place as @place" do
-        place = Place.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        Place.any_instance.stub(:save).and_return(false)
-        put :update, {id: place.to_param, place: {"name" => "invalid value"}}, valid_session
-        assigns(:place).should eq(place)
-      end
-
-      xit "re-renders the 'edit' template" do
-        place = Place.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        Place.any_instance.stub(:save).and_return(false)
-        put :update, {id: place.to_param, place: {"name" => "invalid value"}}, valid_session
-        response.should render_template("edit")
-      end
-    end
   end
 
   describe "DELETE destroy" do
@@ -130,12 +113,6 @@ describe PlacesController do
       expect {
         delete :destroy, {id: place.to_param}, valid_session
       }.to change(Place, :count).by(-1)
-    end
-
-    xit "redirects to the places list" do
-      place = Place.create! valid_attributes
-      delete :destroy, {id: place.to_param}, valid_session
-      response.should redirect_to(places_url)
     end
   end
 

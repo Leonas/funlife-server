@@ -6,7 +6,10 @@ resource "Places" do
   header "Content-Type", "application/json"
 
   let!(:setup_places) do
-
+    @user1 = Factory.create(:user)
+    @user2 = Factory.create(:user)
+    @place1 = Factory.create(:place)
+    @place2 = Factory.create(:place)
   end
   let!(:token) { generate_token(@user1) }
 
@@ -15,50 +18,28 @@ resource "Places" do
   get "/places" do #####################
   ######################################
 
-    parameter :longitude,  "Longitude"
+    parameter :longitude,  "Longitude"   #if not here take from user
     parameter :latitude,   "Latitude"
     parameter :activities, "Activity"
     parameter :categories, "Category"
 
-    let(:longitude) { @user1.longitude }
-    let(:latitude)  { @user1.latitude }
+    let(:longitude) { Faker::Address.longitude }
+    let(:latitude)  { Faker::Address.latitude }
 
     example_request "Get a list of nearby places" do
-      explanation "All places sorted by distance to user"
+      explanation "All places sorted by distance to user with all details given too"
       response_body.should include_json({
-      #                                      "places" : [
-      #    {
-      #        "id" : "1",
-      #    "icon_url" : "/biking.png",
-      #    "lon" : "-23.2342",
-      #    "lat" : "32.1232"
-      #}
-      #]
+          places: [
+                    {
+                        id: @place1.id,
+
+                    }
+                  ]
                                         }.to_json)
-      status.should == 201
+      status.should == 200
     end
   end
 
-  ######################################
-  get "/places/categories" do ##########
-  ######################################
-
-
-    example_request "List all place categories" do
-      explanation ""
-      response_body.should include_json({
-      #                                      "places" : [
-      #    {
-      #        "id" : "1",
-      #    "icon_url" : "/biking.png",
-      #    "lon" : "-23.2342",
-      #    "lat" : "32.1232"
-      #}
-      #]
-                                        }.to_json)
-      status.should == 201
-    end
-  end
 
   ######################################
   get "/places/:id" do #################
@@ -66,7 +47,7 @@ resource "Places" do
 
 
     example_request "Get place details" do
-      explanation "All places sorted by distance to user"
+      explanation "Place details"
       response_body.should include_json({
                                             # { "place":
                                             #     {
@@ -83,29 +64,4 @@ resource "Places" do
     end
   end
 
-  ######################################
-  get "/places/:id/summary" do #########
-  ######################################
-
-    example_request "Get a short summary of place info to be used on the map page" do
-      explanation ""
-      response_body.should include_json({
-
-                                        }.to_json)
-      status.should == 201
-    end
-  end
-
-  ######################################
-  get "/places/:id/photos" do ##########
-  ######################################
-
-    example_request "Get place photos" do
-      explanation ""
-      response_body.should include_json({
-
-                                        }.to_json)
-      status.should == 201
-    end
-  end
 end

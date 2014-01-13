@@ -10,6 +10,12 @@ class CreateEvents < ActiveRecord::Migration
       t.integer  :min_age
       t.integer  :max_age
       t.integer  :cover_photo_id
+      t.string   :street_address
+      t.integer  :zip_code
+      t.string   :city
+      t.string   :state
+      t.decimal  :longitude
+      t.decimal  :latitude
       t.boolean  :activated,  default: false
 
       t.timestamps

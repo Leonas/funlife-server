@@ -69,9 +69,13 @@ FunlifeServer::Application.routes.draw do
 
     ############Places################
     resources :places, only: [:index, :show] do
+
       member do
         post :like
+        get  :photos
+        get  :summary
       end
+
       resources :comments, only: [:index, :create, :update, :delete]
     end
 

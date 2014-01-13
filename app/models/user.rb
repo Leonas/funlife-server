@@ -54,9 +54,7 @@ class User < ActiveRecord::Base
         self.cover_photo_id,
         self.avatar_id
     ].all?
-
-    #to prevent .save returning false
-    true
+    true #to prevent .save returning false and causing a failing validation every time
   end
 
   def set_name!

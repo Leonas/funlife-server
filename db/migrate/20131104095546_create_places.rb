@@ -10,8 +10,7 @@ class CreatePlaces < ActiveRecord::Migration
       t.string  :time_open
       t.string  :time_close
       t.string  :phone
-      t.string  :summary
-      t.string  :description
+      t.text    :description
       t.boolean :visible, default: false
 
       t.timestamps

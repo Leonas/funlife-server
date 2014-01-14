@@ -11,9 +11,7 @@ FactoryGirl.define do
     time_open "8:30am"
     time_close "7pm"
     phone { Faker::PhoneNumber.phone_number }
-    summary { Faker::Lorem.sentence(10) }
-    description { Faker::Lorem.sentences(4) }
-    featured false
+    description { Faker::Lorem.sentences(10) }
 
 
 

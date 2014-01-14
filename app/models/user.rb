@@ -140,11 +140,19 @@ class User < ActiveRecord::Base
   end
 
   def avatar
-    photos.find(avatar_id)
+    if avatar_id
+      photos.find(avatar_id)
+    elsif gender == "male"
+      "imagelinkblue"
+    elsif gender == "female"
+      "imagelinkpink"
+    else
+      "greyimage"
+    end
   end
 
   def cover_photo
-    photos.find(cover_photo_id)
+    photos.find(cover_photo_id) if cover_photo_id
   end
 
   def following_photos

@@ -41,9 +41,9 @@ ActiveRecord::Schema.define(:version => 20140113041140) do
   create_table "comments", :force => true do |t|
     t.integer  "commentable_id"
     t.string   "commentable_type"
-    t.string   "text"
     t.integer  "user_id"
     t.integer  "parent_id"
+    t.text     "text"
     t.integer  "children_count",   :default => 0
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
@@ -54,7 +54,7 @@ ActiveRecord::Schema.define(:version => 20140113041140) do
   create_table "conversation_messages", :force => true do |t|
     t.integer  "user_id"
     t.integer  "conversation_id"
-    t.string   "text"
+    t.text     "text"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end
@@ -82,7 +82,7 @@ ActiveRecord::Schema.define(:version => 20140113041140) do
     t.integer  "user_id"
     t.integer  "event_id"
     t.string   "guest_state"
-    t.string   "message"
+    t.text     "message"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
@@ -92,7 +92,7 @@ ActiveRecord::Schema.define(:version => 20140113041140) do
 
   create_table "events", :force => true do |t|
     t.string   "title"
-    t.string   "details"
+    t.text     "details"
     t.datetime "start_time"
     t.datetime "end_time"
     t.integer  "duration_minutes"
@@ -100,6 +100,12 @@ ActiveRecord::Schema.define(:version => 20140113041140) do
     t.integer  "min_age"
     t.integer  "max_age"
     t.integer  "cover_photo_id"
+    t.string   "street_address"
+    t.integer  "zip_code"
+    t.string   "city"
+    t.string   "state"
+    t.decimal  "longitude"
+    t.decimal  "latitude"
     t.boolean  "activated",        :default => false
     t.datetime "created_at",                          :null => false
     t.datetime "updated_at",                          :null => false
@@ -117,13 +123,13 @@ ActiveRecord::Schema.define(:version => 20140113041140) do
     t.string   "secure_url"
     t.string   "signature"
     t.string   "version"
+    t.decimal  "longitude"
+    t.decimal  "latitude"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
   end
 
   create_table "places", :force => true do |t|
-    t.string   "location_id"
-    t.string   "location_type"
     t.string   "name"
     t.string   "street_address"
     t.integer  "zip_code"
@@ -133,9 +139,8 @@ ActiveRecord::Schema.define(:version => 20140113041140) do
     t.string   "time_open"
     t.string   "time_close"
     t.string   "phone"
-    t.string   "summary"
-    t.string   "description"
-    t.boolean  "featured",       :default => false
+    t.text     "description"
+    t.boolean  "visible",        :default => false
     t.datetime "created_at",                        :null => false
     t.datetime "updated_at",                        :null => false
   end

@@ -1,6 +1,6 @@
 require 'digest/sha1'
 
-class PhotosController < ApplicationController
+class PhotosController < LikeablesObjectController
 
 
   #get /photos/auth

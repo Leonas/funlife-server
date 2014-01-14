@@ -7,13 +7,11 @@ describe Place do
   #TODO add this test on all the specs
 
 
-
-
   context "with two places and a user" do
     let!(:setup) do
       @user1 = Factory.create(:user)
       @user2 = Factory.create(:user)
-      @place1 = Factory.create(:place, featured: true)
+      @place1 = Factory.create(:place, visible: true)
       @place2 = Factory.create(:place)
     end
 
@@ -33,15 +31,11 @@ describe Place do
       expect(@place2.up_votes.order('created_at ASC').limit(1).first.voter).to eq(@user1)
     end
 
-    it "should show the favorite places for a user" do
+    it "should appear in the user's favorite places list" do
       @user1.likes @place1
       expect(@user1.find_up_votes_for_class(Place).size).to eq(1)
     end
 
-    xit "should not be editable by a user if they are not an admin" do
-
-
-    end
 
 
     xit "contains many photos" do

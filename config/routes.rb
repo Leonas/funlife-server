@@ -52,30 +52,30 @@ FunlifeServer::Application.routes.draw do
           get :attending
         end
       end
-      resources :comments, only: [:index, :create, :update, :delete]
+      resources :comments, only: [:index, :create]
     end
 
 
     ############Photos################
-    resources :photos, only: [:create, :show, :delete] do
+    resources :photos, only: [:create, :show, :destroy] do
       collection do
         get :auth
       end
       resources :comments, only: [:index, :create]
-      resources :likes, only: [:create] do
-        collection do
-          delete :destroy
-        end
+      member do
+        post :like
+        post :toggle_like
+        delete :like, to: "photos#unlike"
       end
     end
 
     ############Places################
     resources :places, only: [:index, :show] do
       resources :comments, only: [:index, :create]
-      resources :likes, only: [:create] do
-        collection do
-          delete :destroy
-        end
+      member do
+        post   :like
+        post   :toggle_like
+        delete :like, to: "places#unlike"
       end
     end
 

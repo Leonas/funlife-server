@@ -1,4 +1,8 @@
-class PlacesController < LikeableObjectsController
+require 'shared_actions/likes'
+
+class PlacesController < ApplicationController
+
+  include Likes
 
 
   #get /places

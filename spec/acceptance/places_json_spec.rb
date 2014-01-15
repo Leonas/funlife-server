@@ -19,8 +19,8 @@ resource "Places" do
   ######################################
 
     header "Authorization", :token
-    parameter :longitude,  "Longitude"   #if not here take from user
-    parameter :latitude,   "Latitude"
+    parameter :longitude,  "Longitude", scope: :location   #if not here take from user
+    parameter :latitude,   "Latitude",  scope: :location
 
     let(:longitude) { Faker::Address.longitude }
     let(:latitude)  { Faker::Address.latitude }
@@ -104,6 +104,12 @@ resource "Places" do
                                                             time_close:  @place1.time_close,
                                                             phone:       @place1.phone,
                                                             description: @place1.description,
+                                                            favorited_by: [
+                                                                          {
+                                                                              user_id: 3
+                                                                          }
+                                                                      ],
+
                                                             activities:  [
                                                                              {
                                                                                  id:   4,
@@ -126,11 +132,6 @@ resource "Places" do
                                                                              {
 
                                                                              }
-                                                                         ],
-                                                            liked_by:    [
-                                                                             {
-                                                                                 user_id: 3
-                                                                             }
                                                                          ]
 
                                                         }
@@ -152,7 +153,7 @@ resource "Places" do
     example_request "Like or unlike a place" do
       explanation "Toggles between like/unlike"
       status.should == 201 || 204
-      expect{@place1.likes}.to eq(1)
+      expect(@place1.likes.count).to eq(1)
     end
   end
 
@@ -173,11 +174,11 @@ resource "Places" do
                                             comments: [
                                                           {
                                                               id:        1,
-                                                              parent:    null,
-                                                              thread_depth: 0,
+                                                              parent:    nil,
+                                                              depth: 0,
                                                               user_id:   2,
                                                               user_name: @user1.name,
-                                                              avatar:    @user1.avatar,
+                                                              user_avatar:    @user1.avatar,
                                                               text:   "I'm excited to attend!"
 
                                                           }
@@ -195,10 +196,12 @@ resource "Places" do
 
     header "Authorization", :token
     parameter :id, "Place id", required: true
-    parameter :reply_to, "Reply to comment id"
-    parameter :text, "Comment text"
+    parameter :parent_id, "Reply to comment id", scope: :comment
+    parameter :text, "Comment text",            scope: :comment, required: true
 
     let(:id) { @place1.id }
+    let(:text) { "I'm excited to attend!" }
+    let(:raw_post) { params.to_json }
 
     example_request "Post a comment on the place" do
       explanation "Place comments"

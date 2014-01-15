@@ -251,6 +251,9 @@ resource "Events" do
     parameter :oldest_allowed_age,    "Oldest allowed age",                    scope: :event
 
 
+    #stuff should be set here
+    let(:raw_post) { params.to_json }
+
     example_request "Update an event" do
       explanation "Updates an event if the user owns it"
 

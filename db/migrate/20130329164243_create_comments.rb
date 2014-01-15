@@ -5,6 +5,7 @@ class CreateComments < ActiveRecord::Migration
       t.string  :commentable_type
       t.integer :user_id
       t.integer :parent_id
+      t.integer :depth
       t.text    :text
 
       t.integer :children_count, default: 0

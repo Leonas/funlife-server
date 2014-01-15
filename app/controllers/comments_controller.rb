@@ -1,28 +1,36 @@
 class CommentsController < ApplicationController
 
+
+
   #get /object/:object_id/comments
   def index
-    @comments = Comment.where(commentable_id, params[:commentable_id])
-    render json: @comments
+    @object = get_object
+    @comments = @object.comments
+    render json: @comments, each_serializer: CommentSerializer, root: "comments"
   end
+
+
 
   #get /comments/1
   def show
     @comment = Comment.find(params[:id])
-    render json: @comment
+    render json: @comment, serializer: CommentSerializer, root: "comment"
   end
+
+
 
   #post /comments
   def create
-    #@post = Post.find(params[:post_id])
-    #@comment = @post.comments.create(params[:comment])
-    @comment = current_user.comments.build(comment_params)
+    @object = get_object
+    @comment = @object.comments.create(comment_params)
     if @comment.save
-      render json: @comment, status: :created
+      render json: @comment, status: :created, serializer: CommentSerializer, root: "comment"
     else
       render json: @comment.errors, status: :unprocessable_entity
     end
   end
+
+
 
   #patch /comments/1
   def update
@@ -34,6 +42,8 @@ class CommentsController < ApplicationController
     end
   end
 
+
+
   #delete /comments/1
   def destroy
     @comment = Comment.find(params[:id])
@@ -41,16 +51,23 @@ class CommentsController < ApplicationController
     head :no_content
   end
 
+
+
   private
 
   def comment_params
     params.require(:comment).permit(
-        :commentable_id,
-        :commentable_type,
         :text,
-        :user_id,
         :parent_id
     )
+  end
+
+  def get_object
+    if params[:place_id]
+      Place.find(params[:place_id])
+    elsif params[:photo_id]
+      Photo.find(params[:photo_id])
+    end
   end
 
 end

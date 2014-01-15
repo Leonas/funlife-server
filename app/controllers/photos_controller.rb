@@ -1,7 +1,9 @@
 require 'digest/sha1'
+require 'shared_actions/likes'
 
-class PhotosController < LikeableObjectsController
+class PhotosController < ApplicationController
 
+  include Likes
 
   #get /photos/auth
   #gets auth for cloudinary

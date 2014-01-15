@@ -1,8 +1,10 @@
 class CommentSerializer < ActiveModel::Serializer
-  attributes :id, :text, :user_name
-  has_many :children
+  attributes :id,
+             :parent_id,
+             :children_count,
+             :depth,
+             :text
 
-  def user_name
-    object.user.full_name
-  end
+  has_one :user, serializer: UserMiniSerializer
+
 end

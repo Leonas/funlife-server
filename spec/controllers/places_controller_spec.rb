@@ -3,25 +3,19 @@ require 'spec_helper'
 describe PlacesController do
 
 
-  let(:valid_attributes) { attributes_for(Factory.create(:place)) }
+  let(:valid_attributes) { Factory.attributes_for(:place) }
 
-  let(:valid_session) do
+  before do
+    @place1 = Factory.create(:place)
     @user1 = Factory.create(:user)
     login_user(@user1)
   end
 
-  describe "GET index" do
-    it "assigns all places as @places" do
-      place = Place.create! valid_attributes
-      get :index, {}, valid_session
-      assigns(:places).should eq([place])
-    end
-  end
 
   describe "GET show" do
     it "assigns the requested place as @place" do
       place = Place.create! valid_attributes
-      get :show, {id: place.to_param}, valid_session
+      get :show, {id: place.to_param}
       assigns(:place).should eq(place)
     end
   end
@@ -30,28 +24,16 @@ describe PlacesController do
   describe "POST like" do
     describe "with valid token" do
       it "creates a new like" do
-        expect {
-          post :create, {place: valid_attributes}, valid_session
-        }.to change(Place.likes, :count).by(1)
+        expect { post :toggle_like, id: @place1.id }.to change{ @place1.likes.size }.by(1)
       end
 
       it "assigns the like to the current user" do
-        post :create, {place: valid_attributes}, valid_session
-        assigns(:place).should be_a(Place)
+        post :toggle_like, id: @place1.id
+        expect { @user.liked? @place1 }.to be_true
       end
 
     end
 
-    describe "with invalid token" do
-      it "gives some kind of error" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        Place.any_instance.stub(:save).and_return(false)
-        post :create, {place: {"name" => "invalid value"}}, valid_session
-        assigns(:place).should be_a_new(Place)
-      end
-
-
-    end
   end
 
 

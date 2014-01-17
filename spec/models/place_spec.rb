@@ -38,7 +38,8 @@ describe Place do
 
 
     it "contains many photos" do
-      Factory.create(:photo, )
+      Factory.create(:photo_of_place, imageable: @place1)
+      Factory.create(:photo_of_place, imageable: @place1)
       expect(@place1.photos.count).to eq(2)
 
     end

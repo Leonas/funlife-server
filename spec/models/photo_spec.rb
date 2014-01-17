@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe Photo do
 
+  it "should have a working factory" do
+    expect(Factory.build(:photo)).to be_valid
+  end
+
   before do
     @user1 = Factory.create(:user)
     @user2 = Factory.create(:user)

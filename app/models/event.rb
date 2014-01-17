@@ -10,6 +10,7 @@ class Event < ActiveRecord::Base
   has_many :activities,           through: :activity_event_joins
   has_many :event_guests,         dependent: :destroy
   has_many :users,                through: :event_guests
+  has_many :comments,             as: :commentable, dependent: :destroy
 
   validates :visibility, inclusion: { in: ["everyone", "women_only", "men_only", "invite_only"], allow_nil: true }
   validate :start_time_cannot_be_in_the_past

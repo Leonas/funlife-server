@@ -19,10 +19,13 @@ class CommentsController < ApplicationController
 
 
 
-  #post /comments
+  #post /object/object_id/comments
   def create
     @object = get_object
-    @comment = @object.comments.create(comment_params)
+
+    @comment = @object.comments.build(text: comment_params[:text])
+    @comment.parent = Comment.find(comment_params[:parent_id]) if comment_params[:parent_id]
+    @comment.user = current_user
     if @comment.save
       render json: @comment, status: :created, serializer: CommentSerializer, root: "comment"
     else
@@ -35,7 +38,7 @@ class CommentsController < ApplicationController
   #patch /comments/1
   def update
     @comment = Comment.find(params[:id])
-    if @comment.update_attributes(comment_params)
+    if @comment.update_attributes(text: params[:comment][:text])
       head :no_content
     else
       render json: {errors: @comment.errors}, status: :unprocessable_entity
@@ -67,6 +70,8 @@ class CommentsController < ApplicationController
       Place.find(params[:place_id])
     elsif params[:photo_id]
       Photo.find(params[:photo_id])
+    elsif params[:user_id]
+      User.find(params[:user_id])
     end
   end
 

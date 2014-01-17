@@ -4,11 +4,12 @@ class CreateComments < ActiveRecord::Migration
       t.integer :commentable_id
       t.string  :commentable_type
       t.integer :user_id
-      t.integer :parent_id
-      t.integer :depth
+      t.integer :parent_id, default: 0
+      t.integer :depth, default: 0
+      t.integer :children_count, default: 0
       t.text    :text
 
-      t.integer :children_count, default: 0
+
 
       t.timestamps
     end

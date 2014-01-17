@@ -4,7 +4,6 @@ describe Place do
   it "should have a working factory" do
     expect(Factory.build(:place)).to be_valid
   end
-  #TODO add this test on all the specs
 
 
   context "with two places and a user" do

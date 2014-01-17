@@ -10,5 +10,24 @@ class Comment < ActiveRecord::Base
 
   validates :user,  presence: true
   validates :text,  presence: true
-  validates :depth, numericality: { less_than_or_equal_to: 3 }
+  validates :depth, numericality: { less_than_or_equal_to: 2 }
+
+
+  before_validation :set_depth!
+
+
+  def set_depth!
+    if parent
+      if parent.depth < 2
+        self.depth = parent.depth + 1
+      else
+        self.depth = 2
+      end
+    else
+      self.depth = 0
+    end
+  end
+
+
+
 end

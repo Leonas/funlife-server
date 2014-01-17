@@ -3,6 +3,11 @@ require 'faker'
 
 describe User do
 
+
+  it "should have a working factory" do
+    expect(Factory.build(:user)).to be_valid
+  end
+
   let(:user1) { Factory.create(:user) }
   let(:user2) { Factory.create(:user) }
 

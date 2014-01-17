@@ -71,29 +71,34 @@ class UsersController < ApplicationController
     end
   end
 
-  #get /users/:id/fav_activities
-  def fav_activities
 
-  end
 
-  #get /users/:id/dashboard
+  #get /users/dashboard
   def dashboard
-
+    render json: current_user, serializer: UserDashboardSerializer
   end
 
-  #get /users/:id/photos
-  def photos
-    #this should most likely be not here but rather a routing to the photos controller
-  end
 
-  #get /users/:id/invitations
+  #get /users/invitations
   def invitations
-    #only for current user
+    @invitations = current_user.invitations
+    if @invitations.empty?
+      head :no_content
+    else
+      render json: @invitations, each_serializer: UserInvitationsSerializer
+    end
   end
+
 
   #get /users/:id/fav_places
   def fav_places
-
+    @user  = User.find(params[:id])
+    @places = @user.likes_by_class(Place)
+    if @places.empty?
+      head :no_content
+    else
+      render json: @places, each_serializer: UserFavPlacesSerializer
+    end
   end
 
 

@@ -30,7 +30,8 @@ class User < ActiveRecord::Base
 
   #general
   has_many :photos,                     as: :imageable, dependent: :destroy, order: 'created_at DESC'
-  has_many :comments,                   dependent: :destroy
+  has_many :comments_by_me,             class_name: "Comment", dependent: :destroy, order: 'created_at DESC'
+  has_many :comments,                   as: :commentable, dependent: :destroy, order: 'created_at DESC'
 
 
   validates :email,           presence: true, uniqueness: true

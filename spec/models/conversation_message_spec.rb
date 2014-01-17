@@ -2,6 +2,10 @@ require "spec_helper"
 
 describe ConversationMessage do
 
+  it "should have a working factory" do
+    expect(Factory.build(:conversation_message)).to be_valid
+  end
+
   context "when there are two users in one conversation and three messages sent" do
     before(:all) do
       @user1 = Factory.create(:user)

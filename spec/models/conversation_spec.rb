@@ -2,6 +2,12 @@ require 'spec_helper'
 
 describe Conversation do
 
+
+  it "should have a working factory" do
+    expect(Factory.build(:conversation)).to be_valid
+  end
+
+
   it { should have_many(:users).through(:conversation_user_joins) }
 
   before(:each) do

@@ -3,7 +3,7 @@ FactoryGirl.define do
   factory :photo do
 
     ignore do
-      user nil
+      user nil           #remove this and update to how comments factory is
     end
 
     bytes         "x"

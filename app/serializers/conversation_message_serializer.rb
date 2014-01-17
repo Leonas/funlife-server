@@ -8,6 +8,8 @@ class ConversationMessageSerializer < ActiveModel::Serializer
              :name,
              :text
 
+  #replace this with has one user
+
   def name
     object.user.name
   end

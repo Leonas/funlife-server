@@ -26,7 +26,6 @@ describe EventsController do
       get :show, id: @event.id
     end
 
-    xit{ should assign_to(:event) }
     it{ should respond_with(:success) }
 
     it "should include the guest ids" do

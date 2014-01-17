@@ -11,15 +11,33 @@ resource "Photos" do
     @auth = Photo.cloudinary_auth
     @sample_photo = File.new(File.expand_path("../sample_photo.png", __FILE__))
 
-    options = {
-      query: {
-       file: @sample_photo,
-       api_key: @auth[:api_key],
-       timestamp: @auth[:timestamp],
-       signature: @auth[:signature]
-      }
+    # Live Values
+    #options = {
+    #  query: {
+    #   file: @sample_photo,
+    #   api_key: @auth[:api_key],
+    #   timestamp: @auth[:timestamp],
+    #   signature: @auth[:signature]
+    #  }
+    #}
+    #@cloudinary_response = HTTMultiParty.post(@auth[:upload_url], options)
+
+    #Cached Values
+    @cloudinary_response = {
+        "bytes"=> 41499,
+        "created_at"=> "2014-01-17T06:34:19Z",
+        "etag"=> "850cde4394f78e6ecc4aed306a8b487e",
+        "format"=> "png",
+        "height"=> 256,
+        "public_id"=> "y2bprzrqadkhl1tyoosh",
+        "resource_type"=> "image",
+        "secure_url"=> "https://res.cloudinary.com/funlife/image/upload/v1389940459/y2bprzrqadkhl1tyoosh.png",
+        "signature"=> "bc2a731f6e130f3a5bba802d29853d385d7e5ee9",
+        "type"=> "upload",
+        "url"=> "http://res.cloudinary.com/funlife/image/upload/v1389940459/y2bprzrqadkhl1tyoosh.png",
+        "version"=> 1389940459,
+        "width"=> 256
     }
-    @cloudinary_response = HTTMultiParty.post(@auth[:upload_url], options)
   end
   let!(:token) { @token = generate_token(@user1) }
 
@@ -52,21 +70,21 @@ resource "Photos" do
 
 
   ######################################
-  post "/photos/" do #################
+  post "/photos" do #################
   ######################################
 
     header "Authorization", :token
-    parameter :bytes,      required: true
-    parameter :format,     required: true
-    parameter :height,     required: true
-    parameter :width,      required: true
-    parameter :public_id,  required: true
-    parameter :url,        required: true
-    parameter :secure_url, required: true
-    parameter :signature,  required: true
-    parameter :version,    required: true
+    parameter :bytes, "bytes",      scope: :photo, required: true
+    parameter :format, "format",    scope: :photo, required: true
+    parameter :height, "height",     scope: :photo, required: true
+    parameter :width, "width",      scope: :photo, required: true
+    parameter :public_id, "public_id",  scope: :photo, required: true
+    parameter :url, "URL",        scope: :photo, required: true
+    parameter :secure_url, "secure_url", scope: :photo, required: true
+    parameter :signature, "signature",  scope: :photo, required: true
+    parameter :version, "version",    scope: :photo, required: true
 
-    let(:byes)       { @cloudinary_response["bytes"] }
+    let(:bytes)      { @cloudinary_response["bytes"] }
     let(:format)     { @cloudinary_response["format"] }
     let(:height)     { @cloudinary_response["height"] }
     let(:width)      { @cloudinary_response["width"] }
@@ -86,15 +104,17 @@ resource "Photos" do
 
 
   ######################################
-  post "/photos/:id/like" do ###########
+  post "/photos/:id/toggle_like" do ###########
   ######################################
 
     header "Authorization", :token
     parameter :id, "Photo id", required: true
 
+    let(:id) { @photo1.id }
+
     example_request "Like or unlike a photo" do
       explanation "Toggles between like/unlike"
-      status.should == 200
+      status.should == 201
     end
   end
 
@@ -104,18 +124,21 @@ resource "Photos" do
   get "/photos/:id" do #################
   ######################################
 
+    header "Authorization", :token
     parameter :id, "Photo id", required: true
+
+    let(:id) { @photo1.id }
 
     example_request "View a single photo" do
       explanation "Details for a photo are received"
       response_body.should include_json({
 
                                             photo: {
-                                                id: xxx,
-                                                url: xxx,
-                                                date: xxx,
-                                                like_count: 50,
-                                                liked: true
+                                                id: @photo1.id,
+                                                url: @photo1.url,
+                                                date: @photo1.updated_at.strftime("%b %d,  %I:%M%P"),
+                                                like_count: 0,
+                                                liked: false
                                             }
 
                                         }.to_json)
@@ -132,6 +155,8 @@ resource "Photos" do
 
     header "Authorization", :token
     parameter :id, "Photo id", required: true
+
+    let(:id) { @photo1.id }
 
 
     example_request "Delete a photo" do

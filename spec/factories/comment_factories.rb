@@ -17,6 +17,12 @@ FactoryGirl.define do
     user
     text { Faker::Lorem.sentence(10) }
   end
+
+  factory :comment_on_place, class: "Comment" do
+    association :commentable, factory: :place
+    user
+    text { Faker::Lorem.sentence(10) }
+  end
 end
 
 #t.integer :commentable_id

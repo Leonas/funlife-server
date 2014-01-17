@@ -37,7 +37,9 @@ describe Place do
 
 
 
-    xit "contains many photos" do
+    it "contains many photos" do
+      Factory.create(:photo, )
+      expect(@place1.photos.count).to eq(2)
 
     end
 

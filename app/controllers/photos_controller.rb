@@ -1,7 +1,9 @@
 require 'digest/sha1'
+require 'shared_actions/likes'
 
 class PhotosController < ApplicationController
 
+  include Likes
 
   #get /photos/auth
   #gets auth for cloudinary
@@ -17,21 +19,6 @@ class PhotosController < ApplicationController
   def show
     @photo = Photo.find(params[:id])
     render json: @photo
-  end
-
-
-
-  #post /photos/:id/like
-  def like
-    @photo = Photo.find(params[:id])
-    if current_user.liked? @photo
-      @photo.unliked_by current_user
-      head :deleted
-    else
-      @photo.liked_by current_user
-      head :created
-    end
-
   end
 
 

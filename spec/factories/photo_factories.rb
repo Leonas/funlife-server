@@ -3,7 +3,7 @@ FactoryGirl.define do
   factory :photo do
 
     ignore do
-      user nil
+      user nil           #remove this and update to how comments factory is
     end
 
     bytes         "x"
@@ -17,7 +17,6 @@ FactoryGirl.define do
     version       "x"
 
 
-
     after(:create) do |photo, evaluator|
 
       if evaluator.user
@@ -27,4 +26,25 @@ FactoryGirl.define do
     end
 
   end
+
+
+
+
+
+  factory :photo_of_place, class: "Photo" do
+
+    association :imageable, factory: :place
+
+    bytes "x"
+    format "x"
+    height "x"
+    width "x"
+    public_id "x"
+    url "x"
+    secure_url "x"
+    signature "x"
+    version "x"
+
+  end
+
 end

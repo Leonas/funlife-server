@@ -6,6 +6,9 @@ class PhotoSerializer < ActiveModel::Serializer
              :liked
 
 
+  def date
+    object.updated_at.strftime("%b %d,  %I:%M%P")
+  end
 
   def liked
     @scope.current_user.liked? object

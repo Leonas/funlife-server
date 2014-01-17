@@ -1,4 +1,7 @@
 class User < ActiveRecord::Base
+
+  has_paper_trail
+
   has_secure_password #validations: false  #uncomment this for rails4
   acts_as_voter
   acts_as_tagger
@@ -27,7 +30,8 @@ class User < ActiveRecord::Base
 
   #general
   has_many :photos,                     as: :imageable, dependent: :destroy, order: 'created_at DESC'
-  has_many :comments,                   dependent: :destroy
+  has_many :comments_by_me,             class_name: "Comment", dependent: :destroy, order: 'created_at DESC'
+  has_many :comments,                   as: :commentable, dependent: :destroy, order: 'created_at DESC'
 
 
   validates :email,           presence: true, uniqueness: true
@@ -54,9 +58,7 @@ class User < ActiveRecord::Base
         self.cover_photo_id,
         self.avatar_id
     ].all?
-
-    #to prevent .save returning false
-    true
+    true #to prevent .save returning false and causing a failing validation every time
   end
 
   def set_name!
@@ -139,11 +141,19 @@ class User < ActiveRecord::Base
   end
 
   def avatar
-    photos.find(avatar_id)
+    if avatar_id
+      photos.find(avatar_id)
+    elsif gender == "male"
+      "imagelinkblue"
+    elsif gender == "female"
+      "imagelinkpink"
+    else
+      "greyimage"
+    end
   end
 
   def cover_photo
-    photos.find(cover_photo_id)
+    photos.find(cover_photo_id) if cover_photo_id
   end
 
   def following_photos

@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe Event do
 
+  it "should have a working factory" do
+    expect(Factory.build(:event)).to be_valid
+  end
+
   it "validates that the start_time is not earlier than the current time" do
     event = Event.new
     expect(event.save).to be_true

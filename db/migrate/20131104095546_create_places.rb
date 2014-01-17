@@ -1,8 +1,6 @@
 class CreatePlaces < ActiveRecord::Migration
   def change
     create_table :places do |t|
-      t.string :location_id
-      t.string :location_type
       t.string  :name
       t.string  :street_address
       t.integer :zip_code
@@ -12,9 +10,8 @@ class CreatePlaces < ActiveRecord::Migration
       t.string  :time_open
       t.string  :time_close
       t.string  :phone
-      t.string  :summary
-      t.string  :description
-      t.boolean :featured, default: false
+      t.text    :description
+      t.boolean :visible, default: false
 
       t.timestamps
     end

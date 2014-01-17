@@ -3,7 +3,7 @@ class CreateConversationMessages < ActiveRecord::Migration
     create_table :conversation_messages do |t|
       t.integer :user_id
       t.integer :conversation_id
-      t.string  :text
+      t.text  :text
 
       t.timestamps
     end

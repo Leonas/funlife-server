@@ -5,35 +5,32 @@ describe CommentsController do
     login_user
   end
 
-  let(:photo) { Factory.create(:photo, user_id: @current_user.id) }
+  let(:photo) { Factory.create(:photo, user: @current_user) }
 
-  describe "GET to #index" do
+  describe "GET to #index of photo comments" do
     before do
       get :index, photo_id: photo.id
     end
 
-    xit{ should assign_to(:photo) }
-    xit{ should assign_to(:comments) }
     it { should respond_with(:success) }
   end
 
   describe "GET to #show" do
     before do
-      comment = Factory.create(:comment, photo_id: photo.id)
-      get :show, photo_id: photo.id, id: comment.id
+      comment = Factory.create(:comment_on_photo)
+      get :show, id: comment.id
     end
 
-    xit{ should assign_to(:photo) }
-    xit{ should assign_to(:comment) }
+
     it { should respond_with(:success) }
   end
 
   describe "POST to #create" do
     def comment_attrs
-      h = Factory.attributes_for(:comment)
-      h.delete(:photo)
-      h.delete(:user)
-      h
+      comment = Factory.attributes_for(:comment_on_photo)
+      comment.delete(:commentable)
+      comment.delete(:user)
+      comment
     end
 
     it "should create a new comment" do
@@ -43,11 +40,11 @@ describe CommentsController do
     end
 
     it "respond with error if pass invalid attrs" do
-      post :create, photo_id: photo.id, comment: {}
+      post :create, photo_id: photo.id, comment: {bad: "stuff"}
       should respond_with(:unprocessable_entity)
     end
 
-    it "respond with successf if pass valid attrs" do
+    it "respond with success if pass valid attrs" do
       post :create, photo_id: photo.id, comment: comment_attrs
       should respond_with(:created)
     end
@@ -55,7 +52,7 @@ describe CommentsController do
 
   describe "PUT to #update" do
     before do
-      @comment = Factory.create(:comment, photo_id: photo.id)
+      @comment = Factory.create(:comment_on_photo)
     end
     it "should update the user" do
       put :update, photo_id: photo.id, id: @comment.id, comment: { text: "Hey Hey"}
@@ -70,7 +67,7 @@ describe CommentsController do
 
   describe "DELETE to #destroy" do
     before do
-      @comment = Factory.create(:comment, photo_id: photo.id)
+      @comment = Factory.create(:comment_on_photo, commentable: photo)
     end
 
     it "should delete a comment" do

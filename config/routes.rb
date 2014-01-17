@@ -25,7 +25,7 @@ FunlifeServer::Application.routes.draw do
         put :update
         get :dashboard
       end
-      resources :comments, only: [:index, :create, :update, :delete]
+      resources :comments, only: [:index, :create]
     end
 
 
@@ -52,28 +52,37 @@ FunlifeServer::Application.routes.draw do
           get :attending
         end
       end
-      resources :comments, only: [:index, :create, :update, :delete]
+      resources :comments, only: [:index, :create]
     end
 
 
     ############Photos################
-    resources :photos, only: [:create, :show, :delete] do
+    resources :photos, only: [:create, :show, :destroy] do
       collection do
         get :auth
       end
+      resources :comments, only: [:index, :create]
       member do
         post :like
+        post :toggle_like
+        delete :like, to: "photos#unlike"
       end
-      resources :comments, only: [:index, :create, :update, :delete]
     end
 
     ############Places################
     resources :places, only: [:index, :show] do
+      resources :comments, only: [:index, :create]
       member do
-        post :like
+        post   :like
+        post   :toggle_like
+        delete :like, to: "places#unlike"
       end
-      resources :comments, only: [:index, :create, :update, :delete]
     end
+
+
+    ############Comments################
+    resources :comments, only: [:show, :update, :destroy]
+
 
 
     ############Activities################
@@ -84,15 +93,15 @@ FunlifeServer::Application.routes.draw do
       end
     end
 
-    ############Cross Origin Resource Sharing (CORS) ################ is that what this is for?
-    match '*options', controller: 'users', action: 'options', constraints: { method: 'OPTIONS' }
-    match '/users',   controller: 'users', action: 'options', constraints: { method: 'OPTIONS' }
+    ############Cross Origin Resource Sharing (CORS) ################
+    match "*options", controller: "users", action: "options", constraints: { method: "OPTIONS" }
+    match "/users",   controller: "users", action: "options", constraints: { method: "OPTIONS" }
 
   end
 
 
   ############Root################
-  root to: 'users#index'
+  root to: "users#index"
 
 
 end

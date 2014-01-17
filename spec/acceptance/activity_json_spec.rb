@@ -23,13 +23,16 @@ resource "Activities" do
       explanation ""
       response_body.should include_json({
 
-                                            upload_auth: {
-                                                unix_timestamp: xxx,
-                                                api_key: xxx,
-                                                upload_url: xxx,
-                                                unique_photo_id: xxx,
-                                                cloudinary_signature: xxx
-                                            }
+                                            activities: [
+                                                {
+                                                    id: @activity1.id,
+                                                    icon_url: @activity1.icon_url
+                                                },
+                                                {
+                                                    id: @activity2.id,
+                                                    icon_url: @activity2.icon_url
+                                                }
+                                            ]
 
                                         }.to_json)
 
@@ -51,13 +54,18 @@ resource "Activities" do
       explanation ""
       response_body.should include_json({
 
-                                            upload_auth: {
-                                                unix_timestamp: xxx,
-                                                api_key: xxx,
-                                                upload_url: xxx,
-                                                unique_photo_id: xxx,
-                                                cloudinary_signature: xxx
-                                            }
+                                            place_ids: [],
+                                            activity_ids: [],
+                                            places: [
+                                                {
+
+                                                }
+                                                    ],
+                                            activities: [
+                                                {
+
+                                                }
+                                                    ]
 
                                         }.to_json)
 
@@ -79,13 +87,51 @@ resource "Activities" do
       explanation ""
       response_body.should include_json({
 
-                                            upload_auth: {
-                                                unix_timestamp: xxx,
-                                                api_key: xxx,
-                                                upload_url: xxx,
-                                                unique_photo_id: xxx,
-                                                cloudinary_signature: xxx
-                                            }
+                                            place_ids: [1],
+                                            places: [
+                                                        {
+                                                            id:          @place1.id,
+                                                            name:        @place1.name,
+                                                            street_address: @place1.street_address,
+                                                            zip_code:    @place1.zip_code,
+                                                            city:        @place1.city,
+                                                            longitude:   @place1.longitude,
+                                                            latitude:    @place1.latitude,
+                                                            time_open:   @place1.time_open,
+                                                            time_close:  @place1.time_close,
+                                                            phone:       @place1.phone,
+                                                            description: @place1.description,
+                                                            activities:  [
+                                                                             {
+                                                                                 id:   4,
+                                                                                 name: "running"
+                                                                             }
+
+                                                                         ],
+                                                            photos:      [
+                                                                             {
+
+                                                                             },
+                                                                             {
+
+                                                                             }
+                                                                         ],
+                                                            comments:    [
+                                                                             {
+
+                                                                             },
+                                                                             {
+
+                                                                             }
+                                                                         ],
+                                                            liked_by:    [
+                                                                             {
+                                                                                 user_id: 3
+                                                                             }
+                                                                         ]
+
+                                                        }
+                                                       ]
 
                                         }.to_json)
 
@@ -107,13 +153,43 @@ resource "Activities" do
       explanation ""
       response_body.should include_json({
 
-                                            upload_auth: {
-                                                unix_timestamp: xxx,
-                                                api_key: xxx,
-                                                upload_url: xxx,
-                                                unique_photo_id: xxx,
-                                                cloudinary_signature: xxx
-                                            }
+                                            events: [
+                                                        {
+                                                id:            1,
+                                                title:         "Bowling @ Jupiter Lanes",
+                                                icon_url:      "url",
+                                                main_photo_url: "url",
+                                                date:          date_object?,
+                                                time:          x,
+                                                duration:      x,
+                                                end_time:      x,
+                                                friendly_time: "Wednesday, Nov 5 @ 6:30pm",
+                                                details:       "Lets go bowling for 2 hours during happy hour.",
+                                                more_photos:   ["img_url", "img_url", "img_url"],
+                                                attending:     {
+                                                    user_total: 13,
+                                                    users: [
+                                                                    {
+                                                                        id:   1,
+                                                                        avatar: "img/url",
+                                                                        name: "bob j"
+                                                                    }
+                                                                ]
+                                                },
+                                                comments:      [
+                                                                   {
+                                                                       id:           1,
+                                                                       parent:       null,
+                                                                       thread_depth: 0,
+                                                                       user_id:      2,
+                                                                       user_name:    @user1.name,
+                                                                       avatar:       @user1.avatar,
+                                                                       message:      "I'm excited to attend!"
+
+                                                                   }
+                                                               ]
+                                                }
+                                            ]
 
                                         }.to_json)
 

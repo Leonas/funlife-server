@@ -1,8 +1,15 @@
 class CommentSerializer < ActiveModel::Serializer
-  attributes :id, :text, :user_name
-  has_many :children
+  attributes :id,
+             :parent_id,
+             :children_count,
+             :depth,
+             :text,
+             :date
 
-  def user_name
-    object.user.full_name
+  has_one :user, serializer: UserMiniSerializer
+
+
+  def date
+    object.updated_at.strftime("%b %d,  %I:%M%P")
   end
 end

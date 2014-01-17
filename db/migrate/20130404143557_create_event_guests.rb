@@ -4,7 +4,7 @@ class CreateEventGuests < ActiveRecord::Migration
       t.integer :user_id
       t.integer :event_id
       t.string  :guest_state
-      t.string  :message
+      t.text    :message
 
       t.timestamps
     end

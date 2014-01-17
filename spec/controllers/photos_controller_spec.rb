@@ -39,23 +39,22 @@ describe PhotosController do
     describe "POST to #like" do
 
       it "should create a new like" do
-        expect{ post :like, id: @photo2.id} .to change{ @photo2.likes.size }.by(1)
+        expect{ post :toggle_like, id: @photo2.id} .to change{ @photo2.likes.size }.by(1)
       end
 
       it "should destroy a like" do
         @photo2.liked_by user1
-        expect { post :like, id: @photo2.id }.to change { @photo2.likes.size }.by(-1)
+        expect { post :toggle_like, id: @photo2.id }.to change { @photo2.likes.size }.by(-1)
       end
     end
 
     describe "DELETE to #destroy" do
 
-      xit "should mark the photo as deleted" do
-
-      end
-
-      xit "should not do anything if the user doesn't own the photo" do
-
+      it "should not do anything if the user doesn't own the photo" do
+        login_user
+        expect {
+          delete :destroy, id: @photo1.id
+        }.to raise_error ActiveRecord::RecordNotFound
       end
     end
 

@@ -2,7 +2,13 @@ class ConversationMessageSerializer < ActiveModel::Serializer
 
   # object=Conversation.instance(x)
 
-  attributes :id, :user_id, :date, :name, :text
+  attributes :id,
+             :user_id,
+             :date,
+             :name,
+             :text
+
+  #replace this with has one user
 
   def name
     object.user.name

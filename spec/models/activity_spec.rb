@@ -6,8 +6,4 @@ describe Activity do
     expect(Factory.build(:activity)).to be_valid
   end
 
-
-  xit "does something" do
-
-  end
 end

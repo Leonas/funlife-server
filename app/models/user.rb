@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
 
   has_secure_password #validations: false  #uncomment this for rails4
   acts_as_voter
+#  acts_as_votable   #cant have this in here as well
   acts_as_tagger
   acts_as_taggable_on :favorite_activities
 

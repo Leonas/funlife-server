@@ -3,7 +3,7 @@ class ConversationOverviewSerializer < ActiveModel::Serializer
              :newest_message,
              :date
 
-  has_many :users, serializer: UserMiniSerializer
+  has_many :users, each_serializer: UserMiniSerializer
 
   def date
     object.updated_at.strftime("%b %d,  %I:%M%P")

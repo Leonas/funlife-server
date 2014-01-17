@@ -19,7 +19,6 @@ FunlifeServer::Application.routes.draw do
         get :fav_places
         get :fav_activities
         get :invitations
-        get :photos
       end
       collection do
         put :update

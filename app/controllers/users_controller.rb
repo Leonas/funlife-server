@@ -79,6 +79,7 @@ class UsersController < ApplicationController
   end
 
 
+
   #get /users/invitations
   def invitations
     @invitations = current_user.invitations
@@ -90,14 +91,26 @@ class UsersController < ApplicationController
   end
 
 
+  #get /users/:id/fav_activities
+  def fav_activities
+    @user  = User.find(params[:id])
+    @activities = @user.get_up_voted Activity
+    if @activities.empty?
+      head :no_content
+    else
+      render json: @activities, each_serializer: ActivityIconsSerializer
+    end
+  end
+
+
   #get /users/:id/fav_places
   def fav_places
-    @user  = User.find(params[:id])
-    @places = @user.likes_by_class(Place)
+    @user = User.find(params[:id])
+    @places = @user.get_up_voted Place
     if @places.empty?
       head :no_content
     else
-      render json: @places, each_serializer: UserFavPlacesSerializer
+      render json: @places, each_serializer: PlaceMiniSerializer
     end
   end
 

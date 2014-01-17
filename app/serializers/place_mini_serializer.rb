@@ -1,4 +1,4 @@
-class ActivityIconSerializer < ActiveModel::Serializer
+class PlaceMiniSerializer < ActiveModel::Serializer
   attributes :id,
              :name,
              :street_address,
@@ -10,13 +10,11 @@ class ActivityIconSerializer < ActiveModel::Serializer
              :time_close,
              :phone,
              :description,
-             :liked_by
+             :favorited_by
 
 
+  has_many :activities, each_serializer: ActivityIconsSerializer
+  has_many :photos, each_serializer: PhotoSerializer
 
-
-  def liked_by
-
-  end
 
 end

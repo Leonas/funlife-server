@@ -1,12 +1,12 @@
 class Photo < ActiveRecord::Base
 
   has_paper_trail
+  acts_as_votable
 
   belongs_to :imageable,   polymorphic: true
   has_many   :comments,    as: :commentable, dependent: :destroy
 
 
-  acts_as_votable
 
   def self.cloudinary_auth
     @timestamp = Time.now.to_i

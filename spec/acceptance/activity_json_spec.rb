@@ -7,8 +7,8 @@ resource "Activities" do
 
   let!(:user1) { @user1 = Factory.create(:user) }
   let!(:setup_activities) do
-    @user2 = Factory.create(:user)
-    @user3 = Factory.create(:user)
+    @activity1 = Factory.create(:activity)
+    @activity2 = Factory.create(:activity)
   end
   let!(:token) { generate_token(@user1) }
 
@@ -26,10 +26,12 @@ resource "Activities" do
                                             activities: [
                                                 {
                                                     id: @activity1.id,
+                                                    name: @activity1.name,
                                                     icon_url: @activity1.icon_url
                                                 },
                                                 {
                                                     id: @activity2.id,
+                                                    name: @activity2.name,
                                                     icon_url: @activity2.icon_url
                                                 }
                                             ]
@@ -48,7 +50,9 @@ resource "Activities" do
 
 
     header "Authorization", :token
-    parameter :id, required: true
+    parameter :id, "Activity id", required: true
+
+    let(:id) { @activity1.id }
 
     example_request "Get all places and events for this activity type" do
       explanation ""
@@ -81,7 +85,9 @@ resource "Activities" do
 
 
     header "Authorization", :token
-    parameter :id, required: true
+    parameter :id, "Activity id", required: true
+
+    let(:id) { @activity1.id }
 
     example_request "Get all places for this activity type" do
       explanation ""
@@ -147,7 +153,7 @@ resource "Activities" do
 
 
     header "Authorization", :token
-    parameter :id, required: true
+    parameter :id, "Activity id", required: true
 
     example_request "Get all events for this activity type" do
       explanation ""

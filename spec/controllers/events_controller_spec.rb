@@ -28,13 +28,6 @@ describe EventsController do
 
     it{ should respond_with(:success) }
 
-    it "should include the guest ids" do
-      JSON.parse(response.body)["event"]["guest_ids"].should include @user.id
-    end
-
-    it "should include the atteendes count" do
-      JSON.parse(response.body)["event"]["attendees_count"].should == 1
-    end
   end
 
   describe "POST to #create" do
@@ -44,7 +37,7 @@ describe EventsController do
       }.to change(Event, :count).by(1)
     end
 
-    it "should respond with error if there are invalid attrs" do
+    it "should respond with error if there are invalid attributes" do
       post :create, event: Factory.attributes_for(:event, address: nil)
       should respond_with(:unprocessable_entity)
     end
@@ -52,13 +45,13 @@ describe EventsController do
 
 
   describe "PUT to #update" do
-    it "should update the user" do
+    it "should update the event" do
       put :update, id: event.id, event: Factory.attributes_for(:random_future_event)
       should respond_with(:success)
     end
 
-    it "should no update the user with invalid attrs" do
-      put :update, id: event.id, event: { headline: nil }
+    it "should not update the event with invalid attributes" do
+      put :update, id: event.id, event: { title: nil }
       should respond_with(:unprocessable_entity)
     end
 
@@ -66,14 +59,11 @@ describe EventsController do
 
   describe "DELETE to #destroy" do
     it "should destroy and event" do
-      expect{
-        delete :destroy, id: event.id
-      }.to change(Event, :count).by(0)
+      expect{ delete :destroy, id: event.id}.to change(Event, :count).by(-1)
     end
 
     it "should respond with no content" do
-      delete :destroy, id: event.id
-      should respond_with(:no_content)
+      expect { delete :destroy, id: event.id }.to respond_with(:no_content)
     end
 
   end

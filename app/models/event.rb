@@ -41,7 +41,17 @@ class Event < ActiveRecord::Base
   # Queries
   ##################################
 
+  def self.created_after(time)
+    where("created_at > ?", time).sorted
+  end
 
+  def self.sorted
+    order("start_time ASC")
+  end
+
+  def self.public
+    created_after(Time.now).where("visibility = ?", "everyone").sorted
+  end
 
 
   ##################################

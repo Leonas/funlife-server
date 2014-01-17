@@ -113,7 +113,7 @@ resource "Users" do
   ######################################
 
     header "Authorization", :token
-    parameter :id, "user id", required: true
+    parameter :id, "User id", required: true
 
     let(:id) { @user2.id }
 
@@ -141,7 +141,7 @@ resource "Users" do
   ######################################
 
     header "Authorization", :token
-    parameter :id, "user id", required: true
+    parameter :id, "User id", required: true
 
     let(:id) { @user1.id }
 
@@ -172,7 +172,7 @@ resource "Users" do
   ######################################
 
     header "Authorization", :token
-    parameter :id, "user id", required: true
+    parameter :id, "User id", required: true
 
     let(:id) { @user1.id }
 
@@ -190,41 +190,11 @@ resource "Users" do
 
 
   ######################################
-  get "/users/:id/photos" do ###########
-  ######################################
-
-    header "Authorization", :token
-    parameter :id, "User id"
-
-    example_request "List a user's photos" do
-      explanation "An array of user's photos is received"
-      response_body.should include_json({
-
-                                            photos: [
-                                                {
-                                                    id: xxx,
-                                                    url: xxx,
-                                                    date: xxx
-                                                },
-                                                {
-                                                    id: xxx,
-                                                    url: xxx,
-                                                    date: xxx
-                                                }
-                                            ]
-
-                                        }.to_json)
-      status.should == 200
-    end
-  end
-
-
-  ######################################
   get "/users/:id/fav_places" do #######
   ######################################
 
     header "Authorization", :token
-    parameter :id, "user id", required: true
+    parameter :id, "User id", required: true
 
     let(:id) { @user1.id }
 
@@ -233,8 +203,9 @@ resource "Users" do
 
       response_body.should include_json({
                                             places: [
-                                                id: @place1.id,
-                                                name: @place1.name
+                                                {
+
+                                                }
                                             ]
                                         }.to_json)
   status.should == 200
@@ -248,17 +219,25 @@ resource "Users" do
   ######################################
 
     header "Authorization", :token
-    parameter :id, "user id", required: true
+    parameter :id, "User id", required: true
 
     let(:id) { @user1.id }
 
-    example_request "Get a list of a user's favorite activities" do
+    example "Get a list of a user's favorite activities" do
       explanation ""
 
+      #add in the favorite activity here
+
+      do_request
+
+
       response_body.should include_json({
-                                            places: [
-                                                id: @place1.id,
-                                                name: @place1.name
+                                            activities: [
+                                                {
+                                                    id: 1,
+                                                    name: 2,
+                                                    icon_url: 3
+                                                }
                                             ]
                                         }.to_json)
   status.should == 200
@@ -271,7 +250,7 @@ resource "Users" do
   ######################################
 
     header "Authorization", :token
-    parameter :id, "user id", required: true
+    parameter :id, "User id", required: true
 
     let(:id) { @user1.id }
 
@@ -300,8 +279,6 @@ resource "Users" do
   ######################################
 
     header "Authorization", :token
-
-    let(:id) { @user1.id }
 
     example_request "View dashboard" do
       explanation "Gets the current user's dashboard"

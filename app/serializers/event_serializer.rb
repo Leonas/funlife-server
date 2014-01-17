@@ -8,7 +8,7 @@ class EventSerializer < ActiveModel::Serializer
 
   has_many :admins
   has_many :guests
-  has_many :activities, serializer: ActivitySerializer
+  has_many :activities, serializer: ActivityIconsSerializer
 
   def start_time
     object.start_time.try{ |x| x.strftime("%I:%M%p") }

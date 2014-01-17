@@ -37,11 +37,13 @@ resource "Conversations" do
             users: [
                 {
                     id: @user1.id,
-                    name: @user1.name
+                    name: @user1.name,
+                    avatar: @user1.avatar
                 },
                 {
                     id: @user2.id,
-                    name: @user2.name
+                    name: @user2.name,
+                    avatar: @user2.avatar
                 }
                 ],
             newest_message: "message2_2",
@@ -52,11 +54,13 @@ resource "Conversations" do
             users: [
                 {
                     id: @user3.id,
-                    name: @user3.name
+                    name: @user3.name,
+                    avatar: @user3.avatar
                 },
                 {
                     id: @user1.id,
-                    name: @user1.name
+                    name: @user1.name,
+                    avatar: @user1.avatar
                 }
                 ],
             newest_message: @conversation4.conversation_messages.last.text,
@@ -67,11 +71,13 @@ resource "Conversations" do
             users: [
                  {
                      id: @user1.id,
-                     name: @user1.name
+                     name: @user1.name,
+                     avatar: @user1.avatar
                  },
                  {
                      id: @user2.id,
-                     name: @user2.name
+                     name: @user2.name,
+                     avatar: @user2.avatar
                  }
                  ],
             newest_message: @conversation2.conversation_messages.last.text,
@@ -108,35 +114,46 @@ resource "Conversations" do
                                                 users: [
                                                            {
                                                                id: @user1.id,
-                                                               name: @user1.name
+                                                               name: @user1.name,
+                                                               avatar: @user1.avatar
                                                            },
                                                            {
                                                                id: @user2.id,
-                                                               name: @user2.name
+                                                               name: @user2.name,
+                                                               avatar: @user2.avatar
                                                            }
                                                        ],
 
                                                 conversation_messages: [
                                                     {
                                                         id:@user2_message2.id,
-                                                        user_id: @user2.id,
                                                         date: @user2_message2.updated_at.strftime("%b %d,  %I:%M%P"),
-                                                        name: @user2.name,
-                                                        text: @user2_message2.text
+                                                        text: @user2_message2.text,
+                                                        user: {
+                                                            id:     @user2.id,
+                                                            name:   @user2.name,
+                                                            avatar: @user2.avatar,
+                                                        }
                                                     },
                                                     {
                                                         id:@user2_message1.id,
-                                                        user_id: @user2.id,
                                                         date: @user2_message1.updated_at.strftime("%b %d,  %I:%M%P"),
-                                                        name: @user2.name,
-                                                        text: @user2_message1.text
+                                                        text: @user2_message1.text,
+                                                        user: {
+                                                            id:     @user2.id,
+                                                            name:   @user2.name,
+                                                            avatar: @user2.avatar,
+                                                        }
                                                     },
                                                     {
                                                         id:@user1_message1.id,
-                                                        user_id: @user1.id,
                                                         date: @user1_message1.updated_at.strftime("%b %d,  %I:%M%P"),
-                                                        name: @user1.name,
-                                                        text: @user1_message1.text
+                                                        text: @user1_message1.text,
+                                                        user: {
+                                                            id:     @user1.id,
+                                                            name:   @user1.name,
+                                                            avatar: @user1.avatar,
+                                                        }
                                                     }
                                                 ]
                                             }
@@ -171,20 +188,25 @@ resource "Conversations" do
                 users: [
                            {
                                id: @user1.id,
-                               name: @user1.name
+                               name: @user1.name,
+                               avatar: @user1.avatar
                            },
                            {
                                id: @user2.id,
-                               name: @user2.name
+                               name: @user2.name,
+                               avatar: @user2.avatar
                            }
                     ],
                 conversation_messages: [
                         {
                             id: Conversation.last.conversation_messages.newest.id,
-                            user_id: @user1.id,
                             date: Conversation.last.conversation_messages.newest.updated_at.strftime("%b %d,  %I:%M%P"),
-                            name: @user1.name,
-                            text: "hello u"
+                            text: "hello u",
+                            user: {
+                                id:     @user1.id,
+                                name:   @user1.name,
+                                avatar: @user1.avatar,
+                            }
                         }
                     ]
 
@@ -220,10 +242,13 @@ resource "Conversations" do
 
           conversation_message:{
             id: @conversation1.conversation_messages.last.id,
-            user_id: @user1.id,
             date: @conversation1.conversation_messages.last.updated_at.strftime("%b %d,  %I:%M%P"),
-            name: @user1.name,
-            text: "wassup"
+            text: "wassup",
+            user: {
+                id: @user1.id,
+                name: @user1.name,
+                avatar: @user1.avatar
+            }
           }
 
       }.to_json)

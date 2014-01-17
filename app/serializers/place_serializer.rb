@@ -13,9 +13,9 @@ class PlaceSerializer < ActiveModel::Serializer
              :favorited_by
 
 
-  has_many :activities, serializer: ActivityIconSerializer
-  has_many :photos,     serializer: PhotoSerializer
-  has_many :comments,   serializer: CommentSerializer
+  has_many :activities, each_serializer: ActivityIconsSerializer
+  has_many :photos,     each_serializer: PhotoSerializer
+  has_many :comments,   each_serializer: CommentSerializer
 
 
 

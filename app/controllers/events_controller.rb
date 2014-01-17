@@ -2,12 +2,14 @@ class EventsController < ApplicationController
 
   #get /events
   def index
-
+    @events = Event.public
+    render json: @events, each_serializer: EventSerializer, root: "events"
   end
 
   #get /events/1
   def show
-    render json: @event
+    @event = Event.find(params[:id])
+    render json: @event, serializer: EventSerializer, root: "event"
   end
 
   #post /events
@@ -22,7 +24,9 @@ class EventsController < ApplicationController
 
   #patch /events/1
   def update
-    if @event.update_attributes(event_params)
+    @event = current_user.events.where(:id, params[:id])
+
+    if @event.update_attributes(event_params)                             #TODO check if event admin first
       render json: @event
     else
       render json: {errors: @event.errors}, status: :unprocessable_entity
@@ -31,7 +35,8 @@ class EventsController < ApplicationController
 
   #delete /events/1
   def destroy
-    @event.destroy
+    @event = current_user.events.where(:id, params[:id])
+    @event.destroy                                          #TODO check if event admin first
     head :no_content
   end
 

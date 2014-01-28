@@ -15,6 +15,8 @@ class EventsController < ApplicationController
   #post /events
   def create
     @event = @current_user.events.build(event_params)
+    @event.event_guests.build(user: current_user, guest_state: "admin")
+
     if @event.save
       render json: @event, status: :created
     else
@@ -24,20 +26,29 @@ class EventsController < ApplicationController
 
   #patch /events/1
   def update
-    @event = current_user.events.where(:id, params[:id])
-
-    if @event.update_attributes(event_params)                             #TODO check if event admin first
-      render json: @event
+    @event = Event.find(params[:id])
+    if @event.admins.include? current_user
+      if @event.update_attributes(event_params)
+        render json: @event
+      else
+        render json: { errors: @event.errors }, status: :unprocessable_entity
+      end
     else
-      render json: {errors: @event.errors}, status: :unprocessable_entity
+      head :unauthorized
     end
+
+
   end
 
   #delete /events/1
   def destroy
-    @event = current_user.events.where(:id, params[:id])
-    @event.destroy                                          #TODO check if event admin first
-    head :no_content
+    @event = Event.find(params[:id])
+    if @event.admins.include? current_user
+      @event.destroy
+      head :no_content
+    else
+      head :unauthorized
+    end
   end
 
   private

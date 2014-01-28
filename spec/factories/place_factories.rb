@@ -12,8 +12,5 @@ FactoryGirl.define do
     time_close "7pm"
     phone { Faker::PhoneNumber.phone_number }
     description { Faker::Lorem.paragraph(10) }
-
-
-
   end
 end

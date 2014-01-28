@@ -1,1 +1,0 @@
-Factories and helper methods are here for all rspec tests

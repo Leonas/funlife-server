@@ -1,69 +1,72 @@
 require 'spec_helper'
 
 describe EventsController do
+
   before do
-    login_user
+    @user1 = Factory.create(:user)
+    login_user(@user1)
   end
-  let(:event) { Factory.create(:event) }
+
+  let(:event) { Factory.create(:future_event) }
 
   describe "GET to #index" do
     before do
       event
       get :index
     end
-
-    it{ should respond_with(:success) }
-
+    it { should respond_with(:success) }
   end
+
 
 
   describe "GET to #show" do
     before do
-      @event = Factory.create(:random_future_event)
-      @user = Factory.create(:user)
-      @event.guests << @user
-      @event.users << @user
+      @event = Factory.create(:future_event)
+      Factory.create(:event_guest, event: @event)
       get :show, id: @event.id
     end
-
     it{ should respond_with(:success) }
-
   end
+
+
 
   describe "POST to #create" do
     it "should create a new event" do
       expect{
-        post :create, event: Factory.attributes_for(:event)
+        post :create, event: Factory.attributes_for(:future_event)
       }.to change(Event, :count).by(1)
     end
-
-    it "should respond with error if there are invalid attributes" do
-      post :create, event: Factory.attributes_for(:event, address: nil)
-      should respond_with(:unprocessable_entity)
-    end
   end
+
 
 
   describe "PUT to #update" do
-    it "should update the event" do
-      put :update, id: event.id, event: Factory.attributes_for(:random_future_event)
-      should respond_with(:success)
+
+    before do
+      @event_to_update = Factory.create(:future_event, admins: [@user1])
     end
 
-    it "should not update the event with invalid attributes" do
-      put :update, id: event.id, event: { title: nil }
-      should respond_with(:unprocessable_entity)
+    it "should update the event" do
+      put :update, id: @event_to_update.id, event: Factory.attributes_for(:future_event)
+      should respond_with(:success)
     end
 
   end
 
+
   describe "DELETE to #destroy" do
-    it "should destroy and event" do
-      expect{ delete :destroy, id: event.id}.to change(Event, :count).by(-1)
+
+    before(:each) do
+      @event_to_delete = Factory.create(:future_event, admins: [@user1])
+    end
+
+    it "should destroy an event" do
+      expect{ delete :destroy, id: @event_to_delete.id}.to change(Event, :count).by(-1)
     end
 
     it "should respond with no content" do
-      expect { delete :destroy, id: event.id }.to respond_with(:no_content)
+      delete :destroy, id: @event_to_delete.id
+      should respond_with(:no_content)
     end
 
   end

@@ -11,9 +11,9 @@ describe RelationshipsController do
   describe "creating a relationship" do
 
     it "should increment the Relationship count" do
-      expect do
+      expect {
         post :create, user_id: user2.id
-      end.to change(Relationship, :count).by(1)
+      }.to change(Relationship, :count).by(1)
     end
 
     it "should respond with success" do
@@ -37,9 +37,9 @@ describe RelationshipsController do
 
 
     it "should decrement the Relationship count" do
-      expect do
+      expect {
         delete :destroy, user_id: user2.id
-      end.to change(Relationship, :count).by(-1)
+      }.to change(Relationship, :count).by(-1)
     end
 
     it "should respond with success" do

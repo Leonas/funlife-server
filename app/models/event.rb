@@ -12,6 +12,11 @@ class Event < ActiveRecord::Base
   has_many :users,                through: :event_guests
   has_many :comments,             as: :commentable, dependent: :destroy
 
+
+  accepts_nested_attributes_for :event_guests
+
+
+
   validates :visibility, inclusion: { in: ["everyone", "women_only", "men_only", "invite_only"], allow_nil: true }
   validate :start_time_cannot_be_in_the_past
   validate :start_time_less_than_latest_allowed_date
@@ -38,6 +43,30 @@ class Event < ActiveRecord::Base
 
 
   ##################################
+  # Definitions
+  ##################################
+
+
+  def admins
+    users.where("guest_state = ?", "admin")
+  end
+
+  def invited
+    users.where("guest_state = ?", "invited")
+  end
+
+  def attending
+    users.where("guest_state = ?", "attending")
+  end
+
+  def join_requested
+    users.where("guest_state = ?", "join_requested")
+  end
+
+
+
+
+  ##################################
   # Queries
   ##################################
 
@@ -60,8 +89,8 @@ class Event < ActiveRecord::Base
 
   def determine_duration_or_end_time
    if start_time and (end_time.present? ^ duration_minutes.present?)
-     self.duration_minutes = (end_time - start_time) / 1.minute   if end_time.present?
-     self.end_time = start_time + duration_minutes                if duration_minutes.present?
+     self.duration_minutes = ((end_time - start_time) / 1.minute).to_i   if end_time.present?
+     self.end_time = start_time + duration_minutes                      if duration_minutes.present?
    end
   end
 

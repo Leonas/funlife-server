@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-ruby "2.0.0"
+ruby "2.1.0"
 
 gem "rails-api",                github: "rails-api/rails-api",                ref: "6c7f1d11fb86e38d6e5534278aa527098d9e4258"
 gem "active_model_serializers", github: "rails-api/active_model_serializers", ref: "9436d73b9220b64a5940cfdaa176cab861b22441"

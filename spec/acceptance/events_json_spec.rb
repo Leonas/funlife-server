@@ -10,7 +10,7 @@ resource "Events" do
     @user2 = Factory.create(:user)
     @user3 = Factory.create(:user)
 
-    @event1 = Factory.create(:event)
+    @event1 = Factory.create(:future_event, admins: [@user1], invited: [@user2])
     @event2 = Factory.create(:event)
     @event3 = Factory.create(:event)
   end
@@ -22,13 +22,12 @@ resource "Events" do
   ######################################
 
     header "Authorization", :token
-    parameter :sort_by, "Sort by", type: :list, items: [:recommended, :date, :distance]
     parameter :page, "Page", type: :integer
 
     let(:raw_post) { params.to_json }
 
     example_request "Get a list of events" do
-      explanation "Optionally sort by date or distance"
+      explanation "Returns a list of events"
       response_body.should include_json({
 
                                             events: [
@@ -70,37 +69,6 @@ resource "Events" do
     end
   end
 
-
-  ######################################
-  get "/events/categories" do ##########
-  ######################################
-
-    header "Authorization", :token
-
-    example_request "List every event category" do
-      explanation "Lists only categories that have at least 1 event of the type"
-      response_body.should include_json({
-
-                                            categories: [
-                                                {
-                                                    id: 5,
-                                                    name: "Running",
-                                                    local_icon: "/icons/whatever",
-                                                    icon_url:   "cloudinary.com/icon"
-                                                },
-                                                {
-                                                    id: 9,
-                                                    name: "Bowling",
-                                                    local_icon: "/icons/whatever",
-                                                    icon_url: "cloudinary.com/icon"
-                                                }
-                                            ]
-
-                                        }.to_json)
-
-      status.should == 200
-    end
-  end
 
 
   ######################################
@@ -149,35 +117,6 @@ resource "Events" do
                                                     }
                                                   ]
                                             }
-                                        }.to_json)
-
-      status.should == 200
-    end
-  end
-
-
-
-
-  ######################################
-  get "/events/:id/attending" do #######
-  ######################################
-
-    header "Authorization", :token
-    parameter :id, "Activity id", required: true
-
-    example_request "Get a list of users attending" do
-      explanation "An array with user data is returned"
-      response_body.should include_json({
-                                               attending:
-                                               [
-                                                  {
-                                                     id: 1,
-                                                     name: "name",
-                                                     avatar: "img_url",
-                                                     intro: "some info about me"
-                                                  }
-                                               ]
-
                                         }.to_json)
 
       status.should == 200
@@ -260,6 +199,8 @@ resource "Events" do
       status.should == 204
     end
   end
+
+
 
   ######################################
   post "/events/:id/invite" do #############

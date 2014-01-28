@@ -1,3 +1,4 @@
 class UserFollowersSerializer < ActiveModel::Serializer
-  attributes :id, :name
+  attributes :id,
+             :name
 end

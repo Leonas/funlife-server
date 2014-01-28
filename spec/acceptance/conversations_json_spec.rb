@@ -34,54 +34,54 @@ resource "Conversations" do
         conversations: [
           {
             id: @conversation1.id,
+            newest_message: "message2_2",
+            date:  @user2_message2.updated_at.strftime("%b %d,  %I:%M%P"),
             users: [
                 {
-                    id: @user1.id,
+                    id:   @user1.id,
                     name: @user1.name,
                     avatar: @user1.avatar
                 },
                 {
-                    id: @user2.id,
+                    id:   @user2.id,
                     name: @user2.name,
                     avatar: @user2.avatar
                 }
-                ],
-            newest_message: "message2_2",
-            date:  @user2_message2.updated_at.strftime("%b %d,  %I:%M%P")
+            ]
           },
           {
             id: @conversation4.id,
-            users: [
-                {
-                    id: @user3.id,
-                    name: @user3.name,
-                    avatar: @user3.avatar
-                },
-                {
-                    id: @user1.id,
-                    name: @user1.name,
-                    avatar: @user1.avatar
-                }
-                ],
             newest_message: @conversation4.conversation_messages.last.text,
-            date: @conversation4.updated_at.strftime("%b %d,  %I:%M%P")
+            date: @conversation4.updated_at.strftime("%b %d,  %I:%M%P"),
+            users: [
+                       {
+                           id:   @user3.id,
+                           name: @user3.name,
+                           avatar: @user3.avatar
+                       },
+                       {
+                           id:   @user1.id,
+                           name: @user1.name,
+                           avatar: @user1.avatar
+                       }
+                   ]
           },
           {
             id: @conversation2.id,
-            users: [
-                 {
-                     id: @user1.id,
-                     name: @user1.name,
-                     avatar: @user1.avatar
-                 },
-                 {
-                     id: @user2.id,
-                     name: @user2.name,
-                     avatar: @user2.avatar
-                 }
-                 ],
             newest_message: @conversation2.conversation_messages.last.text,
-            date: @conversation2.updated_at.strftime("%b %d,  %I:%M%P")
+            date: @conversation2.updated_at.strftime("%b %d,  %I:%M%P"),
+            users: [
+                       {
+                           id:   @user1.id,
+                           name: @user1.name,
+                           avatar: @user1.avatar
+                       },
+                       {
+                           id:   @user2.id,
+                           name: @user2.name,
+                           avatar: @user2.avatar
+                       }
+            ]
           }
         ]
       }.to_json)
@@ -262,7 +262,7 @@ resource "Conversations" do
 
 
   ######################################
-  delete "/conversations/:id" do #######           #this needs to just hide it
+  delete "/conversations/:id" do #######
   ######################################
 
     header "Authorization", :user_token

@@ -1,4 +1,3 @@
-
 FactoryGirl.define do
   factory :comment_on_user, class: "Comment" do
     association :commentable, factory: :user
@@ -24,12 +23,3 @@ FactoryGirl.define do
     text { Faker::Lorem.sentence(10) }
   end
 end
-
-#t.integer :commentable_id
-#t.string :commentable_type
-#t.integer :user_id
-#t.integer :parent_id
-#t.integer :depth
-#t.text :text
-#
-#t.integer :children_count, default: 0

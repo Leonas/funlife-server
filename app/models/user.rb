@@ -117,12 +117,13 @@ class User < ActiveRecord::Base
     conversation_messages.create(conversation: conversation, text: text)
   end
 
-  #def conversations
-  # conversations.where(hidden: false)                #this needs to be a condition on the join model
-  # # super
-  #  #return array of non hidden conversations
-  #  #http://api.rubyonrails.org/classes/ActiveRecord/Associations/ClassMethods.html
-  #end
+  def add_favorite_place!(place)
+
+  end
+
+  def like!(object)
+
+  end
 
   ##################################################
   #  Queries  ######################################
@@ -159,6 +160,10 @@ class User < ActiveRecord::Base
 
   def following_photos
     Photo.where(user_id: self.followed_users.select("following_id"))
+  end
+
+  def invitations
+    false
   end
 
 end

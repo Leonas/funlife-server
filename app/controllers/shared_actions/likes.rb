@@ -7,7 +7,7 @@ module Likes
     set_likeable_object
     if current_user.liked? @likeable_object
       @likeable_object.unliked_by current_user
-      head :deleted
+      head :no_content
     else
       @likeable_object.liked_by current_user
       head :created
@@ -26,7 +26,7 @@ module Likes
     set_likeable_object
     if current_user.liked? @likeable_object
       @likeable_object.unliked_by current_user
-      head :deleted
+      head :no_content
     end
 
   end

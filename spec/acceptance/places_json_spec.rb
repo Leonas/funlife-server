@@ -1,17 +1,37 @@
 require 'spec_helper'
 require 'rspec_to_iodocs/dsl'
 
+
 resource "Places" do
+
   header "Accept", "application/json"
   header "Content-Type", "application/json"
 
   let!(:setup_places) do
     @user1 = Factory.create(:user)
     @user2 = Factory.create(:user)
+
     @place1 = Factory.create(:place)
     @place2 = Factory.create(:place)
+
+    @place1.liked_by @user1
+    @place2.liked_by @user2
+
+    @comment1 = Factory.create(:comment_on_place, user: @user1, commentable: @place1)
+    @comment2 = Factory.create(:comment_on_place, user: @user2, commentable: @place1)
+    @comment3 = Factory.create(:comment_on_place, user: @user2, commentable: @place2)
+
+    @activity1 = Factory.create(:activity, places: [@place1])
+    @activity2 = Factory.create(:activity, places: [@place1])
+    @activity3 = Factory.create(:activity, places: [@place2])
+
+    @photo1 = Factory.create(:photo_of_place, imageable: @place1)
+    @photo2 = Factory.create(:photo_of_place, imageable: @place1)
+    @photo3 = Factory.create(:photo_of_place, imageable: @place2)
   end
-  let!(:token) { generate_token(@user1) }
+
+  let!(:token) { @token = generate_token(@user1) }
+
 
 
   ######################################
@@ -19,11 +39,6 @@ resource "Places" do
   ######################################
 
     header "Authorization", :token
-    parameter :longitude,  "Longitude", scope: :location   #if not here take from user
-    parameter :latitude,   "Latitude",  scope: :location
-
-    let(:longitude) { Faker::Address.longitude }
-    let(:latitude)  { Faker::Address.latitude }
 
     example_request "Get an array of nearby places" do
       explanation "All places sorted by distance to user with all details given per place"
@@ -41,37 +56,28 @@ resource "Places" do
                         time_close: @place1.time_close,
                         phone: @place1.phone,
                         description: @place1.description,
-                        favorited_by: [
-                                          {
-                                              user_id: 3
-                                          }
-                        ],
-                        activities: [
-                            {
-                                id: 4,
-                                name: "running"
-                            }
-
-                        ],
-                        photos: [
-                            {
-
-                            },
-                            {
-
-                            }
-                        ],
-                        comments: [
-                            {
-
-                            },
-                            {
-
-                            }
-                        ]
-
-
-                    }
+                        favorited_by: SharedJSON.favorited_by([@user1]),
+                        activities: SharedJSON.activities([@activity1, @activity2]),
+                        photos: SharedJSON.photos([@photo1, @photo2], @user1),
+                        comments: SharedJSON.comments([@comment1, @comment2])
+                    },
+                    {
+                        id:           @place2.id,
+                        name:         @place2.name,
+                        street_address: @place2.street_address,
+                        zip_code:     @place2.zip_code,
+                        city:         @place2.city,
+                        longitude:    @place2.longitude,
+                        latitude:     @place2.latitude,
+                        time_open:    @place2.time_open,
+                        time_close:   @place2.time_close,
+                        phone:        @place2.phone,
+                        description:  @place2.description,
+                        favorited_by: SharedJSON.favorited_by([@user2]),
+                        activities:   SharedJSON.activities([@activity3]),
+                        photos:       SharedJSON.photos([@photo3], @user1),
+                        comments:     SharedJSON.comments([@comment3])
+                    },
                   ]
                                         }.to_json)
       status.should == 200
@@ -92,49 +98,24 @@ resource "Places" do
     example_request "Place details" do
       explanation "Single place details"
       response_body.should include_json({
-                                            place: {
-                                                            id:          @place1.id,
-                                                            name:        @place1.name,
-                                                            street_address: @place1.street_address,
-                                                            zip_code:    @place1.zip_code,
-                                                            city:        @place1.city,
-                                                            longitude:   @place1.longitude,
-                                                            latitude:    @place1.latitude,
-                                                            time_open:   @place1.time_open,
-                                                            time_close:  @place1.time_close,
-                                                            phone:       @place1.phone,
-                                                            description: @place1.description,
-                                                            favorited_by: [
-                                                                          {
-                                                                              user_id: 3
-                                                                          }
-                                                                      ],
+                                          place: {
+                                            id:          @place1.id,
+                                            name:        @place1.name,
+                                            street_address: @place1.street_address,
+                                            zip_code:    @place1.zip_code,
+                                            city:        @place1.city,
+                                            longitude:   @place1.longitude,
+                                            latitude:    @place1.latitude,
+                                            time_open:   @place1.time_open,
+                                            time_close:  @place1.time_close,
+                                            phone:       @place1.phone,
+                                            description: @place1.description,
+                                            favorited_by: SharedJSON.favorited_by([@user1]),
+                                            activities: SharedJSON.activities([@activity1, @activity2]),
+                                            photos:     SharedJSON.photos([@photo1, @photo2], @user1),
+                                            comments:   SharedJSON.comments([@comment1, @comment2])
 
-                                                            activities:  [
-                                                                             {
-                                                                                 id:   4,
-                                                                                 name: "running"
-                                                                             }
-
-                                                                         ],
-                                                            photos:      [
-                                                                             {
-
-                                                                             },
-                                                                             {
-
-                                                                             }
-                                                                         ],
-                                                            comments:    [
-                                                                             {
-
-                                                                             },
-                                                                             {
-
-                                                                             }
-                                                                         ]
-
-                                                        }
+                                          }
                                         }.to_json)
       status.should == 200
     end
@@ -145,48 +126,27 @@ resource "Places" do
   post "/places/:id/toggle_like" do ####
   ######################################
 
-    header "Authorization", :token
-    parameter :id, "Place id", required: true
-
-    let(:id) { @place1.id }
-
-    example_request "Like or unlike a place" do
-      explanation "Toggles between like/unlike"
-      status.should == 201 || 204
-      expect(@place1.likes.count).to eq(1)
+    it_should_behave_like "POST /resource/:id/toggle_like" do
+      let!(:setup_resource) do
+        @resource = @place1
+      end
     end
+
   end
 
 
 
   ######################################
-  get "/places/:id/comments" do ##########
+  get "/places/:id/comments" do ########
   ######################################
 
-    header "Authorization", :token
-    parameter :id, "Place id", required: true
-
-    let(:id) { @place1.id }
-
-    example_request "Get place comments" do
-      explanation "Place comments"
-      response_body.should include_json({
-                                            comments: [
-                                                          {
-                                                              id:        1,
-                                                              parent:    nil,
-                                                              depth: 0,
-                                                              user_id:   2,
-                                                              user_name: @user1.name,
-                                                              user_avatar:    @user1.avatar,
-                                                              text:   "I'm excited to attend!"
-
-                                                          }
-                                            ]
-
-                                        }.to_json)
-      status.should == 201
+    it_should_behave_like "GET /resource/:id/comments" do
+      let!(:setup_resource) do
+        @resource = @place1
+        @comments = [@comment1, @comment2]
+      end
     end
+
   end
 
 
@@ -194,31 +154,12 @@ resource "Places" do
   post "/places/:id/comments" do #######
   ######################################
 
-    header "Authorization", :token
-    parameter :id, "Place id", required: true
-    parameter :parent_id, "Reply to comment id", scope: :comment
-    parameter :text, "Comment text",            scope: :comment, required: true
-
-    let(:id) { @place1.id }
-    let(:text) { "I'm excited to attend!" }
-    let(:raw_post) { params.to_json }
-
-    example_request "Post a comment on the place" do
-      explanation "Place comments"
-      response_body.should include_json({
-                                            comment: {
-                                                              id:        1,
-                                                              parent:    nil,
-                                                              thread_depth: 0,
-                                                              user_id:   2,
-                                                              user_name: @user1.name,
-                                                              avatar:    @user1.avatar,
-                                                              text:      "I'm excited to attend!"
-
-                                                          }
-                                        }.to_json)
-      status.should == 201
+    it_should_behave_like "POST /resource/:id/comments" do
+      let!(:setup_resource) do
+        @resource = @place1
+      end
     end
+
   end
 
 

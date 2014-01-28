@@ -1,3 +1,4 @@
 class UsersNearbySerializer < ActiveModel::Serializer
-  attributes :id, :name
+  attributes :id,
+             :name
 end

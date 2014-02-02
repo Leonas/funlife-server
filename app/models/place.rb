@@ -17,7 +17,7 @@ class Place < ActiveRecord::Base
 
 
 
-  def favorited_by
+  def liked_by
     self.likes.by_type(User).voters
   end
 

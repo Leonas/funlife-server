@@ -6,7 +6,7 @@ class EventGuest < ActiveRecord::Base
   belongs_to :event
 
   validates :event_id, uniqueness: { scope: :user_id }
-  validates :guest_state, inclusion: { in: ["admin", "invited", "join_requested", "attending"], allow_nil: false }
+  validates :guest_state, inclusion: { in: ["admin", "invited", "join_requested", "attending", "not_attending"], allow_nil: false }
 
 
   #after_create :send_email

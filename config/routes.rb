@@ -17,8 +17,6 @@ FunlifeServer::Application.routes.draw do
         get :following
         get :followers
         get :fav_places
-        get :fav_activities
-        get :invitations
       end
       collection do
         put :update
@@ -85,12 +83,7 @@ FunlifeServer::Application.routes.draw do
 
 
     ############Activities################
-    resources :activities, only: [:index, :show] do
-      member do
-        get :events
-        get :places
-      end
-    end
+    resources :activities, only: [:index, :show]
 
     ############Cross Origin Resource Sharing (CORS) ################
     match "*options", controller: "users", action: "options", constraints: { method: "OPTIONS" }

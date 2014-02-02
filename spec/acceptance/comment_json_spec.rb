@@ -13,6 +13,13 @@ resource "Comments" do
     @comment2 = Factory.create(:comment_on_photo, user: @user2, parent: @comment1)
     @comment3 = Factory.create(:comment_on_user, user: @user1, commentable: @user2)
     @comment4 = Factory.create(:comment_on_user, user: @user1, commentable: @user2, parent: @comment3)
+
+    @user1.reload
+    @user2.reload
+    @comment1.reload
+    @comment2.reload
+    @comment3.reload
+    @comment4.reload
   end
   let!(:token) { generate_token(@user1) }
 
@@ -29,19 +36,7 @@ resource "Comments" do
       explanation "view a single comment"
 
       response_body.should include_json({
-                                            comment: {
-                                                id:   @comment1.id,
-                                                parent_id: nil,
-                                                children_count: 1,
-                                                depth: @comment1.depth,
-                                                text: @comment1.text,
-                                                date: @comment1.created_at.strftime("%b %d,  %I:%M%P"),
-                                                user: {
-                                                    id: @user1.id,
-                                                    name: @user1.name,
-                                                    avatar: @user1.avatar
-                                                }
-                                            }
+                                            comment: JSONOutput.comment({ comment: @comment1, user: @user1 })
                                         }.to_json)
       status.should == 200
     end
@@ -87,7 +82,6 @@ resource "Comments" do
 
 
 
-  ##############################Comments on different Object which should probably be moved into respective areas############
 
 
   ######################################
@@ -102,36 +96,10 @@ resource "Comments" do
     example_request "Get comments for a user" do
       explanation ""
       response_body.should include_json({
-
-                                            comments: [
-                                                    {
-                                                        id:        @comment4.id,
-                                                        parent_id: @comment4.parent.id,
-                                                        depth:     @comment4.depth,
-                                                        text:      @comment4.text,
-                                                        date:      @comment4.created_at.strftime("%b %d,  %I:%M%P"),
-                                                        user:      {
-                                                            id:   @user1.id,
-                                                            name: @user1.name,
-                                                            avatar: @user1.avatar
-                                                        }
-                                                    },
-                                                    {
-                                                        id:             @comment3.id,
-                                                        children_count: 1,
-                                                        depth:          @comment3.depth,
-                                                        text:           @comment3.text,
-                                                        date:           @comment3.created_at.strftime("%b %d,  %I:%M%P"),
-                                                        user:           {
-                                                            id:   @user1.id,
-                                                            name: @user1.name,
-                                                            avatar: @user1.avatar
-                                                        },
-                                                    }
-
-                                            ]
-
-                                        }.to_json)
+                                            comments: JSONOutput.comments([
+                                                                              { comment: @comment4, user: @user1 },
+                                                                              { comment: @comment3, user: @user1 }
+                                            ])}.to_json)
       status.should == 200
     end
   end

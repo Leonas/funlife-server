@@ -35,31 +35,47 @@ resource "Events" do
                                                     id: @event1.id,
                                                     title: @event1.title,
                                                     details: @event1.details,
-                                                    timestamp_start: @event1.unix_start_time,
-                                                    timestamp_end:   @event1.unix_end_time,
-                                                    human_start_day: @event1.human_start_day,
-                                                    human_start_time: @event1.human_start_hour,
-                                                    human_end_day: "November 15",
-                                                    human_end_time: "7:00pm",
-                                                    human_duration: "1 hour 30 min",
+                                                    start_time: @event1.start_time.strftime("%b %d,  %I:%M%P"),
+                                                    end_time: @event1.end_time.strftime("%b %d,  %I:%M%P"),
+                                                    duration: "1 hour 30 min",
                                                     cover_photo: @event1.cover_photo,
-                                                    place: {
-                                                        #address details
+                                                    location: {
+                                                        street_address: @event1.street_address,
+                                                        zip_code:  @event1.zip_code,
+                                                        city:      @event1.city,
+                                                        state:     @event1.state,
+                                                        longitude: @event1.longitude,
+                                                        latitude:  @event1.latitude
                                                     },
-                                                    photos: [
-                                                        { id: 1, url: "url" },
-                                                        { id: 1, url: "url" }
-                                                    ],
-                                                    activities: [
-                                                        { id: 1, icon_url: "url" },
-                                                        { id: 2, icon_url: "url" }
-                                                    ],
-                                                    event_guests: [
-                                                        { id: 1, name: "name", avatar: "url" },
-                                                        { id: 2, name: "name", avatar: "url" }
-                                                    ]
-
-
+                                                    activities: JSONOutput.activities([@activity1, @activity2]),
+                                                    photos: JSONOutput.photos([@photo1, @photo2], @user1),
+                                                    admins: JSONOutput.users([@user1]),
+                                                    invited: JSONOutput.users([@user1]),
+                                                    attending: JSONOutput.users([@user1]),
+                                                    comments: JSONOutput.comments([@comment1]),
+                                                },
+                                                {
+                                                    id:         @event1.id,
+                                                    title:      @event1.title,
+                                                    details:    @event1.details,
+                                                    start_time: @event1.start_time.strftime("%b %d,  %I:%M%P"),
+                                                    end_time:   @event1.end_time.strftime("%b %d,  %I:%M%P"),
+                                                    duration:   "1 hour 30 min",
+                                                    cover_photo: @event1.cover_photo,
+                                                    location:   {
+                                                        street_address: @event1.street_address,
+                                                        zip_code:  @event1.zip_code,
+                                                        city:      @event1.city,
+                                                        state:     @event1.state,
+                                                        longitude: @event1.longitude,
+                                                        latitude:  @event1.latitude
+                                                    },
+                                                    activities: JSONOutput.activities([@activity1, @activity2]),
+                                                    photos:     JSONOutput.photos([@photo1, @photo2], @user1),
+                                                    admins:     JSONOutput.users([@user1]),
+                                                    invited:    JSONOutput.users([@user1]),
+                                                    attending:  JSONOutput.users([@user1]),
+                                                    comments:   JSONOutput.comments([@comment1]),
                                                 }
                                             ]
 
@@ -82,41 +98,32 @@ resource "Events" do
       explanation "Various details for the event"
       response_body.should include_json({
 
-                                               event: {
-                                                  id: 1,
-                                                  title: "Bowling @ Jupiter Lanes",
-                                                  icon_url: "url",
-                                                  main_photo_url: "url",
-                                                  date: date_object?,
-                                                  time: x,
-                                                  duration: x,
-                                                  end_time: x,
-                                                  friendly_time: "Wednesday, Nov 5 @ 6:30pm",
-                                                  details: "Lets go bowling for 2 hours during happy hour.",
-                                                  more_photos: [ "img_url", "img_url", "img_url" ],
-                                                  attending: {
-                                                      user_total: 13,
-                                                      users: [
-                                                          {
-                                                              id: 1,
-                                                              avatar: "img/url",
-                                                              name: "bob j"
-                                                          }
-                                                      ]
-                                                  },
-                                                  comments: [
-                                                     {
-                                                        id: 1,
-                                                        parent: null,
-                                                        thread_depth: 0,
-                                                        user_id: 2,
-                                                        user_name: @user1.name,
-                                                        avatar: @user1.avatar,
-                                                        message: "I'm excited to attend!"
+                                              #event: JSONOutput.event()
 
-                                                    }
-                                                  ]
-                                            }
+
+                                               event: {
+                                                   id:         @event1.id,
+                                                   title:      @event1.title,
+                                                   details:    @event1.details,
+                                                   start_time: @event1.start_time.strftime("%b %d,  %I:%M%P"),
+                                                   end_time:   @event1.end_time.strftime("%b %d,  %I:%M%P"),
+                                                   duration:   "1 hour 30 min",
+                                                   cover_photo: @event1.cover_photo,
+                                                   location:   {
+                                                       street_address: @event1.street_address,
+                                                       zip_code:  @event1.zip_code,
+                                                       city:      @event1.city,
+                                                       state:     @event1.state,
+                                                       longitude: @event1.longitude,
+                                                       latitude:  @event1.latitude
+                                                   },
+                                                   activities: JSONOutput.activities([@activity1, @activity2]),
+                                                   photos:     JSONOutput.photos([@photo1, @photo2], @user1),
+                                                   admins:     JSONOutput.users([@user1]),
+                                                   invited:    JSONOutput.users([@user1]),
+                                                   attending:  JSONOutput.users([@user1]),
+                                                   comments:   JSONOutput.comments([@comment1]),
+                                               }
                                         }.to_json)
 
       status.should == 200
@@ -154,9 +161,9 @@ resource "Events" do
       explanation "Event will only become active once all the data is filled out but it is not necessary to do it in one request"
       response_body.should include_json({
 
-                                            conversation: {
+                                            event: {
                                                 id: Conversation.last,
-                                                users: [@user2.name],
+                                                users: JSONOutput.users([@user1, @user2]),
                                                 newest_message: "hello",
                                                 date: Conversation.last.updated_at.strftime("%b %d,  %I:%M%P")
                                             },
@@ -190,11 +197,11 @@ resource "Events" do
     parameter :oldest_allowed_age,    "Oldest allowed age",                    scope: :event
 
 
-    #stuff should be set here
+    let(:details) { "Running from the cops" }
     let(:raw_post) { params.to_json }
 
     example_request "Update an event" do
-      explanation "Updates an event if the user owns it"
+      explanation "Updates an event if the user is an admin to it"
 
       status.should == 204
     end
@@ -209,23 +216,14 @@ resource "Events" do
     header "Authorization", :token
     parameter :id,        "Event id",   required: true
     parameter :users, "Users to invite", required: true, type: :array
+    parameter :message, "Invitation message"
 
-    let(:user_ids) { [@user2.id] }
-    let(:message) { "hello" }
+    let(:user_ids) { [@user2.id, @user3.id] }
+    let(:message) { "Come to my event" }
     let(:raw_post) { params.to_json }
 
     example_request "Invite users to an event" do
-      explanation ""
-      response_body.should include_json({
-
-                                            conversation: {
-                                                id: Conversation.last,
-                                                users: [@user2.name],
-                                                newest_message: "hello",
-                                                date: Conversation.last.updated_at.strftime("%b %d,  %I:%M%P")
-                                            },
-
-                                        }.to_json)
+      explanation "An invitation is sent along with a message"
       status.should == 201
     end
   end
@@ -245,6 +243,33 @@ resource "Events" do
 
       status.should == 204
     end
+  end
+
+
+  ######################################
+  get "/events/:id/comments" do ########
+    ######################################
+
+    it_should_behave_like "GET /resource/:id/comments" do
+      let!(:setup_resource) do
+        @resource = @event1
+        @comments = [@comment1, @comment2]
+      end
+    end
+
+  end
+
+
+  ######################################
+  post "/events/:id/comments" do #######
+    ######################################
+
+    it_should_behave_like "POST /resource/:id/comments" do
+      let!(:setup_resource) do
+        @resource = @event1
+      end
+    end
+
   end
 
 end

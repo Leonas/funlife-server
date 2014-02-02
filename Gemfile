@@ -32,11 +32,16 @@ end
 
 
 group :test do
+  gem "growl", "~> 1.0.3"
+  gem "pry"
+  gem "pry-rails"
+  gem "pry-byebug"
+
   gem "database_cleaner",   "~> 1.2.0"
   gem "simplecov",          "~> 0.6.4"
 
 
-  gem "growl",              "~> 1.0.3"
+
   gem "httmultiparty",      "~> 0.3.10"
 
 

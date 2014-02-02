@@ -11,7 +11,7 @@ end
 
 #require 'spork/ext/ruby-debug'
 
-Spork.prefork do
+#Spork.prefork do
   require File.expand_path('../../config/environment', __FILE__)
   require 'rspec/rails'
   require 'rspec/autorun'
@@ -26,14 +26,20 @@ Spork.prefork do
     config.include JsonSpec::Helpers
     #config.include FactoryGirl::Syntax::Methods
 
-    config.tty = true
+
+
+    #config.tty = true
     config.color_enabled = true
-   # config.formatter = :progress
+    #config.formatter = :progress     #uncommenting this causes guard to run twice
 
     config.order = 'random'
     config.use_transactional_fixtures = false    #let Database cleaner handle transactions
 
-    config.before(:each) { DatabaseCleaner.start }
+    config.before(:each) do
+      DatabaseCleaner.start
+      Rails.cache.clear
+    end
+
     config.after(:each)  { DatabaseCleaner.clean }
   end
 
@@ -43,8 +49,8 @@ Spork.prefork do
     config.api_name = "funlife"
     config.clear_directory = false
   end
-end
+#end
 
-Spork.each_run do
-  DatabaseCleaner.clean_with :truncation
-end
+#Spork.each_run do
+#  DatabaseCleaner.clean_with :truncation
+#end

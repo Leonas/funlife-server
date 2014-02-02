@@ -1,4 +1,4 @@
-class ConversationOverviewSerializer < ActiveModel::Serializer
+class ConversationInboxSerializer < ActiveModel::Serializer
   attributes :id,
              :newest_message,
              :date

@@ -21,10 +21,15 @@ class User < ActiveRecord::Base
   has_many :guest_states,               class_name: "EventGuest", dependent: :destroy
   has_many :events,                     through: :guest_states, order: "created_at DESC"
 
+  has_many :invitations, class_name: "EventGuest", dependent: :destroy, conditions: { guest_state: "invited" }
+  has_many :event_invitations, class_name: "Event", through: :invitations, order: "created_at DESC", source: :event
+
+  has_many :joined_events, class_name: "EventGuest", dependent: :destroy, conditions: { guest_state: "attending" }
+  has_many :events_attending, class_name: "Event", through: :joined_events, order: "created_at DESC", source: :event
 
   #relationships
   has_many :relationships,              foreign_key: "follower_id", dependent: :destroy
-  has_many :followed_users,             through: :relationships, source: :followed, order: "name ASC"
+  has_many :following,             through: :relationships, source: :followed, order: "name ASC"
   has_many :reverse_relationships,      foreign_key: "followed_id", class_name: "Relationship", dependent: :destroy
   has_many :followers,                  through: :reverse_relationships, source: :follower, order: "name ASC"
 
@@ -32,7 +37,7 @@ class User < ActiveRecord::Base
   #general
   has_many :photos,                     as: :imageable, dependent: :destroy, order: 'created_at DESC'
   has_many :comments_by_me,             class_name: "Comment", dependent: :destroy, order: 'created_at DESC'
-  has_many :comments,                   as: :commentable, dependent: :destroy, order: 'created_at DESC'
+  has_many :comments,           as: :commentable, dependent: :destroy, order: 'created_at DESC'
 
 
   validates :email,           presence: true, uniqueness: true
@@ -133,7 +138,7 @@ class User < ActiveRecord::Base
     event = Event.arel_table
 
     # Includes the current_user's Events
-    user_ids = self.followed_users.push(self.id)
+    user_ids = self.following.push(self.id)
 
     Event.where(
       event[:user_id].in(user_ids).or(
@@ -159,11 +164,7 @@ class User < ActiveRecord::Base
   end
 
   def following_photos
-    Photo.where(user_id: self.followed_users.select("following_id"))
-  end
-
-  def invitations
-    false
+    Photo.where(user_id: self.following.select("following_id"))
   end
 
 end

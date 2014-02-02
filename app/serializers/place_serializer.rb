@@ -11,7 +11,7 @@ class PlaceSerializer < ActiveModel::Serializer
              :phone,
              :description
 
-  has_many :favorited_by, each_serializer: UserMiniSerializer
+  has_many :liked_by, each_serializer: UserMiniSerializer
   has_many :activities, each_serializer: ActivityIconsSerializer
   has_many :photos,     each_serializer: PhotoSerializer
   has_many :comments,   each_serializer: CommentSerializer

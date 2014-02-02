@@ -22,11 +22,9 @@ resource "Sessions" do
 
     example_request "Create a session (login)" do
       explanation "A user logs in"
-      response_body.should include_json({
+      response_body.should be_json_eql({
 
-        user: {
-          token: JSON.parse(response_body)['user']['token']
-        }
+        user: JSONOutput.user_self({ user: @user1 })
 
       }.to_json)
       status.should == 200

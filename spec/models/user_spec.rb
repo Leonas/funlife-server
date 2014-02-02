@@ -92,7 +92,7 @@ describe User do
     end
 
     it { should be_following(other_user) }
-    its(:followed_users) { should include(other_user) }
+    its(:following) { should include(other_user) }
 
     describe "followed user" do
       subject { other_user }
@@ -103,7 +103,7 @@ describe User do
       before { user1.unfollow!(other_user) }
 
       it { should_not be_following(other_user) }
-      its(:followed_users) { should_not include(other_user) }
+      its(:following) { should_not include(other_user) }
     end
   end
 

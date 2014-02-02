@@ -8,7 +8,7 @@ shared_examples "GET /resource/:id/comments" do
     example_request "Get comments" do
       explanation "Get all comments for #{@resource.class.to_s.downcase}"
       response_body.should be_json_eql({
-                                            comments: SharedJSON.comments(@comments)
+                                            comments: JSONOutput.comments(@comments)
                                         }.to_json)
       status.should == 200
     end

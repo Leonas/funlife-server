@@ -50,7 +50,7 @@ class UsersController < ApplicationController
   #get /users/:id/following
   def following
     @user = User.find(params[:id])
-    @users = @user.followed_users      #.paginate(page: params[:page])
+    @users = @user.following      #.paginate(page: params[:page])
     if @users.empty?
       head :no_content
     else
@@ -72,45 +72,12 @@ class UsersController < ApplicationController
   end
 
 
-
-  #get /users/dashboard
-  def dashboard
-    render json: current_user, serializer: UserDashboardSerializer
-  end
-
-
-
-  #get /users/invitations
   def invitations
     @invitations = current_user.invitations
     if @invitations.empty?
       head :no_content
     else
       render json: @invitations, each_serializer: UserInvitationsSerializer
-    end
-  end
-
-
-  #get /users/:id/fav_activities
-  def fav_activities
-    @user  = User.find(params[:id])
-    @activities = @user.get_up_voted Activity
-    if @activities.empty?
-      head :no_content
-    else
-      render json: @activities, each_serializer: ActivityIconsSerializer
-    end
-  end
-
-
-  #get /users/:id/fav_places
-  def fav_places
-    @user = User.find(params[:id])
-    @places = @user.get_up_voted Place
-    if @places.empty?
-      head :no_content
-    else
-      render json: @places, each_serializer: PlaceMiniSerializer
     end
   end
 

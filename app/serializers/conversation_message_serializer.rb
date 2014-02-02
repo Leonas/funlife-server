@@ -1,7 +1,5 @@
 class ConversationMessageSerializer < ActiveModel::Serializer
 
-  # object=Conversation.instance(x)
-
   attributes :id,
              :date,
              :text
@@ -12,4 +10,5 @@ class ConversationMessageSerializer < ActiveModel::Serializer
   def date
     object.updated_at.strftime("%b %d,  %I:%M%P")
   end
+
 end

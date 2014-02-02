@@ -10,7 +10,7 @@ class PlaceMiniSerializer < ActiveModel::Serializer
              :time_close,
              :phone,
              :description,
-             :favorited_by
+             :liked_by
 
 
   has_many :activities, each_serializer: ActivityIconsSerializer

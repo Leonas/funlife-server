@@ -16,7 +16,6 @@ class Event < ActiveRecord::Base
   accepts_nested_attributes_for :event_guests
 
 
-
   validates :visibility, inclusion: { in: ["everyone", "women_only", "men_only", "invite_only"], allow_nil: true }
   validate :start_time_cannot_be_in_the_past
   validate :start_time_less_than_latest_allowed_date
@@ -61,6 +60,21 @@ class Event < ActiveRecord::Base
 
   def join_requested
     users.where("guest_state = ?", "join_requested")
+  end
+
+  def location
+    {
+        street_address: self.street_address,
+        zip_code: self.zip_code,
+        city: self.city,
+        state: self.state,
+        longitude: self.longitude,
+        latitude: self.latitude
+    }
+  end
+
+  def cover_photo
+    Photo.find(cover_photo_id).url
   end
 
 

@@ -81,24 +81,17 @@ resource "Users" do
     parameter :longitude, "longitude", scope: :user
     parameter :latitude, "latitude",   scope: :user
 
-    #let(:longitude) {}
-    #let(:latitude)  {}
 
     example_request "List nearby users" do
-      explanation "A list of users is returned based on proximity to their gps coordinates"
+      explanation "A list of users is returned"
 
       response_body.should include_json({
 
         users: [
-          {
-            id: @user2.id,
-            name: @user2.name
-          },
-          {
-            id: @user3.id,
-            name: @user3.name
-          }
-        ]
+            {
+                user: "detailed info of users is returned along with pagination"
+            }
+               ]
 
     }.to_json)
     end
@@ -107,7 +100,7 @@ resource "Users" do
 
 
 
-  #breaks docs:generate aka iodocs writer because the way i have mine is it requires a scope otherwise fail
+
   ######################################
   get "/users/:id" do ##################
   ######################################
@@ -125,7 +118,11 @@ resource "Users" do
             id: @user2.id,
             name: @user2.name,
             following_count: @user2.following_count,
-            followers_count: @user2.followers_count
+            followers_count: @user2.followers_count,
+            photos: JSONOutput.photos([@photo1, @photo2]),
+            details: "?",
+            favorite_places: "places?",
+            favorite_activities: "activities"
           }
       }.to_json)
       user = JSON.parse(response_body)['user']
@@ -149,16 +146,7 @@ resource "Users" do
       explanation "Get a list of followers for user_id"
       response_body.should include_json({
 
-          users: [
-              {
-                  id: @user2.id,
-                  name: @user2.name
-              },
-              {
-                  id: @user3.id,
-                  name: @user3.name
-              }
-          ]
+          users: JSONOutput.users([@user1, @user2])
 
       }.to_json)
     end
@@ -176,39 +164,12 @@ resource "Users" do
 
     let(:id) { @user1.id }
 
-    example_request "Get list of people user_id follows" do
+    example_request "Get list of people that the person follows" do
       explanation ""
 
       response_body.should include_json({
-          users: [
-              id: @user3.id,
-              name: @user3.name
-          ]
+          users: JSONOutput.users([@user3])
       }.to_json)
-    end
-  end
-
-
-  ######################################
-  get "/users/:id/fav_places" do #######
-  ######################################
-
-    header "Authorization", :token
-    parameter :id, "User id", required: true
-
-    let(:id) { @user1.id }
-
-    example_request "Get a list of a user's favorite places" do
-      explanation ""
-
-      response_body.should include_json({
-                                            places: [
-                                                {
-
-                                                }
-                                            ]
-                                        }.to_json)
-  status.should == 200
     end
   end
 
@@ -232,13 +193,7 @@ resource "Users" do
 
 
       response_body.should include_json({
-                                            activities: [
-                                                {
-                                                    id: 1,
-                                                    name: 2,
-                                                    icon_url: 3
-                                                }
-                                            ]
+                                            activities: JSONOutput.activities([@activity1])
                                         }.to_json)
   status.should == 200
     end
@@ -246,28 +201,17 @@ resource "Users" do
 
 
   ######################################
-  get "/users/:id/invitations" do ########
+  get "/users/invitations" do ########
   ######################################
 
     header "Authorization", :token
-    parameter :id, "User id", required: true
 
-    let(:id) { @user1.id }
 
-    example_request "Get array of invites for user" do
-      explanation "Get a list of followers for user_id"
+    example_request "Get array of invites for current user" do
+      explanation "Only lets you see invites for current user"
       response_body.should include_json({
 
-                                            users: [
-                                                {
-                                                    id: @user2.id,
-                                                    name: @user2.name
-                                                },
-                                                {
-                                                    id: @user3.id,
-                                                    name: @user3.name
-                                                }
-                                            ]
+                                            events: JSONOutput.events([@event1])    #where does invite message go?
 
                                         }.to_json)
     end
@@ -284,6 +228,10 @@ resource "Users" do
       explanation "Gets the current user's dashboard"
 
       response_body.should include_json({
+                                         invitations: [],
+                                         conversations: [],
+                                         photos: [],
+                                         own_info: {},
 
                                         }.to_json)
   status.should == 200

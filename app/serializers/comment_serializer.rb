@@ -1,7 +1,7 @@
 class CommentSerializer < ActiveModel::Serializer
   attributes :id,
              :parent_id,
-             :children_count,
+             :children,
              :depth,
              :text,
              :date
@@ -11,5 +11,9 @@ class CommentSerializer < ActiveModel::Serializer
 
   def date
     object.updated_at.strftime("%b %d,  %I:%M%P")
+  end
+
+  def children
+    object.children_count
   end
 end

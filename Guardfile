@@ -1,14 +1,19 @@
-logger level:       :debug
+logger level: :debug
+#logger level: :info
 
-guard :spork do
-  watch('config/application.rb')
-  watch('config/environment.rb')
-  watch('config/environments/test.rb')
-  watch(%r{^config/initializers/.+\.rb$})
-  watch('Gemfile')
-  watch('Gemfile.lock')
-  watch('spec/spec_helper.rb') { :rspec }
-end
+
+notification :growl, sticky: true, host: '127.0.0.1'
+
+
+#guard :spork do
+#  watch('config/application.rb')
+#  watch('config/environment.rb')
+#  watch('config/environments/test.rb')
+#  watch(%r{^config/initializers/.+\.rb$})
+#  watch('Gemfile')
+#  watch('Gemfile.lock')
+#  watch('spec/spec_helper.rb') { :rspec }
+#end
 
 #guard 'process', name: 'dev-server:3000', command: 'rails server', dont_stop: true
 #guard 'process', name: 'redis', command: 'redis-server', dont_stop: true
@@ -16,7 +21,7 @@ end
 #guard 'rake',    task: 'generate_iodocs' do watch(%r{^spec/acceptance/(.+)\.rb$}) end
 
 
-guard :rspec, cmd: "rspec --drb", all_on_start: true, focus_on_failed: false do
+guard :rspec, all_on_start: true do # cmd: "rspec --drb",
   watch(%r{^spec/.+_spec\.rb$})
   watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
   watch('spec/spec_helper.rb')  { "spec" }

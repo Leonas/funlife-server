@@ -1,6 +1,8 @@
 class UserMiniSerializer < ActiveModel::Serializer
   attributes :id,
              :name,
-             :avatar
+             :avatar,
+             :followed
+
 
 end
